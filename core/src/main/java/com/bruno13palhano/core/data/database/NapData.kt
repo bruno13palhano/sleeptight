@@ -1,0 +1,42 @@
+package com.bruno13palhano.core.data.database
+
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.bruno13palhano.model.Nap
+
+@Entity(tableName = "nap_table")
+internal data class NapData(
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    val id: Long,
+
+    @ColumnInfo(name = "date")
+    val date: Long,
+
+    @ColumnInfo(name = "start")
+    val startTime: Long,
+
+    @ColumnInfo(name = "end")
+    val endTime: Long,
+
+    @ColumnInfo(name = "observation")
+    val observation: String
+)
+
+internal fun NapData.asNap() = Nap(
+    id = id,
+    date = date,
+    startTime = startTime,
+    endTime = endTime,
+    observation = observation
+)
+
+internal fun Nap.asNapData() = NapData(
+    id = id,
+    date = date,
+    startTime = startTime,
+    endTime = endTime,
+    observation = observation
+)

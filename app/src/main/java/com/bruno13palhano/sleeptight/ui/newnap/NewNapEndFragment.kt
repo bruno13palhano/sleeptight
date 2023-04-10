@@ -1,0 +1,39 @@
+package com.bruno13palhano.sleeptight.ui.newnap
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
+import com.bruno13palhano.sleeptight.R
+import com.bruno13palhano.sleeptight.databinding.FragmentNewNapEndBinding
+
+class NewNapEndFragment : Fragment() {
+    private var _binding: FragmentNewNapEndBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = DataBindingUtil
+            .inflate(inflater, R.layout.fragment_new_nap_end, container, false)
+        val view = binding.root
+
+        binding.uiEvents = this
+
+        return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    fun navigateToObservation() {
+        findNavController().navigate(
+            NewNapEndFragmentDirections.actionEndToObservation())
+    }
+}

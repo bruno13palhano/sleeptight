@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/naps_navigation"
+    app:startDestination="@id/napsFragment">
+
+    <fragment
+        android:id="@+id/napsFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.nap.NapsFragment"
+        android:label="Naps">
+
+        <action
+            android:id="@+id/action_paths_to_path"
+            app:destination="@id/napFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/napFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.nap.NapFragment"
+        android:label="Nap" />
+</navigation>
