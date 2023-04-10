@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.home
+package com.bruno13palhano.sleeptight.ui.nap
 
 import android.icu.text.DateFormat
 import android.view.LayoutInflater
