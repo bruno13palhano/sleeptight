@@ -6,12 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNapsBinding
+import kotlinx.coroutines.launch
 
 class NapsFragment : Fragment() {
     private var _binding: FragmentNapsBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: NapsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,7 +28,19 @@ class NapsFragment : Fragment() {
             .inflate(inflater, R.layout.fragment_naps, container, false)
         val view = binding.root
 
+        val adapter = NapsAdapter {
+            findNavController().navigate(
+                NapsFragmentDirections.actionPathsToPath())
+        }
+        binding.napList.adapter = adapter
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect {
+                    adapter.submitList(it)
+                }
+            }
+        }
 
         return view
     }
