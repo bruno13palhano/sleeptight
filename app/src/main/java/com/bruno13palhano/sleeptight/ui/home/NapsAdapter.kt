@@ -1,5 +1,6 @@
 package com.bruno13palhano.sleeptight.ui.home
 
+import android.icu.text.DateFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -31,13 +32,15 @@ class NapsAdapter(
         init {
             binding.root.setOnClickListener {
                 currentNap?.let {
-
+                    onClick(it.id)
                 }
             }
         }
 
         fun bind(nap: Nap) {
-
+            currentNap = nap
+            binding.date.text = DateFormat
+                .getPatternInstance(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY).format(nap.date)
         }
     }
 
