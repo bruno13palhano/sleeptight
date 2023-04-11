@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -17,4 +18,7 @@ internal interface NapDao {
 
     @Query("SELECT * FROM nap_table WHERE id = :id")
     fun getNapByIdStream(id: Long): Flow<NapData>
+
+    @Update
+    suspend fun updateNap(nap: NapData)
 }

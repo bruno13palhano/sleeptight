@@ -40,4 +40,8 @@ internal class DefaultNapRepository @Inject constructor(
             }
         }
     }
+
+    override suspend fun updateNap(nap: Nap) {
+        napDao.updateNap(nap.asNapData())
+    }
 }
