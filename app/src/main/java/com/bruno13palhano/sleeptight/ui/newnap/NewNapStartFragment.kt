@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewNapStartBinding
@@ -13,6 +14,7 @@ import com.bruno13palhano.sleeptight.databinding.FragmentNewNapStartBinding
 class NewNapStartFragment : Fragment() {
     private var _binding: FragmentNewNapStartBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: NewNapViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,6 +25,8 @@ class NewNapStartFragment : Fragment() {
         val view = binding.root
 
         binding.uiEvents = this
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
 
         return view
     }

@@ -7,6 +7,9 @@
         <variable
             name="uiEvents"
             type="com.bruno13palhano.sleeptight.ui.newnap.NewNapObservationFragment" />
+        <variable
+            name="viewModel"
+            type="com.bruno13palhano.sleeptight.ui.newnap.NewNapViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -36,6 +39,7 @@
                     android:id="@+id/new_nap_observation"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:text="@={viewModel._observation}"
                     android:gravity="top"
                     android:minLines="2" />
             </com.google.android.material.textfield.TextInputLayout>

@@ -7,6 +7,9 @@
         <variable
             name="uiEvents"
             type="com.bruno13palhano.sleeptight.ui.newnap.NewNapEndFragment" />
+        <variable
+            name="viewModel"
+            type="com.bruno13palhano.sleeptight.ui.newnap.NewNapViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -42,6 +45,8 @@
                 android:layout_marginEnd="24dp"
                 android:background="?colorOnPrimary"
                 android:elevation="4dp"
+                android:minute="@={viewModel.endMinute}"
+                android:hour="@={viewModel.endHour}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"

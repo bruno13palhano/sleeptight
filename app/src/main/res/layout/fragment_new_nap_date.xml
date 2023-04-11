@@ -7,6 +7,10 @@
         <variable
             name="uiEvents"
             type="com.bruno13palhano.sleeptight.ui.newnap.NewNapDateFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.bruno13palhano.sleeptight.ui.newnap.NewNapViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -41,6 +45,9 @@
                 android:layout_marginEnd="24dp"
                 android:background="?colorOnPrimary"
                 android:elevation="4dp"
+                android:day="@={viewModel.day}"
+                android:month="@={viewModel.month}"
+                android:year="@={viewModel.year}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.491"
                 app:layout_constraintStart_toStartOf="parent"
