@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bruno13palhano.model.Nap
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewNapObservationBinding
 import kotlinx.coroutines.launch
@@ -73,5 +74,14 @@ class NewNapObservationFragment : Fragment() {
     fun navigateToDate() {
         findNavController().navigate(
             NewNapObservationFragmentDirections.actionObservationToDate())
+        viewModel.insertNap(
+            Nap(
+                id = 0L,
+                date = date,
+                startTime = startTime,
+                endTime = endTime,
+                observation = observation
+            )
+        )
     }
 }
