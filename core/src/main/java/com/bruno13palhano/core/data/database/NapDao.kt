@@ -14,4 +14,7 @@ internal interface NapDao {
 
     @Query("SELECT * FROM nap_table")
     fun getAllStream(): Flow<List<NapData>>
+
+    @Query("SELECT * FROM nap_table WHERE id = :id")
+    fun getNapByIdStream(id: Long): Flow<NapData>
 }

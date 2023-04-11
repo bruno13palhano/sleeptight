@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface NapRepository {
     suspend fun insert(nap: Nap)
     fun getAllStream(): Flow<List<Nap>>
+    fun getNapByIdStream(id: Long): Flow<Nap>
 }

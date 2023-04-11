@@ -24,4 +24,20 @@ internal class DefaultNapRepository @Inject constructor(
             }
         }
     }
+
+    override fun getNapByIdStream(id: Long): Flow<Nap> {
+        return napDao.getNapByIdStream(id).map {
+            try {
+                it.asNap()
+            } catch (ignored: Exception) {
+                Nap(
+                    id = 0L,
+                    date = 0L,
+                    startTime = 0L,
+                    endTime = 0L,
+                    observation = ""
+                )
+            }
+        }
+    }
 }
