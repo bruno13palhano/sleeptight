@@ -10,12 +10,17 @@
         android:label="Naps">
 
         <action
-            android:id="@+id/action_paths_to_path"
+            android:id="@+id/action_naps_to_nap"
             app:destination="@id/napFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/napFragment"
         android:name="com.bruno13palhano.sleeptight.ui.nap.NapFragment"
-        android:label="Nap" />
+        android:label="Nap">
+
+        <argument
+            android:name="napId"
+            app:argType="long" />
+    </fragment>
 </navigation>

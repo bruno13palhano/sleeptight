@@ -32,7 +32,7 @@ class NapsFragment : Fragment() {
 
         val adapter = NapsAdapter {
             findNavController().navigate(
-                NapsFragmentDirections.actionPathsToPath())
+                NapsFragmentDirections.actionNapsToNap(it))
         }
         binding.napList.adapter = adapter
 
