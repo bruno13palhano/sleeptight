@@ -28,5 +28,8 @@
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:itemBackground="?attr/colorPrimary"
+        app:itemIconTint="@drawable/menu_bottom_items"
+        app:itemTextColor="@drawable/menu_bottom_items"
         app:menu="@menu/main_menu" />
 </LinearLayout>
