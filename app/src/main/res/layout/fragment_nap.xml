@@ -13,121 +13,143 @@
             type="com.bruno13palhano.sleeptight.ui.nap.NapViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         tools:context=".ui.nap.NapFragment">
-
-        <TextView
-            android:id="@+id/date"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="24dp"
-            android:hint="@string/date_label"
-            android:padding="16dp"
-            android:textSize="16sp"
-            android:onClick="@{v -> uiEvents.onDateClick()}"
-            android:text="@{viewModel.dateUi}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/start_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:hint="@string/start_time_tag"
-            android:padding="16dp"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/date" />
+            <TextView
+                android:id="@+id/date_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:padding="16dp"
+                android:textSize="16sp"
+                android:hint="@string/date_tag"
+                app:layout_constraintEnd_toEndOf="@+id/start_label"
+                app:layout_constraintStart_toStartOf="@+id/start_label"
+                app:layout_constraintTop_toTopOf="parent"
+                app:drawableStartCompat="@drawable/baseline_calendar_month_24"
+                android:drawablePadding="16dp" />
 
-        <TextView
-            android:id="@+id/start"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="24dp"
-            android:hint="@string/start_time_label"
-            android:padding="16dp"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:text="@{viewModel.startTimeUi}"
-            android:onClick="@{v -> uiEvents.onStartTimeClick()}"
-            app:layout_constraintBottom_toBottomOf="@+id/start_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/start_label"
-            app:layout_constraintTop_toTopOf="@+id/start_label" />
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="24dp"
+                android:hint="@string/date_label"
+                android:onClick="@{v -> uiEvents.onDateClick()}"
+                android:padding="16dp"
+                android:text="@{viewModel.dateUi}"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/date_label"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/end_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:hint="@string/end_time_tag"
-            android:padding="16dp"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/start_label" />
+            <TextView
+                android:id="@+id/start_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:hint="@string/start_time_tag"
+                android:paddingVertical="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="0dp"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/baseline_timer_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date" />
 
-        <TextView
-            android:id="@+id/end"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="24dp"
-            android:hint="@string/end_time_label"
-            android:padding="16dp"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:text="@{viewModel.endTimeUi}"
-            android:onClick="@{v -> uiEvents.onEndTimeClick()}"
-            app:layout_constraintBottom_toBottomOf="@+id/end_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.517"
-            app:layout_constraintStart_toEndOf="@+id/end_label"
-            app:layout_constraintTop_toTopOf="@+id/end_label" />
+            <TextView
+                android:id="@+id/start"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="24dp"
+                android:hint="@string/start_time_label"
+                android:onClick="@{v -> uiEvents.onStartTimeClick()}"
+                android:padding="16dp"
+                android:text="@{viewModel.startTimeUi}"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/start_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/start_label"
+                app:layout_constraintTop_toTopOf="@+id/start_label" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/done"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="16dp"
-            app:srcCompat="@drawable/baseline_done_24"
-            android:onClick="@{v -> uiEvents.updatePath()}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            android:contentDescription="@string/done_label" />
+            <TextView
+                android:id="@+id/end_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/end_time_tag"
+                android:textSize="16sp"
+                android:paddingVertical="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="0dp"
+                app:layout_constraintEnd_toEndOf="@+id/start_label"
+                app:layout_constraintStart_toStartOf="@+id/start_label"
+                app:layout_constraintTop_toBottomOf="@+id/start_label"
+                app:drawableStartCompat="@drawable/baseline_timer_off_24"
+                android:drawablePadding="8dp" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/observation_layout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="24dp"
-            android:hint="@string/observation_label"
-            app:layout_constraintBottom_toTopOf="@+id/done"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/end">
+            <TextView
+                android:id="@+id/end"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:hint="@string/end_time_label"
+                android:onClick="@{v -> uiEvents.onEndTimeClick()}"
+                android:padding="16dp"
+                android:text="@{viewModel.endTimeUi}"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/end_label"
+                app:layout_constraintEnd_toEndOf="@+id/start"
+                app:layout_constraintStart_toStartOf="@+id/start"
+                app:layout_constraintTop_toTopOf="@+id/end_label" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/observation"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@={viewModel.observation}"
-                android:gravity="top"
-                android:minLines="2" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="16dp"
+                app:srcCompat="@drawable/baseline_done_24"
+                android:onClick="@{v -> uiEvents.updatePath()}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                android:contentDescription="@string/done_label" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/observation_layout"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="24dp"
+                android:hint="@string/observation_label"
+                app:layout_constraintBottom_toTopOf="@+id/done"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/end">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/observation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:minLines="2"
+                    android:text="@={viewModel.observation}" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>
