@@ -1,7 +1,5 @@
 package com.bruno13palhano.sleeptight.ui.nap
 
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +14,8 @@ import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.model.Nap
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNapBinding
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.timepicker.MaterialTimePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -39,9 +39,9 @@ class NapFragment : Fragment() {
     private var currentEndHour = 1
     private var currentEndMinute = 1
 
-    private lateinit var datePicker: DatePickerDialog
-    private lateinit var startTimePicker: TimePickerDialog
-    private lateinit var endTimePicker: TimePickerDialog
+    private lateinit var datePicker: MaterialDatePicker<Long>
+    private lateinit var startTimePicker: MaterialTimePicker
+    private lateinit var endTimePicker: MaterialTimePicker
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,18 +94,6 @@ class NapFragment : Fragment() {
             }
         }
 
-        datePicker = DatePickerDialog(requireContext(), { _, year, monthOfYear, day ->
-            viewModel.setDate(year, monthOfYear, day)
-        }, currentYear, currentMonth, currentDay)
-
-        startTimePicker = TimePickerDialog(requireContext(), { _, hourOfDay, minute ->
-            viewModel.setStartTime(hourOfDay, minute)
-        }, currentStartHour, currentStartMinute, true)
-
-        endTimePicker = TimePickerDialog(requireContext(), { _, hourOfDay, minute ->
-            viewModel.setEndTime(hourOfDay, minute)
-        }, currentEndHour, currentEndMinute, true)
-
         return view
     }
 
@@ -128,18 +116,15 @@ class NapFragment : Fragment() {
     }
 
     fun onDateClick() {
-        datePicker.updateDate(currentYear, currentMonth, currentDay)
-        datePicker.show()
+        datePicker.show(requireParentFragment().parentFragmentManager, "dialog date")
     }
 
     fun onStartTimeClick() {
-        startTimePicker.updateTime(currentStartHour, currentStartMinute)
-        startTimePicker.show()
+        startTimePicker.show(requireParentFragment().parentFragmentManager, "dialog start time")
     }
 
     fun onEndTimeClick() {
-        endTimePicker.updateTime(currentEndHour, currentEndMinute)
-        endTimePicker.show()
+        endTimePicker.show(requireParentFragment().parentFragmentManager, "dialog end time")
     }
 
     private fun setDatePicker(date: Long) {
@@ -148,6 +133,15 @@ class NapFragment : Fragment() {
         currentYear = calendar.get(Calendar.YEAR)
         currentMonth = calendar.get(Calendar.MONTH)
         currentDay = calendar.get(Calendar.DAY_OF_MONTH)
+
+        datePicker = MaterialDatePicker
+            .Builder
+            .datePicker()
+            .setSelection(date)
+            .build()
+        datePicker.addOnPositiveButtonClickListener {
+            viewModel.setDate(currentYear, currentMonth, currentDay)
+        }
     }
 
     private fun setStartTimePicker(time: Long) {
@@ -155,6 +149,14 @@ class NapFragment : Fragment() {
         calendar.timeInMillis = time
         currentStartHour = calendar.get(Calendar.HOUR_OF_DAY)
         currentStartMinute = calendar.get(Calendar.MINUTE)
+        startTimePicker = MaterialTimePicker
+            .Builder()
+            .setHour(currentStartHour)
+            .setMinute(currentStartMinute)
+            .build()
+        startTimePicker.addOnPositiveButtonClickListener {
+            viewModel.setStartTime(startTimePicker.hour, startTimePicker.minute)
+        }
     }
 
     private fun setEndTimePicker(time: Long) {
@@ -162,5 +164,13 @@ class NapFragment : Fragment() {
         calendar.timeInMillis = time
         currentEndHour = calendar.get(Calendar.HOUR_OF_DAY)
         currentEndMinute = calendar.get(Calendar.MINUTE)
+        endTimePicker = MaterialTimePicker
+            .Builder()
+            .setHour(currentEndHour)
+            .setMinute(currentEndMinute)
+            .build()
+        endTimePicker.addOnPositiveButtonClickListener {
+            viewModel.setStartTime(endTimePicker.hour, endTimePicker.minute)
+        }
     }
 }
