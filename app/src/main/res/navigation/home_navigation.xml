@@ -14,15 +14,5 @@
         <action
             android:id="@+id/action_home_to_addNewNap"
             app:destination="@id/new_nap_navigation" />
-
-        <action
-            android:id="@+id/action_home_to_nap"
-            app:destination="@id/napFragment" />
     </fragment>
-
-    <fragment
-        android:id="@+id/napFragment"
-        android:name="com.bruno13palhano.sleeptight.ui.nap.NapFragment"
-        android:label="@string/nap_label"
-        tools:layout="@layout/fragment_nap" />
 </navigation>
