@@ -1,6 +1,5 @@
 package com.bruno13palhano.sleeptight.ui.newnap
 
-import android.icu.util.Calendar
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,8 +13,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewNapEndBinding
+import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
 import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat.CLOCK_24H
 import kotlinx.coroutines.launch
 
 class NewNapEndFragment : Fragment() {
@@ -64,14 +63,7 @@ class NewNapEndFragment : Fragment() {
     }
 
     private fun setTimePicker(time: Long) {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = time
-        timePicker = MaterialTimePicker
-            .Builder()
-            .setTimeFormat(CLOCK_24H)
-            .setHour(calendar[Calendar.HOUR_OF_DAY])
-            .setMinute(calendar[Calendar.MINUTE])
-            .build()
+        timePicker = TimePickerUtil.prepareTimePicker(time)
         timePicker.addOnPositiveButtonClickListener {
             viewModel.setEndTime(timePicker.hour, timePicker.minute)
         }

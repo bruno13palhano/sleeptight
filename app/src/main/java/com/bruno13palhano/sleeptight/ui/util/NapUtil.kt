@@ -2,6 +2,8 @@ package com.bruno13palhano.sleeptight.ui.util
 
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat.CLOCK_24H
 
 object CalendarUtil {
     fun dateToMilliseconds(year: Int, month: Int, day: Int): Long {
@@ -19,5 +21,18 @@ object CalendarUtil {
         calendar[Calendar.MINUTE] = minute
 
         return calendar.timeInMillis
+    }
+}
+
+object TimePickerUtil {
+    fun prepareTimePicker(time: Long): MaterialTimePicker {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = time
+        return MaterialTimePicker
+            .Builder()
+            .setTimeFormat(CLOCK_24H)
+            .setHour(calendar[Calendar.HOUR_OF_DAY])
+            .setMinute(calendar[Calendar.MINUTE])
+            .build()
     }
 }

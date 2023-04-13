@@ -16,9 +16,9 @@ import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.model.Nap
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNapBinding
+import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat.CLOCK_24H
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -143,28 +143,14 @@ class NapFragment : Fragment() {
     }
 
     private fun setStartTimePicker(time: Long) {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = time
-        startTimePicker = MaterialTimePicker
-            .Builder()
-            .setTimeFormat(CLOCK_24H)
-            .setHour(calendar[Calendar.HOUR_OF_DAY])
-            .setMinute(calendar[Calendar.MINUTE])
-            .build()
+        startTimePicker = TimePickerUtil.prepareTimePicker(time)
         startTimePicker.addOnPositiveButtonClickListener {
             viewModel.setStartTime(startTimePicker.hour, startTimePicker.minute)
         }
     }
 
     private fun setEndTimePicker(time: Long) {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = time
-        endTimePicker = MaterialTimePicker
-            .Builder()
-            .setTimeFormat(CLOCK_24H)
-            .setHour(calendar[Calendar.HOUR_OF_DAY])
-            .setMinute(calendar[Calendar.MINUTE])
-            .build()
+        endTimePicker = TimePickerUtil.prepareTimePicker(time)
         endTimePicker.addOnPositiveButtonClickListener {
             viewModel.setEndTime(endTimePicker.hour, endTimePicker.minute)
         }
