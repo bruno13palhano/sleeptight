@@ -1,5 +1,6 @@
 package com.bruno13palhano.sleeptight.ui.newnap
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,14 +8,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewNapEndBinding
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat.CLOCK_24H
+import kotlinx.coroutines.launch
 
 class NewNapEndFragment : Fragment() {
     private var _binding: FragmentNewNapEndBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NewNapViewModel by activityViewModels()
+
+    private lateinit var timePicker: MaterialTimePicker
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +37,14 @@ class NewNapEndFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.endTime.collect {
+                    setTimePicker(it)
+                }
+            }
+        }
+
         return view
     }
 
@@ -39,5 +56,24 @@ class NewNapEndFragment : Fragment() {
     fun navigateToObservation() {
         findNavController().navigate(
             NewNapEndFragmentDirections.actionEndToObservation())
+    }
+
+    fun onTimeClick() {
+        if (!timePicker.isAdded)
+            timePicker.show(requireParentFragment().parentFragmentManager, "end time dialog")
+    }
+
+    private fun setTimePicker(time: Long) {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = time
+        timePicker = MaterialTimePicker
+            .Builder()
+            .setTimeFormat(CLOCK_24H)
+            .setHour(calendar[Calendar.HOUR_OF_DAY])
+            .setMinute(calendar[Calendar.MINUTE])
+            .build()
+        timePicker.addOnPositiveButtonClickListener {
+            viewModel.setEndTime(timePicker.hour, timePicker.minute)
+        }
     }
 }
