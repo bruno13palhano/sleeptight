@@ -1,17 +1,18 @@
 package com.bruno13palhano.sleeptight.ui.newnap
 
 import android.icu.text.DateFormat
+import android.icu.util.Calendar
+import android.icu.util.TimeZone
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.di.DefaultNapRep
 import com.bruno13palhano.core.data.repository.NapRepository
 import com.bruno13palhano.model.Nap
-import com.google.android.material.datepicker.MaterialDatePicker
+import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,7 +33,7 @@ class NewNapViewModel @Inject constructor(
         )
 
     fun setDate(year: Int, month: Int, day: Int) {
-        date.value = dateToMilliseconds(year, month, day)
+        date.value = CalendarUtil.dateToMilliseconds(year, month, day)
     }
 
     val startTime = MutableStateFlow(currentDate.timeInMillis)
@@ -47,7 +48,7 @@ class NewNapViewModel @Inject constructor(
         )
 
     fun setStartTime(hour: Int, minute: Int) {
-        startTime.value = timeToMilliseconds(hour, minute)
+        startTime.value = CalendarUtil.timeToMilliseconds(hour, minute)
     }
 
     val endTime = MutableStateFlow(currentDate.timeInMillis)
@@ -62,7 +63,7 @@ class NewNapViewModel @Inject constructor(
         )
 
     fun setEndTime(hour: Int, minute: Int) {
-        endTime.value = timeToMilliseconds(hour, minute)
+        endTime.value = CalendarUtil.timeToMilliseconds(hour, minute)
     }
 
     val _observation = MutableStateFlow("")
@@ -77,22 +78,5 @@ class NewNapViewModel @Inject constructor(
         viewModelScope.launch {
             napRepository.insert(nap)
         }
-    }
-
-    private fun dateToMilliseconds(year: Int, month: Int, day: Int): Long {
-        val calendar = android.icu.util.Calendar.getInstance(android.icu.util.TimeZone.getTimeZone("UTC"))
-        calendar[android.icu.util.Calendar.DAY_OF_MONTH] = day
-        calendar[android.icu.util.Calendar.MONTH] = month
-        calendar[android.icu.util.Calendar.YEAR] = year
-
-        return calendar.timeInMillis
-    }
-
-    private fun timeToMilliseconds(hour: Int, minute: Int): Long {
-        val calendar = android.icu.util.Calendar.getInstance()
-        calendar[android.icu.util.Calendar.HOUR_OF_DAY] = hour
-        calendar[android.icu.util.Calendar.MINUTE] = minute
-
-        return calendar.timeInMillis
     }
 }

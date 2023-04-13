@@ -1,12 +1,12 @@
 package com.bruno13palhano.sleeptight.ui.nap
 
 import android.icu.text.DateFormat
-import android.icu.util.Calendar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.di.DefaultNapRep
 import com.bruno13palhano.core.data.repository.NapRepository
 import com.bruno13palhano.model.Nap
+import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
@@ -33,7 +33,7 @@ class NapViewModel @Inject constructor(
         )
 
     fun setDate(year: Int, month: Int, day: Int) {
-        date.value = dateToMilliseconds(year, month, day)
+        date.value = CalendarUtil.dateToMilliseconds(year, month, day)
     }
 
     val startTime = MutableStateFlow(0L)
@@ -48,7 +48,7 @@ class NapViewModel @Inject constructor(
         )
 
     fun setStartTime(hour: Int, minute: Int) {
-        startTime.value = timeToMilliseconds(hour, minute)
+        startTime.value = CalendarUtil.timeToMilliseconds(hour, minute)
     }
 
     val endTime = MutableStateFlow(0L)
@@ -63,7 +63,7 @@ class NapViewModel @Inject constructor(
         )
 
     fun setEndTime(hour: Int, minute: Int) {
-        endTime.value = timeToMilliseconds(hour, minute)
+        endTime.value = CalendarUtil.timeToMilliseconds(hour, minute)
     }
 
     val observation = MutableStateFlow("")
@@ -106,22 +106,5 @@ class NapViewModel @Inject constructor(
         viewModelScope.launch {
             napRepository.updateNap(nap)
         }
-    }
-
-    private fun dateToMilliseconds(year: Int, month: Int, day: Int): Long {
-        val calendar = Calendar.getInstance()
-        calendar[Calendar.DAY_OF_MONTH] = day
-        calendar[Calendar.MONTH] = month
-        calendar[Calendar.YEAR] = year
-
-        return calendar.timeInMillis
-    }
-
-    private fun timeToMilliseconds(hour: Int, minute: Int): Long {
-        val calendar = Calendar.getInstance()
-        calendar[Calendar.HOUR_OF_DAY] = hour
-        calendar[Calendar.MINUTE] = minute
-
-        return calendar.timeInMillis
     }
 }
