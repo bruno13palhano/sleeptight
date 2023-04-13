@@ -1,6 +1,7 @@
 package com.bruno13palhano.sleeptight.ui.nap
 
 import android.icu.text.DateFormat
+import android.icu.util.Calendar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.di.DefaultNapRep
@@ -13,7 +14,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -110,17 +110,17 @@ class NapViewModel @Inject constructor(
 
     private fun dateToMilliseconds(year: Int, month: Int, day: Int): Long {
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.DAY_OF_MONTH, day)
-        calendar.set(Calendar.MONTH, month)
-        calendar.set(Calendar.YEAR, year)
+        calendar[Calendar.DAY_OF_MONTH] = day
+        calendar[Calendar.MONTH] = month
+        calendar[Calendar.YEAR] = year
 
         return calendar.timeInMillis
     }
 
     private fun timeToMilliseconds(hour: Int, minute: Int): Long {
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, hour)
-        calendar.set(Calendar.MINUTE, minute)
+        calendar[Calendar.HOUR_OF_DAY] = hour
+        calendar[Calendar.MINUTE] = minute
 
         return calendar.timeInMillis
     }
