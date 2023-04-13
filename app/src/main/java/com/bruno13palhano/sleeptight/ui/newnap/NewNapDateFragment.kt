@@ -61,7 +61,8 @@ class NewNapDateFragment : Fragment() {
     }
 
     fun onDateClick() {
-        datePicker.show(requireParentFragment().parentFragmentManager, "date dialog")
+        if (!datePicker.isAdded)
+            datePicker.show(requireParentFragment().parentFragmentManager, "date dialog")
     }
 
     private fun setDatePicker(date: Long) {
