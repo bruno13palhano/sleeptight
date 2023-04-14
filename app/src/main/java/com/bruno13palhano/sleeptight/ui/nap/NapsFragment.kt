@@ -30,6 +30,8 @@ class NapsFragment : Fragment() {
             .inflate(inflater, R.layout.fragment_naps, container, false)
         val view = binding.root
 
+        binding.uiEvents = this
+
         val adapter = NapsAdapter {
             findNavController().navigate(
                 NapsFragmentDirections.actionNapsToNap(it))
@@ -50,5 +52,10 @@ class NapsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun navigateToDate() {
+        findNavController().navigate(
+            NapsFragmentDirections.actionNapsToDate())
     }
 }
