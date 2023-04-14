@@ -11,6 +11,11 @@
         android:title="@string/naps_label" />
 
     <item
+        android:id="@id/media_player_navigation"
+        android:icon="@drawable/baseline_music_note_24"
+        android:title="Player" />
+
+    <item
         android:id="@+id/settings_navigation"
         android:icon="@drawable/baseline_settings_24"
         android:title="@string/settings_label" />
