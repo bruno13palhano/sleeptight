@@ -22,4 +22,7 @@
     <string name="date_tag">Date:</string>
     <string name="start_time_tag">Start time:</string>
     <string name="end_time_tag">End time:</string>
+
+    <!--  Chart colors  -->
+    <string name="chart_background_color">#d6d6d6</string>
 </resources>
