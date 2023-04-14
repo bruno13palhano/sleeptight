@@ -36,6 +36,6 @@ class HomeFragment : Fragment() {
 
     fun navigateToAddNewNap() {
         findNavController().navigate(
-            HomeFragmentDirections.actionHomeToAddNewNap())
+            HomeFragmentDirections.actionHomeToDate())
     }
 }
