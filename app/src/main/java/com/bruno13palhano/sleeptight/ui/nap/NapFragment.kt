@@ -56,14 +56,6 @@ class NapFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.nap.collect {
-                        date = it.date
-                        startTime = it.startTime
-                        endTime = it.endTime
-                        observation = it.observation
-                    }
-                }
-                launch {
                     viewModel.date.collect {
                         date = it
                         setDatePicker(it)
