@@ -12,7 +12,53 @@
         tools:layout="@layout/fragment_home">
 
         <action
-            android:id="@+id/action_home_to_addNewNap"
-            app:destination="@id/new_nap_navigation" />
+            android:id="@+id/action_home_to_date"
+            app:destination="@id/newNapDateFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newNapDateFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.newnap.NewNapDateFragment"
+        android:label="Date"
+        tools:layout="@layout/fragment_new_nap_date">
+
+        <action
+            android:id="@+id/action_date_to_start"
+            app:destination="@id/newNapStartFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newNapStartFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.newnap.NewNapStartFragment"
+        android:label="Start time"
+        tools:layout="@layout/fragment_new_nap_start">
+
+        <action
+            android:id="@+id/action_start_to_end"
+            app:destination="@id/newNapEndFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newNapEndFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.newnap.NewNapEndFragment"
+        android:label="End time"
+        tools:layout="@layout/fragment_new_nap_end">
+
+        <action
+            android:id="@+id/action_end_to_observation"
+            app:destination="@id/newNapObservationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newNapObservationFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.newnap.NewNapObservationFragment"
+        android:label="Observation"
+        tools:layout="@layout/fragment_new_nap_observation">
+
+        <action
+            android:id="@+id/action_observation_to_home"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
