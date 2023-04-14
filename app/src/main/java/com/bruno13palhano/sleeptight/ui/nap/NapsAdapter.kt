@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bruno13palhano.model.Nap
 import com.bruno13palhano.sleeptight.databinding.NapCardBinding
+import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 
 class NapsAdapter(
     private val onClick: (napId: Long) -> Unit
@@ -39,8 +40,7 @@ class NapsAdapter(
 
         fun bind(nap: Nap) {
             currentNap = nap
-            binding.date.text = DateFormat
-                .getPatternInstance(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY).format(nap.date)
+            binding.date.text = DateFormatUtil.format(nap.date)
         }
     }
 
