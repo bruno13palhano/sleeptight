@@ -1,6 +1,5 @@
 package com.bruno13palhano.sleeptight.ui.nap
 
-import android.icu.text.DateFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
