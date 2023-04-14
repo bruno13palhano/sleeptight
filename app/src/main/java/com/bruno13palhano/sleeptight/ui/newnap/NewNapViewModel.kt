@@ -9,6 +9,8 @@ import com.bruno13palhano.core.data.di.DefaultNapRep
 import com.bruno13palhano.core.data.repository.NapRepository
 import com.bruno13palhano.model.Nap
 import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
+import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
+import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
@@ -24,7 +26,7 @@ class NewNapViewModel @Inject constructor(
     val date = MutableStateFlow(currentDate.timeInMillis)
     val dateUi = date.asStateFlow()
         .map {
-            DateFormat.getPatternInstance(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY).format(it)
+            DateFormatUtil.format(it)
         }
         .stateIn(
             scope = viewModelScope,
@@ -66,13 +68,7 @@ class NewNapViewModel @Inject constructor(
         endTime.value = CalendarUtil.timeToMilliseconds(hour, minute)
     }
 
-    val _observation = MutableStateFlow("")
-    val observation = _observation.asStateFlow()
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
+    val observation = MutableStateFlow("")
 
     fun insertNap(nap: Nap) {
         viewModelScope.launch {
