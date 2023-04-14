@@ -7,6 +7,7 @@
     <string name="naps_label">Naps</string>
     <string name="all_naps_label">All Naps</string>
     <string name="settings_label">Settings</string>
+    <string name="player_label">Player</string>
 
     <!--  button labels  -->
     <string name="next_label">Next</string>
