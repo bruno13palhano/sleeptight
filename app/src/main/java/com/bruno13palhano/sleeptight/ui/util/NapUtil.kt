@@ -1,5 +1,6 @@
 package com.bruno13palhano.sleeptight.ui.util
 
+import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -34,5 +35,14 @@ object TimePickerUtil {
             .setHour(calendar[Calendar.HOUR_OF_DAY])
             .setMinute(calendar[Calendar.MINUTE])
             .build()
+    }
+}
+
+object DateFormatUtil {
+    fun format(dateInMillis: Long): String {
+        val dateFormat = SimpleDateFormat.getDateInstance()
+        dateFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+        return dateFormat.format(dateInMillis)
     }
 }
