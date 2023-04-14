@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/media_player_navigation"
+    app:startDestination="@id/mediaPlayerFragment">
+
+    <fragment
+        android:id="@+id/mediaPlayerFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.mediaplayer.MediaPlayerFragment"
+        android:label="Media Player"
+        tools:layout="@layout/fragment_media_player"/>
+</navigation>
