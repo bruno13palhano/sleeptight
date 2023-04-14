@@ -16,6 +16,11 @@
         android:title="@string/player_label" />
 
     <item
+        android:id="@id/analytics_navigation"
+        android:icon="@drawable/baseline_bar_chart_24"
+        android:title="@string/analytics_label" />
+
+    <item
         android:id="@+id/settings_navigation"
         android:icon="@drawable/baseline_settings_24"
         android:title="@string/settings_label" />
