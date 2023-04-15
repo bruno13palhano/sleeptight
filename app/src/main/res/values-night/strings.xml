@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="chart_background_color">#333533</string>
+    <string name="chart_primary_color">#d6d6d6</string>
 </resources>

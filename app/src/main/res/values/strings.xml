@@ -26,12 +26,15 @@
 
     <!--  Chart colors  -->
     <string name="chart_background_color">#d6d6d6</string>
+    <string name="chart_primary_color">#333533</string>
     <string name="chart_bar_main_color">#786e82</string>
     
     <!--  Chart labels  -->
     <string name="month_chart_label">Month Chart</string>
     <string name="week_chart_label">Week Chart</string>
     <string name="average_hours_label">Average hours</string>
+    <string name="average_hour_per_week_label">Average hours per weekday</string>
+    <string name="average_hour_per_month_label">Average hours per month of the year</string>
     
     <!--  Days of te week  -->
     <string name="sunday_label">Sunday</string>
