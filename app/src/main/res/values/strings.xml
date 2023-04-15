@@ -26,4 +26,33 @@
 
     <!--  Chart colors  -->
     <string name="chart_background_color">#d6d6d6</string>
+    <string name="chart_bar_main_color">#786e82</string>
+    
+    <!--  Chart labels  -->
+    <string name="month_chart_label">Month Chart</string>
+    <string name="week_chart_label">Week Chart</string>
+    <string name="average_hours_label">Average hours</string>
+    
+    <!--  Days of te week  -->
+    <string name="sunday_label">Sunday</string>
+    <string name="monday_label">Monday</string>
+    <string name="tuesday_label">Tuesday</string>
+    <string name="wednesday_label">Wednesday</string>
+    <string name="thursday_label">Thursday</string>
+    <string name="friday_label">Friday</string>
+    <string name="saturday_label">Saturday</string>
+    
+    <!--  Months of day  -->
+    <string name="january_label">January</string>
+    <string name="february_label">February</string>
+    <string name="march_label">March</string>
+    <string name="april_label">April</string>
+    <string name="may_label">May</string>
+    <string name="june_label">June</string>
+    <string name="july_label">July</string>
+    <string name="august_label">August</string>
+    <string name="september_label">September</string>
+    <string name="october_label">October</string>
+    <string name="november_label">November</string>
+    <string name="december_label">December</string>
 </resources>
