@@ -9,11 +9,8 @@ import com.bruno13palhano.model.Nap
 import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -66,6 +63,15 @@ class NapViewModel @Inject constructor(
     fun setEndTime(hour: Int, minute: Int) {
         endTime.value = CalendarUtil.timeToMilliseconds(hour, minute)
     }
+
+    val sleepTime = combine(startTime ,endTime) { startTime, endTime ->
+        CalendarUtil.getSleepTime(startTime, endTime)
+    }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = 0L,
+            started = WhileSubscribed(5_000)
+        )
 
     val observation = MutableStateFlow("")
 

@@ -23,7 +23,7 @@ class NewNapViewModel @Inject constructor(
 ) : ViewModel() {
     private val currentDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
 
-    val date = MutableStateFlow(currentDate.timeInMillis)
+    val date = MutableStateFlow(MaterialDatePicker.todayInUtcMilliseconds())
     val dateUi = date.asStateFlow()
         .map {
             DateFormatUtil.format(it)
@@ -61,6 +61,15 @@ class NewNapViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             initialValue = "",
+            started = WhileSubscribed(5_000)
+        )
+
+    val sleepTimeUi = combine(startTime, endTime) { startTime, endTime ->
+        CalendarUtil.getSleepTime(startTime, endTime)
+    }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = 0L,
             started = WhileSubscribed(5_000)
         )
 
