@@ -32,6 +32,7 @@ class NapFragment : Fragment() {
     private var date = 0L
     private var startTime = 0L
     private var endTime = 0L
+    private var sleepTime = 0L
     private var observation = ""
 
     private lateinit var datePicker: MaterialDatePicker<Long>
@@ -74,6 +75,11 @@ class NapFragment : Fragment() {
                     }
                 }
                 launch {
+                    viewModel.sleepTime.collect {
+                        sleepTime = it
+                    }
+                }
+                launch {
                     viewModel.observation.collect {
                         observation = it
                     }
@@ -97,6 +103,7 @@ class NapFragment : Fragment() {
                 date = date,
                 startTime = startTime,
                 endTime = endTime,
+                sleepTime = sleepTime,
                 observation = observation
             )
         )
