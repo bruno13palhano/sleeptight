@@ -68,7 +68,7 @@ class AnalyticsWeekChartViewModel @Inject constructor(
                     }
                 }
             }
-            MonthChartUi(
+            WeekChartUi(
                 sunday = averageSleepTimeDecimal(sundayHours, sundayMinutes),
                 monday = averageSleepTimeDecimal(mondayHours, mondayMinutes),
                 tuesday = averageSleepTimeDecimal(tuesdayHours, tuesdayMinute),
@@ -80,11 +80,11 @@ class AnalyticsWeekChartViewModel @Inject constructor(
         }
         .stateIn(
             scope = viewModelScope,
-            initialValue = MonthChartUi(),
+            initialValue = WeekChartUi(),
             started = SharingStarted.WhileSubscribed(5_000)
         )
 
-    data class MonthChartUi(
+    data class WeekChartUi(
         val sunday: Float = 0.0F,
         val monday: Float = 0.0F,
         val tuesday: Float = 0.0F,
