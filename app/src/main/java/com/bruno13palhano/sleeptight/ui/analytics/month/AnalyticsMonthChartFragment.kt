@@ -47,26 +47,55 @@ class AnalyticsMonthChartFragment : Fragment() {
             .series(
                 arrayOf(
                     AASeriesElement()
-                        .name(getString(R.string.average_hours_label))
-                        .data(arrayOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
-                        .color(getString(R.string.chart_bar_main_color)),
+                        .name(getString(R.string.january_label))
+                        .data(arrayOf(0.0))
+                        .color(getString(R.string.january_light_blue_label)),
+                    AASeriesElement()
+                        .name(getString(R.string.february_label))
+                        .data(arrayOf(0.0))
+                        .color(getString(R.string.february_pink_label)),
+                    AASeriesElement()
+                        .name(getString(R.string.march_label))
+                        .data(arrayOf(0.0))
+                        .color(getString(R.string.march_purple_label)),
+                    AASeriesElement()
+                        .name(getString(R.string.april_label))
+                        .data(arrayOf(0.0))
+                        .color(getString(R.string.april_grass_green_label)),
+                    AASeriesElement()
+                        .name(getString(R.string.may_label))
+                        .data(arrayOf(0.0))
+                        .color(getString(R.string.may_lilac_label)),
+                    AASeriesElement()
+                        .name(getString(R.string.june_label))
+                        .data(arrayOf(0.0))
+                        .color(getString(R.string.june_pearl_label)),
+                    AASeriesElement()
+                        .name(getString(R.string.july_label))
+                        .data(arrayOf(0.0))
+                        .color(getString(R.string.july_yellow_label)),
+                    AASeriesElement()
+                        .name(getString(R.string.august_label))
+                        .data(arrayOf(0.0))
+                        .color(getString(R.string.august_orange_label)),
+                    AASeriesElement()
+                        .name(getString(R.string.september_label))
+                        .data(arrayOf(0.0))
+                        .color(getString(R.string.september_bright_blue_label)),
+                    AASeriesElement()
+                        .name(getString(R.string.october_label))
+                        .data(arrayOf(0.0))
+                        .color(getString(R.string.october_indigo_label)),
+                    AASeriesElement()
+                        .name(getString(R.string.november_label))
+                        .data(arrayOf(0.0))
+                        .color(getString(R.string.november_gold_label)),
+                    AASeriesElement()
+                        .name(getString(R.string.december_label))
+                        .data(arrayOf(0.0))
+                        .color(getString(R.string.december_dark_red_label))
                 )
-            ).categories(
-                arrayOf(
-                    getString(R.string.january_label),
-                    getString(R.string.february_label),
-                    getString(R.string.march_label),
-                    getString(R.string.april_label),
-                    getString(R.string.may_label),
-                    getString(R.string.june_label),
-                    getString(R.string.july_label),
-                    getString(R.string.august_label),
-                    getString(R.string.september_label),
-                    getString(R.string.october_label),
-                    getString(R.string.november_label),
-                    getString(R.string.december_label)
-                )
-            )
+            ).categories(arrayOf(getString(R.string.average_hours_label)))
 
         binding.monthChart.aa_drawChartWithChartModel(chartModel)
 
@@ -76,23 +105,18 @@ class AnalyticsMonthChartFragment : Fragment() {
                     delay(200)
                     binding.monthChart.aa_onlyRefreshTheChartDataWithChartOptionsSeriesArray(
                         arrayOf(
-                            AASeriesElement()
-                                .name(getString(R.string.month_chart_label))
-                                .data(arrayOf(
-                                    it.january,
-                                    it.february,
-                                    it.march,
-                                    it.april,
-                                    it.may,
-                                    it.june,
-                                    it.july,
-                                    it.august,
-                                    it.september,
-                                    it.october,
-                                    it.november,
-                                    it.december
-                                ))
-                                .color(getString(R.string.chart_bar_main_color))
+                            AASeriesElement().data(arrayOf(it.january)),
+                            AASeriesElement().data(arrayOf(it.february)),
+                            AASeriesElement().data(arrayOf(it.march)),
+                            AASeriesElement().data(arrayOf(it.april)),
+                            AASeriesElement().data(arrayOf(it.may)),
+                            AASeriesElement().data(arrayOf(it.june)),
+                            AASeriesElement().data(arrayOf(it.july)),
+                            AASeriesElement().data(arrayOf(it.august)),
+                            AASeriesElement().data(arrayOf(it.september)),
+                            AASeriesElement().data(arrayOf(it.october)),
+                            AASeriesElement().data(arrayOf(it.november)),
+                            AASeriesElement().data(arrayOf(it.december)),
                         )
                     )
                 }
