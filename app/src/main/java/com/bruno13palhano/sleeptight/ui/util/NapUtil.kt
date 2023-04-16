@@ -23,6 +23,19 @@ object CalendarUtil {
 
         return calendar.timeInMillis
     }
+
+    fun getSleepTime(startTime: Long, endTime: Long): Long {
+        val calendarStart = Calendar.getInstance()
+        val calendarEnd = Calendar.getInstance()
+        calendarStart.timeInMillis = startTime
+        calendarEnd.timeInMillis = endTime
+
+        val timeDiff = (calendarEnd.time.time) - (calendarStart.time.time)
+        val newTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+        newTime.timeInMillis = timeDiff
+
+        return newTime.timeInMillis
+    }
 }
 
 object TimePickerUtil {
