@@ -71,9 +71,9 @@
         tools:layout="@layout/fragment_new_nap_observation">
 
         <action
-            android:id="@+id/action_observation_to_date"
-            app:destination="@id/newNapDateFragment"
-            app:popUpTo="@id/newNapDateFragment"
+            android:id="@+id/action_observation_to_naps"
+            app:destination="@id/napsFragment"
+            app:popUpTo="@id/napsFragment"
             app:popUpToInclusive="true"/>
     </fragment>
 </navigation>

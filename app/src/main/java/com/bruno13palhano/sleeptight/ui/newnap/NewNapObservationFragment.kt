@@ -79,7 +79,7 @@ class NewNapObservationFragment : Fragment() {
 
     fun navigateToDate() {
         findNavController().navigate(
-            NewNapObservationFragmentDirections.actionObservationToDate())
+            NewNapObservationFragmentDirections.actionObservationToNaps())
         viewModel.insertNap(
             Nap(
                 id = 0L,
