@@ -24,6 +24,7 @@ class NewNapObservationFragment : Fragment() {
     private var date = 0L
     private var startTime = 0L
     private var endTime = 0L
+    private var sleepTime = 0L
     private var observation = ""
 
     override fun onCreateView(
@@ -56,6 +57,11 @@ class NewNapObservationFragment : Fragment() {
                     }
                 }
                 launch {
+                    viewModel.sleepTimeUi.collect {
+                        sleepTime = it
+                    }
+                }
+                launch {
                     viewModel.observation.collect {
                         observation = it
                     }
@@ -80,6 +86,7 @@ class NewNapObservationFragment : Fragment() {
                 date = date,
                 startTime = startTime,
                 endTime = endTime,
+                sleepTime = sleepTime,
                 observation = observation
             )
         )
