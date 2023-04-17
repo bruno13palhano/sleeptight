@@ -21,4 +21,7 @@ internal interface NapDao {
 
     @Update
     suspend fun updateNap(nap: NapData)
+
+    @Query("DELETE FROM nap_table WHERE id = :id")
+    suspend fun deleteNapById(id: Long)
 }

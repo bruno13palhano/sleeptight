@@ -45,4 +45,8 @@ internal class DefaultNapRepository @Inject constructor(
     override suspend fun updateNap(nap: Nap) {
         napDao.updateNap(nap.asNapData())
     }
+
+    override suspend fun deleteNapById(id: Long) {
+        napDao.deleteNapById(id)
+    }
 }

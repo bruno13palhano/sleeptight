@@ -8,4 +8,5 @@ interface NapRepository {
     fun getAllStream(): Flow<List<Nap>>
     fun getNapByIdStream(id: Long): Flow<Nap>
     suspend fun updateNap(nap: Nap)
+    suspend fun deleteNapById(id: Long)
 }
