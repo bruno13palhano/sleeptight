@@ -26,9 +26,9 @@
                 android:id="@+id/date_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="16dp"
                 android:text="@string/date_label"
                 android:textSize="22sp"
                 android:textStyle="italic"
@@ -36,28 +36,37 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <DatePicker
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/add_new_date"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="16dp"
                 android:background="?colorOnPrimary"
                 android:elevation="4dp"
-                android:day="@={viewModel.day}"
-                android:month="@={viewModel.month}"
-                android:year="@={viewModel.year}"
+                android:onClick="@{v -> uiEvents.onDateClick()}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.491"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/date_label" />
+                app:layout_constraintTop_toBottomOf="@+id/date_label">
+
+                <TextView
+                    android:id="@+id/date_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/date_label"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:text="@{viewModel.dateUi}"
+                    android:padding="8dp"/>
+            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/add_new_nap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:contentDescription="@string/next_label"
                 android:onClick="@{v -> uiEvents.navigateToStart()}"

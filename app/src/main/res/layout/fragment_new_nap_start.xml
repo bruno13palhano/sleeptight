@@ -22,40 +22,50 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/end_title"
+                android:id="@+id/start_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="24dp"
-                android:text="@string/end_time_label"
+                android:layout_marginEnd="16dp"
+                android:text="@string/start_time_label"
                 android:textSize="22sp"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TimePicker
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/new_nap_start"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="16dp"
                 android:background="?colorOnPrimary"
                 android:elevation="4dp"
-                android:minute="@={viewModel.startMinute}"
-                android:hour="@={viewModel.startHour}"
+                android:onClick="@{v -> uiEvents.onTimeClick()}"
+                app:icon="@drawable/baseline_timer_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/end_title" />
+                app:layout_constraintTop_toBottomOf="@+id/start_title">
+
+                <TextView
+                    android:id="@+id/start_time_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:text="@{viewModel.startTimeUi}"
+                    android:padding="8dp" />
+            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/add_new_nap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:contentDescription="@string/next_label"
                 android:onClick="@{v -> uiEvents.navigateToEnd()}"

@@ -22,13 +22,13 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/start_title"
+                android:id="@+id/end_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="24dp"
-                android:text="@string/start_time_label"
+                android:layout_marginEnd="16dp"
+                android:text="@string/end_time_label"
                 android:textSize="22sp"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -36,28 +36,37 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TimePicker
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/new_nap_end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="16dp"
                 android:background="?colorOnPrimary"
                 android:elevation="4dp"
-                android:minute="@={viewModel.endMinute}"
-                android:hour="@={viewModel.endHour}"
+                android:onClick="@{v -> uiEvents.onTimeClick()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/start_title" />
+                app:layout_constraintTop_toBottomOf="@+id/end_title">
+
+                <TextView
+                    android:id="@+id/end_time_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:text="@{viewModel.endTimeUi}"
+                    android:padding="8dp" />
+            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/add_new_nap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:contentDescription="@string/next_label"
                 android:onClick="@{v -> uiEvents.navigateToObservation()}"
