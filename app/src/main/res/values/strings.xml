@@ -10,6 +10,7 @@
     <string name="player_label">Player</string>
     <string name="analytics_label">Analytics</string>
     <string name="media_player_label">Media Player</string>
+    <string name="more_options_label">More options</string>
 
     <!--  button labels  -->
     <string name="next_label">Next</string>
