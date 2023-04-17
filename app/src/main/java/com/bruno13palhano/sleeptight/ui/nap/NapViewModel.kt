@@ -91,4 +91,10 @@ class NapViewModel @Inject constructor(
             napRepository.updateNap(nap)
         }
     }
+
+    fun deleteNapById(id: Long) {
+        viewModelScope.launch {
+            napRepository.deleteNapById(id)
+        }
+    }
 }
