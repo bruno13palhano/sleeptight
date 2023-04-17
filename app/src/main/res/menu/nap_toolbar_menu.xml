@@ -12,7 +12,7 @@
             <group>
                 <item
                     android:id="@+id/delete_nap"
-                    android:title="Delete nap" />
+                    android:title="@string/delete_nap_label" />
             </group>
         </menu>
     </item>
