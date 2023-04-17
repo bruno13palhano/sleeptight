@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/napsFragment"
         android:name="com.bruno13palhano.sleeptight.ui.nap.NapsFragment"
-        android:label="Naps"
+        android:label="@string/naps_label"
         tools:layout="@layout/fragment_naps">
 
         <action
@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/napFragment"
         android:name="com.bruno13palhano.sleeptight.ui.nap.NapFragment"
-        android:label="Nap"
+        android:label="@string/nap_label"
         tools:layout="@layout/fragment_nap">
 
         <argument
@@ -34,7 +34,7 @@
     <fragment
         android:id="@+id/newNapDateFragment"
         android:name="com.bruno13palhano.sleeptight.ui.newnap.NewNapDateFragment"
-        android:label="Date"
+        android:label="@string/date_label"
         tools:layout="@layout/fragment_new_nap_date">
 
         <action
@@ -45,7 +45,7 @@
     <fragment
         android:id="@+id/newNapStartFragment"
         android:name="com.bruno13palhano.sleeptight.ui.newnap.NewNapStartFragment"
-        android:label="Start time"
+        android:label="@string/start_time_label"
         tools:layout="@layout/fragment_new_nap_start">
 
         <action
@@ -56,7 +56,7 @@
     <fragment
         android:id="@+id/newNapEndFragment"
         android:name="com.bruno13palhano.sleeptight.ui.newnap.NewNapEndFragment"
-        android:label="End time"
+        android:label="@string/end_time_label"
         tools:layout="@layout/fragment_new_nap_end">
 
         <action
@@ -67,7 +67,7 @@
     <fragment
         android:id="@+id/newNapObservationFragment"
         android:name="com.bruno13palhano.sleeptight.ui.newnap.NewNapObservationFragment"
-        android:label="Observation"
+        android:label="@string/observation_label"
         tools:layout="@layout/fragment_new_nap_observation">
 
         <action

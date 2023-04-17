@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/mediaPlayerFragment"
         android:name="com.bruno13palhano.sleeptight.ui.mediaplayer.MediaPlayerFragment"
-        android:label="Media Player"
+        android:label="@string/media_player_label"
         tools:layout="@layout/fragment_media_player"/>
 </navigation>

@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.bruno13palhano.sleeptight.ui.settings.SettingsFragment"
-        android:label="Settings"
+        android:label="@string/settings_label"
         tools:layout="@layout/fragment_settings" />
 </navigation>

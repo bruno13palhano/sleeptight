@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/analyticsFragment"
         android:name="com.bruno13palhano.sleeptight.ui.analytics.AnalyticsFragment"
-        android:label="Analytics"
+        android:label="@string/analytics_label"
         tools:layout="@layout/fragment_analytics">
 
         <action
@@ -22,13 +22,13 @@
 
     <fragment
         android:id="@+id/analyticsWeekChartFragment"
-        android:name="com.bruno13palhano.sleeptight.ui.analytics.AnalyticsWeekChartFragment"
-        android:label="Week Chart"
+        android:name="com.bruno13palhano.sleeptight.ui.analytics.week.AnalyticsWeekChartFragment"
+        android:label="@string/week_chart_label"
         tools:layout="@layout/fragment_analytics_week_chart" />
 
     <fragment
         android:id="@+id/analyticsMonthChartFragment"
-        android:name="com.bruno13palhano.sleeptight.ui.analytics.AnalyticsMonthChartFragment"
-        android:label="Month Week"
+        android:name="com.bruno13palhano.sleeptight.ui.analytics.month.AnalyticsMonthChartFragment"
+        android:label="@string/month_chart_label"
         tools:layout="@layout/fragment_analytics_month_chart" />
 </navigation>
