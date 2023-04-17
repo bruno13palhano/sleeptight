@@ -16,6 +16,8 @@
     <string name="next_label">Next</string>
     <string name="done_label">Done</string>
     <string name="add_new_nap_label">Add new nap</string>
+    <string name="delete_nap_label">Delete nap</string>
+    <string name="share_nap_label">Share nap</string>
 
     <!--  nap labels  -->
     <string name="date_label">Date</string>
