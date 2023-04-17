@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nap_more_options"
+        android:icon="@drawable/baseline_more_vert_24"
+        android:title="@string/more_options_label"
+        app:showAsAction="always">
+
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/delete_nap"
+                    android:title="Delete nap" />
+            </group>
+        </menu>
+    </item>
+</menu>
