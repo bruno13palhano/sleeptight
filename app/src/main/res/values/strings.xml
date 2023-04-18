@@ -30,6 +30,15 @@
     <string name="start_time_tag">Start time:</string>
     <string name="end_time_tag">End time:</string>
 
+    <!--  Settings labels  -->
+    <string name="birth_time_label">Birth time</string>
+    <string name="birth_local_label">From</string>
+    <string name="birth_date_local">Date of birth</string>
+    <string name="measuring_label">Measuring</string>
+    <string name="weighing_label">weighing</string>
+    <string name="height_label">%.2fcm</string>
+    <string name="weight_label">%.2fkg</string>
+
     <!--  Chart colors  -->
     <string name="chart_background_color">#d6d6d6</string>
     <string name="chart_primary_color">#333533</string>
