@@ -75,7 +75,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/new_nap_start"
                 app:layout_constraintVertical_bias="1.0"
-                app:srcCompat="@drawable/baseline_navigate_next_24" />
+                app:srcCompat="@drawable/baseline_navigate_next_24"
+                app:tint="?colorOnPrimary" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>
