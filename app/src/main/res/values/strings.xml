@@ -18,6 +18,8 @@
     <string name="add_new_nap_label">Add new nap</string>
     <string name="delete_nap_label">Delete nap</string>
     <string name="share_nap_label">Share nap</string>
+    <string name="edit_profile_label">Edit profile</string>
+    <string name="share_profile_label">Share profile</string>
 
     <!--  nap labels  -->
     <string name="date_label">Date</string>
