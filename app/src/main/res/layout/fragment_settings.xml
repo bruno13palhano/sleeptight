@@ -1,12 +1,283 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+        <variable
+            name="uiEvents"
+            type="com.bruno13palhano.sleeptight.ui.settings.SettingsFragment" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.settings.SettingsFragment">
+        android:fillViewport="true">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.settings.SettingsFragment">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:drawableStartCompat="@drawable/baseline_cruelty_free_24"
+                app:layout_constraintBottom_toBottomOf="@+id/materialDivider6"
+                app:layout_constraintEnd_toStartOf="@+id/materialDivider6"
+                app:layout_constraintTop_toTopOf="@+id/materialDivider6" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/materialDivider6"
+                android:layout_width="216dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="64dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:drawableEndCompat="@drawable/baseline_cruelty_free_24"
+                app:layout_constraintBottom_toBottomOf="@+id/materialDivider6"
+                app:layout_constraintStart_toEndOf="@+id/materialDivider6"
+                app:layout_constraintTop_toTopOf="@+id/materialDivider6" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/materialDivider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/materialDivider2"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/materialDivider2"
+                app:layout_constraintTop_toBottomOf="@+id/date_layout" />
+
+            <LinearLayout
+                android:id="@+id/time_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialDivider">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/birth_time_label"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:id="@+id/birth_time_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="8dp"
+                    android:text="10:23"
+                    android:textSize="22sp"
+                    app:drawableEndCompat="@drawable/baseline_timer_24" />
+            </LinearLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/materialDivider2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/materialDivider3"
+                app:layout_constraintStart_toStartOf="@+id/materialDivider3"
+                app:layout_constraintTop_toBottomOf="@+id/time_layout" />
+
+            <LinearLayout
+                android:id="@+id/local_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialDivider2">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/birth_local_label"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:id="@+id/birth_local_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="8dp"
+                    android:paddingHorizontal="32dp"
+                    android:text="Recife"
+                    android:textSize="22sp"
+                    app:drawableStartCompat="@drawable/baseline_location_on_24" />
+            </LinearLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/materialDivider3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/local_layout"
+                app:layout_constraintStart_toStartOf="@+id/local_layout"
+                app:layout_constraintTop_toBottomOf="@+id/local_layout" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/materialDivider4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/materialDivider3"
+                app:layout_constraintStart_toStartOf="@+id/materialDivider3"
+                app:layout_constraintTop_toBottomOf="@+id/height_layout" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/materialDivider5"
+                android:layout_width="216dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                app:layout_constraintBottom_toTopOf="@+id/settings_done"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/weight_layout"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:drawableStartCompat="@drawable/baseline_child_friendly_24"
+                app:layout_constraintBottom_toBottomOf="@+id/materialDivider5"
+                app:layout_constraintEnd_toStartOf="@+id/materialDivider5"
+                app:layout_constraintTop_toTopOf="@+id/materialDivider5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:drawableEndCompat="@drawable/baseline_child_friendly_24"
+                app:layout_constraintBottom_toBottomOf="@+id/materialDivider5"
+                app:layout_constraintStart_toEndOf="@+id/materialDivider5"
+                app:layout_constraintTop_toTopOf="@+id/materialDivider5" />
+
+            <LinearLayout
+                android:id="@+id/date_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialDivider6">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/birth_date_local"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:id="@+id/birth_date_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="8dp"
+                    android:text="01/01/2000"
+                    android:textSize="22sp"
+                    app:drawableBottomCompat="@drawable/baseline_calendar_month_24" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/height_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialDivider3">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/measuring_label"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:id="@+id/height_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="8dp"
+                    android:text="@string/height_label"
+                    android:textSize="22sp"
+                    app:drawableEndCompat="@drawable/baseline_square_foot_24" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/weight_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialDivider4">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/weighing_label"
+                    android:textStyle="italic"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.475"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="517dp" />
+
+                <TextView
+                    android:id="@+id/weight_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="8dp"
+                    android:text="@string/weight_label"
+                    android:textSize="22sp"
+                    app:drawableStartCompat="@drawable/baseline_balance_24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            </LinearLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/settings_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/baseline_done_24"
+                app:tint="?colorOnPrimary"
+                android:contentDescription="@string/done_label" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>
