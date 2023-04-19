@@ -20,6 +20,8 @@
     <string name="share_nap_label">Share nap</string>
     <string name="edit_profile_label">Edit profile</string>
     <string name="share_profile_label">Share profile</string>
+    <string name="ok_label">OK</string>
+    <string name="cancel_label">Cancel</string>
 
     <!--  nap labels  -->
     <string name="date_label">Date</string>
@@ -38,6 +40,10 @@
     <string name="weighing_label">weighing</string>
     <string name="height_label">%.2fcm</string>
     <string name="weight_label">%.2fkg</string>
+    <string name="new_value_label">New value</string>
+    <string name="new_local_label">New local</string>
+    <string name="new_height_label">New height</string>
+    <string name="new_weight_label">New weight</string>
 
     <!--  Chart colors  -->
     <string name="chart_background_color">#d6d6d6</string>
