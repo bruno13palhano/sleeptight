@@ -35,28 +35,40 @@
     <!--  Settings labels  -->
     <string name="birth_time_label">Birth time</string>
     <string name="birth_local_label">From</string>
-    <string name="birth_date_local">Date of birth</string>
+    <string name="birth_date_label">Date of birth</string>
     <string name="measuring_label">Measuring</string>
     <string name="weighing_label">weighing</string>
-    <string name="height_label">%.2fcm</string>
-    <string name="weight_label">%.2fkg</string>
+    <string name="height_label">%.1fcm</string>
+    <string name="weight_label">%.1fkg</string>
     <string name="new_value_label">New value</string>
     <string name="new_local_label">New local</string>
     <string name="new_height_label">New height</string>
     <string name="new_weight_label">New weight</string>
 
+    <!--  Login labels  -->
+    <string name="login_label">Login</string>
+    <string name="email_label">Email</string>
+    <string name="password_label">Password</string>
+    <string name="username_label">Username</string>
+    <string name="create_account_label">Create Account</string>
+    <string name="already_have_account_label">Already have an account?</string>
+    <string name="baby_name_label">Baby name</string>
+    <string name="birthplace_label">Birthplace</string>
+    <string name="birth_height_label">Height</string>
+    <string name="birth_weight_label">Weight</string>
+
     <!--  Chart colors  -->
     <string name="chart_background_color">#d6d6d6</string>
     <string name="chart_primary_color">#333533</string>
     <string name="chart_bar_main_color">#786e82</string>
-    
+
     <!--  Chart labels  -->
     <string name="month_chart_label">Month Chart</string>
     <string name="week_chart_label">Week Chart</string>
     <string name="average_hours_label">Average hours</string>
     <string name="average_hour_per_week_label">Average hours per weekday</string>
     <string name="average_hour_per_month_label">Average hours per month of the year</string>
-    
+
     <!--  Days of te week  -->
     <string name="sunday_label">Sunday</string>
     <string name="monday_label">Monday</string>
@@ -65,7 +77,7 @@
     <string name="thursday_label">Thursday</string>
     <string name="friday_label">Friday</string>
     <string name="saturday_label">Saturday</string>
-    
+
     <!--  Months of day  -->
     <string name="january_label">January</string>
     <string name="february_label">February</string>
@@ -93,4 +105,6 @@
     <string name="october_indigo_label">#4B0082</string>
     <string name="november_gold_label">#FFD700</string>
     <string name="december_dark_red_label">#8B0000</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
