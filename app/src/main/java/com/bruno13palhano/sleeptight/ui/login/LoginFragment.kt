@@ -32,6 +32,11 @@ class LoginFragment : Fragment() {
         return view
     }
 
+    fun navigateToHome() {
+        findNavController().navigate(
+            LoginFragmentDirections.actionLoginToHome())
+    }
+
     fun navigateToCreateAccount() {
         findNavController().navigate(
             LoginFragmentDirections.actionLoginToCreateAccount())
