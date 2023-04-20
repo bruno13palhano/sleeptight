@@ -7,6 +7,9 @@
         <variable
             name="uiEvents"
             type="com.bruno13palhano.sleeptight.ui.settings.SettingsFragment" />
+        <variable
+            name="viewModel"
+            type="com.bruno13palhano.sleeptight.ui.settings.SettingsViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -79,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
-                    android:text="10:23"
+                    android:text="@{viewModel.timeUi}"
                     android:textSize="22sp"
                     app:drawableEndCompat="@drawable/baseline_timer_24" />
             </LinearLayout>
@@ -117,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
                     android:paddingHorizontal="32dp"
-                    android:text="Recife"
+                    android:text="@{viewModel.localUi}"
                     android:textSize="22sp"
                     app:drawableStartCompat="@drawable/baseline_location_on_24" />
             </LinearLayout>
@@ -196,7 +199,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
-                    android:text="01/01/2000"
+                    android:text="@{viewModel.dateUi}"
                     android:textSize="22sp"
                     app:drawableBottomCompat="@drawable/baseline_calendar_month_24" />
             </LinearLayout>
@@ -224,7 +227,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
-                    android:text="@string/height_label"
+                    android:text="@{viewModel.heightUi}"
                     android:textSize="22sp"
                     app:drawableEndCompat="@drawable/baseline_square_foot_24" />
             </LinearLayout>
@@ -256,7 +259,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
-                    android:text="@string/weight_label"
+                    android:text="@{viewModel.weightUi}"
                     android:textSize="22sp"
                     app:drawableStartCompat="@drawable/baseline_balance_24"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -271,6 +274,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:visibility="gone"
+                android:onClick="@{v -> uiEvents.onDoneClick()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
