@@ -191,7 +191,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="32dp"
-                    android:text="@string/birth_date_local"
+                    android:text="@string/birth_date_label"
                     android:textStyle="italic" />
 
                 <TextView
