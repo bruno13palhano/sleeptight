@@ -9,4 +9,5 @@
     <include app:graph="@navigation/settings_navigation" />
     <include app:graph="@navigation/media_player_navigation" />
     <include app:graph="@navigation/analytics_navigation" />
+    <include app:graph="@navigation/login_navigation" />
 </navigation>
