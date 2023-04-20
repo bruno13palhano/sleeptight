@@ -78,6 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/already_have_account_label"
+            android:onClick="@{v -> uiEvents.navigateToLogin()}"
             app:layout_constraintEnd_toEndOf="@+id/password_layout"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/password_layout"
@@ -106,6 +107,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login"
+            app:layout_constraintVertical_bias="1.0"
             app:srcCompat="@drawable/baseline_navigate_next_24" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -31,4 +31,8 @@ class CreateAccountFragment : Fragment() {
         findNavController().navigate(
             CreateAccountFragmentDirections.actionCreateAccountToBabyName())
     }
+
+    fun navigateToLogin() {
+        findNavController().navigateUp()
+    }
 }
