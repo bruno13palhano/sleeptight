@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_login">
 
         <action
+            android:id="@+id/action_login_to_home"
+            app:destination="@id/home_navigation"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
+
+        <action
             android:id="@+id/action_login_to_createAccount"
             app:destination="@id/createAccountFragment" />
     </fragment>
