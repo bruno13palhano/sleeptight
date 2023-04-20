@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -16,6 +18,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    private lateinit var bottomNavView: BottomNavigationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         val builder = AppBarConfiguration.Builder(navController.graph)
         val appBarConfiguration = builder.build()
         toolbar.setupWithNavController(navController, appBarConfiguration)
-        val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNavView.setupWithNavController(navController)
 
         addMenuProvider(object : MenuProvider {
@@ -40,5 +44,13 @@ class MainActivity : AppCompatActivity() {
                 return menuItem.onNavDestinationSelected(navController)
             }
         })
+    }
+
+    fun showBottomNavigation() {
+        bottomNavView.visibility = VISIBLE
+    }
+
+    fun hideBottomNavigation() {
+        bottomNavView.visibility = GONE
     }
 }
