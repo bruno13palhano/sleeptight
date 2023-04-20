@@ -56,8 +56,8 @@
         tools:layout="@layout/fragment_baby_birth_account">
 
         <action
-            android:id="@+id/action_babyBirth_to_login"
-            app:destination="@id/loginFragment"
+            android:id="@+id/action_babyBirth_to_home"
+            app:destination="@id/home_navigation"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
     </fragment>
