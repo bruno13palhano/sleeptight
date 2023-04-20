@@ -42,6 +42,7 @@
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -72,22 +73,25 @@
                 android:id="@+id/time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/next"
+            android:id="@+id/done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:contentDescription="@string/next_label"
+            android:contentDescription="@string/done_label"
             android:onClick="@{v -> uiEvents.navigateToHome()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/baseline_navigate_next_24" />
+            app:layout_constraintTop_toBottomOf="@+id/weight_layout"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/baseline_done_24" />
 
         <ImageView
             android:id="@+id/imageView3"
@@ -116,6 +120,7 @@
                 android:id="@+id/height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -146,6 +151,7 @@
                 android:id="@+id/weight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
