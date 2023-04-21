@@ -6,13 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentBabyNameAccountBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BabyNameAccountFragment : Fragment() {
     private var _binding: FragmentBabyNameAccountBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: CreateAccountViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,6 +27,8 @@ class BabyNameAccountFragment : Fragment() {
         val view = binding.root
 
         binding.uiEvents = this
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
 
         return view
     }

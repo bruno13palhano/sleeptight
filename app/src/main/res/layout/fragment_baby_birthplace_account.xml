@@ -7,6 +7,9 @@
         <variable
             name="uiEvents"
             type="com.bruno13palhano.sleeptight.ui.createaccount.BabyBirthplaceAccountFragment" />
+        <variable
+            name="viewModel"
+            type="com.bruno13palhano.sleeptight.ui.createaccount.CreateAccountViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,7 +50,8 @@
                 android:id="@+id/birthplace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:text="@={viewModel.birthplace}"/>
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

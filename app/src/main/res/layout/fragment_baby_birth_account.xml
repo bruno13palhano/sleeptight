@@ -8,6 +8,9 @@
         <variable
             name="uiEvents"
             type="com.bruno13palhano.sleeptight.ui.createaccount.BabyBirthAccountFragment" />
+        <variable
+            name="viewModel"
+            type="com.bruno13palhano.sleeptight.ui.createaccount.CreateAccountViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:maxLines="1"
+                android:text="@{viewModel.dateUi}"
                 android:onClick="@{v -> uiEvents.onDateClick()}" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -76,6 +80,7 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:maxLines="1"
+                android:text="@{viewModel.timeUi}"
                 android:onClick="@{v -> uiEvents.onTimeClick()}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -124,6 +129,7 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:maxLines="1"
+                android:text="@{viewModel.heightUi}"
                 android:onClick="@{v -> uiEvents.onHeightClick()}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -156,6 +162,7 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:maxLines="1"
+                android:text="@{viewModel.weightUi}"
                 android:onClick="@{v -> uiEvents.onWeightClick()}"/>
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

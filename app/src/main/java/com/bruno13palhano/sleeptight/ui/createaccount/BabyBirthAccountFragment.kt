@@ -1,11 +1,16 @@
 package com.bruno13palhano.sleeptight.ui.createaccount
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentBabyBirthAccountBinding
@@ -13,10 +18,14 @@ import com.bruno13palhano.sleeptight.ui.settings.EditFloatingInputDialog
 import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class BabyBirthAccountFragment : Fragment() {
     private var _binding: FragmentBabyBirthAccountBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: CreateAccountViewModel by activityViewModels()
 
     private lateinit var datePicker: MaterialDatePicker<Long>
     private lateinit var timePicker: MaterialTimePicker
@@ -30,9 +39,33 @@ class BabyBirthAccountFragment : Fragment() {
         val view = binding.root
 
         binding.uiEvents = this
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
 
-        setDatePicker(MaterialDatePicker.todayInUtcMilliseconds())
-        setTimePicker(MaterialDatePicker.todayInUtcMilliseconds())
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.date.collect {
+                        setDatePicker(it)
+                    }
+                }
+                launch {
+                    viewModel.time.collect {
+                        setTimePicker(it)
+                    }
+                }
+                launch {
+                    viewModel.height.collect {
+
+                    }
+                }
+                launch {
+                    viewModel.weight.collect {
+
+                    }
+                }
+            }
+        }
 
         return view
     }
@@ -40,6 +73,7 @@ class BabyBirthAccountFragment : Fragment() {
     fun navigateToHome() {
         findNavController().navigate(
             BabyBirthAccountFragmentDirections.actionBabyBirthToHome())
+        viewModel.insertUser()
     }
 
     fun onDateClick() {
@@ -54,7 +88,7 @@ class BabyBirthAccountFragment : Fragment() {
             .setSelection(date)
             .build()
         datePicker.addOnPositiveButtonClickListener {
-
+            viewModel.setDate(it)
         }
     }
 
@@ -66,7 +100,11 @@ class BabyBirthAccountFragment : Fragment() {
     private fun setTimePicker(time: Long) {
         timePicker = TimePickerUtil.prepareTimePicker(time)
         timePicker.addOnPositiveButtonClickListener {
+            val calendar = Calendar.getInstance()
+            calendar[Calendar.HOUR_OF_DAY] = timePicker.hour
+            calendar[Calendar.MINUTE] = timePicker.minute
 
+            viewModel.setTime(calendar.timeInMillis)
         }
     }
 
@@ -74,7 +112,7 @@ class BabyBirthAccountFragment : Fragment() {
         val editHeightDialog = EditFloatingInputDialog(
             object : EditFloatingInputDialog.EditDialogListener {
                 override fun onDialogPositiveClick(newValue: Float) {
-
+                    viewModel.setHeight(newValue)
                 }
             },
             getString(R.string.birth_height_label),
@@ -90,7 +128,7 @@ class BabyBirthAccountFragment : Fragment() {
         val editWeightDialog = EditFloatingInputDialog(
             object : EditFloatingInputDialog.EditDialogListener {
                 override fun onDialogPositiveClick(newValue: Float) {
-
+                    viewModel.setWeight(newValue)
                 }
             },
             getString(R.string.new_weight_label),
