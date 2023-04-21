@@ -42,8 +42,9 @@
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:maxLines="1" />
+                android:focusable="false"
+                android:maxLines="1"
+                android:onClick="@{v -> uiEvents.onDateClick()}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
@@ -73,8 +74,9 @@
                 android:id="@+id/time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:maxLines="1" />
+                android:focusable="false"
+                android:maxLines="1"
+                android:onClick="@{v -> uiEvents.onTimeClick()}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -120,8 +122,9 @@
                 android:id="@+id/height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:maxLines="1" />
+                android:focusable="false"
+                android:maxLines="1"
+                android:onClick="@{v -> uiEvents.onHeightClick()}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
@@ -151,8 +154,9 @@
                 android:id="@+id/weight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:maxLines="1" />
+                android:focusable="false"
+                android:maxLines="1"
+                android:onClick="@{v -> uiEvents.onWeightClick()}"/>
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
