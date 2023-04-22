@@ -50,6 +50,7 @@
     <string name="email_label">Email</string>
     <string name="password_label">Password</string>
     <string name="username_label">Username</string>
+    <string name="baby_photo_label">Baby photo</string>
     <string name="create_account_label">Create Account</string>
     <string name="already_have_account_label">Already have an account?</string>
     <string name="baby_name_label">Baby name</string>
@@ -106,6 +107,4 @@
     <string name="october_indigo_label">#4B0082</string>
     <string name="november_gold_label">#FFD700</string>
     <string name="december_dark_red_label">#8B0000</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
