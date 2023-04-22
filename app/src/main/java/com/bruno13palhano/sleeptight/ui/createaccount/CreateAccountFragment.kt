@@ -33,9 +33,14 @@ class CreateAccountFragment : Fragment() {
         return view
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     fun navigateToBabyName() {
         findNavController().navigate(
-            CreateAccountFragmentDirections.actionCreateAccountToBabyName())
+            CreateAccountFragmentDirections.actionCreateAccountToBabyPhoto())
     }
 
     fun navigateToLogin() {

@@ -70,6 +70,11 @@ class BabyBirthAccountFragment : Fragment() {
         return view
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     fun navigateToHome() {
         findNavController().navigate(
             BabyBirthAccountFragmentDirections.actionBabyBirthToHome())

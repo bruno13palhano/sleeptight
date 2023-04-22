@@ -33,6 +33,11 @@ class BabyNameAccountFragment : Fragment() {
         return view
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     fun navigateToBirthplace() {
         findNavController().navigate(
             BabyNameAccountFragmentDirections.actionBabyNameToBayBirthplace())
