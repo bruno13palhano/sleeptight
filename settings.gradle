@@ -17,3 +17,4 @@ rootProject.name = "SleepTight"
 include ':app'
 include ':core'
 include ':model'
+include ':authentication'
