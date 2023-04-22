@@ -1,7 +1,7 @@
 package com.bruno13palhano.authentication
 
 import android.graphics.Bitmap
-import com.google.firebase.firestore.auth.User
+import com.bruno13palhano.model.User
 
 interface UserAuthentication {
     fun createUser(user: User, onSuccess: (userUid: String) -> Unit, onFail: () -> Unit)
