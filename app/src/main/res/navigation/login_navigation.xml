@@ -29,7 +29,18 @@
         tools:layout="@layout/fragment_create_account">
 
         <action
-            android:id="@+id/action_createAccount_to_babyName"
+            android:id="@+id/action_createAccount_to_babyPhoto"
+            app:destination="@id/babyPhotoAccountFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/babyPhotoAccountFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.createaccount.BabyPhotoAccountFragment"
+        android:label="@string/baby_photo_label"
+        tools:layout="@layout/fragment_baby_photo_account">
+
+        <action
+            android:id="@+id/action_babyPhoto_to_babyName"
             app:destination="@id/babyNameAccountFragment" />
     </fragment>
 
