@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentSettingsBinding
 import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
@@ -65,7 +66,7 @@ class SettingsFragment : Fragment() {
                         true
                     }
                     R.id.logout -> {
-                        viewModel.logout()
+                        logout()
                         true
                     }
                     else -> false
@@ -157,6 +158,12 @@ class SettingsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun logout() {
+        viewModel.logout()
+        findNavController().navigate(
+            SettingsFragmentDirections.actionSettingsToHome())
     }
 
     private fun setDatePicker() {
