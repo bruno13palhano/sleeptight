@@ -2,7 +2,7 @@ package com.bruno13palhano.core.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.bruno13palhano.core.data.database.NapDao
+import com.bruno13palhano.core.data.database.dao.NapDao
 import com.bruno13palhano.core.data.database.SleepTightDatabase
 import dagger.Module
 import dagger.Provides

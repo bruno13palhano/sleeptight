@@ -1,6 +1,6 @@
 package com.bruno13palhano.core.data.repository
 
-import com.bruno13palhano.core.data.database.NapDao
+import com.bruno13palhano.core.data.database.dao.NapDao
 import com.bruno13palhano.core.data.database.asNap
 import com.bruno13palhano.core.data.database.asNapData
 import com.bruno13palhano.model.Nap

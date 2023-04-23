@@ -1,10 +1,11 @@
-package com.bruno13palhano.core.data.database
+package com.bruno13palhano.core.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 import androidx.room.Update
+import com.bruno13palhano.core.data.database.NapData
 import kotlinx.coroutines.flow.Flow
 
 @Dao
