@@ -47,6 +47,7 @@
 
     <!--  Login labels  -->
     <string name="login_label">Login</string>
+    <string name="logout_label">Logout</string>
     <string name="email_label">Email</string>
     <string name="password_label">Password</string>
     <string name="username_label">Username</string>

@@ -64,6 +64,10 @@ class SettingsFragment : Fragment() {
                     R.id.share_profile -> {
                         true
                     }
+                    R.id.logout -> {
+                        viewModel.logout()
+                        true
+                    }
                     else -> false
                 }
             }

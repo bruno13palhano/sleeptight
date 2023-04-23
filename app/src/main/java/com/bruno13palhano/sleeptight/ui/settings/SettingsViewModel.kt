@@ -3,6 +3,8 @@ package com.bruno13palhano.sleeptight.ui.settings
 import android.icu.text.DateFormat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bruno13palhano.authentication.DefaultUserFirebase
+import com.bruno13palhano.authentication.UserAuthentication
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-
+    @DefaultUserFirebase private val authentication: UserAuthentication
 ) : ViewModel() {
 
     private val _isEditable = MutableStateFlow(false)
@@ -88,5 +90,9 @@ class SettingsViewModel @Inject constructor(
 
     fun setWeight(weight: Float) {
         this.weight.value = weight
+    }
+
+    fun logout() {
+        authentication.logout()
     }
 }
