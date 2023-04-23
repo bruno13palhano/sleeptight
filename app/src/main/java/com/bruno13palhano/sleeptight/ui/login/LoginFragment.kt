@@ -5,16 +5,22 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -34,6 +40,27 @@ class LoginFragment : Fragment() {
 
         (requireActivity() as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(null)
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.loginStatus.collect {
+                    when (it) {
+                        LoginViewModel.LoginStatus.Loading -> {
+                            onLoginLoading()
+                        }
+                        LoginViewModel.LoginStatus.Success -> {
+                            onLoginSuccess()
+                        }
+                        LoginViewModel.LoginStatus.Error -> {
+                            onLoginError()
+                        }
+                        LoginViewModel.LoginStatus.Default -> {
+
+                        }
+                    }
+                }
+            }
+        }
+
         return view
     }
 
@@ -42,21 +69,25 @@ class LoginFragment : Fragment() {
         _binding = null
     }
 
+    private fun onLoginSuccess() {
+        navigateToHome()
+    }
+
+    private fun onLoginError() {
+        binding.loginProgress.visibility = GONE
+        Toast.makeText(requireContext(), getString(R.string.login_error_label),
+            Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onLoginLoading() {
+        binding.loginProgress.visibility = VISIBLE
+    }
+
     fun onLoginClick() {
         val email = binding.email.text.toString()
         val password = binding.password.text.toString()
 
-        viewModel.login(
-            email = email,
-            password = password,
-            onSuccess = {
-                navigateToHome()
-            },
-            onFail = {
-                Toast.makeText(requireContext(), getString(R.string.login_error_label),
-                    Toast.LENGTH_SHORT).show()
-            }
-        )
+        viewModel.login(email, password)
     }
 
     private fun navigateToHome() {
