@@ -1,9 +1,13 @@
 package com.bruno13palhano.sleeptight.ui.createaccount
 
+import android.graphics.Bitmap
 import android.icu.text.DateFormat
 import android.icu.util.Calendar
+import androidx.core.graphics.createBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bruno13palhano.authentication.DefaultUserFirebase
+import com.bruno13palhano.authentication.UserAuthentication
 import com.bruno13palhano.model.User
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -17,15 +21,25 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateAccountViewModel @Inject constructor(
-
+    @DefaultUserFirebase private val authentication: UserAuthentication
 ) : ViewModel() {
     private val calendar = Calendar.getInstance()
+
+    private val _loginStatus = MutableStateFlow<LoginStatus>(LoginStatus.Default)
+    val loginStatus = _loginStatus.asStateFlow()
 
     val username = MutableStateFlow("")
     val email = MutableStateFlow("")
     val password = MutableStateFlow("")
     val babyName = MutableStateFlow("")
     val birthplace = MutableStateFlow("")
+
+    private val _photo = MutableStateFlow(createBitmap(1,1))
+    val photo = _photo.asStateFlow()
+
+    fun setPhoto(photo: Bitmap) {
+        _photo.value = photo
+    }
 
     private val _date = MutableStateFlow(MaterialDatePicker.todayInUtcMilliseconds())
     val date = _date.asStateFlow()
@@ -92,17 +106,80 @@ class CreateAccountViewModel @Inject constructor(
     }
 
     fun insertUser() {
-        clearUserValues()
+        val user = User(
+            username = username.value,
+            email = email.value,
+            password = password.value,
+            babyName = babyName.value,
+            birthplace = birthplace.value,
+            birthdate = _date.value,
+            birthTime = _time.value,
+            height = _height.value,
+            weight = _weight.value
+        )
+
+        loading()
+        if (isUserValid(user)) {
+            authentication.createUser(
+                user = user,
+                onSuccess = {
+                    updateUserUrlPhoto(
+                        photo = photo.value,
+                        onSuccess = {
+                            _loginStatus.value = LoginStatus.Success
+                            clearUserValues()
+                        },
+                        onFail = {
+                            _loginStatus.value = LoginStatus.Error
+                        }
+                    )
+                },
+                onFail = {
+                    _loginStatus.value = LoginStatus.Error
+                }
+            )
+        }
     }
 
     private fun clearUserValues() {
         username.value = ""
         email.value = ""
         password.value = ""
+        _photo.value = createBitmap(1,1)
         birthplace.value = ""
         _date.value = MaterialDatePicker.todayInUtcMilliseconds()
         _time.value = calendar.timeInMillis
         _height.value = 0F
         _weight.value = 0F
+    }
+
+    private fun updateUserUrlPhoto(
+        photo: Bitmap,
+        onSuccess: () -> Unit,
+        onFail: () -> Unit
+    ) {
+        authentication.updateUserUrlPhoto(
+            photo = photo,
+            onSuccess = { newPhotoUrl, userUid ->
+                onSuccess()
+            },
+            onFail = {
+                onFail()
+            }
+        )
+    }
+
+    private fun isUserValid(user: User): Boolean =
+        user.username != "" && user.email != "" && user.password != ""
+
+    private fun loading() {
+        _loginStatus.value = LoginStatus.Loading
+    }
+
+    sealed class LoginStatus {
+        object Loading: LoginStatus()
+        object Error: LoginStatus()
+        object Success: LoginStatus()
+        object Default: LoginStatus()
     }
 }
