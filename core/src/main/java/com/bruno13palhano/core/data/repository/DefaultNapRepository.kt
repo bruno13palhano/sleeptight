@@ -1,8 +1,8 @@
 package com.bruno13palhano.core.data.repository
 
 import com.bruno13palhano.core.data.database.dao.NapDao
-import com.bruno13palhano.core.data.database.asNap
-import com.bruno13palhano.core.data.database.asNapData
+import com.bruno13palhano.core.data.database.model.asNap
+import com.bruno13palhano.core.data.database.model.asNapData
 import com.bruno13palhano.model.Nap
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

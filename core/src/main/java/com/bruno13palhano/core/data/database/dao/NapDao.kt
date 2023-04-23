@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 import androidx.room.Update
-import com.bruno13palhano.core.data.database.NapData
+import com.bruno13palhano.core.data.database.model.NapData
 import kotlinx.coroutines.flow.Flow
 
 @Dao

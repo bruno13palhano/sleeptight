@@ -3,6 +3,7 @@ package com.bruno13palhano.core.data.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.bruno13palhano.core.data.database.dao.NapDao
+import com.bruno13palhano.core.data.database.model.NapData
 
 @Database(
     entities = [
