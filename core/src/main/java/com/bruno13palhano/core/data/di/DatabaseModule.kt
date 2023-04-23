@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.bruno13palhano.core.data.database.dao.NapDao
 import com.bruno13palhano.core.data.database.SleepTightDatabase
+import com.bruno13palhano.core.data.database.dao.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +19,11 @@ internal object DatabaseModule {
     @Provides
     fun providesNapDao(database: SleepTightDatabase): NapDao {
         return database.napDao
+    }
+
+    @Provides
+    fun providesUserDao(database: SleepTightDatabase): UserDao {
+        return database.userDao
     }
 
     @Provides

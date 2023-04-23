@@ -1,7 +1,9 @@
 package com.bruno13palhano.core.data.di
 
 import com.bruno13palhano.core.data.repository.DefaultNapRepository
+import com.bruno13palhano.core.data.repository.DefaultUserRepository
 import com.bruno13palhano.core.data.repository.NapRepository
+import com.bruno13palhano.core.data.repository.UserRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,6 +14,9 @@ import javax.inject.Singleton
 @Qualifier
 annotation class DefaultNapRep
 
+@Qualifier
+annotation class DefaultUserRep
+
 @InstallIn(SingletonComponent::class)
 @Module
 internal abstract class RepositoryModule {
@@ -20,4 +25,9 @@ internal abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun bindDefaultNapRepository(repository: DefaultNapRepository): NapRepository
+
+    @DefaultUserRep
+    @Singleton
+    @Binds
+    abstract fun bindDefaultUserRepository(repository: DefaultUserRepository): UserRepository
 }
