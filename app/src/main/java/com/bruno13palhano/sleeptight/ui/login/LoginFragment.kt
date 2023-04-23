@@ -6,16 +6,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentLoginBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +42,24 @@ class LoginFragment : Fragment() {
         _binding = null
     }
 
-    fun navigateToHome() {
+    fun onLoginClick() {
+        val email = binding.email.text.toString()
+        val password = binding.password.text.toString()
+
+        viewModel.login(
+            email = email,
+            password = password,
+            onSuccess = {
+                navigateToHome()
+            },
+            onFail = {
+                Toast.makeText(requireContext(), getString(R.string.login_error_label),
+                    Toast.LENGTH_SHORT).show()
+            }
+        )
+    }
+
+    private fun navigateToHome() {
         findNavController().navigate(
             LoginFragmentDirections.actionLoginToHome())
     }

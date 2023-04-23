@@ -59,6 +59,7 @@
     <string name="birth_height_label">Height</string>
     <string name="birth_weight_label">Weight</string>
     <string name="birth_information_label">Birth information</string>
+    <string name="login_error_label">Login error</string>
 
     <!--  Chart colors  -->
     <string name="chart_background_color">#d6d6d6</string>
