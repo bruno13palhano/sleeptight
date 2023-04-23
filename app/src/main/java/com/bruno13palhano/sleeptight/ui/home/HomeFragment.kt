@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentHomeBinding
@@ -15,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +28,10 @@ class HomeFragment : Fragment() {
 
         binding.uiEvents = this
 
+        if (!viewModel.isUserAuthenticated()) {
+            navigateToLogin()
+        }
+
         return view
     }
 
@@ -34,8 +40,8 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    fun navigateToAddNewNap() {
+    private fun navigateToLogin() {
         findNavController().navigate(
-            HomeFragmentDirections.actionHomeToDate())
+            HomeFragmentDirections.actionHomeToLogin())
     }
 }
