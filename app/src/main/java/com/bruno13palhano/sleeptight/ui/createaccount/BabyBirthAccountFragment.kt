@@ -5,7 +5,10 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -55,13 +58,21 @@ class BabyBirthAccountFragment : Fragment() {
                     }
                 }
                 launch {
-                    viewModel.height.collect {
+                    viewModel.loginStatus.collect {
+                        when (it) {
+                            CreateAccountViewModel.LoginStatus.Loading -> {
+                                onLoginLoading()
+                            }
+                            CreateAccountViewModel.LoginStatus.Success -> {
+                                onLoginSuccess()
+                            }
+                            CreateAccountViewModel.LoginStatus.Error -> {
+                                onLoginError()
+                            }
+                            CreateAccountViewModel.LoginStatus.Default -> {
 
-                    }
-                }
-                launch {
-                    viewModel.weight.collect {
-
+                            }
+                        }
                     }
                 }
             }
@@ -75,9 +86,22 @@ class BabyBirthAccountFragment : Fragment() {
         _binding = null
     }
 
-    fun navigateToHome() {
+    private fun onLoginSuccess() {
         findNavController().navigate(
             BabyBirthAccountFragmentDirections.actionBabyBirthToHome())
+    }
+
+    private fun onLoginError() {
+        binding.loginProgress.visibility = GONE
+        Toast.makeText(requireContext(), getString(R.string.create_account_error_label),
+            Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onLoginLoading() {
+        binding.loginProgress.visibility = VISIBLE
+    }
+
+    fun navigateToHome() {
         viewModel.insertUser()
     }
 
