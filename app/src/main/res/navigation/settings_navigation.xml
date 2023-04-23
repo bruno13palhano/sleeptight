@@ -9,5 +9,10 @@
         android:id="@+id/settingsFragment"
         android:name="com.bruno13palhano.sleeptight.ui.settings.SettingsFragment"
         android:label="@string/settings_label"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+
+        <action
+            android:id="@+id/action_settings_to_home"
+            app:destination="@id/home_navigation" />
+    </fragment>
 </navigation>
