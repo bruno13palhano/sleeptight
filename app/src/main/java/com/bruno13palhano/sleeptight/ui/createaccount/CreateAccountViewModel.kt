@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.authentication.DefaultUserFirebase
 import com.bruno13palhano.authentication.UserAuthentication
+import com.bruno13palhano.core.data.di.DefaultUserRep
+import com.bruno13palhano.core.data.repository.UserRepository
 import com.bruno13palhano.model.User
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -17,11 +19,13 @@ import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateAccountViewModel @Inject constructor(
-    @DefaultUserFirebase private val authentication: UserAuthentication
+    @DefaultUserFirebase private val authentication: UserAuthentication,
+    @DefaultUserRep private val userRepository: UserRepository
 ) : ViewModel() {
     private val calendar = Calendar.getInstance()
 
@@ -125,7 +129,23 @@ class CreateAccountViewModel @Inject constructor(
                 onSuccess = {
                     updateUserUrlPhoto(
                         photo = photo.value,
-                        onSuccess = {
+                        onSuccess = { newPhotoUrl, userUid ->
+                            viewModelScope.launch {
+                                userRepository.insertUser(
+                                    User(
+                                        id = userUid,
+                                        username = user.username,
+                                        email = user.email,
+                                        babyName = user.babyName,
+                                        babyUrlPhoto = newPhotoUrl,
+                                        birthplace = user.birthplace,
+                                        birthdate = user.birthdate,
+                                        birthTime = user.birthTime,
+                                        height = user.height,
+                                        weight = user.weight
+                                    )
+                                )
+                            }
                             _loginStatus.value = LoginStatus.Success
                             clearUserValues()
                         },
@@ -155,13 +175,13 @@ class CreateAccountViewModel @Inject constructor(
 
     private fun updateUserUrlPhoto(
         photo: Bitmap,
-        onSuccess: () -> Unit,
+        onSuccess: (newPhotoUrl: String, userUid: String) -> Unit,
         onFail: () -> Unit
     ) {
         authentication.updateUserUrlPhoto(
             photo = photo,
             onSuccess = { newPhotoUrl, userUid ->
-                onSuccess()
+                onSuccess(newPhotoUrl, userUid)
             },
             onFail = {
                 onFail()
