@@ -26,11 +26,11 @@ class ProfilePhotoLifecycleObserver(
                     if (Build.VERSION.SDK_INT < 28) {
                         val bitmapPhoto: Bitmap = MediaStore.Images.Media
                             .getBitmap(contentResolver, uri)
-                        photoListener.onSuccess(bitmapPhoto)
+                        photoListener.onSuccess(bitmapPhoto, uri.toString())
                     } else {
                         val source = ImageDecoder.createSource(contentResolver, uri)
                         val bitmapPhoto = ImageDecoder.decodeBitmap(source)
-                        photoListener.onSuccess(bitmapPhoto)
+                        photoListener.onSuccess(bitmapPhoto, uri.toString())
                     }
                 }
             } catch (ignored: Exception) {
@@ -45,6 +45,6 @@ class ProfilePhotoLifecycleObserver(
 }
 
 interface PhotoListener {
-    fun onSuccess(bitmap: Bitmap)
+    fun onSuccess(bitmap: Bitmap, uri: String)
     fun onFail()
 }
