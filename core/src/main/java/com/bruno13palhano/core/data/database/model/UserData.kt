@@ -31,7 +31,7 @@ internal data class UserData(
     val birthdate: Long,
 
     @ColumnInfo(name = "birth_time")
-    val birthTime: Long,
+    val birthtime: Long,
 
     @ColumnInfo(name = "height")
     val height: Float,
@@ -48,7 +48,7 @@ internal fun UserData.asUser() = User(
     babyUrlPhoto = babyUrlPhoto,
     birthplace = birthplace,
     birthdate = birthdate,
-    birthTime = birthTime,
+    birthtime = birthtime,
     height = height,
     weight = weight
 )
@@ -61,7 +61,7 @@ internal fun User.asUserData() = UserData(
     babyUrlPhoto = babyUrlPhoto,
     birthplace = birthplace,
     birthdate = birthdate,
-    birthTime = birthTime,
+    birthtime = birthtime,
     height = height,
     weight = weight
 )
