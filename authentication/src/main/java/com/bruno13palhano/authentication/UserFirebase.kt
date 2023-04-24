@@ -147,8 +147,8 @@ internal class UserFirebase @Inject constructor(
             "username" to user.username,
             "babyName" to user.babyName,
             "birthplace" to user.birthplace,
-            "birthDate" to user.birthdate,
-            "birthTime" to user.birthTime,
+            "birthdate" to user.birthdate,
+            "birthtime" to user.birthtime,
             "height" to user.height,
             "weight" to user.weight
         )
@@ -169,6 +169,28 @@ internal class UserFirebase @Inject constructor(
             }
             .addOnFailureListener {
                 callback.onFail()
+            }
+    }
+
+    override fun updateUserAttributesInFirebaseFirestore(
+        user: User,
+        userUid: String,
+        onSuccess: () -> Unit,
+        onFail: () -> Unit
+    ) {
+        val userRef = firebaseFirestore.collection("users").document(userUid)
+        userRef.update(
+            "birthplace", user.birthplace,
+            "birthdate", user.birthdate,
+            "birthTime", user.birthtime,
+            "height", user.height,
+            "weight", user.weight
+        )
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener {
+                onFail()
             }
     }
 

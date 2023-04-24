@@ -13,4 +13,6 @@ interface UserAuthentication {
         onFail: () -> Unit)
     fun updateUsername(username: String, onSuccess: (newUsername: String, userUid: String) -> Unit,
         onFail: () -> Unit)
+    fun updateUserAttributesInFirebaseFirestore(user: User, userUid: String, onSuccess: () -> Unit,
+        onFail: () -> Unit)
 }
