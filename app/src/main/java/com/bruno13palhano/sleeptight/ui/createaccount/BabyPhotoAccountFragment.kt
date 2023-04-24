@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import coil.load
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentBabyPhotoAccountBinding
 import kotlinx.coroutines.launch
@@ -38,8 +39,8 @@ class BabyPhotoAccountFragment : Fragment() {
             registry = requireActivity().activityResultRegistry,
             contentResolver = requireContext().contentResolver,
             photoListener = object : PhotoListener {
-                override fun onSuccess(bitmap: Bitmap) {
-                    viewModel.setPhoto(bitmap)
+                override fun onSuccess(bitmap: Bitmap, uri: String) {
+                    viewModel.setPhoto(bitmap, uri)
                 }
 
                 override fun onFail() {
@@ -51,8 +52,8 @@ class BabyPhotoAccountFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.photo.collect {
-                    binding.photo.setImageBitmap(it)
+                viewModel.photoUi.collect {
+                    binding.photo.load(it)
                 }
             }
         }
