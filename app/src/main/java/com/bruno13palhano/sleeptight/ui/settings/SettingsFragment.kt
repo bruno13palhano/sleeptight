@@ -190,6 +190,7 @@ class SettingsFragment : Fragment() {
     fun onDoneClick() {
         disableViews()
         viewModel.setEditable(false)
+        viewModel.updateUserValues()
     }
 
     private fun enableViews() {

@@ -7,6 +7,7 @@ import com.bruno13palhano.authentication.DefaultUserFirebase
 import com.bruno13palhano.authentication.UserAuthentication
 import com.bruno13palhano.core.data.di.DefaultUserRep
 import com.bruno13palhano.core.data.repository.UserRepository
+import com.bruno13palhano.model.User
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -101,10 +102,46 @@ class SettingsViewModel @Inject constructor(
             userRepository.getUserByIdStream(authentication.getCurrentUser().id).collect {
                 localUi.value = it.birthplace
                 date.value = it.birthdate
-                time.value = it.birthTime
+                time.value = it.birthtime
                 height.value = it.height
                 weight.value = it.weight
             }
+        }
+    }
+
+    fun updateUserValues() {
+        val currentUser = authentication.getCurrentUser()
+
+        val user = User(
+            id = currentUser.id,
+            username = currentUser.username,
+            email = currentUser.email,
+            babyName = currentUser.babyName,
+            babyUrlPhoto = currentUser.babyUrlPhoto,
+            birthplace = localUi.value,
+            birthdate = date.value,
+            birthtime = date.value,
+            height = height.value,
+            weight = weight.value
+        )
+
+        viewModelScope.launch {
+            authentication.updateUserAttributesInFirebaseFirestore(
+                user,
+                authentication.getCurrentUser().id,
+                onSuccess = {
+                    updateUserInDatabase(user)
+                },
+                onFail = {
+
+                }
+            )
+        }
+    }
+
+    private fun updateUserInDatabase(user: User) {
+        viewModelScope.launch {
+            userRepository.updateUser(user)
         }
     }
 
