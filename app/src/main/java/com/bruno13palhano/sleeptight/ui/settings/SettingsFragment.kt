@@ -15,6 +15,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import coil.load
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentSettingsBinding
 import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
@@ -42,6 +43,98 @@ class SettingsFragment : Fragment() {
         binding.uiEvents = this
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.babyNameUi.collect {
+                        binding.babyName.text = it
+                    }
+                }
+                launch {
+                    viewModel.photoUi.collect {
+                        binding.photo.load(it)
+                    }
+                }
+                launch {
+                    viewModel.isEditable.collect { isEditable ->
+                        binding.birthDateLabel.setOnClickListener {
+                            if (isEditable) {
+                                setDatePicker()
+                                datePicker.show(
+                                    parentFragmentManager.beginTransaction(),
+                                    "birth_date"
+                                )
+                            }
+                        }
+
+                        binding.timeLayout.setOnClickListener {
+                            if (isEditable) {
+                                setTimePicker()
+                                timePicker.show(
+                                    parentFragmentManager.beginTransaction(),
+                                    "birth_time"
+                                )
+                            }
+                        }
+
+                        binding.localLayout.setOnClickListener {
+                            if (isEditable) {
+                                val editLocalDialog = EditLocalDialog(
+                                    object : EditLocalDialog.EditDialogListener {
+                                        override fun onDialogPositiveClick(newValue: String) {
+                                            viewModel.localUi.value = newValue
+                                        }
+                                    },
+                                    getString(R.string.new_local_label),
+                                    R.drawable.baseline_location_on_24
+                                )
+                                editLocalDialog.show(
+                                    requireParentFragment().parentFragmentManager,
+                                    "edit_local"
+                                )
+                            }
+                        }
+
+                        binding.heightLayout.setOnClickListener {
+                            if (isEditable) {
+                                val editHeightDialog = EditFloatingInputDialog(
+                                    object : EditFloatingInputDialog.EditDialogListener {
+                                        override fun onDialogPositiveClick(newValue: Float) {
+                                            viewModel.setHeight(newValue)
+                                        }
+                                    },
+                                    getString(R.string.new_height_label),
+                                    R.drawable.baseline_square_foot_24
+                                )
+                                editHeightDialog.show(
+                                    requireParentFragment().parentFragmentManager,
+                                    "edit_height"
+                                )
+                            }
+                        }
+
+                        binding.weightLayout.setOnClickListener {
+                            if (isEditable) {
+                                val editWeightDialog = EditFloatingInputDialog(
+                                    object : EditFloatingInputDialog.EditDialogListener {
+                                        override fun onDialogPositiveClick(newValue: Float) {
+                                            viewModel.setWeight(newValue)
+                                        }
+                                    },
+                                    getString(R.string.new_weight_label),
+                                    R.drawable.baseline_balance_24
+                                )
+                                editWeightDialog.show(
+                                    requireParentFragment().parentFragmentManager,
+                                    "edit_weight"
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         return view
     }
@@ -73,86 +166,6 @@ class SettingsFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.isEditable.collect { isEditable ->
-                    binding.birthDateLabel.setOnClickListener {
-                        if (isEditable) {
-                            setDatePicker()
-                            datePicker.show(
-                                parentFragmentManager.beginTransaction(),
-                                "birth_date"
-                            )
-                        }
-                    }
-
-                    binding.timeLayout.setOnClickListener {
-                        if (isEditable) {
-                            setTimePicker()
-                            timePicker.show(
-                                parentFragmentManager.beginTransaction(),
-                                "birth_time"
-                            )
-                        }
-                    }
-
-                    binding.localLayout.setOnClickListener {
-                        if (isEditable) {
-                            val editLocalDialog = EditLocalDialog(
-                                object : EditLocalDialog.EditDialogListener {
-                                    override fun onDialogPositiveClick(newValue: String) {
-                                        viewModel.localUi.value = newValue
-                                    }
-                                },
-                                getString(R.string.new_local_label),
-                                R.drawable.baseline_location_on_24
-                            )
-                            editLocalDialog.show(
-                                requireParentFragment().parentFragmentManager,
-                                "edit_local"
-                            )
-                        }
-                    }
-
-                    binding.heightLayout.setOnClickListener {
-                        if (isEditable) {
-                            val editHeightDialog = EditFloatingInputDialog(
-                                object : EditFloatingInputDialog.EditDialogListener {
-                                    override fun onDialogPositiveClick(newValue: Float) {
-                                        viewModel.setHeight(newValue)
-                                    }
-                                },
-                                getString(R.string.new_height_label),
-                                R.drawable.baseline_square_foot_24
-                            )
-                            editHeightDialog.show(
-                                requireParentFragment().parentFragmentManager,
-                                "edit_height"
-                            )
-                        }
-                    }
-
-                    binding.weightLayout.setOnClickListener {
-                        if (isEditable) {
-                            val editWeightDialog = EditFloatingInputDialog(
-                                object : EditFloatingInputDialog.EditDialogListener {
-                                    override fun onDialogPositiveClick(newValue: Float) {
-                                        viewModel.setWeight(newValue)
-                                    }
-                                },
-                                getString(R.string.new_weight_label),
-                                R.drawable.baseline_balance_24
-                            )
-                            editWeightDialog.show(
-                                requireParentFragment().parentFragmentManager,
-                                "edit_weight"
-                            )
-                        }
-                    }
-                }
-            }
-        }
     }
 
     override fun onDestroyView() {
@@ -216,5 +229,6 @@ class SettingsFragment : Fragment() {
         binding.materialDivider4.setBackgroundColor(color)
         binding.materialDivider5.setBackgroundColor(color)
         binding.materialDivider6.setBackgroundColor(color)
+        binding.materialDivider7.setBackgroundColor(color)
     }
 }

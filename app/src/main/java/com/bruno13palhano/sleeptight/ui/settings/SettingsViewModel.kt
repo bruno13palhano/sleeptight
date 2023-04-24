@@ -97,9 +97,17 @@ class SettingsViewModel @Inject constructor(
         this.weight.value = weight
     }
 
+    private val babyName = MutableStateFlow("")
+    val babyNameUi = babyName.asStateFlow()
+
+    private val photo = MutableStateFlow("")
+    val photoUi = photo.asStateFlow()
+
     init {
         viewModelScope.launch {
             userRepository.getUserByIdStream(authentication.getCurrentUser().id).collect {
+                babyName.value = it.babyName
+                photo.value = it.babyUrlPhoto
                 localUi.value = it.birthplace
                 date.value = it.birthdate
                 time.value = it.birthtime
@@ -116,8 +124,8 @@ class SettingsViewModel @Inject constructor(
             id = currentUser.id,
             username = currentUser.username,
             email = currentUser.email,
-            babyName = currentUser.babyName,
-            babyUrlPhoto = currentUser.babyUrlPhoto,
+            babyName = babyName.value,
+            babyUrlPhoto = photo.value,
             birthplace = localUi.value,
             birthdate = date.value,
             birthtime = date.value,
