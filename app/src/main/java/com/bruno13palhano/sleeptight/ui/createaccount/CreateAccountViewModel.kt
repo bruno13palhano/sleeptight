@@ -39,10 +39,12 @@ class CreateAccountViewModel @Inject constructor(
     val birthplace = MutableStateFlow("")
 
     private val _photo = MutableStateFlow(createBitmap(1,1))
-    val photo = _photo.asStateFlow()
+    private val _photoUi = MutableStateFlow("")
+    val photoUi = _photoUi.asStateFlow()
 
-    fun setPhoto(photo: Bitmap) {
+    fun setPhoto(photo: Bitmap, uri: String) {
         _photo.value = photo
+        _photoUi.value = uri
     }
 
     private val _date = MutableStateFlow(MaterialDatePicker.todayInUtcMilliseconds())
@@ -128,7 +130,7 @@ class CreateAccountViewModel @Inject constructor(
                 user = user,
                 onSuccess = {
                     updateUserUrlPhoto(
-                        photo = photo.value,
+                        photo = _photo.value,
                         onSuccess = { newPhotoUrl, userUid ->
                             viewModelScope.launch {
                                 userRepository.insertUser(
@@ -166,6 +168,7 @@ class CreateAccountViewModel @Inject constructor(
         email.value = ""
         password.value = ""
         _photo.value = createBitmap(1,1)
+        _photoUi.value = ""
         birthplace.value = ""
         _date.value = MaterialDatePicker.todayInUtcMilliseconds()
         _time.value = calendar.timeInMillis
