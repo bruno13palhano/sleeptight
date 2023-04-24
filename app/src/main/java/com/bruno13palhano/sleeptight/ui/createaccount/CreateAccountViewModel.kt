@@ -117,7 +117,7 @@ class CreateAccountViewModel @Inject constructor(
             babyName = babyName.value,
             birthplace = birthplace.value,
             birthdate = _date.value,
-            birthTime = _time.value,
+            birthtime = _time.value,
             height = _height.value,
             weight = _weight.value
         )
@@ -140,7 +140,7 @@ class CreateAccountViewModel @Inject constructor(
                                         babyUrlPhoto = newPhotoUrl,
                                         birthplace = user.birthplace,
                                         birthdate = user.birthdate,
-                                        birthTime = user.birthTime,
+                                        birthtime = user.birthtime,
                                         height = user.height,
                                         weight = user.weight
                                     )
