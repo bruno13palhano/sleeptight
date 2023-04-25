@@ -35,11 +35,18 @@ internal class UserFirebase @Inject constructor(
             }
     }
 
-    override fun login(email: String, password: String, onSuccess: () -> Unit, onFail: () -> Unit) {
+    override fun login(email: String, password: String, onSuccess: (user: User) -> Unit, onFail: () -> Unit) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    onSuccess()
+                    getCurrentUser(
+                        onSuccess = { user ->
+                            onSuccess(user)
+                        },
+                        onFail = {
+
+                        }
+                    )
                 } else {
                     onFail()
                 }
@@ -61,6 +68,37 @@ internal class UserFirebase @Inject constructor(
             email = auth.currentUser?.email ?: "",
             babyUrlPhoto = auth.currentUser?.photoUrl.toString()
         )
+    }
+
+    private fun getCurrentUser(
+        onSuccess: (user: User) -> Unit,
+        onFail: () -> Unit
+    ) {
+        val id = auth.currentUser?.uid ?: ""
+        val username = auth.currentUser?.displayName ?: ""
+        val email = auth.currentUser?.email ?: ""
+        val babyUrlPhoto = auth.currentUser?.photoUrl.toString()
+
+        val userRef = firebaseFirestore.collection("users").document(id)
+        userRef.get()
+            .addOnSuccessListener {
+                val currentUser = User(
+                    id = id,
+                    username = username,
+                    email = email,
+                    babyName = it["babyName"].toString(),
+                    babyUrlPhoto = babyUrlPhoto,
+                    birthplace = it["birthplace"].toString(),
+                    birthdate = it["birthdate"] as Long,
+                    birthtime = it["birthtime"] as Long,
+                    height = (it["height"] as Double).toFloat(),
+                    weight = (it["weight"] as Double).toFloat()
+                )
+                onSuccess(currentUser)
+            }
+            .addOnFailureListener {
+                onFail()
+            }
     }
 
     override fun updateUserUrlPhoto(
@@ -172,20 +210,94 @@ internal class UserFirebase @Inject constructor(
             }
     }
 
-    override fun updateUserAttributesInFirebaseFirestore(
-        user: User,
+    override fun updateUserBabyNameInFirebaseFirestore(
+        babyName: String,
         userUid: String,
         onSuccess: () -> Unit,
         onFail: () -> Unit
     ) {
         val userRef = firebaseFirestore.collection("users").document(userUid)
-        userRef.update(
-            "birthplace", user.birthplace,
-            "birthdate", user.birthdate,
-            "birthTime", user.birthtime,
-            "height", user.height,
-            "weight", user.weight
-        )
+        userRef.update("babyName", babyName)
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener {
+                onFail()
+            }
+    }
+
+    override fun updateUserBirthplaceInFirebaseFirestore(
+        birthplace: String,
+        userUid: String,
+        onSuccess: () -> Unit,
+        onFail: () -> Unit
+    ) {
+        val userRef = firebaseFirestore.collection("users").document(userUid)
+        userRef.update("birthplace", birthplace)
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener {
+                onFail()
+            }
+    }
+
+    override fun updateUserBirthdateInFirebaseFirestore(
+        birthdate: Long,
+        userUid: String,
+        onSuccess: () -> Unit,
+        onFail: () -> Unit
+    ) {
+        val userRef = firebaseFirestore.collection("users").document(userUid)
+        userRef.update("birthdate", birthdate)
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener {
+                onFail()
+            }
+    }
+
+    override fun updateUserBirthtimeInFirebaseFirestore(
+        birthtime: Long,
+        userUid: String,
+        onSuccess: () -> Unit,
+        onFail: () -> Unit
+    ) {
+        val userRef = firebaseFirestore.collection("users").document(userUid)
+        userRef.update("birthtime", birthtime)
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener {
+                onFail()
+            }
+    }
+
+    override fun updateUserHeightInFirebaseFirestore(
+        height: Float,
+        userUid: String,
+        onSuccess: () -> Unit,
+        onFail: () -> Unit
+    ) {
+        val userRef = firebaseFirestore.collection("users").document(userUid)
+        userRef.update("height", height)
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener {
+                onFail()
+            }
+    }
+
+    override fun updateUserWeightInFirebaseFirestore(
+        weight: Float,
+        userUid: String,
+        onSuccess: () -> Unit,
+        onFail: () -> Unit
+    ) {
+        val userRef = firebaseFirestore.collection("users").document(userUid)
+        userRef.update("weight", weight)
             .addOnSuccessListener {
                 onSuccess()
             }
