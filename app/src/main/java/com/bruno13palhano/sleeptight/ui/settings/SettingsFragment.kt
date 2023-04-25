@@ -1,5 +1,6 @@
 package com.bruno13palhano.sleeptight.ui.settings
 
+import android.graphics.Bitmap
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.TypedValue
@@ -18,6 +19,8 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentSettingsBinding
+import com.bruno13palhano.sleeptight.ui.createaccount.PhotoListener
+import com.bruno13palhano.sleeptight.ui.createaccount.ProfilePhotoLifecycleObserver
 import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -31,6 +34,7 @@ class SettingsFragment : Fragment() {
     private val viewModel: SettingsViewModel by viewModels()
     private lateinit var datePicker: MaterialDatePicker<Long>
     private lateinit var timePicker: MaterialTimePicker
+    private lateinit var photoObserver: ProfilePhotoLifecycleObserver
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +47,21 @@ class SettingsFragment : Fragment() {
         binding.uiEvents = this
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+
+        photoObserver = ProfilePhotoLifecycleObserver(
+            registry = requireActivity().activityResultRegistry,
+            contentResolver = requireContext().contentResolver,
+            photoListener = object : PhotoListener {
+                override fun onSuccess(bitmap: Bitmap, uri: String) {
+                    viewModel.setBabyPhoto(bitmap, uri)
+                }
+
+                override fun onFail() {
+
+                }
+            }
+        )
+        lifecycle.addObserver(photoObserver)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -58,6 +77,12 @@ class SettingsFragment : Fragment() {
                 }
                 launch {
                     viewModel.isEditable.collect { isEditable ->
+                        binding.photo.setOnClickListener {
+                            if (isEditable) {
+                                photoObserver.selectImage()
+                            }
+                        }
+
                         binding.birthDateLabel.setOnClickListener {
                             if (isEditable) {
                                 setDatePicker()
