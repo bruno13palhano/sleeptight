@@ -10,7 +10,7 @@ import com.bruno13palhano.sleeptight.R
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-class EditLocalDialog(
+class EditStringDialog(
     private val listener: EditDialogListener,
     private val hint: String,
     private val drawable: Int

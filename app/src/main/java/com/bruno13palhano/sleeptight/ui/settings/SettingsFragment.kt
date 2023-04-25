@@ -85,8 +85,8 @@ class SettingsFragment : Fragment() {
 
                         binding.babyName.setOnClickListener {
                             if (isEditable) {
-                                val editBabyNameDialog = EditLocalDialog(
-                                    object : EditLocalDialog.EditDialogListener {
+                                val editBabyNameDialog = EditStringDialog(
+                                    object : EditStringDialog.EditDialogListener {
                                         override fun onDialogPositiveClick(newValue: String) {
                                             if (newValue != "")
                                                 viewModel.setBabyName(newValue)
@@ -124,8 +124,8 @@ class SettingsFragment : Fragment() {
 
                         binding.localLayout.setOnClickListener {
                             if (isEditable) {
-                                val editLocalDialog = EditLocalDialog(
-                                    object : EditLocalDialog.EditDialogListener {
+                                val editLocalDialog = EditStringDialog(
+                                    object : EditStringDialog.EditDialogListener {
                                         override fun onDialogPositiveClick(newValue: String) {
                                             if (newValue != "")
                                                 viewModel.localUi.value = newValue
