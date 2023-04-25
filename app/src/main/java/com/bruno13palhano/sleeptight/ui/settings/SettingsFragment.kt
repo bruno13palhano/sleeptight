@@ -83,6 +83,25 @@ class SettingsFragment : Fragment() {
                             }
                         }
 
+                        binding.babyName.setOnClickListener {
+                            if (isEditable) {
+                                val editBabyNameDialog = EditLocalDialog(
+                                    object : EditLocalDialog.EditDialogListener {
+                                        override fun onDialogPositiveClick(newValue: String) {
+                                            if (newValue != "")
+                                                viewModel.setBabyName(newValue)
+                                        }
+                                    },
+                                    "New baby name",
+                                    R.drawable.baseline_child_friendly_24
+                                )
+                                editBabyNameDialog.show(
+                                    requireParentFragment().parentFragmentManager,
+                                    "edit_baby_name"
+                                )
+                            }
+                        }
+
                         binding.birthDateLabel.setOnClickListener {
                             if (isEditable) {
                                 setDatePicker()
@@ -108,7 +127,8 @@ class SettingsFragment : Fragment() {
                                 val editLocalDialog = EditLocalDialog(
                                     object : EditLocalDialog.EditDialogListener {
                                         override fun onDialogPositiveClick(newValue: String) {
-                                            viewModel.localUi.value = newValue
+                                            if (newValue != "")
+                                                viewModel.localUi.value = newValue
                                         }
                                     },
                                     getString(R.string.new_local_label),

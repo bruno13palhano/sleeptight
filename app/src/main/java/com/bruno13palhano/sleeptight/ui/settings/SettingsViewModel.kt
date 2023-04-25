@@ -102,6 +102,10 @@ class SettingsViewModel @Inject constructor(
     private val babyName = MutableStateFlow("")
     val babyNameUi = babyName.asStateFlow()
 
+    fun setBabyName(babyName: String) {
+        this.babyName.value = babyName
+    }
+
     private val photo = MutableStateFlow("")
     val photoUi = photo.asStateFlow()
     private val bitmapPhoto = MutableStateFlow(createBitmap(1, 1))
