@@ -1,6 +1,8 @@
 package com.bruno13palhano.sleeptight.ui.settings
 
+import android.graphics.Bitmap
 import android.icu.text.DateFormat
+import androidx.core.graphics.createBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.authentication.DefaultUserFirebase
@@ -102,10 +104,19 @@ class SettingsViewModel @Inject constructor(
 
     private val photo = MutableStateFlow("")
     val photoUi = photo.asStateFlow()
+    private val bitmapPhoto = MutableStateFlow(createBitmap(1, 1))
+
+    fun setBabyPhoto(bitmap: Bitmap, uri: String) {
+        bitmapPhoto.value = bitmap
+        photo.value = uri
+    }
+
+    private lateinit var userInDB: User
 
     init {
         viewModelScope.launch {
             userRepository.getUserByIdStream(authentication.getCurrentUser().id).collect {
+                userInDB = it
                 babyName.value = it.babyName
                 photo.value = it.babyUrlPhoto
                 localUi.value = it.birthplace
@@ -128,28 +139,111 @@ class SettingsViewModel @Inject constructor(
             babyUrlPhoto = photo.value,
             birthplace = localUi.value,
             birthdate = date.value,
-            birthtime = date.value,
+            birthtime = time.value,
             height = height.value,
             weight = weight.value
         )
 
-        viewModelScope.launch {
-            authentication.updateUserAttributesInFirebaseFirestore(
-                user,
-                authentication.getCurrentUser().id,
-                onSuccess = {
-                    updateUserInDatabase(user)
-                },
-                onFail = {
-
-                }
-            )
+        if (userInDB != user) {
+            if (userInDB.babyUrlPhoto != user.babyUrlPhoto) {
+                authentication.updateUserUrlPhoto(
+                    photo = bitmapPhoto.value,
+                    onSuccess = { newPhotoUrl, userUid ->
+                        updateUserPhotoInDatabase(newPhotoUrl, userUid)
+                    },
+                    onFail = {}
+                )
+            }
+            if (userInDB.babyName != user.babyName) {
+                authentication.updateUserBabyNameInFirebaseFirestore(
+                    babyName = user.babyName,
+                    userUid = user.id,
+                    onSuccess = { updateUserBabyNameInDataBase(user.babyName, user.id) },
+                    onFail = {}
+                )
+            }
+            if (userInDB.birthplace != user.birthplace) {
+                authentication.updateUserBirthplaceInFirebaseFirestore(
+                    birthplace = user.birthplace,
+                    userUid = user.id,
+                    onSuccess = { updateUserBirthplaceInDatabase(user.birthplace, user.id) },
+                    onFail = {}
+                )
+            }
+            if (userInDB.birthdate != user.birthdate) {
+                authentication.updateUserBirthdateInFirebaseFirestore(
+                    birthdate = user.birthdate,
+                    userUid = user.id,
+                    onSuccess = { updateUserBirthdateInDatabase(user.birthdate, user.id) },
+                    onFail = {}
+                )
+            }
+            if (userInDB.birthtime != user.birthtime) {
+                authentication.updateUserBirthtimeInFirebaseFirestore(
+                    birthtime = user.birthtime,
+                    userUid = user.id,
+                    onSuccess = { updateUserBirthtimeInDatabase(user.birthtime, user.id) },
+                    onFail = {}
+                )
+            }
+            if (userInDB.height != user.height) {
+                authentication.updateUserHeightInFirebaseFirestore(
+                    height = user.height,
+                    userUid = user.id,
+                    onSuccess = { updateUserHeight(user.height, user.id) },
+                    onFail = {}
+                )
+            }
+            if (userInDB.weight != user.weight) {
+                authentication.updateUserWeightInFirebaseFirestore(
+                    weight = user.weight,
+                    userUid = user.id,
+                    onSuccess = { updateUserWeight(user.weight, user.id) },
+                    onFail = {}
+                )
+            }
         }
     }
 
-    private fun updateUserInDatabase(user: User) {
+    private fun updateUserPhotoInDatabase(urlPhoto: String, id: String) {
         viewModelScope.launch {
-            userRepository.updateUser(user)
+            userRepository.updateUserUrlPhoto(urlPhoto, id)
+        }
+    }
+
+    private fun updateUserBabyNameInDataBase(babyName: String, id: String) {
+        viewModelScope.launch {
+            userRepository.updateUserBabyName(babyName, id)
+        }
+    }
+
+    private fun updateUserBirthplaceInDatabase(birthplace: String, id: String) {
+        viewModelScope.launch {
+            userRepository.updateUserBirthplace(birthplace, id)
+        }
+    }
+
+    private fun updateUserBirthdateInDatabase(birthdate: Long, id: String) {
+        viewModelScope.launch {
+            userRepository.updateUserBirthdate(birthdate, id)
+        }
+    }
+
+    private fun updateUserBirthtimeInDatabase(birthtime: Long, id: String) {
+        viewModelScope.launch {
+            userRepository.updateUserBirthtime(birthtime, id)
+        }
+    }
+
+    private fun updateUserHeight(height: Float, id: String) {
+        viewModelScope.launch {
+            userRepository.updateUserHeight(height, id)
+        }
+    }
+
+    private fun updateUserWeight(weight: Float, id: String) {
+        viewModelScope.launch {
+            userRepository.updateUserWeight(weight, id)
         }
     }
 
