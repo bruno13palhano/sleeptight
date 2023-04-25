@@ -34,7 +34,9 @@ class EditFloatingInputDialog(
 
             builder.setView(view)
                 .setPositiveButton(getString(R.string.ok_label)) { _, _ ->
-                    listener.onDialogPositiveClick(edit.text.toString().toFloat())
+                    try {
+                        listener.onDialogPositiveClick(edit.text.toString().toFloat())
+                    } catch (ignored: Exception) {}
                 }
                 .setNegativeButton(getString(R.string.cancel_label)) { dialog, _ ->
                     dialog.cancel()
