@@ -5,8 +5,6 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaItem.SubtitleConfiguration
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.datasource.RawResourceDataSource
-import com.bruno13palhano.sleeptight.R
 import com.google.common.collect.ImmutableList
 
 @UnstableApi object MediaItemTree {
@@ -110,44 +108,7 @@ import com.google.common.collect.ImmutableList
         treeNodes[ROOT_ID]!!.addChild(ARTIST_ID)
         treeNodes[ROOT_ID]!!.addChild(GENRE_ID)
 
-        val sleepMusics = listOf(
-            SleepMusic(
-                id = "gusttavo_lima_01",
-                title = "Bloqueado",
-                album = "Ao vivo",
-                artist = "Gusttavo Lima",
-                genre = "Sertanejo",
-                source = RawResourceDataSource.buildRawResourceUri(R.raw.bloqueado),
-                image = null
-            ),
-            SleepMusic(
-                id = "gusttavo_lima_02",
-                title = "Ficha limpa",
-                album = "Ao vivo",
-                artist = "Gusttavo Lima",
-                genre = "Sertanejo",
-                source = RawResourceDataSource.buildRawResourceUri(R.raw.ficha_limpa),
-                image = null
-            ),
-            SleepMusic(
-                id = "gusttavo_lima_03",
-                title = "Não me arranha",
-                album = "Ao vivo",
-                artist = "Gusttavo Lima",
-                genre = "Sertanejo",
-                source = RawResourceDataSource.buildRawResourceUri(R.raw.nao_me_arranha),
-                image = null
-            ),
-            SleepMusic(
-                id = "gusttavo_lima_04",
-                title = "Quebrando protocolo",
-                album = "Ao vivo",
-                artist = "Gusttavo Lima",
-                genre = "Sertanejo",
-                source = RawResourceDataSource.buildRawResourceUri(R.raw.quebrando_protocolo),
-                image = null
-            )
-        )
+        val sleepMusics = ListOfMusics.sleepMusics
 
         sleepMusics.forEach { sleepMusic ->
             addNodeToTree(sleepMusic)
