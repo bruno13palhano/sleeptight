@@ -1,94 +1,55 @@
 package com.bruno13palhano.sleeptight.ui.mediaplayer
 
 import android.content.ComponentName
-import android.media.AudioManager
-import android.net.Uri
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.support.v4.media.MediaBrowserCompat
-import android.support.v4.media.MediaMetadataCompat
-import android.support.v4.media.session.MediaControllerCompat
-import android.support.v4.media.session.PlaybackStateCompat
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.media3.common.MediaItem
-import androidx.media3.common.util.RepeatModeUtil
+import androidx.lifecycle.lifecycleScope
+import androidx.media3.common.*
+import androidx.media3.common.C.TRACK_TYPE_TEXT
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.common.util.UriUtil
-import androidx.media3.common.util.Util
-import androidx.media3.datasource.RawResourceDataSource
-import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.session.MediaBrowser
+import androidx.media3.session.MediaController
+import androidx.media3.session.MediaLibraryService.LibraryParams
+import androidx.media3.session.SessionToken
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentMediaPlayerBinding
+import com.google.common.util.concurrent.ListenableFuture
+import com.google.common.util.concurrent.MoreExecutors
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @UnstableApi class MediaPlayerFragment : Fragment() {
     private var _binding: FragmentMediaPlayerBinding? = null
     private val binding get() = _binding!!
 
-    private var player: ExoPlayer? = null
-    private var playWhenReady = true
-    private var currentItem = 0
-    private var playbackPosition = 0L
+    private lateinit var browserFuture: ListenableFuture<MediaBrowser>
+    private val browser: MediaBrowser?
+        get() = if (browserFuture.isDone) browserFuture.get() else null
 
+    private lateinit var controllerFuture: ListenableFuture<MediaController>
+    private val controller: MediaController?
+        get() = if (controllerFuture.isDone) controllerFuture.get() else null
 
-    private lateinit var mediaBrowser: MediaBrowserCompat
+    private lateinit var mediaListAdapter: PlayingMediaItemArrayAdapter
+    private val subItemMediaLst: MutableList<MediaItem> = mutableListOf()
 
-    private val controllerCallback = object : MediaControllerCompat.Callback() {
-
-        override fun onSessionDestroyed() {
-            mediaBrowser.disconnect()
+    companion object {
+        private const val MEDIA_ITEM_ID_KEY = "MEDIA_ITEM_ID_KEY"
+        fun createIntent(context: Context, mediaItemID: String): Intent {
+            val intent = Intent(context, MediaPlayerFragment::class.java)
+            intent.putExtra(MEDIA_ITEM_ID_KEY, mediaItemID)
+            return intent
         }
-
-        override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-
-        }
-
-        override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-
-        }
-    }
-
-    private val connectionCallback = object : MediaBrowserCompat.ConnectionCallback() {
-
-        override fun onConnected() {
-            mediaBrowser.sessionToken.also { token ->
-                val mediaController = MediaControllerCompat(
-                    requireActivity(),
-                    token
-                )
-                MediaControllerCompat.setMediaController(requireActivity(), mediaController)
-            }
-
-            buildTransportControls()
-        }
-
-        override fun onConnectionSuspended() {
-
-        }
-
-        override fun onConnectionFailed() {
-
-        }
-    }
-
-    fun buildTransportControls() {
-        val mediaController = MediaControllerCompat.getMediaController(requireActivity())
-
-        binding.videoView.setOnClickListener {
-            val pbState = mediaController.playbackState.state
-            if (pbState == PlaybackStateCompat.STATE_PLAYING) {
-                mediaController.transportControls.pause()
-            } else {
-                mediaController.transportControls.play()
-            }
-        }
-
-        mediaController.registerCallback(controllerCallback)
     }
 
     override fun onCreateView(
@@ -99,90 +60,232 @@ import com.bruno13palhano.sleeptight.databinding.FragmentMediaPlayerBinding
             .inflate(inflater, R.layout.fragment_media_player, container, false)
         val view = binding.root
 
-        mediaBrowser = MediaBrowserCompat(
-            requireActivity(),
-            ComponentName(requireActivity(), MediaPlaybackService::class.java),
-            connectionCallback,
-            null
-        )
+        mediaListAdapter = PlayingMediaItemArrayAdapter(requireActivity(), R.layout.fragment_media_player, subItemMediaLst)
+        binding.currentPlayingList.adapter = mediaListAdapter
+        binding.currentPlayingList.setOnItemClickListener { adapterView, view, position, l ->
+            val controller = this.controller ?: return@setOnItemClickListener
+            controller.seekToDefaultPosition(position)
+            mediaListAdapter.notifyDataSetChanged()
+
+        }
+
+        binding.shuffleSwitch.setOnClickListener {
+            val controller = this.controller ?: return@setOnClickListener
+            controller.shuffleModeEnabled = !controller.shuffleModeEnabled
+        }
+
+        binding.repeatSwitch.setOnClickListener {
+            val controller = this.controller ?: return@setOnClickListener
+            when (controller.repeatMode) {
+                Player.REPEAT_MODE_ALL -> controller.repeatMode = Player.REPEAT_MODE_OFF
+                Player.REPEAT_MODE_OFF -> controller.repeatMode = Player.REPEAT_MODE_ONE
+                Player.REPEAT_MODE_ONE -> controller.repeatMode = Player.REPEAT_MODE_ALL
+            }
+        }
+
+        binding.playerView.setOnClickListener {
+            val browser = this.browser ?: return@setOnClickListener
+            browser.setMediaItems(subItemMediaLst)
+        }
 
         return view
     }
 
-    private fun initializePlayer() {
-
-        player = ExoPlayer.Builder(requireContext())
-            .build()
-            .also { exoPlayer ->
-                binding.videoView.player = exoPlayer
-                val mediaItem1 = MediaItem.Builder()
-                    .setUri(RawResourceDataSource.buildRawResourceUri(R.raw.bloqueado))
-                    .setTag("name")
-                    .build()
-                exoPlayer.setMediaItem(mediaItem1)
-                val mediaItem2 = MediaItem.fromUri(
-                    RawResourceDataSource.buildRawResourceUri(R.raw.ficha_limpa))
-                exoPlayer.addMediaItem(mediaItem2)
-                val mediaItem3 = MediaItem.fromUri(
-                    RawResourceDataSource.buildRawResourceUri(R.raw.nao_me_arranha))
-                exoPlayer.addMediaItem(mediaItem3)
-                val mediaItem4 = MediaItem.fromUri(
-                    RawResourceDataSource.buildRawResourceUri(R.raw.quebrando_protocolo))
-                exoPlayer.addMediaItem(mediaItem4)
-                exoPlayer.playWhenReady = playWhenReady
-                exoPlayer.seekTo(currentItem, playbackPosition)
-                exoPlayer.prepare()
-            }
-    }
-
     override fun onStart() {
         super.onStart()
-        if (Util.SDK_INT > 23) {
-//            initializePlayer()
-        }
-        mediaBrowser.connect()
+        initializeController()
+        initializerBrowser()
     }
 
     override fun onResume() {
         super.onResume()
-        if ((Util.SDK_INT <= 23 || player == null)) {
-//            initializePlayer()
-        }
-        requireActivity().volumeControlStream = AudioManager.STREAM_MUSIC
+        binding.playerView.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        if (Util.SDK_INT <= 23) {
-            releasePlayer()
-        }
+        binding.playerView.onPause()
     }
 
     override fun onStop() {
         super.onStop()
-        if (Util.SDK_INT > 23) {
-            releasePlayer()
-        }
-        MediaControllerCompat.getMediaController(requireActivity())?.unregisterCallback(controllerCallback)
-        mediaBrowser.disconnect()
+        binding.playerView.player = null
+        releaseController()
+        releaseBrowser()
     }
 
-    private fun hideSystemUi() {
-        WindowCompat.setDecorFitsSystemWindows(requireActivity().window, false)
-        WindowInsetsControllerCompat(requireActivity().window, binding.videoView).let { controller ->
-            controller.hide(WindowInsetsCompat.Type.systemBars())
-            controller.systemBarsBehavior =
-                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
-    private fun releasePlayer() {
-        player?.let { exoPlayer ->
-            playbackPosition = exoPlayer.currentPosition
-            currentItem = exoPlayer.currentMediaItemIndex
-            playWhenReady = exoPlayer.playWhenReady
-            exoPlayer.release()
+    private fun initializerBrowser() {
+        browserFuture =
+            MediaBrowser.Builder(
+                requireActivity(),
+                SessionToken(requireActivity(), ComponentName(requireActivity(), PlaybackService::class.java))
+            )
+                .buildAsync()
+        browserFuture.addListener({ displayFolder() }, ContextCompat.getMainExecutor(requireActivity()))
+    }
+
+    private fun releaseBrowser() {
+        MediaBrowser.releaseFuture(browserFuture)
+    }
+
+    private fun displayFolder() {
+        val browser = this.browser ?: return
+//        val id: String = requireActivity().intent.getStringExtra(MEDIA_ITEM_ID_KEY)!!
+
+        val li = browser.getChildren("[artist]Gusttavo Lima", 0, Int.MAX_VALUE, null)
+        li.addListener({
+//            val result = li.get()!!
+//            result.value?.forEach {
+//                subItemMediaLst.add(it)
+//                println("mediaItem: ${it.mediaId}")
+//            }
+//            browser.setMediaItems(subItemMediaLst)
+//            binding.playerView.player?.setMediaItems(subItemMediaLst)
+
+        }, ContextCompat.getMainExecutor(requireActivity()))
+
+        val mediaItemFuture = browser.getItem("[item]gusttavo_lima_01")
+        val childrenFuture = browser.getChildren("[genreID]",0, Int.MAX_VALUE,null)
+
+        mediaItemFuture.addListener(
+            {
+                val result = mediaItemFuture.get()!!
+                println("reuslt aquiuiuasiduif: ${result.value?.mediaMetadata?.title}")
+//                result.value?.let {
+//                    subItemMediaLst.add(0, it)
+//                    browser.setMediaItem(it)
+//                    println("não toca ")
+//                }
+            }, ContextCompat.getMainExecutor(requireActivity())
+        )
+
+        childrenFuture.addListener(
+            {
+                val result = childrenFuture.get()
+                val children = result.value
+
+//                subItemMediaLst.clear()
+//                subItemMediaLst.addAll(children!!)
+            }, ContextCompat.getMainExecutor(requireActivity())
+        )
+    }
+
+    private fun initializeController() {
+        controllerFuture = MediaController.Builder(
+            requireActivity(),
+                SessionToken(requireActivity(), ComponentName(requireActivity(), PlaybackService::class.java))
+            )
+            .buildAsync()
+        controllerFuture.addListener({ setController() }, MoreExecutors.directExecutor())
+    }
+
+    private fun releaseController() {
+        MediaController.releaseFuture(controllerFuture)
+    }
+
+    private fun setController() {
+        val controller = this.controller ?: return
+
+        binding.playerView.player = controller
+
+        updateCurrentPlaylistUI()
+        updateMediaMetadataUI(controller.mediaMetadata)
+        updateShuffleSwitchUI(controller.shuffleModeEnabled)
+        updateRepeatSwitchUI(controller.repeatMode)
+        binding.playerView.setShowSubtitleButton(controller.currentTracks.isTypeSupported(
+            TRACK_TYPE_TEXT))
+
+        controller.addListener(
+            object : Player.Listener {
+                override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                    updateMediaMetadataUI(mediaItem?.mediaMetadata ?: MediaMetadata.EMPTY)
+                }
+
+                override fun onShuffleModeEnabledChanged(shuffleModeEnabled: Boolean) {
+                    updateShuffleSwitchUI(shuffleModeEnabled)
+                }
+
+                override fun onRepeatModeChanged(repeatMode: Int) {
+                    updateRepeatSwitchUI(repeatMode)
+                }
+
+                override fun onTracksChanged(tracks: Tracks) {
+                    binding.playerView.setShowSubtitleButton(tracks.isTypeSelected(TRACK_TYPE_TEXT))
+                }
+            }
+        )
+    }
+
+    private fun updateShuffleSwitchUI(shuffleModeModeEnabled: Boolean) {
+        val resId =
+            if (shuffleModeModeEnabled) R.drawable.baseline_shuffle_on_24
+            else R.drawable.baseline_shuffle_24
+        binding.shuffleSwitch.setImageDrawable(ContextCompat.getDrawable(requireActivity(), resId))
+    }
+
+    private fun updateRepeatSwitchUI(repeatMode: Int) {
+        val resId: Int =
+            when (repeatMode) {
+                Player.REPEAT_MODE_OFF -> R.drawable.baseline_repeat_one_24
+                Player.REPEAT_MODE_ONE -> R.drawable.baseline_repeat_one_on_24
+                Player.REPEAT_MODE_ALL -> R.drawable.baseline_repeat_24
+                else -> R.drawable.baseline_repeat_one_24
+            }
+        binding.repeatSwitch.setImageDrawable(ContextCompat.getDrawable(requireActivity(), resId))
+    }
+
+    private fun updateMediaMetadataUI(mediaMetadata: MediaMetadata) {
+        val title: CharSequence = mediaMetadata.title ?: "No media in the play list"
+
+        binding.videoTitle.text = title
+        binding.videoAlbum.text = mediaMetadata.albumTitle
+        binding.videoArtist.text = mediaMetadata.artist
+        binding.videoGenre.text = mediaMetadata.genre
+
+        mediaListAdapter.notifyDataSetChanged()
+    }
+
+    private fun updateCurrentPlaylistUI() {
+        val controller = this.controller ?: return
+        subItemMediaLst.clear()
+        for (i in 0 until controller.mediaItemCount) {
+            println("aqui")
+            subItemMediaLst.add(controller.getMediaItemAt(i))
         }
-        player = null
+
+        mediaListAdapter.notifyDataSetChanged()
+    }
+
+    private inner class PlayingMediaItemArrayAdapter(
+        context: Context,
+        viewID: Int,
+        mediaItemList: List<MediaItem>
+    ) : ArrayAdapter<MediaItem>(context, viewID, mediaItemList) {
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val mediaItem = getItem(position)!!
+            val returnConvertView =
+                convertView ?: LayoutInflater.from(context).inflate(R.layout.playlist_items, parent, false)
+
+            returnConvertView.findViewById<TextView>(R.id.media_item).text = mediaItem.mediaMetadata.title
+
+            if (position == controller?.currentMediaItemIndex) {
+                returnConvertView.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+                returnConvertView
+                    .findViewById<TextView>(R.id.media_item)
+                    .setTextColor(ContextCompat.getColor(context, R.color.black))
+            } else {
+                returnConvertView.setBackgroundColor(ContextCompat.getColor(context, R.color.black))
+                returnConvertView
+                    .findViewById<TextView>(R.id.media_item)
+                    .setTextColor(ContextCompat.getColor(context, R.color.white))
+            }
+
+            return returnConvertView
+        }
     }
 }
