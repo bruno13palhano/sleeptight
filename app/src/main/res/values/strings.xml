@@ -110,4 +110,15 @@
     <string name="october_indigo_label">#4B0082</string>
     <string name="november_gold_label">#FFD700</string>
     <string name="december_dark_red_label">#8B0000</string>
+
+    <!-- Media player labels -->
+    <string name="shuffle_on_description">Enable shuffle mode</string>
+    <string name="shuffle_off_description">Disable shuffle mode</string>
+    <string name="notification_channel_name">Playback cannot be resumed</string>
+    <string name="notification_content_title">Playback cannot be resumed</string>
+    <string name="notification_content_text">Press on the play button on the media notification if it
+    is still present, otherwise please open the app to start the playback and re-connect the session
+    to the controller</string>
+    <string name="shuffle_label">Shuffle</string>
+    <string name="repeat_label">Repeat</string>
 </resources>
