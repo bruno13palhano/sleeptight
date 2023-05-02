@@ -108,6 +108,10 @@ import com.google.common.util.concurrent.MoreExecutors
     }
 
     private fun updateMediaMetadataUI(mediaMetadata: MediaMetadata) {
+        binding.songTitle.text = mediaMetadata.title
+        binding.songArtist.text = getString(R.string.song_artist_label, mediaMetadata.artist)
+        binding.songAlbum.text = mediaMetadata.albumTitle
+
         mediaListAdapter.notifyDataSetChanged()
     }
 
