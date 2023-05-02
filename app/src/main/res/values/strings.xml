@@ -121,4 +121,8 @@
     to the controller</string>
     <string name="shuffle_label">Shuffle</string>
     <string name="repeat_label">Repeat</string>
+    <string name="playlist_label">Playlist</string>
+    <string name="song_title_label">Song title</string>
+    <string name="song_artist_label">%s -\u0020</string>
+    <string name="song_album_label">Album</string>
 </resources>
