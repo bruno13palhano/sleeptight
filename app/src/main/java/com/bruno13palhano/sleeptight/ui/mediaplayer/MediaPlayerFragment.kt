@@ -13,7 +13,6 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.media3.common.*
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.session.MediaBrowser
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import com.bruno13palhano.sleeptight.R
@@ -24,10 +23,6 @@ import com.google.common.util.concurrent.MoreExecutors
 @UnstableApi class MediaPlayerFragment : Fragment() {
     private var _binding: FragmentMediaPlayerBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var browserFuture: ListenableFuture<MediaBrowser>
-    private val browser: MediaBrowser?
-        get() = if (browserFuture.isDone) browserFuture.get() else null
 
     private lateinit var controllerFuture: ListenableFuture<MediaController>
     private val controller: MediaController?
@@ -46,7 +41,7 @@ import com.google.common.util.concurrent.MoreExecutors
 
         mediaListAdapter = PlayingMediaItemArrayAdapter(requireActivity(), R.layout.fragment_media_player, subItemMediaLst)
         binding.currentPlayingList.adapter = mediaListAdapter
-        binding.currentPlayingList.setOnItemClickListener { adapterView, view, position, l ->
+        binding.currentPlayingList.setOnItemClickListener { _, _, position, _ ->
             val controller = this.controller ?: return@setOnItemClickListener
             controller.seekToDefaultPosition(position)
             mediaListAdapter.notifyDataSetChanged()
@@ -59,7 +54,6 @@ import com.google.common.util.concurrent.MoreExecutors
     override fun onStart() {
         super.onStart()
         initializeController()
-        initializerBrowser()
     }
 
     override fun onResume() {
@@ -76,25 +70,11 @@ import com.google.common.util.concurrent.MoreExecutors
         super.onStop()
         binding.playerView.player = null
         releaseController()
-        releaseBrowser()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun initializerBrowser() {
-        browserFuture =
-            MediaBrowser.Builder(
-                requireActivity(),
-                SessionToken(requireActivity(), ComponentName(requireActivity(), PlaybackService::class.java))
-            )
-                .buildAsync()
-    }
-
-    private fun releaseBrowser() {
-        MediaBrowser.releaseFuture(browserFuture)
     }
 
     private fun initializeController() {
@@ -128,7 +108,6 @@ import com.google.common.util.concurrent.MoreExecutors
     }
 
     private fun updateMediaMetadataUI(mediaMetadata: MediaMetadata) {
-        val title: CharSequence = mediaMetadata.title ?: "No media in the play list"
         mediaListAdapter.notifyDataSetChanged()
     }
 
