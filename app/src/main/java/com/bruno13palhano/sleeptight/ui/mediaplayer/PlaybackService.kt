@@ -24,7 +24,6 @@ import com.google.common.util.concurrent.ListenableFuture
 import com.bruno13palhano.sleeptight.R
 import com.google.common.util.concurrent.Futures
 
-
 @UnstableApi class PlaybackService : MediaLibraryService() {
     private val librarySessionCallback = CustomMediaLibrarySessionCallback()
 
@@ -215,11 +214,9 @@ import com.google.common.util.concurrent.Futures
             .build()
         MediaItemTree.initialize()
 
-        val items = MediaItemTree.getChildren("[artist]Gusttavo Lima")
-        if (items != null) {
-            player.addMediaItems(items)
-//            player.prepare()
-//            player.play()
+        val allMusics = MediaItemTree.getChildren("[allItems]")
+        allMusics?.let {
+            player.addMediaItems(it)
         }
 
         val sessionActivityPendingIntent =
