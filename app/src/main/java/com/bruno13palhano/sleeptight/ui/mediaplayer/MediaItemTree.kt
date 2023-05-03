@@ -12,13 +12,7 @@ import com.google.common.collect.ImmutableList
     private var titleMap: MutableMap<String, MediaItemNode> = mutableMapOf()
     private var isInitialized = false
     private const val ROOT_ID = "[rootId]"
-    private const val ALBUM_ID = "[albumID]"
-    private const val GENRE_ID = "[genreID]"
-    private const val ARTIST_ID = "[artistID]"
-    private const val ALBUM_PREFIX = "[album]"
-    private const val GENRE_PREFIX = "[genre]"
-    private const val ARTIST_PREFIX = "[artist]"
-    private const val ITEM_PREFIX = "[item]"
+    private const val ALL_ITEMS = "[allItems]"
 
     private class MediaItemNode(val item: MediaItem) {
         private val children: MutableList<MediaItem> = ArrayList()
@@ -77,107 +71,45 @@ import com.google.common.collect.ImmutableList
                 mediaType = MediaMetadata.MEDIA_TYPE_FOLDER_MIXED
             )
         )
-        treeNodes[ALBUM_ID] = MediaItemNode(
+
+        treeNodes[ALL_ITEMS] = MediaItemNode(
             buildMediaItem(
-                title = "Album Folder",
-                mediaId = ALBUM_ID,
+                title = "All musics",
+                mediaId = ALL_ITEMS,
                 isPlayable = false,
                 isBrowsable = true,
-                mediaType = MediaMetadata.MEDIA_TYPE_FOLDER_ALBUMS
+                mediaType = MediaMetadata.MEDIA_TYPE_MUSIC
             )
         )
-        treeNodes[ARTIST_ID] = MediaItemNode(
-            buildMediaItem(
-                title = "Artist Folder",
-                mediaId = ARTIST_ID,
-                isPlayable = false,
-                isBrowsable = true,
-                mediaType = MediaMetadata.MEDIA_TYPE_FOLDER_ARTISTS
-            )
-        )
-        treeNodes[GENRE_ID] = MediaItemNode(
-            buildMediaItem(
-                title = "Genre Folder",
-                mediaId = GENRE_ID,
-                isPlayable = false,
-                isBrowsable = true,
-                mediaType = MediaMetadata.MEDIA_TYPE_FOLDER_GENRES
-            )
-        )
-        treeNodes[ROOT_ID]!!.addChild(ALBUM_ID)
-        treeNodes[ROOT_ID]!!.addChild(ARTIST_ID)
-        treeNodes[ROOT_ID]!!.addChild(GENRE_ID)
+
+        treeNodes[ROOT_ID]!!.addChild(ALL_ITEMS)
 
         val sleepMusics = ListOfMusics.sleepMusics
-
         sleepMusics.forEach { sleepMusic ->
             addNodeToTree(sleepMusic)
         }
     }
 
     private fun addNodeToTree(sleepMusic: SleepMusic) {
-        val idInTree = ITEM_PREFIX + sleepMusic.id
-        val albumFolderIdInTree = ALBUM_PREFIX + sleepMusic.album
-        val artistFolderIdInTree = ARTIST_PREFIX + sleepMusic.artist
-        val genreFolderIdInTree = GENRE_PREFIX + sleepMusic.genre
+        val allMusicsInTree = ALL_ITEMS + sleepMusic.id
 
-        treeNodes[idInTree] = MediaItemNode(
-            buildMediaItem(
-                title = sleepMusic.title,
-                mediaId = sleepMusic.id,
-                isPlayable = true,
-                isBrowsable = false,
-                mediaType = MediaMetadata.MEDIA_TYPE_MUSIC,
-                album = sleepMusic.album,
-                artist = sleepMusic.artist,
-                genre = sleepMusic.genre,
-                sourceUri = sleepMusic.source,
-                imageUri = sleepMusic.image
-            )
-        )
-        titleMap[sleepMusic.title.lowercase()] = treeNodes[idInTree]!!
-
-        if (!treeNodes.containsKey(albumFolderIdInTree)) {
-            treeNodes[albumFolderIdInTree] = MediaItemNode(
-                buildMediaItem(
-                    title = sleepMusic.album,
-                    mediaId = albumFolderIdInTree,
-                    isPlayable = true,
-                    isBrowsable = true,
-                    mediaType = MediaMetadata.MEDIA_TYPE_ALBUM
-                )
-            )
-            treeNodes[ALBUM_ID]!!.addChild(albumFolderIdInTree)
-        }
-        treeNodes[albumFolderIdInTree]!!.addChild(idInTree)
-
-        if (!treeNodes.containsKey(artistFolderIdInTree)) {
-            treeNodes[artistFolderIdInTree] = MediaItemNode(
-                buildMediaItem(
-                    title = sleepMusic.artist,
-                    mediaId = artistFolderIdInTree,
-                    isPlayable = true,
-                    isBrowsable = true,
-                    mediaType = MediaMetadata.MEDIA_TYPE_ARTIST
-                )
-            )
-            treeNodes[ARTIST_ID]!!.addChild(artistFolderIdInTree)
-        }
-        treeNodes[artistFolderIdInTree]!!.addChild(idInTree)
-
-        if (!treeNodes.containsKey(genreFolderIdInTree)) {
-            treeNodes[genreFolderIdInTree] = MediaItemNode(
+        if (!treeNodes.containsKey(allMusicsInTree)) {
+            treeNodes[allMusicsInTree] = MediaItemNode(
                 buildMediaItem(
                     title = sleepMusic.title,
-                    mediaId = genreFolderIdInTree,
+                    mediaId = sleepMusic.id,
                     isPlayable = true,
-                    isBrowsable = true,
-                    mediaType = MediaMetadata.MEDIA_TYPE_GENRE
+                    isBrowsable = false,
+                    mediaType = MediaMetadata.MEDIA_TYPE_MUSIC,
+                    album = sleepMusic.album,
+                    artist = sleepMusic.artist,
+                    genre = sleepMusic.genre,
+                    sourceUri = sleepMusic.source,
+                    imageUri = sleepMusic.image
                 )
             )
-            treeNodes[GENRE_ID]!!.addChild(genreFolderIdInTree)
+            treeNodes[ALL_ITEMS]!!.addChild(allMusicsInTree)
         }
-        treeNodes[genreFolderIdInTree]!!.addChild(idInTree)
     }
 
     fun getItem(id: String): MediaItem? {
