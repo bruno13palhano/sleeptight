@@ -39,7 +39,10 @@
     <string name="measuring_label">Measuring</string>
     <string name="weighing_label">weighing</string>
     <string name="height_label">%.1fcm</string>
+    <string name="height_tag">Height: %.1fcm</string>
     <string name="weight_label">%.1fkg</string>
+    <string name="weight_tag">Weight: %.1fkg</string>
+    <string name="title_label">Title</string>
     <string name="new_value_label">New value</string>
     <string name="new_local_label">New local</string>
     <string name="new_height_label">New height</string>
