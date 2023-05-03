@@ -16,5 +16,43 @@
             app:destination="@id/login_navigation"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_home_to_babyStatus"
+            app:destination="@id/babyStatusFragment" />
+
+        <action
+            android:id="@+id/action_home_to_babyStatusTitleAndDate"
+            app:destination="@id/babyStatusTitleAndDateFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/babyStatusFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.babystatus.BabyStatusFragment"
+        android:label="@string/baby_status_label"
+        tools:layout="@layout/fragment_baby_status" />
+
+    <fragment
+        android:id="@+id/babyStatusTitleAndDateFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.babystatus.BabyStatusTitleAndDateFragment"
+        android:label="@string/baby_status_title_and_date"
+        tools:layout="@layout/fragment_baby_status_title_and_date">
+
+        <action
+            android:id="@+id/action_babyStatusFragment_to_heightAndWeight"
+            app:destination="@id/babyStatusHeightAndWeightFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/babyStatusHeightAndWeightFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.babystatus.BabyStatusHeightAndWeightFragment"
+        android:label="@string/baby_status_height_and_weight"
+        tools:layout="@layout/fragment_baby_status_height_and_weight">
+
+        <action
+            android:id="@+id/action_babyStatusHeightAndWeight_to_home"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
