@@ -34,9 +34,9 @@
 
     <fragment
         android:id="@+id/babyStatusTitleAndDateFragment"
-        android:name="com.bruno13palhano.sleeptight.ui.babystatus.BabyStatusTitleAndDateFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.babystatus.newbabystatus.NewBabyStatusTitleAndDateFragment"
         android:label="@string/baby_status_title_and_date"
-        tools:layout="@layout/fragment_baby_status_title_and_date">
+        tools:layout="@layout/fragment_new_baby_status_title_and_date">
 
         <action
             android:id="@+id/action_babyStatusFragment_to_heightAndWeight"
@@ -45,9 +45,9 @@
 
     <fragment
         android:id="@+id/babyStatusHeightAndWeightFragment"
-        android:name="com.bruno13palhano.sleeptight.ui.babystatus.BabyStatusHeightAndWeightFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.babystatus.newbabystatus.NewBabyStatusHeightAndWeightFragment"
         android:label="@string/baby_status_height_and_weight"
-        tools:layout="@layout/fragment_baby_status_height_and_weight">
+        tools:layout="@layout/fragment_new_baby_status_height_and_weight">
 
         <action
             android:id="@+id/action_babyStatusHeightAndWeight_to_home"
