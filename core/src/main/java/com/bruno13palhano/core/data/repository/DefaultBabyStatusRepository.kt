@@ -6,8 +6,9 @@ import com.bruno13palhano.core.data.database.model.asBabyStatusData
 import com.bruno13palhano.model.BabyStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-internal class DefaultBabyStatusRepository(
+internal class DefaultBabyStatusRepository @Inject constructor(
     private val babyStatusDao: BabyStatusDao
 ) : BabyStatusRepository {
     override suspend fun insertBabyStatus(babyStatus: BabyStatus) {
