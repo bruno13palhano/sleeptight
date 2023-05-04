@@ -128,4 +128,10 @@
     <string name="song_title_label">Song title</string>
     <string name="song_artist_label">%s -\u0020</string>
     <string name="song_album_label">Album</string>
+
+    <!--  Baby Status labels  -->
+    <string name="baby_status_label">Baby Status</string>
+    <string name="baby_status_title_and_date">Title and Date</string>
+    <string name="baby_status_height_and_weight">Height and Weight</string>
+    <string name="add_new_baby_status_label">Add new baby status</string>
 </resources>
