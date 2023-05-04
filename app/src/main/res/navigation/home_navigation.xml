@@ -30,7 +30,12 @@
         android:id="@+id/babyStatusFragment"
         android:name="com.bruno13palhano.sleeptight.ui.babystatus.BabyStatusFragment"
         android:label="@string/baby_status_label"
-        tools:layout="@layout/fragment_baby_status" />
+        tools:layout="@layout/fragment_baby_status">
+
+        <argument
+            android:name="statusId"
+            app:argType="long" />
+    </fragment>
 
     <fragment
         android:id="@+id/babyStatusTitleAndDateFragment"
