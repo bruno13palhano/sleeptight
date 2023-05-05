@@ -48,6 +48,7 @@ class NewBabyStatusViewModel @Inject constructor(
                 weight = stringToFloat(weight.value)
             )
             babyStatusRepository.insertBabyStatus(babyStatus)
+            restoresValues()
         }
     }
 
@@ -55,5 +56,12 @@ class NewBabyStatusViewModel @Inject constructor(
         return try {
             value.toFloat()
         } catch (ignored: Exception) { 0F }
+    }
+
+    private fun restoresValues() {
+        date.value = MaterialDatePicker.todayInUtcMilliseconds()
+        title.value = ""
+        height.value = ""
+        weight.value = ""
     }
 }
