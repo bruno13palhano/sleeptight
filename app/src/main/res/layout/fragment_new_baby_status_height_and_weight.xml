@@ -1,15 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
+    <data>
+        <variable
+            name="uiEvents"
+            type="com.bruno13palhano.sleeptight.ui.babystatus.newbabystatus.NewBabyStatusHeightAndWeightFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.bruno13palhano.sleeptight.ui.babystatus.newbabystatus.NewBabyStatusViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.babystatus.BabyStatusHeightAndWeightFragment">
+        tools:context=".ui.babystatus.newbabystatus.NewBabyStatusHeightAndWeightFragment">
 
-        <TextView
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/height_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Baby Status Height and Weight" />
-    </FrameLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/birth_height_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/height"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:maxLines="1"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:inputType="numberDecimal"
+                android:text="@={viewModel.height}"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/weight_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/birth_weight_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/height_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/weight"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:maxLines="1"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:inputType="numberDecimal"
+                android:text="@={viewModel.weight}"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/done_label"
+            android:onClick="@{v -> uiEvents.navigateToHome()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/weight_layout"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/baseline_done_24" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
