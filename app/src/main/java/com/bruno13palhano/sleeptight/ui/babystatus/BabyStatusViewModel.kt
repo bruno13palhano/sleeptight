@@ -19,7 +19,6 @@ import javax.inject.Inject
 class BabyStatusViewModel @Inject constructor(
     @DefaultBabyStatusRep private val babyStatusRepository: BabyStatusRepository
 ) : ViewModel() {
-
     val title = MutableStateFlow("")
     val height = MutableStateFlow("")
     val weight = MutableStateFlow("")
@@ -47,6 +46,12 @@ class BabyStatusViewModel @Inject constructor(
                 weight.value = it.weight.toString()
                 date.value = it.date
             }
+        }
+    }
+
+    fun deleteBabyStatus(id: Long) {
+        viewModelScope.launch {
+            babyStatusRepository.deleteBabyStatusById(id)
         }
     }
 
