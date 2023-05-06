@@ -74,11 +74,7 @@ class NewNapDateFragment : Fragment() {
         datePicker.addOnPositiveButtonClickListener {
             val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
             calendar.timeInMillis = it
-            viewModel.setDate(
-                year = calendar[Calendar.YEAR],
-                month = calendar[Calendar.MONTH],
-                day = calendar[Calendar.DAY_OF_MONTH]
-            )
+            viewModel.setDate(calendar.timeInMillis)
         }
     }
 }

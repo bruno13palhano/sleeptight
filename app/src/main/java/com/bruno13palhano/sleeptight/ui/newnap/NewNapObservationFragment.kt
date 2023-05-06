@@ -7,25 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.bruno13palhano.model.Nap
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewNapObservationBinding
-import kotlinx.coroutines.launch
 
 class NewNapObservationFragment : Fragment() {
     private var _binding: FragmentNewNapObservationBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NewNapViewModel by activityViewModels()
-
-    private var date = 0L
-    private var startTime = 0L
-    private var endTime = 0L
-    private var sleepTime = 0L
-    private var observation = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,36 +28,6 @@ class NewNapObservationFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.date.collect {
-                        date = it
-                    }
-                }
-                launch {
-                    viewModel.startTime.collect {
-                        startTime = it
-                    }
-                }
-                launch {
-                    viewModel.endTime.collect {
-                        endTime = it
-                    }
-                }
-                launch {
-                    viewModel.sleepTimeUi.collect {
-                        sleepTime = it
-                    }
-                }
-                launch {
-                    viewModel.observation.collect {
-                        observation = it
-                    }
-                }
-            }
-        }
-
         return view
     }
 
@@ -77,18 +36,9 @@ class NewNapObservationFragment : Fragment() {
         _binding = null
     }
 
-    fun navigateToDate() {
+    fun insertNap() {
         findNavController().navigate(
             NewNapObservationFragmentDirections.actionObservationToNaps())
-        viewModel.insertNap(
-            Nap(
-                id = 0L,
-                date = date,
-                startTime = startTime,
-                endTime = endTime,
-                sleepTime = sleepTime,
-                observation = observation
-            )
-        )
+        viewModel.insertNap()
     }
 }

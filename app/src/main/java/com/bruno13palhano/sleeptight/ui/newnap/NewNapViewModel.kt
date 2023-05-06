@@ -34,8 +34,8 @@ class NewNapViewModel @Inject constructor(
             started = WhileSubscribed(5_000)
         )
 
-    fun setDate(year: Int, month: Int, day: Int) {
-        date.value = CalendarUtil.dateToMilliseconds(year, month, day)
+    fun setDate(date: Long) {
+        this.date.value = date
     }
 
     val startTime = MutableStateFlow(currentDate.timeInMillis)
@@ -68,21 +68,24 @@ class NewNapViewModel @Inject constructor(
         endTime.value = CalendarUtil.timeToMilliseconds(hour, minute)
     }
 
-    val sleepTimeUi = combine(startTime, endTime) { startTime, endTime ->
-        CalendarUtil.getSleepTime(startTime, endTime)
-    }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = 0L,
-            started = WhileSubscribed(5_000)
-        )
-
     val observation = MutableStateFlow("")
 
-    fun insertNap(nap: Nap) {
+    fun insertNap() {
         viewModelScope.launch {
+            val nap = Nap(
+                id = 0L,
+                date = date.value,
+                startTime = startTime.value,
+                endTime = endTime.value,
+                sleepTime = startTime.value,
+                observation = observation.value
+            )
             napRepository.insert(nap)
         }
+        restoreValues()
+    }
+
+    private fun restoreValues() {
         date.value = MaterialDatePicker.todayInUtcMilliseconds()
         startTime.value = currentDate.timeInMillis
         endTime.value = currentDate.timeInMillis
