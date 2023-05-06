@@ -51,6 +51,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/baby_name_layout"
             app:layout_constraintVertical_bias="1.0"
-            app:srcCompat="@drawable/baseline_navigate_next_24" />
+            app:srcCompat="@drawable/baseline_navigate_next_24"
+            app:tint="?colorOnPrimary"
+            app:backgroundTint="?colorPrimary" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
