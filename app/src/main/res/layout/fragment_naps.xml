@@ -37,6 +37,7 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/baseline_add_24"
-            app:tint="?colorOnPrimary" />
+            app:tint="?colorOnPrimary"
+            app:backgroundTint="?colorPrimary" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

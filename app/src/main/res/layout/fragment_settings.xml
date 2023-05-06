@@ -306,7 +306,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/baseline_done_24"
                 app:tint="?colorOnPrimary"
-                android:contentDescription="@string/done_label" />
+                android:contentDescription="@string/done_label"
+                app:backgroundTint="?colorPrimary" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/materialDivider7"
