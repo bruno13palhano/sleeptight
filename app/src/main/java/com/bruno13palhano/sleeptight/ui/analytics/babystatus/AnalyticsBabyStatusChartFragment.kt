@@ -8,12 +8,17 @@ import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentAnalyticsBabyStatusChartBinding
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
+import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAStyle
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AnalyticsBabyStatusChartFragment : Fragment() {
@@ -31,19 +36,42 @@ class AnalyticsBabyStatusChartFragment : Fragment() {
 
         val chartModel: AAChartModel = AAChartModel()
             .chartType(AAChartType.Column)
-            .title("Height and Weight")
+            .title(getString(R.string.baby_status_height_and_weight))
+            .titleStyle(AAStyle().color(getString(R.string.chart_primary_color)))
+            .subtitle(getString(R.string.baby_development_label))
+            .subtitleStyle(AAStyle().color(getString(R.string.chart_primary_color)))
+            .dataLabelsEnabled(true)
+            .backgroundColor(getString(R.string.chart_background_color))
+            .axesTextColor(getString(R.string.chart_primary_color))
+            .dataLabelsStyle(AAStyle().color(getString(R.string.chart_primary_color)))
             .series(
                 arrayOf(
                     AASeriesElement()
-                        .name("Height")
-                        .data(arrayOf(2.3F)),
+                        .name(getString(R.string.birth_height_label))
+                        .data(arrayOf())
+                        .color(getString(R.string.chart_bar_main_color)),
                     AASeriesElement()
-                        .name("Weight")
-                        .data(arrayOf(4.5))
+                        .name(getString(R.string.birth_weight_label))
+                        .data(arrayOf())
+                        .color(getString(R.string.chart_bar_second_color))
                 )
-            ).categories(arrayOf("Average height and weight"))
+            )
 
         binding.babyStatusChart.aa_drawChartWithChartModel(chartModel)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.babyStatusChartUi.collect {
+                    delay(200)
+                    binding.babyStatusChart.aa_onlyRefreshTheChartDataWithChartOptionsSeriesArray(
+                        arrayOf(
+                            AASeriesElement().data(it.allHeight.toTypedArray()),
+                            AASeriesElement().data(it.allWeight.toTypedArray())
+                        )
+                    )
+                }
+            }
+        }
 
         return view
     }
