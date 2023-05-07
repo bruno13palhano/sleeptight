@@ -7,6 +7,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -47,6 +49,15 @@ class NewBabyStatusTitleAndDateFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.title.collect {
+                        if (it != "") {
+                            enableNextButton()
+                        } else {
+                            disableNextButton()
+                        }
+                    }
+                }
                 launch {
                     viewModel.date.collect {
                         setDatePicker(it)
@@ -99,5 +110,13 @@ class NewBabyStatusTitleAndDateFragment : Fragment() {
 
             viewModel.setDate(calendar.timeInMillis)
         }
+    }
+
+    private fun enableNextButton() {
+        binding.next.visibility = VISIBLE
+    }
+
+    private fun disableNextButton() {
+        binding.next.visibility = GONE
     }
 }

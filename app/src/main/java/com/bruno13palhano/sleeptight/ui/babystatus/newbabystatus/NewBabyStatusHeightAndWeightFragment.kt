@@ -5,15 +5,21 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewBabyStatusHeightAndWeightBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class NewBabyStatusHeightAndWeightFragment : Fragment() {
@@ -36,6 +42,20 @@ class NewBabyStatusHeightAndWeightFragment : Fragment() {
 
         inputMethodManager = activity
             ?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.heightAndWeightValue.collect {
+                        if (it) {
+                            enableDoneButton()
+                        } else {
+                            disableDoneButton()
+                        }
+                    }
+                }
+            }
+        }
 
         return view
     }
@@ -71,5 +91,13 @@ class NewBabyStatusHeightAndWeightFragment : Fragment() {
         findNavController().navigate(
             NewBabyStatusHeightAndWeightFragmentDirections.actionBabyStatusHeightAndWeightToHome())
         viewModel.insertBabyStatus()
+    }
+
+    private fun enableDoneButton() {
+        binding.done.visibility = VISIBLE
+    }
+
+    private fun disableDoneButton() {
+        binding.done.visibility = GONE
     }
 }
