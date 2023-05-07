@@ -18,6 +18,10 @@
         <action
             android:id="@+id/action_analytics_to_month"
             app:destination="@id/analyticsMonthChartFragment" />
+
+        <action
+            android:id="@+id/action_analytics_to_babyStatus"
+            app:destination="@id/analyticsBabyStatusChartFragment" />
     </fragment>
 
     <fragment
@@ -31,4 +35,10 @@
         android:name="com.bruno13palhano.sleeptight.ui.analytics.month.AnalyticsMonthChartFragment"
         android:label="@string/month_chart_label"
         tools:layout="@layout/fragment_analytics_month_chart" />
+
+    <fragment
+        android:id="@+id/analyticsBabyStatusChartFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.analytics.babystatus.AnalyticsBabyStatusChartFragment"
+        android:label="BabyStatus Chart"
+        tools:layout="@layout/fragment_analytics_baby_status_chart" />
 </navigation>
