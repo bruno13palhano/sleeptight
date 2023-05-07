@@ -73,8 +73,8 @@
     <string name="chart_bar_second_color">#786e82</string>
 
     <!--  Chart labels  -->
-    <string name="month_chart_label">Month Chart</string>
-    <string name="week_chart_label">Week Chart</string>
+    <string name="month_chart_label">Nap Month Chart</string>
+    <string name="week_chart_label">Nap Week Chart</string>
     <string name="baby_status_chart_label">BabyStatus Chart</string>
     <string name="average_hours_label">Average hours</string>
     <string name="average_hour_per_week_label">Average hours per weekday</string>
