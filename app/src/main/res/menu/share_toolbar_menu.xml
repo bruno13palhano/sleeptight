@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/share_nap"
+        android:id="@+id/share"
         android:icon="@drawable/baseline_share_24"
-        android:title="@string/share_nap_label"
+        android:title="@string/share_label"
         app:showAsAction="always" />
 </menu>

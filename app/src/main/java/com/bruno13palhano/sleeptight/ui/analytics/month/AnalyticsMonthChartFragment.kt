@@ -137,7 +137,7 @@ class AnalyticsMonthChartFragment : Fragment() {
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    R.id.share_nap -> {
+                    R.id.share -> {
                         true
                     }
                     else -> false
