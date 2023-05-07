@@ -42,5 +42,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/week_chart" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/baby_status_chart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/baby_status_chart_label"
+            android:onClick="@{v -> uiEvents.navigateToBabyStatusChart()}"
+            android:text="@string/baby_status_chart_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/month_chart" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
