@@ -79,6 +79,7 @@
     <string name="average_hours_label">Average hours</string>
     <string name="average_hour_per_week_label">Average hours per weekday</string>
     <string name="average_hour_per_month_label">Average hours per month of the year</string>
+    <string name="baby_development_label">Baby development</string>
 
     <!--  Days of te week  -->
     <string name="sunday_label">Sunday</string>
