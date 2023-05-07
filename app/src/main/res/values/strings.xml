@@ -69,7 +69,8 @@
     <!--  Chart colors  -->
     <string name="chart_background_color">#d6d6d6</string>
     <string name="chart_primary_color">#333533</string>
-    <string name="chart_bar_main_color">#786e82</string>
+    <string name="chart_bar_main_color">#79c5c8</string>
+    <string name="chart_bar_second_color">#786e82</string>
 
     <!--  Chart labels  -->
     <string name="month_chart_label">Month Chart</string>
