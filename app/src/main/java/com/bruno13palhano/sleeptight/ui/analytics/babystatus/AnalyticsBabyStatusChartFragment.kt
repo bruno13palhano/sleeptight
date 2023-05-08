@@ -17,7 +17,6 @@ import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
 import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAStyle
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -34,41 +33,33 @@ class AnalyticsBabyStatusChartFragment : Fragment() {
             .inflate(inflater, R.layout.fragment_analytics_baby_status_chart, container, false)
         val view = binding.root
 
-        val chartModel: AAChartModel = AAChartModel()
-            .chartType(AAChartType.Column)
-            .title(getString(R.string.baby_status_height_and_weight))
-            .titleStyle(AAStyle().color(getString(R.string.chart_primary_color)))
-            .subtitle(getString(R.string.baby_development_label))
-            .subtitleStyle(AAStyle().color(getString(R.string.chart_primary_color)))
-            .dataLabelsEnabled(true)
-            .backgroundColor(getString(R.string.chart_background_color))
-            .axesTextColor(getString(R.string.chart_primary_color))
-            .dataLabelsStyle(AAStyle().color(getString(R.string.chart_primary_color)))
-            .series(
-                arrayOf(
-                    AASeriesElement()
-                        .name(getString(R.string.birth_height_label))
-                        .data(arrayOf())
-                        .color(getString(R.string.chart_bar_main_color)),
-                    AASeriesElement()
-                        .name(getString(R.string.birth_weight_label))
-                        .data(arrayOf())
-                        .color(getString(R.string.chart_bar_second_color))
-                )
-            )
-
-        binding.babyStatusChart.aa_drawChartWithChartModel(chartModel)
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.babyStatusChartUi.collect {
-                    delay(200)
-                    binding.babyStatusChart.aa_onlyRefreshTheChartDataWithChartOptionsSeriesArray(
-                        arrayOf(
-                            AASeriesElement().data(it.allHeight.toTypedArray()),
-                            AASeriesElement().data(it.allWeight.toTypedArray())
+                    val chartModel: AAChartModel = AAChartModel()
+                        .chartType(AAChartType.Column)
+                        .title(getString(R.string.baby_status_height_and_weight))
+                        .titleStyle(AAStyle().color(getString(R.string.chart_primary_color)))
+                        .subtitle(getString(R.string.baby_development_label))
+                        .subtitleStyle(AAStyle().color(getString(R.string.chart_primary_color)))
+                        .dataLabelsEnabled(true)
+                        .backgroundColor(getString(R.string.chart_background_color))
+                        .axesTextColor(getString(R.string.chart_primary_color))
+                        .dataLabelsStyle(AAStyle().color(getString(R.string.chart_primary_color)))
+                        .series(
+                            arrayOf(
+                                AASeriesElement()
+                                    .name(getString(R.string.birth_height_label))
+                                    .data(it.allHeight.toTypedArray())
+                                    .color(getString(R.string.chart_bar_main_color)),
+                                AASeriesElement()
+                                    .name(getString(R.string.birth_weight_label))
+                                    .data(it.allWeight.toTypedArray())
+                                    .color(getString(R.string.chart_bar_second_color))
+                            )
                         )
-                    )
+
+                    binding.babyStatusChart.aa_drawChartWithChartModel(chartModel)
                 }
             }
         }
