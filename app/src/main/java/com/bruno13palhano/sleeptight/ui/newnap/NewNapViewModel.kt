@@ -77,7 +77,7 @@ class NewNapViewModel @Inject constructor(
                 date = date.value,
                 startTime = startTime.value,
                 endTime = endTime.value,
-                sleepTime = startTime.value,
+                sleepTime = CalendarUtil.getSleepTime(startTime.value, endTime.value),
                 observation = observation.value
             )
             napRepository.insert(nap)
