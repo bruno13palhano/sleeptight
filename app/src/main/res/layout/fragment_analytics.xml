@@ -55,5 +55,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/month_chart" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/nap_chart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/naps_chart_label"
+            android:onClick="@{v -> uiEvents.navigateToNapChart()}"
+            android:text="@string/naps_chart_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/baby_status_chart" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
