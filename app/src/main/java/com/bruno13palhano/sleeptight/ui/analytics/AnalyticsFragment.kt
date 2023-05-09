@@ -46,4 +46,9 @@ class AnalyticsFragment : Fragment() {
         findNavController().navigate(
             AnalyticsFragmentDirections.actionAnalyticsToBabyStatus())
     }
+
+    fun navigateToNapChart() {
+        findNavController().navigate(
+            AnalyticsFragmentDirections.actionAnalyticsToNap())
+    }
 }
