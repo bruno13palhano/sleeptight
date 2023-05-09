@@ -37,7 +37,7 @@ class AnalyticsWeekChartFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.chartUi.collect {
                     val chartModel: AAChartModel = AAChartModel()
-                        .chartType(AAChartType.Bar)
+                        .chartType(AAChartType.Column)
                         .title(getString(R.string.week_chart_label))
                         .titleStyle(AAStyle().color(getString(R.string.chart_primary_color)))
                         .subtitle(getString(R.string.average_hour_per_week_label))
@@ -49,31 +49,36 @@ class AnalyticsWeekChartFragment : Fragment() {
                         .series(
                             arrayOf(
                                 AASeriesElement()
-                                    .name(getString(R.string.average_hours_label))
-                                    .data(
-                                        arrayOf(
-                                            it.sunday,
-                                            it.monday,
-                                            it.tuesday,
-                                            it.wednesday,
-                                            it.thursday,
-                                            it.friday,
-                                            it.saturday
-                                        )
-                                    )
-                                    .color(getString(R.string.chart_bar_main_color))
+                                    .name(getString(R.string.sunday_label))
+                                    .data(arrayOf(it.sunday))
+                                    .color(getString(R.string.january_light_blue_label)),
+                                AASeriesElement()
+                                    .name(getString(R.string.monday_label))
+                                    .data(arrayOf(it.monday))
+                                    .color(getString(R.string.july_yellow_label)),
+                                AASeriesElement()
+                                    .name(getString(R.string.tuesday_label))
+                                    .data(arrayOf(it.tuesday))
+                                    .color(getString(R.string.august_orange_label)),
+                                AASeriesElement()
+                                    .name(getString(R.string.wednesday_label))
+                                    .data(arrayOf(it.wednesday))
+                                    .color(getString(R.string.september_bright_blue_label)),
+                                AASeriesElement()
+                                    .name(getString(R.string.thursday_label))
+                                    .data(arrayOf(it.thursday))
+                                    .color(getString(R.string.october_indigo_label)),
+                                AASeriesElement()
+                                    .name(getString(R.string.friday_label))
+                                    .data(arrayOf(it.friday))
+                                    .color(getString(R.string.november_gold_label)),
+                                AASeriesElement()
+                                    .name(getString(R.string.saturday_label))
+                                    .data(arrayOf(it.saturday))
+                                    .color(getString(R.string.december_dark_red_label)),
                             )
-                        ).categories(
-                            arrayOf(
-                                getString(R.string.sunday_label),
-                                getString(R.string.monday_label),
-                                getString(R.string.tuesday_label),
-                                getString(R.string.wednesday_label),
-                                getString(R.string.thursday_label),
-                                getString(R.string.friday_label),
-                                getString(R.string.saturday_label)
-                            )
-                        )
+                        ).categories(arrayOf(getString(R.string.average_hours_label)))
+
                     binding.weekChart.aa_drawChartWithChartModel(chartModel)
                 }
             }
