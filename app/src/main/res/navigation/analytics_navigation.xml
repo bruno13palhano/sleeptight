@@ -22,6 +22,10 @@
         <action
             android:id="@+id/action_analytics_to_babyStatus"
             app:destination="@id/analyticsBabyStatusChartFragment" />
+
+        <action
+            android:id="@+id/action_analytics_to_nap"
+            app:destination="@id/analyticsNapChartFragment" />
     </fragment>
 
     <fragment
@@ -39,6 +43,12 @@
     <fragment
         android:id="@+id/analyticsBabyStatusChartFragment"
         android:name="com.bruno13palhano.sleeptight.ui.analytics.babystatus.AnalyticsBabyStatusChartFragment"
-        android:label="BabyStatus Chart"
+        android:label="@string/baby_status_chart_label"
         tools:layout="@layout/fragment_analytics_baby_status_chart" />
+
+    <fragment
+        android:id="@+id/analyticsNapChartFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.analytics.nap.AnalyticsNapChartFragment"
+        android:label="@string/naps_chart_label"
+        tools:layout="@layout/fragment_analytics_nap_chart" />
 </navigation>
