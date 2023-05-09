@@ -76,6 +76,8 @@
     <string name="month_chart_label">Nap Month Chart</string>
     <string name="week_chart_label">Nap Week Chart</string>
     <string name="baby_status_chart_label">BabyStatus Chart</string>
+    <string name="naps_chart_label">Naps Chart</string>
+    <string name="all_naps_chart_label">All naps</string>
     <string name="average_hours_label">Average hours</string>
     <string name="average_hour_per_week_label">Average hours per weekday</string>
     <string name="average_hour_per_month_label">Average hours per month of the year</string>
