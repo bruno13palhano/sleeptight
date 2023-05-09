@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.analytics.nap.AnalyticsNapChartFragment">
+
+        <com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
+            android:id="@+id/nap_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>
