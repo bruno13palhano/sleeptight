@@ -56,6 +56,6 @@ class NapsFragment : Fragment() {
 
     fun navigateToDate() {
         findNavController().navigate(
-            NapsFragmentDirections.actionNapsToDate())
+            NapsFragmentDirections.actionNapsToObservation())
     }
 }
