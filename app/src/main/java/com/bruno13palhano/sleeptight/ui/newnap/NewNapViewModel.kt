@@ -89,6 +89,7 @@ class NewNapViewModel @Inject constructor(
 
     private fun restoreValues() {
         date.value = MaterialDatePicker.todayInUtcMilliseconds()
+        title.value = ""
         startTime.value = currentDate.timeInMillis
         endTime.value = currentDate.timeInMillis
         observation.value = ""
