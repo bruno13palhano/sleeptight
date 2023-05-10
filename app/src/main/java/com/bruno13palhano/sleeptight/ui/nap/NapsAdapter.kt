@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bruno13palhano.model.Nap
+import com.bruno13palhano.sleeptight.databinding.BabyStatusCardBinding
 import com.bruno13palhano.sleeptight.databinding.NapCardBinding
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 
@@ -14,7 +15,7 @@ class NapsAdapter(
 ) : ListAdapter<Nap, NapsAdapter.NapItemViewHolder>(PathDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NapItemViewHolder {
-        val binding = NapCardBinding
+        val binding = BabyStatusCardBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
         return NapItemViewHolder(binding, onClick)
     }
@@ -24,7 +25,7 @@ class NapsAdapter(
     }
 
     class NapItemViewHolder(
-        private val binding: NapCardBinding,
+        private val binding: BabyStatusCardBinding,
         val onClick: (napId: Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         var currentNap: Nap? = null
@@ -39,6 +40,7 @@ class NapsAdapter(
 
         fun bind(nap: Nap) {
             currentNap = nap
+            binding.title.text = nap.title
             binding.date.text = DateFormatUtil.format(nap.date)
         }
     }
