@@ -16,8 +16,8 @@
             app:destination="@id/napFragment" />
 
         <action
-            android:id="@+id/action_naps_to_date"
-            app:destination="@id/newNapDateFragment" />
+            android:id="@+id/action_naps_to_observation"
+            app:destination="@id/newNapObservationFragment" />
     </fragment>
 
     <fragment
@@ -29,6 +29,17 @@
         <argument
             android:name="napId"
             app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newNapObservationFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.newnap.NewNapObservationFragment"
+        android:label="@string/observation_label"
+        tools:layout="@layout/fragment_new_nap_observation">
+
+        <action
+            android:id="@+id/action_observation_to_date"
+            app:destination="@id/newNapDateFragment" />
     </fragment>
 
     <fragment
@@ -60,20 +71,9 @@
         tools:layout="@layout/fragment_new_nap_end">
 
         <action
-            android:id="@+id/action_end_to_observation"
-            app:destination="@id/newNapObservationFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/newNapObservationFragment"
-        android:name="com.bruno13palhano.sleeptight.ui.newnap.NewNapObservationFragment"
-        android:label="@string/observation_label"
-        tools:layout="@layout/fragment_new_nap_observation">
-
-        <action
-            android:id="@+id/action_observation_to_naps"
+            android:id="@+id/action_end_to_naps"
             app:destination="@id/napsFragment"
             app:popUpTo="@id/napsFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
