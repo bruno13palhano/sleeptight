@@ -52,9 +52,10 @@ class NewNapEndFragment : Fragment() {
         _binding = null
     }
 
-    fun navigateToObservation() {
+    fun insertNap() {
         findNavController().navigate(
-            NewNapEndFragmentDirections.actionEndToObservation())
+            NewNapEndFragmentDirections.actionEndToNaps())
+        viewModel.insertNap()
     }
 
     fun onTimeClick() {

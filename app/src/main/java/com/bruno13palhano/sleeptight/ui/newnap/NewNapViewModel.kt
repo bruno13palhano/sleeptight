@@ -68,12 +68,14 @@ class NewNapViewModel @Inject constructor(
         endTime.value = CalendarUtil.timeToMilliseconds(hour, minute)
     }
 
+    val title = MutableStateFlow("")
     val observation = MutableStateFlow("")
 
     fun insertNap() {
         viewModelScope.launch {
             val nap = Nap(
                 id = 0L,
+                title = title.value,
                 date = date.value,
                 startTime = startTime.value,
                 endTime = endTime.value,

@@ -36,9 +36,8 @@ class NewNapObservationFragment : Fragment() {
         _binding = null
     }
 
-    fun insertNap() {
+    fun navigateToDate() {
         findNavController().navigate(
-            NewNapObservationFragmentDirections.actionObservationToNaps())
-        viewModel.insertNap()
+            NewNapObservationFragmentDirections.actionObservationToDate())
     }
 }

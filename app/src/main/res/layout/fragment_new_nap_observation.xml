@@ -28,30 +28,49 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:contentDescription="@string/done_label"
-                android:onClick="@{v -> uiEvents.insertNap()}"
+                android:onClick="@{v -> uiEvents.navigateToDate()}"
+                app:backgroundTint="?colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/baseline_done_24"
-                app:tint="?colorOnPrimary"
-                app:backgroundTint="?colorPrimary" />
+                app:layout_constraintTop_toBottomOf="@+id/observation_layout"
+                app:layout_constraintVertical_bias="1.0"
+                app:srcCompat="@drawable/baseline_navigate_next_24"
+                app:tint="?colorOnPrimary" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/title_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/title_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/new_nap_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:maxLines="1"
+                    android:text="@={viewModel.title}" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/observation_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
                 android:hint="@string/observation_label"
-                app:layout_constraintBottom_toTopOf="@+id/add_new_nap"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.000">
+                app:layout_constraintTop_toBottomOf="@+id/title_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/new_nap_observation"
