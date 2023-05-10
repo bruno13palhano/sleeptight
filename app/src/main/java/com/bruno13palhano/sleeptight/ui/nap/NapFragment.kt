@@ -13,7 +13,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.bruno13palhano.model.Nap
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNapBinding
 import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
@@ -28,12 +27,6 @@ class NapFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: NapViewModel by viewModels()
     private var napId: Long = 0L
-
-    private var date = 0L
-    private var startTime = 0L
-    private var endTime = 0L
-    private var sleepTime = 0L
-    private var observation = ""
 
     private lateinit var datePicker: MaterialDatePicker<Long>
     private lateinit var startTimePicker: MaterialTimePicker
@@ -58,30 +51,17 @@ class NapFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.date.collect {
-                        date = it
                         setDatePicker(it)
                     }
                 }
                 launch {
                     viewModel.startTime.collect {
-                        startTime = it
                         setStartTimePicker(it)
                     }
                 }
                 launch {
                     viewModel.endTime.collect {
-                        endTime = it
                         setEndTimePicker(it)
-                    }
-                }
-                launch {
-                    viewModel.sleepTime.collect {
-                        sleepTime = it
-                    }
-                }
-                launch {
-                    viewModel.observation.collect {
-                        observation = it
                     }
                 }
             }
@@ -123,16 +103,7 @@ class NapFragment : Fragment() {
 
     fun updatePath() {
         findNavController().navigateUp()
-        viewModel.updateNap(
-            Nap(
-                id = napId,
-                date = date,
-                startTime = startTime,
-                endTime = endTime,
-                sleepTime = sleepTime,
-                observation = observation
-            )
-        )
+        viewModel.updateNap(napId)
     }
 
     fun onDateClick() {

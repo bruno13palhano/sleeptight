@@ -73,11 +73,13 @@ class NapViewModel @Inject constructor(
             started = WhileSubscribed(5_000)
         )
 
+    val title = MutableStateFlow("")
     val observation = MutableStateFlow("")
 
     fun getNap(id: Long) {
         viewModelScope.launch {
             napRepository.getNapByIdStream(id).collect {
+                title.value = it.title
                 date.value = it.date
                 startTime.value = it.startTime
                 endTime.value = it.endTime
@@ -86,7 +88,16 @@ class NapViewModel @Inject constructor(
         }
     }
 
-    fun updateNap(nap: Nap) {
+    fun updateNap(id: Long) {
+        val nap = Nap(
+            id = id,
+            title = title.value,
+            date = date.value,
+            startTime = startTime.value,
+            endTime = endTime.value,
+            sleepTime = sleepTime.value,
+            observation = observation.value
+        )
         viewModelScope.launch {
             napRepository.updateNap(nap)
         }
