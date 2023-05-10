@@ -32,6 +32,7 @@ internal class DefaultNapRepository @Inject constructor(
             } catch (ignored: Exception) {
                 Nap(
                     id = 0L,
+                    title = "",
                     date = 0L,
                     startTime = 0L,
                     endTime = 0L,
