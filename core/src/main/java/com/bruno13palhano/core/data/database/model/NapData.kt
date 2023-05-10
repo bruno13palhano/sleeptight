@@ -12,6 +12,9 @@ internal data class NapData(
     @ColumnInfo(name = "id")
     val id: Long,
 
+    @ColumnInfo(name = "title")
+    val title: String,
+
     @ColumnInfo(name = "date")
     val date: Long,
 
@@ -30,6 +33,7 @@ internal data class NapData(
 
 internal fun NapData.asNap() = Nap(
     id = id,
+    title = title,
     date = date,
     startTime = startTime,
     endTime = endTime,
@@ -39,6 +43,7 @@ internal fun NapData.asNap() = Nap(
 
 internal fun Nap.asNapData() = NapData(
     id = id,
+    title = title,
     date = date,
     startTime = startTime,
     endTime = endTime,
