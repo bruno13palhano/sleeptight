@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bruno13palhano.model.BabyStatus
-import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.BabyStatusCardBinding
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 
@@ -42,8 +41,6 @@ class BabyStatusAdapter(
             currentBabyStatus = babyStatus
             binding.title.text = babyStatus.title
             binding.date.text = DateFormatUtil.format(babyStatus.date)
-            binding.height.text = itemView.resources.getString(R.string.height_tag, babyStatus.height)
-            binding.weight.text = itemView.resources.getString(R.string.weight_tag, babyStatus.weight)
         }
     }
 
