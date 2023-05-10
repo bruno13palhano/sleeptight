@@ -64,15 +64,6 @@ class NapViewModel @Inject constructor(
         endTime.value = CalendarUtil.timeToMilliseconds(hour, minute)
     }
 
-    private val sleepTime = combine(startTime ,endTime) { startTime, endTime ->
-        CalendarUtil.getSleepTime(startTime, endTime)
-    }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = 0L,
-            started = WhileSubscribed(5_000)
-        )
-
     val title = MutableStateFlow("")
     val observation = MutableStateFlow("")
 
@@ -95,7 +86,7 @@ class NapViewModel @Inject constructor(
             date = date.value,
             startTime = startTime.value,
             endTime = endTime.value,
-            sleepTime = sleepTime.value,
+            sleepTime = CalendarUtil.getSleepTime(startTime.value, endTime.value),
             observation = observation.value
         )
         viewModelScope.launch {
