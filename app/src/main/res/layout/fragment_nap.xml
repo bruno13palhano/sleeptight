@@ -22,16 +22,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/title_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:drawableStartCompat="@drawable/baseline_label_24"
+                app:layout_constraintBottom_toBottomOf="@+id/title_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/title_layout" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/title_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
                 android:hint="@string/title_label"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/title_label"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -44,95 +54,109 @@
 
             <TextView
                 android:id="@+id/date_label"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:drawablePadding="16dp"
-                android:hint="@string/date_tag"
-                android:padding="16dp"
-                android:textSize="16sp"
                 app:drawableStartCompat="@drawable/baseline_calendar_month_24"
-                app:layout_constraintEnd_toEndOf="@+id/start_label"
-                app:layout_constraintStart_toStartOf="@+id/start_label"
+                app:layout_constraintBottom_toBottomOf="@+id/date_layout"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title_layout" />
 
-            <TextView
-                android:id="@+id/date"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/date_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:hint="@string/date_label"
-                android:onClick="@{v -> uiEvents.onDateClick()}"
-                android:padding="16dp"
-                android:text="@{viewModel.dateUi}"
-                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/date_label"
-                app:layout_constraintTop_toBottomOf="@+id/title_layout" />
+                app:layout_constraintTop_toBottomOf="@+id/title_layout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/date"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:focusable="false"
+                    android:onClick="@{v -> uiEvents.onDateClick()}"
+                    android:singleLine="true"
+                    android:text="@{viewModel.dateUi}" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/start_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:drawablePadding="8dp"
-                android:hint="@string/start_time_tag"
-                android:paddingVertical="16dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="0dp"
-                android:textSize="16sp"
                 app:drawableStartCompat="@drawable/baseline_timer_24"
+                app:layout_constraintBottom_toBottomOf="@+id/start_layout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/date" />
+                app:layout_constraintTop_toTopOf="@+id/start_layout" />
 
-            <TextView
-                android:id="@+id/start"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/start_layout"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:hint="@string/start_time_label"
-                android:onClick="@{v -> uiEvents.onStartTimeClick()}"
-                android:padding="16dp"
-                android:text="@{viewModel.startTimeUi}"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/start_label"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/start_label"
-                app:layout_constraintTop_toTopOf="@+id/start_label" />
+                app:layout_constraintTop_toBottomOf="@+id/date_layout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/start"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:focusable="false"
+                    android:onClick="@{v -> uiEvents.onStartTimeClick()}"
+                    android:singleLine="true"
+                    android:text="@{viewModel.startTimeUi}" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/end_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:drawableStartCompat="@drawable/baseline_timer_off_24"
+                app:layout_constraintBottom_toBottomOf="@+id/end_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/end_layout" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/end_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:hint="@string/end_time_tag"
-                android:textSize="16sp"
-                android:paddingVertical="16dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="0dp"
-                app:layout_constraintEnd_toEndOf="@+id/start_label"
-                app:layout_constraintStart_toStartOf="@+id/start_label"
-                app:layout_constraintTop_toBottomOf="@+id/start_label"
-                app:drawableStartCompat="@drawable/baseline_timer_off_24"
-                android:drawablePadding="8dp" />
-
-            <TextView
-                android:id="@+id/end"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_marginEnd="16dp"
                 android:hint="@string/end_time_label"
-                android:onClick="@{v -> uiEvents.onEndTimeClick()}"
-                android:padding="16dp"
-                android:text="@{viewModel.endTimeUi}"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/end_label"
-                app:layout_constraintEnd_toEndOf="@+id/start"
-                app:layout_constraintStart_toStartOf="@+id/start"
-                app:layout_constraintTop_toTopOf="@+id/end_label" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/end_label"
+                app:layout_constraintTop_toBottomOf="@+id/start_layout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/end"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:focusable="false"
+                    android:onClick="@{v -> uiEvents.onEndTimeClick()}"
+                    android:singleLine="true"
+                    android:text="@{viewModel.endTimeUi}" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/done"
@@ -150,20 +174,29 @@
                 app:tint="?colorOnPrimary"
                 app:backgroundTint="?colorPrimary" />
 
+            <TextView
+                android:id="@+id/observation_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:drawableStartCompat="@drawable/baseline_notes_24"
+                app:layout_constraintBottom_toBottomOf="@+id/observation_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/observation_layout" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/observation_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="24dp"
                 android:hint="@string/observation_label"
                 app:layout_constraintBottom_toTopOf="@+id/done"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/end"
+                app:layout_constraintStart_toEndOf="@+id/observation_label"
+                app:layout_constraintTop_toBottomOf="@+id/end_layout"
                 app:layout_constraintVertical_bias="0.005">
 
                 <com.google.android.material.textfield.TextInputEditText
