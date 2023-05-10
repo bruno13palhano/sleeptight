@@ -64,7 +64,7 @@ class NapViewModel @Inject constructor(
         endTime.value = CalendarUtil.timeToMilliseconds(hour, minute)
     }
 
-    val sleepTime = combine(startTime ,endTime) { startTime, endTime ->
+    private val sleepTime = combine(startTime ,endTime) { startTime, endTime ->
         CalendarUtil.getSleepTime(startTime, endTime)
     }
         .stateIn(
