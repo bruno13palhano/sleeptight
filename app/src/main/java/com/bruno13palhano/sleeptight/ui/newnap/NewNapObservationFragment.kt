@@ -4,12 +4,18 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewNapObservationBinding
+import kotlinx.coroutines.launch
 
 class NewNapObservationFragment : Fragment() {
     private var _binding: FragmentNewNapObservationBinding? = null
@@ -28,6 +34,18 @@ class NewNapObservationFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.title.collect {
+                    if (it != "") {
+                        enableNextButton()
+                    } else {
+                        disableNextButton()
+                    }
+                }
+            }
+        }
+
         return view
     }
 
@@ -39,5 +57,13 @@ class NewNapObservationFragment : Fragment() {
     fun navigateToDate() {
         findNavController().navigate(
             NewNapObservationFragmentDirections.actionObservationToDate())
+    }
+
+    private fun enableNextButton() {
+        binding.next.visibility = VISIBLE
+    }
+
+    private fun disableNextButton() {
+        binding.next.visibility = GONE
     }
 }
