@@ -9,4 +9,5 @@ interface BabyStatusRepository {
     fun getBabyStatusByIdStream(id: Long): Flow<BabyStatus>
     suspend fun updateBabyStatus(babyStatus: BabyStatus)
     suspend fun deleteBabyStatusById(id: Long)
+    fun getLastBabyStatusStream(): Flow<BabyStatus>
 }

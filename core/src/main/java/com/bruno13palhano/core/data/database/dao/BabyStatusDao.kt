@@ -25,4 +25,8 @@ internal interface BabyStatusDao {
 
     @Query("DELETE FROM baby_status_table WHERE id = :id")
     suspend fun deleteBabyStatusById(id: Long)
+
+    @Query("SELECT * FROM baby_status_table WHERE id = (SELECT max(id) FROM " +
+            "baby_status_table)")
+    fun getLastBabyStatusStream(): Flow<BabyStatusData>
 }
