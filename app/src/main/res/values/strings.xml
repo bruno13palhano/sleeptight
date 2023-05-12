@@ -143,4 +143,12 @@
     <string name="delete_baby_status_label">Delete Baby Status</string>
     <string name="all_baby_status_label">All baby status</string>
     <string name="current_baby_status_label">Current baby status</string>
+
+    <!--  Lists label  -->
+    <string name="lists_label">Lists</string>
+
+    <!--  Notifications label  -->
+    <string name="notifications_label">Notifications</string>
+    <string name="notification_label">Notification</string>
+    <string name="new_notification_label">New Notification</string>
 </resources>
