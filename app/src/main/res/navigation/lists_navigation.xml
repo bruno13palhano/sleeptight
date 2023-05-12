@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lists_navigation"
+    app:startDestination="@id/listsFragment">
+
+    <fragment
+        android:id="@+id/listsFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.lists.ListsFragment"
+        android:label="@string/lists_label"
+        tools:layout="@layout/fragment_lists">
+
+        <action
+            android:id="@+id/action_lists_to_notifications"
+            app:destination="@id/notifications_navigation"/>
+
+        <action
+            android:id="@+id/action_notifications_to_naps"
+            app:destination="@id/naps_navigation" />
+    </fragment>
+</navigation>
