@@ -4,14 +4,14 @@
     <data>
         <variable
             name="uiEvents"
-            type="com.bruno13palhano.sleeptight.ui.lists.notificaitons.NotificationFragment" />
+            type="com.bruno13palhano.sleeptight.ui.lists.notifications.NotificationFragment" />
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.lists.notificaitons.NotificationFragment">
+        tools:context=".ui.lists.notifications.NotificationFragment">
 
         <TextView
             android:layout_width="match_parent"

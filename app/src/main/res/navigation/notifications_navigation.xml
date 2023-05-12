@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/notificationsFragment"
-        android:name="com.bruno13palhano.sleeptight.ui.lists.notificaitons.NotificationsFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.lists.notifications.NotificationsFragment"
         android:label="@string/notifications_label"
         tools:layout="@layout/fragment_notifications">
 
@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/notificationFragment"
-        android:name="com.bruno13palhano.sleeptight.ui.lists.notificaitons.NotificationFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.lists.notifications.NotificationFragment"
         android:label="@string/notification_label"
         tools:layout="@layout/fragment_notification">
 
@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/newNotificationFragment"
-        android:name="com.bruno13palhano.sleeptight.ui.lists.notificaitons.newnotification.NewNotificationFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.lists.notifications.newnotification.NewNotificationFragment"
         android:label="@string/new_notification_label"
         tools:layout="@layout/fragment_new_notification">
 
