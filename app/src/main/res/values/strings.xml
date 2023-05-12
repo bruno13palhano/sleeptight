@@ -141,4 +141,6 @@
     <string name="baby_status_height_and_weight">Height and Weight</string>
     <string name="add_new_baby_status_label">Add new baby status</string>
     <string name="delete_baby_status_label">Delete Baby Status</string>
+    <string name="all_baby_status_label">All baby status</string>
+    <string name="current_baby_status_label">Current baby status</string>
 </resources>
