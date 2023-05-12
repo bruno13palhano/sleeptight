@@ -6,9 +6,9 @@
         android:title="@string/home_label" />
 
     <item
-        android:id="@id/naps_navigation"
+        android:id="@id/lists_navigation"
         android:icon="@drawable/baseline_list_24"
-        android:title="@string/naps_label" />
+        android:title="@string/lists_label" />
 
     <item
         android:id="@id/media_player_navigation"
