@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.newnap
+package com.bruno13palhano.sleeptight.ui.lists.newnap
 
 import android.icu.text.DateFormat
 import android.icu.util.Calendar

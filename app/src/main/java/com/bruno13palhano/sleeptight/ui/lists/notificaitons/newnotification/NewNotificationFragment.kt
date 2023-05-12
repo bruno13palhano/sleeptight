@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.notificaitons.newnotification
+package com.bruno13palhano.sleeptight.ui.lists.notificaitons.newnotification
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

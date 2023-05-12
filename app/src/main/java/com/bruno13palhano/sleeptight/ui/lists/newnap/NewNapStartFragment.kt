@@ -1,7 +1,5 @@
-package com.bruno13palhano.sleeptight.ui.newnap
+package com.bruno13palhano.sleeptight.ui.lists.newnap
 
-import android.icu.util.Calendar
-import android.icu.util.TimeZone
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,25 +12,24 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
-import com.bruno13palhano.sleeptight.databinding.FragmentNewNapDateBinding
-import com.google.android.material.datepicker.MaterialDatePicker
-import dagger.hilt.android.AndroidEntryPoint
+import com.bruno13palhano.sleeptight.databinding.FragmentNewNapStartBinding
+import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
+import com.google.android.material.timepicker.MaterialTimePicker
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
-class NewNapDateFragment : Fragment() {
-    private var _binding: FragmentNewNapDateBinding? = null
+class NewNapStartFragment : Fragment() {
+    private var _binding: FragmentNewNapStartBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NewNapViewModel by activityViewModels()
 
-    private lateinit var datePicker: MaterialDatePicker<Long>
+    private lateinit var timePicker: MaterialTimePicker
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil
-            .inflate(inflater, R.layout.fragment_new_nap_date, container, false)
+            .inflate(inflater, R.layout.fragment_new_nap_start, container, false)
         val view = binding.root
 
         binding.uiEvents = this
@@ -41,8 +38,8 @@ class NewNapDateFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.date.collect {
-                    setDatePicker(it)
+                viewModel.startTime.collect {
+                    setTimePicker(it)
                 }
             }
         }
@@ -55,26 +52,21 @@ class NewNapDateFragment : Fragment() {
         _binding = null
     }
 
-    fun navigateToStart() {
+    fun navigateToEnd() {
         findNavController().navigate(
-            NewNapDateFragmentDirections.actionDateToStart())
+            NewNapStartFragmentDirections.actionStartToEnd()
+        )
     }
 
-    fun onDateClick() {
-        if (!datePicker.isAdded)
-            datePicker.show(requireParentFragment().parentFragmentManager, "date dialog")
+    fun onTimeClick() {
+        if (!timePicker.isAdded)
+            timePicker.show(requireParentFragment().parentFragmentManager, "start time dialog")
     }
 
-    private fun setDatePicker(date: Long) {
-        datePicker = MaterialDatePicker
-            .Builder
-            .datePicker()
-            .setSelection(date)
-            .build()
-        datePicker.addOnPositiveButtonClickListener {
-            val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-            calendar.timeInMillis = it
-            viewModel.setDate(calendar.timeInMillis)
+    private fun setTimePicker(time: Long) {
+        timePicker = TimePickerUtil.prepareTimePicker(time)
+        timePicker.addOnPositiveButtonClickListener {
+            viewModel.setStartTime(timePicker.hour, timePicker.minute)
         }
     }
 }

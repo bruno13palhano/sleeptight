@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.newnap
+package com.bruno13palhano.sleeptight.ui.lists.newnap
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -56,7 +56,8 @@ class NewNapObservationFragment : Fragment() {
 
     fun navigateToDate() {
         findNavController().navigate(
-            NewNapObservationFragmentDirections.actionObservationToDate())
+            NewNapObservationFragmentDirections.actionObservationToDate()
+        )
     }
 
     private fun enableNextButton() {
