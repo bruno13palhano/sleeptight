@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/notifications_navigation"
+    app:startDestination="@id/notificationsFragment">
+
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.notificaitons.NotificationsFragment"
+        android:label="@string/notifications_label"
+        tools:layout="@layout/fragment_notifications">
+
+        <action
+            android:id="@+id/action_notifications_to_notification"
+            app:destination="@id/notificationFragment" />
+
+        <action
+            android:id="@+id/action_notifications_to_newNotification"
+            app:destination="@id/newNotificationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.notificaitons.NotificationFragment"
+        android:label="@string/notification_label"
+        tools:layout="@layout/fragment_notification">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/newNotificationFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.notificaitons.newnotification.NewNotificationFragment"
+        android:label="@string/new_notification_label"
+        tools:layout="@layout/fragment_new_notification">
+
+    </fragment>
+</navigation>
