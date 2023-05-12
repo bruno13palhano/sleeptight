@@ -19,6 +19,9 @@ annotation class DefaultUserRep
 @Qualifier
 annotation class DefaultBabyStatusRep
 
+@Qualifier
+annotation class DefaultNotificationRep
+
 @InstallIn(SingletonComponent::class)
 @Module
 internal abstract class RepositoryModule {
@@ -37,4 +40,9 @@ internal abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun bindDefaultBabyStateRepository(repository: DefaultBabyStatusRepository): BabyStatusRepository
+
+    @DefaultNotificationRep
+    @Singleton
+    @Binds
+    abstract fun bindDefaultNotificationRepository(repository: DefaultNotificationRepository): NotificationRepository
 }
