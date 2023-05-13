@@ -26,6 +26,9 @@
         android:label="@string/notification_label"
         tools:layout="@layout/fragment_notification">
 
+        <argument
+            android:name="notificationId"
+            app:argType="long" />
     </fragment>
 
     <fragment
