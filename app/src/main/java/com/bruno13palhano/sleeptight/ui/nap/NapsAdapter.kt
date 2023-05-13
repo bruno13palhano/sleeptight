@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bruno13palhano.model.Nap
 import com.bruno13palhano.sleeptight.databinding.BabyStatusCardBinding
-import com.bruno13palhano.sleeptight.databinding.NapCardBinding
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 
 class NapsAdapter(
@@ -28,7 +27,7 @@ class NapsAdapter(
         private val binding: BabyStatusCardBinding,
         val onClick: (napId: Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
-        var currentNap: Nap? = null
+        private var currentNap: Nap? = null
 
         init {
             binding.root.setOnClickListener {
