@@ -5,6 +5,9 @@
     android:id="@+id/lists_navigation"
     app:startDestination="@id/listsFragment">
 
+    <include app:graph="@navigation/naps_navigation" />
+    <include app:graph="@navigation/notifications_navigation" />
+
     <fragment
         android:id="@+id/listsFragment"
         android:name="com.bruno13palhano.sleeptight.ui.lists.ListsFragment"
@@ -13,7 +16,7 @@
 
         <action
             android:id="@+id/action_lists_to_notifications"
-            app:destination="@id/notifications_navigation"/>
+            app:destination="@id/notifications_navigation" />
 
         <action
             android:id="@+id/action_notifications_to_naps"

@@ -5,11 +5,9 @@
     app:startDestination="@id/home_navigation">
 
     <include app:graph="@navigation/home_navigation" />
-    <include app:graph="@navigation/naps_navigation" />
     <include app:graph="@navigation/settings_navigation" />
     <include app:graph="@navigation/media_player_navigation" />
     <include app:graph="@navigation/analytics_navigation" />
     <include app:graph="@navigation/login_navigation" />
     <include app:graph="@navigation/lists_navigation" />
-    <include app:graph="@navigation/notifications_navigation" />
 </navigation>
