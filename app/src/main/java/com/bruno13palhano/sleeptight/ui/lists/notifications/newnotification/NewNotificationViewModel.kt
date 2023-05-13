@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.di.DefaultNotificationRep
 import com.bruno13palhano.core.data.repository.NotificationRepository
 import com.bruno13palhano.model.Notification
+import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,6 +32,13 @@ class NewNotificationViewModel @Inject constructor(
 
     private val _hour = MutableStateFlow(currentHour.timeInMillis)
     val hour = _hour.asStateFlow()
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = 0L,
+            started = WhileSubscribed(5_000)
+        )
+
+    val hourUi = _hour.asStateFlow()
         .map {
             DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(it)
         }
@@ -40,8 +48,19 @@ class NewNotificationViewModel @Inject constructor(
             started = WhileSubscribed(5_000)
         )
 
+    fun setHour(hour: Int, minute: Int) {
+        _hour.value = CalendarUtil.timeToMilliseconds(hour, minute)
+    }
+
     private val _date = MutableStateFlow(MaterialDatePicker.todayInUtcMilliseconds())
     val date = _date.asStateFlow()
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = 0L,
+            started = WhileSubscribed(5_000)
+        )
+
+    val dateUi = _date.asStateFlow()
         .map {
             DateFormatUtil.format(it)
         }
@@ -50,6 +69,10 @@ class NewNotificationViewModel @Inject constructor(
             initialValue = "",
             started = WhileSubscribed(5_000)
         )
+
+    fun setDate(date: Long) {
+        _date.value = date
+    }
 
     fun insertNotification() {
         val notification = Notification(
