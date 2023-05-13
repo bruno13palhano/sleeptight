@@ -21,6 +21,9 @@ internal data class NotificationData(
     @ColumnInfo(name = "time")
     val time: Long,
 
+    @ColumnInfo(name = "date")
+    val date: Long,
+
     @ColumnInfo(name = "repeat")
     val repeat: Boolean
 )
@@ -30,6 +33,7 @@ internal fun NotificationData.asNotification() = Notification(
     title = title,
     description = description,
     time = time,
+    date = date,
     repeat = repeat
 )
 
@@ -38,5 +42,6 @@ internal fun Notification.asNotificationData() = NotificationData(
     title = title,
     description = description,
     time = time,
+    date = date,
     repeat = repeat
 )

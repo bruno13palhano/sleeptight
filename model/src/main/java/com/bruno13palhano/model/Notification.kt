@@ -5,5 +5,6 @@ data class Notification(
     val title: String,
     val description: String,
     val time: Long,
+    val date: Long,
     val repeat: Boolean
 )
