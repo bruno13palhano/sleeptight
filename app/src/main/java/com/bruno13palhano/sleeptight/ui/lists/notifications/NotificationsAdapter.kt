@@ -11,13 +11,14 @@ import com.bruno13palhano.sleeptight.databinding.NotificationCardBinding
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 
 class NotificationsAdapter(
-    private val onClick: (id: Long) -> Unit
+    private val onItemClick: (id: Long) -> Unit,
+    private val onDeleteItemClick: (id: Long) -> Unit
 ) : ListAdapter<Notification, NotificationsAdapter.NotificationItemViewHolder>(NotificationDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationItemViewHolder {
         val binding = NotificationCardBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
-        return NotificationItemViewHolder(binding, onClick)
+        return NotificationItemViewHolder(binding, onItemClick, onDeleteItemClick)
     }
 
     override fun onBindViewHolder(holder: NotificationItemViewHolder, position: Int) {
@@ -26,20 +27,21 @@ class NotificationsAdapter(
 
     class NotificationItemViewHolder(
         private val binding: NotificationCardBinding,
-        val onClick: (id: Long) -> Unit
+        val onItemClick: (id: Long) -> Unit,
+        val onDeleteItemClick: (id: Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         private var currentNotification: Notification? = null
 
         init {
             binding.root.setOnClickListener {
                 currentNotification?.let {
-                    onClick(it.id)
+                    onItemClick(it.id)
                 }
             }
 
             binding.delete.setOnClickListener {
                 currentNotification?.let {
-
+                    onDeleteItemClick(it.id)
                 }
             }
         }
