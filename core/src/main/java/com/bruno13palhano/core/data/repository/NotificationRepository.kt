@@ -9,4 +9,5 @@ interface NotificationRepository {
     suspend fun insertNotification(notification: Notification)
     suspend fun deleteNotificationById(id: Long)
     suspend fun updateNotification(notification: Notification)
+    fun getLastNotificationStream(): Flow<Notification>
 }

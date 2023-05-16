@@ -24,4 +24,8 @@ internal interface NotificationDao {
 
     @Update
     suspend fun updateNotification(notification: NotificationData)
+
+    @Query("SElECT * FROM notification_table WHERE id = (SELECT max(id) FROM " +
+            "notification_table)")
+    fun getLastNotificationStream(): Flow<NotificationData>
 }

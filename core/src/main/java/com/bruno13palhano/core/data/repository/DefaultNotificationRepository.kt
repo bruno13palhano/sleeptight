@@ -38,4 +38,10 @@ internal class DefaultNotificationRepository @Inject constructor(
     override suspend fun updateNotification(notification: Notification) {
         notificationDao.updateNotification(notification.asNotificationData())
     }
+
+    override fun getLastNotificationStream(): Flow<Notification> {
+        return notificationDao.getLastNotificationStream().map {
+            it.asNotification()
+        }
+    }
 }
