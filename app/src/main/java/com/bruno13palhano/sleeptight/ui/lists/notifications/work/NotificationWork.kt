@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.work
+package com.bruno13palhano.sleeptight.ui.lists.notifications.work
 
 import android.app.AlarmManager
 import android.app.NotificationChannel
@@ -16,7 +16,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.bruno13palhano.core.data.di.DefaultNotificationRep
 import com.bruno13palhano.core.data.repository.NotificationRepository
-import com.bruno13palhano.sleeptight.ui.lists.notifications.NotificationReceiver
+import com.bruno13palhano.sleeptight.ui.lists.notifications.receivers.NotificationReceiver
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
