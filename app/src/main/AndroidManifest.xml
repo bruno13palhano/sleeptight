@@ -54,12 +54,12 @@
                 tools:node="remove" />
         </provider>
 
-        <receiver android:name=".ui.lists.notifications.NotificationReceiver"
+        <receiver android:name=".ui.lists.notifications.receivers.NotificationReceiver"
             android:enabled="true"
             android:exported="false">
         </receiver>
 
-        <receiver android:name=".ui.lists.notifications.NotificationRebootReceiver"
+        <receiver android:name=".ui.lists.notifications.receivers.NotificationRebootReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

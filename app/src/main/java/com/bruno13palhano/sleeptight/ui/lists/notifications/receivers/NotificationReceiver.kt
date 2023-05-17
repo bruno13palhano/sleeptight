@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.lists.notifications
+package com.bruno13palhano.sleeptight.ui.lists.notifications.receivers
 
 import android.app.NotificationManager
 import android.app.PendingIntent
