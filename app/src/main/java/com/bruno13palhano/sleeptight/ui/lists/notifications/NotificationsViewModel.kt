@@ -7,6 +7,7 @@ import com.bruno13palhano.core.data.repository.NotificationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,4 +21,10 @@ class NotificationsViewModel @Inject constructor(
             initialValue = emptyList(),
             started = WhileSubscribed(5_000)
         )
+
+    fun deleteNotification(notificationId: Long) {
+        viewModelScope.launch {
+            notificationRepository.deleteNotificationById(notificationId)
+        }
+    }
 }

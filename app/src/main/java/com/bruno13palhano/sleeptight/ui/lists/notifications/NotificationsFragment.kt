@@ -1,5 +1,11 @@
 package com.bruno13palhano.sleeptight.ui.lists.notifications
 
+import android.app.AlarmManager
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context.ALARM_SERVICE
+import android.content.Context.NOTIFICATION_SERVICE
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,6 +27,7 @@ class NotificationsFragment : Fragment() {
     private var _binding: FragmentNotificationsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NotificationsViewModel by viewModels()
+    private lateinit var notificationManager: NotificationManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,9 +39,16 @@ class NotificationsFragment : Fragment() {
 
         binding.uiEvents = this
 
-        val adapter = NotificationsAdapter {
-            navigateToNotification(it)
-        }
+        notificationManager =
+            activity?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
+        val adapter = NotificationsAdapter(
+            onItemClick = { navigateToNotification(it) },
+            onDeleteItemClick = {
+                cancelNotification(it.toInt())
+                viewModel.deleteNotification(it)
+            }
+        )
         binding.notificationsList.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -61,5 +75,24 @@ class NotificationsFragment : Fragment() {
     fun navigateToNewNotification() {
         findNavController().navigate(
             NotificationsFragmentDirections.actionNotificationsToNewNotification())
+    }
+
+    private fun cancelNotification(notificationId: Int) {
+        val notifyIntent = Intent(requireContext(), NotificationReceiver::class.java)
+        notifyIntent.apply {
+            putExtra("id", notificationId)
+        }
+
+        val notifyPendingIntent = PendingIntent.getBroadcast(
+            requireContext(),
+            notificationId,
+            notifyIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+        )
+
+        val alarmManager = requireContext().getSystemService(ALARM_SERVICE) as AlarmManager
+
+        notificationManager.cancel(notificationId)
+        alarmManager.cancel(notifyPendingIntent)
     }
 }
