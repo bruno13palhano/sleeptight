@@ -19,6 +19,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNotificationsBinding
+import com.bruno13palhano.sleeptight.ui.lists.notifications.receivers.NotificationReceiver
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -92,7 +93,11 @@ class NotificationsFragment : Fragment() {
 
         val alarmManager = requireContext().getSystemService(ALARM_SERVICE) as AlarmManager
 
-        notificationManager.cancel(notificationId)
-        alarmManager.cancel(notifyPendingIntent)
+        val alarmNotification = AlarmNotification(
+            notificationManager = notificationManager,
+            alarmManager = alarmManager
+        )
+
+        alarmNotification.cancelNotification(notifyPendingIntent, notificationId)
     }
 }
