@@ -12,6 +12,7 @@ import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
@@ -87,4 +88,7 @@ class NewNotificationViewModel @Inject constructor(
             notificationRepository.insertNotification(notification)
         }
     }
+
+    fun getLastNotification(): Flow<Notification> =
+        notificationRepository.getLastNotificationStream()
 }
