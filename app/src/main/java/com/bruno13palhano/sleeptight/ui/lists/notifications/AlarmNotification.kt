@@ -7,29 +7,45 @@ import android.app.PendingIntent
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import android.os.Build
-import com.bruno13palhano.model.Notification
 
 private const val PRIMARY_CHANNEL_ID = "primary_notification_channel"
+private const val PRIMARY_CHANNEL_NAME = "SleepTight notification"
+private const val PRIMARY_CHANNEL_DESCRIPTION = "Notifies users"
 
 class AlarmNotification(
-    private val notification: Notification,
     private val notificationManager: NotificationManager,
     private val alarmManager: AlarmManager
 ) {
 
-    fun updateAlarmManager(notifyPendingIntent: PendingIntent) {
+    fun cancelNotification(notifyPendingIntent: PendingIntent, notificationId: Int) {
+        notificationManager.cancel(notificationId)
         alarmManager.cancel(notifyPendingIntent)
-        setAlarmManager(notifyPendingIntent)
     }
 
-    fun setAlarmManager(notifyPendingIntent: PendingIntent) {
-        val dateAndTime = getNotificationDateAndTime(notification.time, notification.date)
+    fun updateAlarmManager(
+        notifyPendingIntent: PendingIntent,
+        notificationId: Int,
+        time: Long,
+        date: Long,
+        repeat: Boolean
+    ) {
+        cancelNotification(notifyPendingIntent, notificationId)
+        setAlarmManager(notifyPendingIntent, time, date, repeat)
+    }
 
-        if (notification.repeat) {
+    fun setAlarmManager(
+        notifyPendingIntent: PendingIntent,
+        time: Long,
+        date: Long,
+        repeat: Boolean
+    ) {
+        val dateAndTime = getNotificationDateAndTime(time, date)
+
+        if (repeat) {
             alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 dateAndTime,
-                AlarmManager.INTERVAL_FIFTEEN_MINUTES,
+                AlarmManager.INTERVAL_DAY,
                 notifyPendingIntent
             )
         } else {
@@ -39,6 +55,8 @@ class AlarmNotification(
                 notifyPendingIntent
             )
         }
+
+        createNotificationChannel()
     }
 
     private fun getNotificationDateAndTime(time: Long, date: Long): Long {
@@ -58,14 +76,14 @@ class AlarmNotification(
         return calendar.timeInMillis
     }
 
-    fun createNotificationChannel() {
+    private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel = NotificationChannel(
-                PRIMARY_CHANNEL_ID, "SleepTight notification", NotificationManager.IMPORTANCE_HIGH)
+                PRIMARY_CHANNEL_ID, PRIMARY_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
 
             notificationChannel.enableLights(true)
             notificationChannel.enableVibration(true)
-            notificationChannel.description = "Notifies users"
+            notificationChannel.description = PRIMARY_CHANNEL_DESCRIPTION
             notificationManager.createNotificationChannel(notificationChannel)
         }
     }
