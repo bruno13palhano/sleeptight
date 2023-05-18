@@ -79,7 +79,7 @@
                     android:layout_height="match_parent"
                     android:focusable="false"
                     android:text="@{viewModel.hourUi}"
-                    android:onClick="@{v -> uiEvents.onHourClick()}" />
+                    android:onClick="@{v -> uiEvents.onTimeClick()}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
