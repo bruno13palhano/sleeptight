@@ -13,7 +13,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewNapEndBinding
-import com.bruno13palhano.sleeptight.ui.lists.newnap.NewNapEndFragmentDirections
 import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
 import com.google.android.material.timepicker.MaterialTimePicker
 import kotlinx.coroutines.launch
