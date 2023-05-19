@@ -27,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NotificationFragment : Fragment() {
+class NotificationFragment : Fragment(), NotificationView {
     private var _binding: FragmentNotificationBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NotificationViewModel by viewModels()
@@ -99,19 +99,19 @@ class NotificationFragment : Fragment() {
         _binding = null
     }
 
-    fun updateNotification() {
+    override fun onActionClick() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.updateNotification(notificationId)
         }
         updateAlarm()
     }
 
-    fun onHourClick() {
+    override fun onTimeClick() {
         if (!timePicker.isAdded)
             timePicker.show(requireParentFragment().parentFragmentManager, "hour_dialog")
     }
 
-    fun onDateClick() {
+    override fun onDateClick() {
         if (!datePicker.isAdded)
             datePicker.show(requireParentFragment().parentFragmentManager, "date_dialog")
     }
