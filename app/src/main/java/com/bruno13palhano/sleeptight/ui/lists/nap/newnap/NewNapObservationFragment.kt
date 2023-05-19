@@ -1,9 +1,11 @@
-package com.bruno13palhano.sleeptight.ui.lists.newnap
+package com.bruno13palhano.sleeptight.ui.lists.nap.newnap
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
@@ -12,24 +14,21 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
-import com.bruno13palhano.sleeptight.databinding.FragmentNewNapEndBinding
-import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
-import com.google.android.material.timepicker.MaterialTimePicker
+import com.bruno13palhano.sleeptight.databinding.FragmentNewNapObservationBinding
+import com.bruno13palhano.sleeptight.ui.lists.newnap.NewNapObservationFragmentDirections
 import kotlinx.coroutines.launch
 
-class NewNapEndFragment : Fragment() {
-    private var _binding: FragmentNewNapEndBinding? = null
+class NewNapObservationFragment : Fragment() {
+    private var _binding: FragmentNewNapObservationBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NewNapViewModel by activityViewModels()
-
-    private lateinit var timePicker: MaterialTimePicker
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil
-            .inflate(inflater, R.layout.fragment_new_nap_end, container, false)
+            .inflate(inflater, R.layout.fragment_new_nap_observation, container, false)
         val view = binding.root
 
         binding.uiEvents = this
@@ -38,8 +37,12 @@ class NewNapEndFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.endTime.collect {
-                    setTimePicker(it)
+                viewModel.title.collect {
+                    if (it != "") {
+                        enableNextButton()
+                    } else {
+                        disableNextButton()
+                    }
                 }
             }
         }
@@ -52,22 +55,17 @@ class NewNapEndFragment : Fragment() {
         _binding = null
     }
 
-    fun insertNap() {
+    fun navigateToDate() {
         findNavController().navigate(
-            NewNapEndFragmentDirections.actionEndToNaps()
+            NewNapObservationFragmentDirections.actionObservationToDate()
         )
-        viewModel.insertNap()
     }
 
-    fun onTimeClick() {
-        if (!timePicker.isAdded)
-            timePicker.show(requireParentFragment().parentFragmentManager, "end time dialog")
+    private fun enableNextButton() {
+        binding.next.visibility = VISIBLE
     }
 
-    private fun setTimePicker(time: Long) {
-        timePicker = TimePickerUtil.prepareTimePicker(time)
-        timePicker.addOnPositiveButtonClickListener {
-            viewModel.setEndTime(timePicker.hour, timePicker.minute)
-        }
+    private fun disableNextButton() {
+        binding.next.visibility = GONE
     }
 }

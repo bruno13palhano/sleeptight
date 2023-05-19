@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.nap
+package com.bruno13palhano.sleeptight.ui.lists.nap
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.nap
+package com.bruno13palhano.sleeptight.ui.lists.nap
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

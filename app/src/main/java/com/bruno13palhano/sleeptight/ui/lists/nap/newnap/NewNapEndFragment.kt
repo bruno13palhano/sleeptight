@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.lists.newnap
+package com.bruno13palhano.sleeptight.ui.lists.nap.newnap
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,13 +12,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
-import com.bruno13palhano.sleeptight.databinding.FragmentNewNapStartBinding
+import com.bruno13palhano.sleeptight.databinding.FragmentNewNapEndBinding
+import com.bruno13palhano.sleeptight.ui.lists.newnap.NewNapEndFragmentDirections
 import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
 import com.google.android.material.timepicker.MaterialTimePicker
 import kotlinx.coroutines.launch
 
-class NewNapStartFragment : Fragment() {
-    private var _binding: FragmentNewNapStartBinding? = null
+class NewNapEndFragment : Fragment() {
+    private var _binding: FragmentNewNapEndBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NewNapViewModel by activityViewModels()
 
@@ -29,7 +30,7 @@ class NewNapStartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil
-            .inflate(inflater, R.layout.fragment_new_nap_start, container, false)
+            .inflate(inflater, R.layout.fragment_new_nap_end, container, false)
         val view = binding.root
 
         binding.uiEvents = this
@@ -38,7 +39,7 @@ class NewNapStartFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.startTime.collect {
+                viewModel.endTime.collect {
                     setTimePicker(it)
                 }
             }
@@ -52,21 +53,22 @@ class NewNapStartFragment : Fragment() {
         _binding = null
     }
 
-    fun navigateToEnd() {
+    fun insertNap() {
         findNavController().navigate(
-            NewNapStartFragmentDirections.actionStartToEnd()
+            NewNapEndFragmentDirections.actionEndToNaps()
         )
+        viewModel.insertNap()
     }
 
     fun onTimeClick() {
         if (!timePicker.isAdded)
-            timePicker.show(requireParentFragment().parentFragmentManager, "start time dialog")
+            timePicker.show(requireParentFragment().parentFragmentManager, "end time dialog")
     }
 
     private fun setTimePicker(time: Long) {
         timePicker = TimePickerUtil.prepareTimePicker(time)
         timePicker.addOnPositiveButtonClickListener {
-            viewModel.setStartTime(timePicker.hour, timePicker.minute)
+            viewModel.setEndTime(timePicker.hour, timePicker.minute)
         }
     }
 }

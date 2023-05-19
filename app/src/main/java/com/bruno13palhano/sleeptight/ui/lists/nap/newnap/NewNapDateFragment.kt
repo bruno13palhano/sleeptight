@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.lists.newnap
+package com.bruno13palhano.sleeptight.ui.lists.nap.newnap
 
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
@@ -15,6 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewNapDateBinding
+import com.bruno13palhano.sleeptight.ui.lists.newnap.NewNapDateFragmentDirections
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

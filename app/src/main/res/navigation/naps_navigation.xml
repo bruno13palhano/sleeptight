@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/napsFragment"
-        android:name="com.bruno13palhano.sleeptight.ui.nap.NapsFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.lists.nap.NapsFragment"
         android:label="@string/naps_label"
         tools:layout="@layout/fragment_naps">
 
@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/napFragment"
-        android:name="com.bruno13palhano.sleeptight.ui.nap.NapFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.lists.nap.NapFragment"
         android:label="@string/nap_label"
         tools:layout="@layout/fragment_nap">
 
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/newNapObservationFragment"
-        android:name="com.bruno13palhano.sleeptight.ui.lists.newnap.NewNapObservationFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.lists.nap.newnap.NewNapObservationFragment"
         android:label="@string/observation_label"
         tools:layout="@layout/fragment_new_nap_observation">
 
@@ -44,7 +44,7 @@
 
     <fragment
         android:id="@+id/newNapDateFragment"
-        android:name="com.bruno13palhano.sleeptight.ui.lists.newnap.NewNapDateFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.lists.nap.newnap.NewNapDateFragment"
         android:label="@string/date_label"
         tools:layout="@layout/fragment_new_nap_date">
 
@@ -55,7 +55,7 @@
 
     <fragment
         android:id="@+id/newNapStartFragment"
-        android:name="com.bruno13palhano.sleeptight.ui.lists.newnap.NewNapStartFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.lists.nap.newnap.NewNapStartFragment"
         android:label="@string/start_time_label"
         tools:layout="@layout/fragment_new_nap_start">
 
@@ -66,7 +66,7 @@
 
     <fragment
         android:id="@+id/newNapEndFragment"
-        android:name="com.bruno13palhano.sleeptight.ui.lists.newnap.NewNapEndFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.lists.nap.newnap.NewNapEndFragment"
         android:label="@string/end_time_label"
         tools:layout="@layout/fragment_new_nap_end">
 

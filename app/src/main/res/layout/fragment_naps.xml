@@ -6,12 +6,12 @@
     <data>
         <variable
             name="uiEvents"
-            type="com.bruno13palhano.sleeptight.ui.nap.NapsFragment" />
+            type="com.bruno13palhano.sleeptight.ui.lists.nap.NapsFragment" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.nap.NapsFragment">
+        tools:context=".ui.lists.nap.NapsFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/nap_list"

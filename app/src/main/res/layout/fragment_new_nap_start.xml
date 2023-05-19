@@ -6,17 +6,17 @@
     <data>
         <variable
             name="uiEvents"
-            type="com.bruno13palhano.sleeptight.ui.lists.newnap.NewNapStartFragment" />
+            type="com.bruno13palhano.sleeptight.ui.lists.nap.newnap.NewNapStartFragment" />
         <variable
             name="viewModel"
-            type="com.bruno13palhano.sleeptight.ui.lists.newnap.NewNapViewModel" />
+            type="com.bruno13palhano.sleeptight.ui.lists.nap.newnap.NewNapViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        tools:context=".ui.lists.newnap.NewNapStartFragment">
+        tools:context=".ui.lists.nap.newnap.NewNapStartFragment">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">

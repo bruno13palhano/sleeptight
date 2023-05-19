@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.nap
+package com.bruno13palhano.sleeptight.ui.lists.nap
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNapsBinding
+import com.bruno13palhano.sleeptight.ui.nap.NapsFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -34,7 +35,8 @@ class NapsFragment : Fragment() {
 
         val adapter = NapsAdapter {
             findNavController().navigate(
-                NapsFragmentDirections.actionNapsToNap(it))
+                NapsFragmentDirections.actionNapsToNap(it)
+            )
         }
         binding.napList.adapter = adapter
 
@@ -56,6 +58,7 @@ class NapsFragment : Fragment() {
 
     fun navigateToDate() {
         findNavController().navigate(
-            NapsFragmentDirections.actionNapsToObservation())
+            NapsFragmentDirections.actionNapsToObservation()
+        )
     }
 }
