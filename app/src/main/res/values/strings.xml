@@ -151,4 +151,10 @@
     <string name="notifications_label">Notifications</string>
     <string name="notification_label">Notification</string>
     <string name="new_notification_label">New Notification</string>
+    <string name="add_new_notification">Add new notification</string>
+    <string name="repeat_notification_label">Repeat notification</string>
+    <string name="on_label">On</string>
+    <string name="off_label">Off</string>
+    <string name="description_label">Description</string>
+    <string name="hour_label">Hour</string>
 </resources>
