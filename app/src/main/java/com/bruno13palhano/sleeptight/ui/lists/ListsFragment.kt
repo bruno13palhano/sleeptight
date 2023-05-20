@@ -41,4 +41,9 @@ class ListsFragment : Fragment() {
         findNavController().navigate(
             ListsFragmentDirections.actionListsToNaps())
     }
+
+    fun navigateToBabyStatusList() {
+        findNavController().navigate(
+            ListsFragmentDirections.actionListsToBabyStatusList())
+    }
 }

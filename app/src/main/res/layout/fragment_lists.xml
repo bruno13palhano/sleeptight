@@ -39,5 +39,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/notifications" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/baby_status_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:onClick="@{v -> uiEvents.navigateToBabyStatusList()}"
+            android:text="@string/all_baby_status_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/naps" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
