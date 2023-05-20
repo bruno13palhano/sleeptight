@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/baby_status_navigation"
+    app:startDestination="@id/babyStatusListFragment">
+
+    <fragment
+        android:id="@+id/babyStatusListFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.lists.babystatus.BabyStatusListFragment"
+        android:label="@string/all_baby_status_label"
+        tools:layout="@layout/fragment_baby_status_list">
+
+        <action
+            android:id="@+id/action_statusList_to_babyStatus"
+            app:destination="@id/babyStatusFragment" />
+
+        <action
+            android:id="@+id/action_statusList_to_babyStatusTitleAndDate"
+            app:destination="@id/babyStatusTitleAndDateFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/babyStatusFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.lists.babystatus.BabyStatusFragment"
+        android:label="@string/baby_status_label"
+        tools:layout="@layout/fragment_baby_status">
+
+        <argument
+            android:name="statusId"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/babyStatusTitleAndDateFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.lists.babystatus.newbabystatus.NewBabyStatusTitleAndDateFragment"
+        android:label="@string/baby_status_title_and_date"
+        tools:layout="@layout/fragment_new_baby_status_title_and_date">
+
+        <action
+            android:id="@+id/action_titleAndDate_to_heightAndWeight"
+            app:destination="@id/babyStatusHeightAndWeightFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/babyStatusHeightAndWeightFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.lists.babystatus.newbabystatus.NewBabyStatusHeightAndWeightFragment"
+        android:label="@string/baby_status_height_and_weight"
+        tools:layout="@layout/fragment_new_baby_status_height_and_weight">
+
+        <action
+            android:id="@+id/action_heightAndWeight_to_statusList"
+            app:destination="@id/babyStatusListFragment"
+            app:popUpTo="@id/babyStatusListFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>
