@@ -89,8 +89,8 @@ class NewBabyStatusTitleAndDateFragment : Fragment() {
     }
 
     fun navigateToHeightAndWeight() {
-        findNavController().navigate(
-            NewBabyStatusTitleAndDateFragmentDirections.actionBabyStatusFragmentToHeightAndWeight())
+//        findNavController().navigate(
+//            NewBabyStatusTitleAndDateFragmentDirections.actionBabyStatusFragmentToHeightAndWeight())
     }
 
     fun onDateClick() {

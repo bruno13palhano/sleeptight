@@ -39,6 +39,6 @@ class ListsFragment : Fragment() {
 
     fun navigateToNaps() {
         findNavController().navigate(
-            ListsFragmentDirections.actionNotificationsToNaps())
+            ListsFragmentDirections.actionListsToNaps())
     }
 }

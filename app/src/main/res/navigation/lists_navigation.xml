@@ -19,7 +19,7 @@
             app:destination="@id/notifications_navigation" />
 
         <action
-            android:id="@+id/action_notifications_to_naps"
+            android:id="@+id/action_lists_to_naps"
             app:destination="@id/naps_navigation" />
     </fragment>
 </navigation>

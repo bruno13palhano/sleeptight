@@ -88,8 +88,8 @@ class NewBabyStatusHeightAndWeightFragment : Fragment() {
     }
 
     fun navigateToHome() {
-        findNavController().navigate(
-            NewBabyStatusHeightAndWeightFragmentDirections.actionBabyStatusHeightAndWeightToHome())
+//        findNavController().navigate(
+//            NewBabyStatusHeightAndWeightFragmentDirections.actionBabyStatusHeightAndWeightToHome())
         viewModel.insertBabyStatus()
     }
 
