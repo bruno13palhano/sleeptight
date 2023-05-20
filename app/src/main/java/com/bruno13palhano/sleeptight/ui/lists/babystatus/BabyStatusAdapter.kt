@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.home
+package com.bruno13palhano.sleeptight.ui.lists.babystatus
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
