@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.babystatus
+package com.bruno13palhano.sleeptight.ui.lists.babystatus
 
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
@@ -15,6 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentBabyStatusBinding
+import com.bruno13palhano.sleeptight.ui.babystatus.BabyStatusViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

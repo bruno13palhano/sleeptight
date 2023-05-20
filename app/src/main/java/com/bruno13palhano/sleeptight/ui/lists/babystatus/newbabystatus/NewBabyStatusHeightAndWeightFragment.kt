@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.babystatus.newbabystatus
+package com.bruno13palhano.sleeptight.ui.lists.babystatus.newbabystatus
 
 import android.content.Context
 import android.os.Bundle
@@ -18,6 +18,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewBabyStatusHeightAndWeightBinding
+import com.bruno13palhano.sleeptight.ui.babystatus.newbabystatus.NewBabyStatusHeightAndWeightFragmentDirections
+import com.bruno13palhano.sleeptight.ui.babystatus.newbabystatus.NewBabyStatusViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -88,8 +90,8 @@ class NewBabyStatusHeightAndWeightFragment : Fragment() {
     }
 
     fun navigateToHome() {
-//        findNavController().navigate(
-//            NewBabyStatusHeightAndWeightFragmentDirections.actionBabyStatusHeightAndWeightToHome())
+        findNavController().navigate(
+            NewBabyStatusHeightAndWeightFragmentDirections.actionHeightAndWeightToStatusList())
         viewModel.insertBabyStatus()
     }
 

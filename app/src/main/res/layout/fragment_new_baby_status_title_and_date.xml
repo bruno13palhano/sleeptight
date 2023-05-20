@@ -6,7 +6,7 @@
     <data>
         <variable
             name="uiEvents"
-            type="com.bruno13palhano.sleeptight.ui.babystatus.newbabystatus.NewBabyStatusTitleAndDateFragment" />
+            type="com.bruno13palhano.sleeptight.ui.lists.babystatus.newbabystatus.NewBabyStatusTitleAndDateFragment" />
 
         <variable
             name="viewModel"
