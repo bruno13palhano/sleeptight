@@ -30,8 +30,10 @@ class BabyStatusListFragment : Fragment() {
             .inflate(inflater, R.layout.fragment_baby_status_list, container, false)
         val view = binding.root
 
-        val adapter = BabyStatusAdapter {
+        binding.uiEvents = this
 
+        val adapter = BabyStatusAdapter {
+            navigateToBabyStatus(it)
         }
         binding.babyStatusList.adapter = adapter
 
@@ -54,5 +56,10 @@ class BabyStatusListFragment : Fragment() {
     fun onAddClick() {
         findNavController().navigate(
             BabyStatusListFragmentDirections.actionStatusListToBabyStatusTitleAndDate())
+    }
+
+    private fun navigateToBabyStatus(id: Long) {
+        findNavController().navigate(
+            BabyStatusListFragmentDirections.actionStatusListToBabyStatus(id))
     }
 }
