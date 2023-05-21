@@ -25,7 +25,11 @@ internal class DefaultBabyStatusRepository @Inject constructor(
 
     override fun getBabyStatusByIdStream(id: Long): Flow<BabyStatus> {
         return babyStatusDao.getBabyStatusByIdStream(id).map {
-            it.asBabyStatus()
+            try {
+                it.asBabyStatus()
+            } catch (ignored: Exception) {
+                BabyStatus(0L, "", 0L, 0F, 0F)
+            }
         }
     }
 

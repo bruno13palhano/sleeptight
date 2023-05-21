@@ -5,6 +5,7 @@ import com.bruno13palhano.core.data.database.model.asNotification
 import com.bruno13palhano.core.data.database.model.asNotificationData
 import com.bruno13palhano.model.Notification
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,8 +24,12 @@ internal class DefaultNotificationRepository @Inject constructor(
 
     override fun getNotificationByIdStream(id: Long): Flow<Notification> {
         return notificationDao.getNotificationByIdStream(id).map {
-            it.asNotification()
-        }
+                try {
+                    it.asNotification()
+                } catch (ignored: Exception) {
+                    Notification(0L, "", "", 0L, 0L, false)
+                }
+            }
     }
 
     override suspend fun insertNotification(notification: Notification) {
