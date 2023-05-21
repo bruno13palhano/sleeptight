@@ -95,4 +95,10 @@ class NotificationViewModel @Inject constructor(
             notificationRepository.updateNotification(notification)
         }
     }
+
+    fun deleteNotification(id: Long) {
+        viewModelScope.launch {
+            notificationRepository.deleteNotificationById(id)
+        }
+    }
 }
