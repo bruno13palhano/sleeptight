@@ -160,4 +160,5 @@
 
     <!--  Common labels  -->
     <string name="add_button">Add button</string>
+    <string name="delete_label">Delete</string>
 </resources>
