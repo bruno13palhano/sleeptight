@@ -24,6 +24,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNotificationBinding
+import com.bruno13palhano.sleeptight.ui.lists.CommonItemActions
 import com.bruno13palhano.sleeptight.ui.lists.notifications.receivers.NotificationReceiver
 import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -32,7 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NotificationFragment : Fragment(), NotificationView {
+class NotificationFragment : Fragment(), CommonItemActions {
     private var _binding: FragmentNotificationBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NotificationViewModel by viewModels()
@@ -111,6 +112,7 @@ class NotificationFragment : Fragment(), NotificationView {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.delete -> {
+                        onDeleteItem()
                         true
                     }
                     R.id.share -> {
@@ -128,19 +130,24 @@ class NotificationFragment : Fragment(), NotificationView {
         _binding = null
     }
 
-    override fun onActionClick() {
+    override fun onDeleteItem() {
+        viewModel.deleteNotification(notificationId)
+        findNavController().navigateUp()
+    }
+
+    override fun onUpdateItem() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.updateNotification(notificationId)
         }
         updateAlarm()
     }
 
-    override fun onTimeClick() {
+    fun onTimeClick() {
         if (!timePicker.isAdded)
             timePicker.show(requireParentFragment().parentFragmentManager, "hour_dialog")
     }
 
-    override fun onDateClick() {
+    fun onDateClick() {
         if (!datePicker.isAdded)
             datePicker.show(requireParentFragment().parentFragmentManager, "date_dialog")
     }

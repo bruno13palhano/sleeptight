@@ -15,6 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNapBinding
+import com.bruno13palhano.sleeptight.ui.lists.CommonItemActions
 import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -22,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NapFragment : Fragment() {
+class NapFragment : Fragment(), CommonItemActions {
     private var _binding: FragmentNapBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NapViewModel by viewModels()
@@ -82,10 +83,7 @@ class NapFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.delete -> {
-                        findNavController().navigateUp()
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            viewModel.deleteNapById(napId)
-                        }
+                        onDeleteItem()
                         true
                     }
                     R.id.share -> {
@@ -103,9 +101,14 @@ class NapFragment : Fragment() {
         _binding = null
     }
 
-    fun updatePath() {
+    override fun onUpdateItem() {
         findNavController().navigateUp()
         viewModel.updateNap(napId)
+    }
+
+    override fun onDeleteItem() {
+        viewModel.deleteNapById(napId)
+        findNavController().navigateUp()
     }
 
     fun onDateClick() {

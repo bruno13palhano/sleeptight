@@ -16,12 +16,13 @@ import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentBabyStatusBinding
 import com.bruno13palhano.sleeptight.ui.babystatus.BabyStatusViewModel
+import com.bruno13palhano.sleeptight.ui.lists.CommonItemActions
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class BabyStatusFragment : Fragment() {
+class BabyStatusFragment : Fragment(), CommonItemActions {
     private var _binding: FragmentBabyStatusBinding? = null
     private val binding get() = _binding!!
     private val viewModel: BabyStatusViewModel by viewModels()
@@ -68,7 +69,7 @@ class BabyStatusFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.delete -> {
-                        deleteBabyStatus()
+                        onDeleteItem()
                         true
                     }
                     R.id.share -> {
@@ -86,12 +87,12 @@ class BabyStatusFragment : Fragment() {
         _binding = null
     }
 
-    private fun deleteBabyStatus() {
+    override fun onDeleteItem() {
         viewModel.deleteBabyStatus(babyStatusId)
         findNavController().navigateUp()
     }
 
-    fun updateBabyStatus() {
+    override fun onUpdateItem() {
         findNavController().navigateUp()
         viewModel.updateBabyStatus(babyStatusId)
     }
