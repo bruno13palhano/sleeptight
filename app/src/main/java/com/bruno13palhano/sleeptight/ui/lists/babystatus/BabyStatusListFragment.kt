@@ -12,13 +12,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
-import com.bruno13palhano.sleeptight.databinding.FragmentBabyStatusListBinding
+import com.bruno13palhano.sleeptight.databinding.FragmentCommonListBinding
+import com.bruno13palhano.sleeptight.ui.util.CommonListView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class BabyStatusListFragment : Fragment() {
-    private var _binding: FragmentBabyStatusListBinding? = null
+class BabyStatusListFragment : Fragment(), CommonListView {
+    private var _binding: FragmentCommonListBinding? = null
     private val binding get() = _binding!!
     private val viewModel: BabyStatusListViewModel by viewModels()
 
@@ -27,15 +28,13 @@ class BabyStatusListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil
-            .inflate(inflater, R.layout.fragment_baby_status_list, container, false)
+            .inflate(inflater, R.layout.fragment_common_list, container, false)
         val view = binding.root
 
-        binding.uiEvents = this
-
         val adapter = BabyStatusAdapter {
-            navigateToBabyStatus(it)
+            onListItemClick(it)
         }
-        binding.babyStatusList.adapter = adapter
+        binding.list.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -43,6 +42,10 @@ class BabyStatusListFragment : Fragment() {
                     adapter.submitList(it)
                 }
             }
+        }
+
+        binding.addButton.setOnClickListener {
+            onAddItemClick()
         }
 
         return view
@@ -53,13 +56,13 @@ class BabyStatusListFragment : Fragment() {
         _binding = null
     }
 
-    fun onAddClick() {
+    override fun onListItemClick(itemId: Long) {
         findNavController().navigate(
-            BabyStatusListFragmentDirections.actionStatusListToBabyStatusTitleAndDate())
+            BabyStatusListFragmentDirections.actionStatusListToBabyStatus(itemId))
     }
 
-    private fun navigateToBabyStatus(id: Long) {
+    override fun onAddItemClick() {
         findNavController().navigate(
-            BabyStatusListFragmentDirections.actionStatusListToBabyStatus(id))
+            BabyStatusListFragmentDirections.actionStatusListToBabyStatusTitleAndDate())
     }
 }

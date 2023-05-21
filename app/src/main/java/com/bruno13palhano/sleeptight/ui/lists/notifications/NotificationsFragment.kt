@@ -18,14 +18,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
-import com.bruno13palhano.sleeptight.databinding.FragmentNotificationsBinding
+import com.bruno13palhano.sleeptight.databinding.FragmentCommonListBinding
 import com.bruno13palhano.sleeptight.ui.lists.notifications.receivers.NotificationReceiver
+import com.bruno13palhano.sleeptight.ui.util.CommonListView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NotificationsFragment : Fragment() {
-    private var _binding: FragmentNotificationsBinding? = null
+class NotificationsFragment : Fragment(), CommonListView {
+    private var _binding: FragmentCommonListBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NotificationsViewModel by viewModels()
     private lateinit var notificationManager: NotificationManager
@@ -35,22 +36,20 @@ class NotificationsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil
-            .inflate(inflater, R.layout.fragment_notifications, container, false)
+            .inflate(inflater, R.layout.fragment_common_list, container, false)
         val view = binding.root
-
-        binding.uiEvents = this
 
         notificationManager =
             activity?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
         val adapter = NotificationsAdapter(
-            onItemClick = { navigateToNotification(it) },
+            onItemClick = { onListItemClick(it) },
             onDeleteItemClick = {
                 cancelNotification(it.toInt())
                 viewModel.deleteNotification(it)
             }
         )
-        binding.notificationsList.adapter = adapter
+        binding.list.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -58,6 +57,10 @@ class NotificationsFragment : Fragment() {
                     adapter.submitList(it)
                 }
             }
+        }
+
+        binding.addButton.setOnClickListener {
+            onAddItemClick()
         }
 
         return view
@@ -68,12 +71,12 @@ class NotificationsFragment : Fragment() {
         _binding = null
     }
 
-    private fun navigateToNotification(id: Long) {
+    override fun onListItemClick(itemId: Long) {
         findNavController().navigate(
-            NotificationsFragmentDirections.actionNotificationsToNotification(id))
+            NotificationsFragmentDirections.actionNotificationsToNotification(itemId))
     }
 
-    fun navigateToNewNotification() {
+    override fun onAddItemClick() {
         findNavController().navigate(
             NotificationsFragmentDirections.actionNotificationsToNewNotification())
     }

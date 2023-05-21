@@ -12,13 +12,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
-import com.bruno13palhano.sleeptight.databinding.FragmentNapsBinding
+import com.bruno13palhano.sleeptight.databinding.FragmentCommonListBinding
+import com.bruno13palhano.sleeptight.ui.util.CommonListView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NapsFragment : Fragment() {
-    private var _binding: FragmentNapsBinding? = null
+class NapsFragment : Fragment(), CommonListView {
+    private var _binding: FragmentCommonListBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NapsViewModel by viewModels()
 
@@ -27,17 +28,13 @@ class NapsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil
-            .inflate(inflater, R.layout.fragment_naps, container, false)
+            .inflate(inflater, R.layout.fragment_common_list, container, false)
         val view = binding.root
 
-        binding.uiEvents = this
-
         val adapter = NapsAdapter {
-            findNavController().navigate(
-                NapsFragmentDirections.actionNapsToNap(it)
-            )
+            onListItemClick(it)
         }
-        binding.napList.adapter = adapter
+        binding.list.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -45,6 +42,10 @@ class NapsFragment : Fragment() {
                     adapter.submitList(it)
                 }
             }
+        }
+
+        binding.addButton.setOnClickListener {
+            onAddItemClick()
         }
 
         return view
@@ -55,7 +56,13 @@ class NapsFragment : Fragment() {
         _binding = null
     }
 
-    fun navigateToDate() {
+    override fun onListItemClick(itemId: Long) {
+        findNavController().navigate(
+            NapsFragmentDirections.actionNapsToNap(itemId)
+        )
+    }
+
+    override fun onAddItemClick() {
         findNavController().navigate(
             NapsFragmentDirections.actionNapsToObservation()
         )
