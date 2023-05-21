@@ -20,7 +20,6 @@ import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewNotificationBinding
 import com.bruno13palhano.sleeptight.ui.lists.notifications.AlarmNotification
-import com.bruno13palhano.sleeptight.ui.lists.notifications.NotificationView
 import com.bruno13palhano.sleeptight.ui.lists.notifications.receivers.NotificationReceiver
 import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -29,7 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NewNotificationFragment : Fragment(),  NotificationView {
+class NewNotificationFragment : Fragment() {
     private var _binding: FragmentNewNotificationBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NewNotificationViewModel by viewModels()
@@ -98,17 +97,17 @@ class NewNotificationFragment : Fragment(),  NotificationView {
         _binding = null
     }
 
-    override fun onActionClick() {
+    fun onActionClick() {
         viewModel.insertNotification()
         setAlarm()
     }
 
-    override fun onTimeClick() {
+    fun onTimeClick() {
         if (!timePicker.isAdded)
             timePicker.show(requireParentFragment().parentFragmentManager, "time_dialog")
     }
 
-    override fun onDateClick() {
+    fun onDateClick() {
         if (!datePicker.isAdded)
             datePicker.show(requireParentFragment().parentFragmentManager, "date_dialog")
     }
