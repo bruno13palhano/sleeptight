@@ -157,4 +157,7 @@
     <string name="off_label">Off</string>
     <string name="description_label">Description</string>
     <string name="hour_label">Hour</string>
+
+    <!--  Common labels  -->
+    <string name="add_button">Add button</string>
 </resources>
