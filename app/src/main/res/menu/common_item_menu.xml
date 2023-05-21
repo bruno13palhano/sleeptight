@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/nap_more_options"
+        android:id="@+id/more_options"
         android:icon="@drawable/baseline_more_vert_24"
         android:title="@string/more_options_label"
         app:showAsAction="always">
@@ -11,8 +11,11 @@
         <menu>
             <group>
                 <item
-                    android:id="@+id/delete_nap"
-                    android:title="@string/delete_nap_label" />
+                    android:id="@+id/delete"
+                    android:title="@string/delete_label" />
+                <item
+                    android:id="@+id/share"
+                    android:title="@string/share_label" />
             </group>
         </menu>
     </item>
