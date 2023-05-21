@@ -9,7 +9,7 @@
         android:id="@+id/napsFragment"
         android:name="com.bruno13palhano.sleeptight.ui.lists.nap.NapsFragment"
         android:label="@string/naps_label"
-        tools:layout="@layout/fragment_naps">
+        tools:layout="@layout/fragment_common_list">
 
         <action
             android:id="@+id/action_naps_to_nap"

@@ -9,7 +9,7 @@
         android:id="@+id/notificationsFragment"
         android:name="com.bruno13palhano.sleeptight.ui.lists.notifications.NotificationsFragment"
         android:label="@string/notifications_label"
-        tools:layout="@layout/fragment_notifications">
+        tools:layout="@layout/fragment_common_list">
 
         <action
             android:id="@+id/action_notifications_to_notification"

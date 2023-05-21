@@ -9,7 +9,7 @@
         android:id="@+id/babyStatusListFragment"
         android:name="com.bruno13palhano.sleeptight.ui.lists.babystatus.BabyStatusListFragment"
         android:label="@string/all_baby_status_label"
-        tools:layout="@layout/fragment_baby_status_list">
+        tools:layout="@layout/fragment_common_list">
 
         <action
             android:id="@+id/action_statusList_to_babyStatus"
