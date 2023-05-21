@@ -62,13 +62,16 @@ class BabyStatusFragment : Fragment() {
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.baby_status_toolbar_menu, menu)
+                menuInflater.inflate(R.menu.common_item_menu, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    R.id.delete_baby_status -> {
+                    R.id.delete -> {
                         deleteBabyStatus()
+                        true
+                    }
+                    R.id.share -> {
                         true
                     }
                     else -> false

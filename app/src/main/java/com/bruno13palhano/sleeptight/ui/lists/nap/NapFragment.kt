@@ -76,17 +76,19 @@ class NapFragment : Fragment() {
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menu.clear()
-                menuInflater.inflate(R.menu.nap_toolbar_menu, menu)
+                menuInflater.inflate(R.menu.common_item_menu, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    R.id.delete_nap -> {
+                    R.id.delete -> {
                         findNavController().navigateUp()
                         viewLifecycleOwner.lifecycleScope.launch {
                             viewModel.deleteNapById(napId)
                         }
+                        true
+                    }
+                    R.id.share -> {
                         true
                     }
                     else -> false
