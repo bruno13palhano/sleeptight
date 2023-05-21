@@ -120,7 +120,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:contentDescription="@string/done_label"
-                android:onClick="@{v -> uiEvents.onActionClick()}"
+                android:onClick="@{v -> uiEvents.onUpdateItem()}"
                 app:backgroundTint="?colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
