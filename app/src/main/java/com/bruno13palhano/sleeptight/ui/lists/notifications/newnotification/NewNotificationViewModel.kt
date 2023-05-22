@@ -85,7 +85,7 @@ class NewNotificationViewModel @Inject constructor(
             repeat = repeat.value
         )
         viewModelScope.launch {
-            notificationRepository.insertNotification(notification)
+            notificationRepository.insert(notification)
         }
     }
 

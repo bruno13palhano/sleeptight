@@ -72,7 +72,7 @@ class NotificationViewModel @Inject constructor(
 
     fun setNotification(id: Long) {
         viewModelScope.launch {
-            notificationRepository.getNotificationByIdStream(id).collect {
+            notificationRepository.getByIdStream(id).collect {
                 title.value = it.title
                 description.value = it.description
                 repeat.value = it.repeat
@@ -92,13 +92,13 @@ class NotificationViewModel @Inject constructor(
             date = _date.value
         )
         viewModelScope.launch {
-            notificationRepository.updateNotification(notification)
+            notificationRepository.update(notification)
         }
     }
 
     fun deleteNotification(id: Long) {
         viewModelScope.launch {
-            notificationRepository.deleteNotificationById(id)
+            notificationRepository.deleteById(id)
         }
     }
 }

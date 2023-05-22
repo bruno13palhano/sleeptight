@@ -69,7 +69,7 @@ class NapViewModel @Inject constructor(
 
     fun getNap(id: Long) {
         viewModelScope.launch {
-            napRepository.getNapByIdStream(id).collect {
+            napRepository.getByIdStream(id).collect {
                 title.value = it.title
                 date.value = it.date
                 startTime.value = it.startTime
@@ -90,13 +90,13 @@ class NapViewModel @Inject constructor(
             observation = observation.value
         )
         viewModelScope.launch {
-            napRepository.updateNap(nap)
+            napRepository.update(nap)
         }
     }
 
     fun deleteNapById(id: Long) {
         viewModelScope.launch {
-            napRepository.deleteNapById(id)
+            napRepository.deleteById(id)
         }
     }
 }

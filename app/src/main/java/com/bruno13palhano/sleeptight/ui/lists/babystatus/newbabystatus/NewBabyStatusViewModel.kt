@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.babystatus.newbabystatus
+package com.bruno13palhano.sleeptight.ui.lists.babystatus.newbabystatus
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -57,7 +57,7 @@ class NewBabyStatusViewModel @Inject constructor(
                 height = stringToFloat(height.value),
                 weight = stringToFloat(weight.value)
             )
-            babyStatusRepository.insertBabyStatus(babyStatus)
+            babyStatusRepository.insert(babyStatus)
             restoresValues()
         }
     }

@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.babystatus
+package com.bruno13palhano.sleeptight.ui.lists.babystatus
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -40,7 +40,7 @@ class BabyStatusViewModel @Inject constructor(
 
     fun getBabyStatus(id: Long) {
         viewModelScope.launch {
-            babyStatusRepository.getBabyStatusByIdStream(id).collect {
+            babyStatusRepository.getByIdStream(id).collect {
                 title.value = it.title
                 height.value = it.height.toString()
                 weight.value = it.weight.toString()
@@ -51,7 +51,7 @@ class BabyStatusViewModel @Inject constructor(
 
     fun deleteBabyStatus(id: Long) {
         viewModelScope.launch {
-            babyStatusRepository.deleteBabyStatusById(id)
+            babyStatusRepository.deleteById(id)
         }
     }
 
@@ -64,7 +64,7 @@ class BabyStatusViewModel @Inject constructor(
                 height = stringToFloat(height.value),
                 weight = stringToFloat(weight.value)
             )
-            babyStatusRepository.updateBabyStatus(babyStatus)
+            babyStatusRepository.update(babyStatus)
         }
     }
 
