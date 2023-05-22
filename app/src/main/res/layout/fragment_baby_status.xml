@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="com.bruno13palhano.sleeptight.ui.babystatus.BabyStatusViewModel" />
+            type="com.bruno13palhano.sleeptight.ui.lists.babystatus.BabyStatusViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
