@@ -13,8 +13,8 @@ import javax.inject.Singleton
 internal class DefaultNapRepository @Inject constructor(
     private val napDao: NapDao
 ) : NapRepository {
-    override suspend fun insert(nap: Nap) {
-        napDao.insert(nap.asNapData())
+    override suspend fun insert(model: Nap) {
+        napDao.insert(model.asNapData())
     }
 
     override fun getAllStream(): Flow<List<Nap>> {
@@ -25,7 +25,7 @@ internal class DefaultNapRepository @Inject constructor(
         }
     }
 
-    override fun getNapByIdStream(id: Long): Flow<Nap> {
+    override fun getByIdStream(id: Long): Flow<Nap> {
         return napDao.getNapByIdStream(id).map {
             try {
                 it.asNap()
@@ -43,11 +43,11 @@ internal class DefaultNapRepository @Inject constructor(
         }
     }
 
-    override suspend fun updateNap(nap: Nap) {
-        napDao.updateNap(nap.asNapData())
+    override suspend fun update(model: Nap) {
+        napDao.updateNap(model.asNapData())
     }
 
-    override suspend fun deleteNapById(id: Long) {
+    override suspend fun deleteById(id: Long) {
         napDao.deleteNapById(id)
     }
 }

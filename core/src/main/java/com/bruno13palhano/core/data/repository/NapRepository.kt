@@ -1,12 +1,5 @@
 package com.bruno13palhano.core.data.repository
 
 import com.bruno13palhano.model.Nap
-import kotlinx.coroutines.flow.Flow
 
-interface NapRepository {
-    suspend fun insert(nap: Nap)
-    fun getAllStream(): Flow<List<Nap>>
-    fun getNapByIdStream(id: Long): Flow<Nap>
-    suspend fun updateNap(nap: Nap)
-    suspend fun deleteNapById(id: Long)
-}
+interface NapRepository : RepositoryCrud<Nap>

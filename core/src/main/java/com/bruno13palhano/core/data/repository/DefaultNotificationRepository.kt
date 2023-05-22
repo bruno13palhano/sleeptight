@@ -5,7 +5,6 @@ import com.bruno13palhano.core.data.database.model.asNotification
 import com.bruno13palhano.core.data.database.model.asNotificationData
 import com.bruno13palhano.model.Notification
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,7 +13,7 @@ import javax.inject.Singleton
 internal class DefaultNotificationRepository @Inject constructor(
     private val notificationDao: NotificationDao
 ) : NotificationRepository {
-    override fun getAllNotificationsStream(): Flow<List<Notification>> {
+    override fun getAllStream(): Flow<List<Notification>> {
         return notificationDao.getAllNotificationsStream().map {
             it.map { notificationData ->
                 notificationData.asNotification()
@@ -22,7 +21,7 @@ internal class DefaultNotificationRepository @Inject constructor(
         }
     }
 
-    override fun getNotificationByIdStream(id: Long): Flow<Notification> {
+    override fun getByIdStream(id: Long): Flow<Notification> {
         return notificationDao.getNotificationByIdStream(id).map {
                 try {
                     it.asNotification()
@@ -32,16 +31,16 @@ internal class DefaultNotificationRepository @Inject constructor(
             }
     }
 
-    override suspend fun insertNotification(notification: Notification) {
-        notificationDao.insertNotification(notification.asNotificationData())
+    override suspend fun insert(model: Notification) {
+        notificationDao.insertNotification(model.asNotificationData())
     }
 
-    override suspend fun deleteNotificationById(id: Long) {
+    override suspend fun deleteById(id: Long) {
         notificationDao.deleteNotificationById(id)
     }
 
-    override suspend fun updateNotification(notification: Notification) {
-        notificationDao.updateNotification(notification.asNotificationData())
+    override suspend fun update(model: Notification) {
+        notificationDao.updateNotification(model.asNotificationData())
     }
 
     override fun getLastNotificationStream(): Flow<Notification> {

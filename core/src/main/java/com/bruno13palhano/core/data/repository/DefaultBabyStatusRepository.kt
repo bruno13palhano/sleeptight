@@ -11,8 +11,8 @@ import javax.inject.Inject
 internal class DefaultBabyStatusRepository @Inject constructor(
     private val babyStatusDao: BabyStatusDao
 ) : BabyStatusRepository {
-    override suspend fun insertBabyStatus(babyStatus: BabyStatus) {
-        babyStatusDao.insert(babyStatus.asBabyStatusData())
+    override suspend fun insert(model: BabyStatus) {
+        babyStatusDao.insert(model.asBabyStatusData())
     }
 
     override fun getAllStream(): Flow<List<BabyStatus>> {
@@ -23,7 +23,7 @@ internal class DefaultBabyStatusRepository @Inject constructor(
         }
     }
 
-    override fun getBabyStatusByIdStream(id: Long): Flow<BabyStatus> {
+    override fun getByIdStream(id: Long): Flow<BabyStatus> {
         return babyStatusDao.getBabyStatusByIdStream(id).map {
             try {
                 it.asBabyStatus()
@@ -33,11 +33,11 @@ internal class DefaultBabyStatusRepository @Inject constructor(
         }
     }
 
-    override suspend fun updateBabyStatus(babyStatus: BabyStatus) {
-        babyStatusDao.updateBabyStatus(babyStatus.asBabyStatusData())
+    override suspend fun update(model: BabyStatus) {
+        babyStatusDao.updateBabyStatus(model.asBabyStatusData())
     }
 
-    override suspend fun deleteBabyStatusById(id: Long) {
+    override suspend fun deleteById(id: Long) {
         babyStatusDao.deleteBabyStatusById(id)
     }
 
