@@ -82,6 +82,10 @@
     <string name="average_hour_per_week_label">Average hours per weekday</string>
     <string name="average_hour_per_month_label">Average hours per month of the year</string>
     <string name="baby_development_label">Baby development</string>
+    <string name="baby_status_chart_description_label">Chart with the baby development</string>
+    <string name="week_description_label">Chart with naps per weekday</string>
+    <string name="month_description_label">Chart with naps per month</string>
+    <string name="naps_description_label">Chart with all naps</string>
 
     <!--  Days of te week  -->
     <string name="sunday_label">Sunday</string>
@@ -146,6 +150,9 @@
 
     <!--  Lists label  -->
     <string name="lists_label">Lists</string>
+    <string name="list_notification_label">List with all notifications</string>
+    <string name="list_naps_label">List with all naps</string>
+    <string name="list_baby_status_label">List with all baby status</string>
 
     <!--  Notifications label  -->
     <string name="notifications_label">Notifications</string>
