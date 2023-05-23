@@ -26,6 +26,10 @@
         <action
             android:id="@+id/action_analytics_to_nap"
             app:destination="@id/analyticsNapChartFragment" />
+
+        <action
+            android:id="@+id/action_analytics_to_shift"
+            app:destination="@id/analyticsShiftChartFragment" />
     </fragment>
 
     <fragment
@@ -51,4 +55,10 @@
         android:name="com.bruno13palhano.sleeptight.ui.analytics.nap.AnalyticsNapChartFragment"
         android:label="@string/naps_chart_label"
         tools:layout="@layout/fragment_analytics_nap_chart" />
+
+    <fragment
+        android:id="@+id/analyticsShiftChartFragment"
+        android:name="com.bruno13palhano.sleeptight.ui.analytics.nap.shift.AnalyticsShiftChartFragment"
+        android:label="Shift Chart"
+        tools:layout="@layout/fragment_analytics_shift_chart" />
 </navigation>
