@@ -51,4 +51,9 @@ class AnalyticsFragment : Fragment() {
         findNavController().navigate(
             AnalyticsFragmentDirections.actionAnalyticsToNap())
     }
+
+    fun navigateToShiftChart() {
+        findNavController().navigate(
+            AnalyticsFragmentDirections.actionAnalyticsToShift())
+    }
 }
