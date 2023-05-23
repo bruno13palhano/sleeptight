@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.analytics.week
+package com.bruno13palhano.sleeptight.ui.analytics.nap.week
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

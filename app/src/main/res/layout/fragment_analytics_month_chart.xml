@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ui.analytics.month.AnalyticsMonthChartFragment">
+        tools:context=".ui.analytics.nap.month.AnalyticsMonthChartFragment">
 
         <com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
             android:id="@+id/month_chart"
