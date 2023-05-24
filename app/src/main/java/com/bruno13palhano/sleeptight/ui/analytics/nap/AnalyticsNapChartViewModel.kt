@@ -52,7 +52,15 @@ class AnalyticsNapChartViewModel @Inject constructor(
         val hour = calendar[Calendar.HOUR_OF_DAY]
         val minute = calendar[Calendar.MINUTE]
 
-        val timeDecimal = "$hour.${minute * 100 / 60}".toFloat()
+        val finalMinutes: String
+        val currentMinutes = minute * 100 / 60
+        finalMinutes = if (currentMinutes < 10) {
+            "0${currentMinutes}"
+        } else {
+            currentMinutes.toString()
+        }
+
+        val timeDecimal = "$hour.$finalMinutes".toFloat()
         return if (timeDecimal == 0.0F) 0.0F else String.format("%.2f", timeDecimal)
             .replace(",", ".").toFloat()
     }
