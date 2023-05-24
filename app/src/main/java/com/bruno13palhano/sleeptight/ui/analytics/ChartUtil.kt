@@ -1,8 +1,9 @@
 package com.bruno13palhano.sleeptight.ui.analytics
 
+import android.icu.util.Calendar
+import android.icu.util.TimeZone
 import com.bruno13palhano.model.Day
 import com.bruno13palhano.model.Month
-import java.util.*
 
 fun averageSleepTimeDecimal(hours: List<Int>, minutes: List<Int>): Float {
     var totalHours = hours.sum()
@@ -16,7 +17,15 @@ fun averageSleepTimeDecimal(hours: List<Int>, minutes: List<Int>): Float {
         }
     }
 
-    val durationDecimal = "$totalHours.${totalMinutes * 100 / 60}".toFloat()
+    val finalMinutes: String
+    val currentMinutes = totalMinutes * 100 / 60
+    finalMinutes = if (currentMinutes < 10) {
+        "0${currentMinutes}"
+    } else {
+        currentMinutes.toString()
+    }
+
+    val durationDecimal = "$totalHours.$finalMinutes".toFloat()
     return if (durationDecimal == 0.0F) 0.0F else String.format("%.2f", durationDecimal/hours.size)
         .replace(",", ".").toFloat()
 }
@@ -106,4 +115,12 @@ fun whichMonth(date: Long): Month {
             Month.DECEMBER
         }
     }
+}
+
+fun isStartTimeAtNight(startTime: Long): Boolean {
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = startTime
+
+    val hour = calendar[Calendar.HOUR_OF_DAY]
+    return hour <= 5 || hour >= 18
 }
