@@ -9,8 +9,6 @@ import android.graphics.Color
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import android.net.Uri
-import android.os.Build.VERSION.SDK_INT
-import android.os.Build.VERSION_CODES.Q
 import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import android.provider.MediaStore.Images.Media.IS_PENDING
@@ -18,9 +16,6 @@ import android.view.View
 import com.bruno13palhano.model.Day
 import com.bruno13palhano.model.Month
 import okio.use
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
 
 fun averageSleepTimeDecimal(hours: List<Int>, minutes: List<Int>): Float {
     var totalHours = hours.sum()
