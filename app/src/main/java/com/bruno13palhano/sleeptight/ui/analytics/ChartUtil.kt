@@ -1,9 +1,26 @@
 package com.bruno13palhano.sleeptight.ui.analytics
 
+import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
+import android.net.Uri
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.Q
+import android.provider.MediaStore
+import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+import android.provider.MediaStore.Images.Media.IS_PENDING
+import android.view.View
 import com.bruno13palhano.model.Day
 import com.bruno13palhano.model.Month
+import okio.use
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 
 fun averageSleepTimeDecimal(hours: List<Int>, minutes: List<Int>): Float {
     var totalHours = hours.sum()
@@ -123,4 +140,60 @@ fun isStartTimeAtNight(startTime: Long): Boolean {
 
     val hour = calendar[Calendar.HOUR_OF_DAY]
     return hour <= 5 || hour >= 18
+}
+
+fun chartScreenshot(view: View, height: Int, width: Int): Bitmap {
+    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    val bgDrawable = view.background
+    if (bgDrawable != null) {
+        bgDrawable.draw(canvas)
+    } else {
+        canvas.drawColor(Color.WHITE)
+    }
+
+    view.draw(canvas)
+    return bitmap
+}
+
+fun shareChart(
+    context: Context,
+    chartName: String,
+    view: View,
+    height: Int,
+    width: Int
+) {
+    val shareChartImage = Intent.createChooser(Intent().apply {
+        action = Intent.ACTION_SEND
+        type = "image/*"
+        putExtra(Intent.EXTRA_STREAM, getImageUri(context, chartScreenshot(view, height, width), chartName))
+        putExtra(Intent.EXTRA_TITLE, chartName)
+    }, null)
+    context.startActivity(shareChartImage)
+}
+
+fun getImageUri(context: Context, imageBitmap: Bitmap, filename: String): Uri {
+    val fn = filename.replace(" ", "_")
+    val contentValues = ContentValues().apply {
+        put(MediaStore.MediaColumns.DISPLAY_NAME, "${System.currentTimeMillis()}_${fn}.png")
+        put(MediaStore.MediaColumns.MIME_TYPE, "image/*")
+        put(MediaStore.MediaColumns.IS_PENDING, 0)
+    }
+
+    val resolver = context.contentResolver
+    val uri = resolver.insert(EXTERNAL_CONTENT_URI, contentValues)
+    uri?.let { resolver.openOutputStream(it) }
+        ?.use {
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+            it.flush()
+            it.close()
+        }
+
+    contentValues.clear()
+    contentValues.put(IS_PENDING, 0)
+    uri?.let {
+        resolver.update(it, contentValues, null, null)
+    }
+
+    return uri!!
 }
