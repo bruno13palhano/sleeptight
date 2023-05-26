@@ -50,4 +50,22 @@ internal class DefaultNapRepository @Inject constructor(
     override suspend fun deleteById(id: Long) {
         napDao.deleteNapById(id)
     }
+
+    override fun getLastStream(): Flow<Nap> {
+        return napDao.getLastNapStream().map {
+            try {
+                it.asNap()
+            } catch (ignored: Exception) {
+                Nap(
+                    id = 0L,
+                    title = "",
+                    date = 0L,
+                    startTime = 0L,
+                    endTime = 0L,
+                    sleepTime = 0L,
+                    observation = ""
+                )
+            }
+        }
+    }
 }

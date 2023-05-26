@@ -43,9 +43,20 @@ internal class DefaultNotificationRepository @Inject constructor(
         notificationDao.updateNotification(model.asNotificationData())
     }
 
-    override fun getLastNotificationStream(): Flow<Notification> {
+    override fun getLastStream(): Flow<Notification> {
         return notificationDao.getLastNotificationStream().map {
-            it.asNotification()
+            try {
+                it.asNotification()
+            } catch (ignored: Exception) {
+                Notification(
+                    id = 0L,
+                    title = "",
+                    time = 0L,
+                    date = 0L,
+                    description = "",
+                    repeat = false
+                )
+            }
         }
     }
 }

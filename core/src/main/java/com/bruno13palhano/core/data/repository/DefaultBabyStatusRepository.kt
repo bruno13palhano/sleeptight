@@ -41,7 +41,7 @@ internal class DefaultBabyStatusRepository @Inject constructor(
         babyStatusDao.deleteBabyStatusById(id)
     }
 
-    override fun getLastBabyStatusStream(): Flow<BabyStatus> {
+    override fun getLastStream(): Flow<BabyStatus> {
         return babyStatusDao.getLastBabyStatusStream().map {
             try {
                 it.asBabyStatus()
