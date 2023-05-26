@@ -90,5 +90,5 @@ class NewNotificationViewModel @Inject constructor(
     }
 
     fun getLastNotification(): Flow<Notification> =
-        notificationRepository.getLastNotificationStream()
+        notificationRepository.getLastStream()
 }

@@ -63,7 +63,7 @@ class HomeViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            babyStatusRepository.getLastBabyStatusStream().collect {
+            babyStatusRepository.getLastStream().collect {
                 _height.value = it.height
                 _weight.value = it.weight
             }
