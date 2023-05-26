@@ -25,4 +25,7 @@ internal interface NapDao {
 
     @Query("DELETE FROM nap_table WHERE id = :id")
     suspend fun deleteNapById(id: Long)
+
+    @Query("SELECT * FROM nap_table WHERE id = (SELECT max(id) FROM nap_table)")
+    fun getLastNapStream(): Flow<NapData>
 }
