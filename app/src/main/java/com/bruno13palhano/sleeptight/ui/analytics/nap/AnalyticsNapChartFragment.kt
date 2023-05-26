@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentAnalyticsNapChartBinding
+import com.bruno13palhano.sleeptight.ui.analytics.shareChart
 import com.github.aachartmodel.aainfographics.aachartcreator.*
 import com.github.aachartmodel.aainfographics.aaoptionsmodel.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -100,6 +101,13 @@ class AnalyticsNapChartFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.share -> {
+                        shareChart(
+                            context = this@AnalyticsNapChartFragment.requireContext(),
+                            chartName = getString(R.string.naps_chart_label),
+                            view = binding.napChart,
+                            height = binding.napChart.height,
+                            width = binding.napChart.width
+                        )
                         true
                     }
                     else -> false

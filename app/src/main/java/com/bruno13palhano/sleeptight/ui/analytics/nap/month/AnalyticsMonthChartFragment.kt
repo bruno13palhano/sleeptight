@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentAnalyticsMonthChartBinding
+import com.bruno13palhano.sleeptight.ui.analytics.shareChart
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
@@ -119,6 +120,13 @@ class AnalyticsMonthChartFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.share -> {
+                        shareChart(
+                            context = this@AnalyticsMonthChartFragment.requireContext(),
+                            chartName = getString(R.string.month_chart_label),
+                            view = binding.monthChart,
+                            height = binding.monthChart.height,
+                            width = binding.monthChart.width
+                        )
                         true
                     }
                     else -> false

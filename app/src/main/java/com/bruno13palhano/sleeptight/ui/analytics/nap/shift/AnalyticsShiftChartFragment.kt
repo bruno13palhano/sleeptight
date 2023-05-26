@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentAnalyticsShiftChartBinding
+import com.bruno13palhano.sleeptight.ui.analytics.shareChart
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
@@ -114,6 +115,13 @@ class AnalyticsShiftChartFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.share -> {
+                        shareChart(
+                            context = this@AnalyticsShiftChartFragment.requireContext(),
+                            chartName = getString(R.string.shift_chart_label),
+                            view = binding.shiftChart,
+                            height = binding.shiftChart.height,
+                            width = binding.shiftChart.width
+                        )
                         true
                     }
                     else -> false

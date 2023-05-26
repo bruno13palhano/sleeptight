@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentAnalyticsBabyStatusChartBinding
+import com.bruno13palhano.sleeptight.ui.analytics.shareChart
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
@@ -79,6 +80,13 @@ class AnalyticsBabyStatusChartFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.share -> {
+                        shareChart(
+                            context = this@AnalyticsBabyStatusChartFragment.requireContext(),
+                            chartName = getString(R.string.baby_status_chart_label),
+                            view = binding.babyStatusChart,
+                            height = binding.babyStatusChart.height,
+                            width = binding.babyStatusChart.width
+                        )
                         true
                     }
                     else -> false

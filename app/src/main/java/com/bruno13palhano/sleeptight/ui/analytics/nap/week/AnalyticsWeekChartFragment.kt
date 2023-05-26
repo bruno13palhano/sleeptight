@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentAnalyticsWeekChartBinding
+import com.bruno13palhano.sleeptight.ui.analytics.shareChart
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
@@ -99,6 +100,13 @@ class AnalyticsWeekChartFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.share -> {
+                        shareChart(
+                            context = this@AnalyticsWeekChartFragment.requireContext(),
+                            chartName = getString(R.string.week_chart_label),
+                            view = binding.weekChart,
+                            height = binding.weekChart.height,
+                            width = binding.weekChart.width
+                        )
                         true
                     }
                     else -> false
