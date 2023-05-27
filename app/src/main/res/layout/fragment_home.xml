@@ -48,49 +48,85 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/baby_name"
+                android:id="@+id/baby_name_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
-                android:hint="@string/baby_name_label"
-                android:text="@{viewModel.babyName}"
+                android:hint="@string/home_baby_name_label"
                 android:textAppearance="?attr/textAppearanceBody1"
                 app:drawableStartCompat="@drawable/baseline_label_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/current_baby_status_label" />
 
             <TextView
-                android:id="@+id/height"
+                android:id="@+id/baby_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_vertical"
+                android:hint="@string/baby_name_label"
+                android:text="@{viewModel.babyName}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintBottom_toBottomOf="@+id/baby_name_label"
+                app:layout_constraintStart_toEndOf="@+id/baby_name_label"
+                app:layout_constraintTop_toTopOf="@+id/baby_name_label" />
+
+            <TextView
+                android:id="@+id/height_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
-                android:hint="@string/birth_height_label"
-                android:text="@{viewModel.height}"
+                android:hint="@string/home_height_label"
                 android:textAppearance="?attr/textAppearanceBody1"
                 app:drawableStartCompat="@drawable/baseline_square_foot_24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/baby_name" />
+                app:layout_constraintTop_toBottomOf="@+id/baby_name_label" />
+
+            <TextView
+                android:id="@+id/height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_vertical"
+                android:hint="@string/birth_height_label"
+                android:text="@{viewModel.height}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintBottom_toBottomOf="@+id/height_label"
+                app:layout_constraintStart_toEndOf="@+id/height_label"
+                app:layout_constraintTop_toTopOf="@+id/height_label" />
+
+            <TextView
+                android:id="@+id/weight_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:hint="@string/home_weight_label"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:drawableStartCompat="@drawable/baseline_balance_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/height_label" />
 
             <TextView
                 android:id="@+id/weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:drawablePadding="8dp"
+                android:layout_marginStart="8dp"
                 android:gravity="center_vertical"
                 android:hint="@string/birth_weight_label"
                 android:text="@{viewModel.weight}"
                 android:textAppearance="?attr/textAppearanceBody1"
-                app:drawableStartCompat="@drawable/baseline_balance_24"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/height" />
+                app:layout_constraintBottom_toBottomOf="@+id/weight_label"
+                app:layout_constraintStart_toEndOf="@+id/weight_label"
+                app:layout_constraintTop_toTopOf="@+id/weight_label" />
 
             <TextView
                 android:id="@+id/last_nap_label"
@@ -101,52 +137,88 @@
                 android:text="@string/last_nap_label"
                 android:textAppearance="?attr/textAppearanceHeadline5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/weight" />
+                app:layout_constraintTop_toBottomOf="@+id/weight_label" />
 
             <TextView
-                android:id="@+id/nap_title"
+                android:id="@+id/nap_title_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
-                android:hint="@string/title_label"
-                android:text="@{viewModel.napTitle}"
+                android:hint="@string/home_title_label"
                 android:textAppearance="?attr/textAppearanceBody1"
                 app:drawableStartCompat="@drawable/baseline_label_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/last_nap_label" />
 
             <TextView
-                android:id="@+id/nap_sleepTime"
+                android:id="@+id/nap_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_vertical"
+                android:hint="@string/title_label"
+                android:text="@{viewModel.napTitle}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintBottom_toBottomOf="@+id/nap_title_label"
+                app:layout_constraintStart_toEndOf="@+id/nap_title_label"
+                app:layout_constraintTop_toTopOf="@+id/nap_title_label" />
+
+            <TextView
+                android:id="@+id/nap_sleepingTime_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
-                android:hint="@string/sleeping_time_label"
-                android:text="@{viewModel.napSleepingTime}"
+                android:hint="@string/home_sleeping_time_label"
                 android:textAppearance="?attr/textAppearanceBody1"
                 app:drawableStartCompat="@drawable/baseline_timer_24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nap_title" />
+                app:layout_constraintTop_toBottomOf="@+id/nap_title_label" />
+
+            <TextView
+                android:id="@+id/nap_sleepingTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_vertical"
+                android:hint="@string/sleeping_time_label"
+                android:text="@{viewModel.napSleepingTime}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintBottom_toBottomOf="@+id/nap_sleepingTime_label"
+                app:layout_constraintStart_toEndOf="@+id/nap_sleepingTime_label"
+                app:layout_constraintTop_toTopOf="@+id/nap_sleepingTime_label" />
+
+            <TextView
+                android:id="@+id/nap_date_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:hint="@string/date_tag"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:drawableStartCompat="@drawable/baseline_calendar_month_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nap_sleepingTime_label" />
 
             <TextView
                 android:id="@+id/nap_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:drawablePadding="8dp"
+                android:layout_marginStart="8dp"
                 android:gravity="center_vertical"
                 android:hint="@string/date_label"
                 android:text="@{viewModel.napDate}"
                 android:textAppearance="?attr/textAppearanceBody1"
-                app:drawableStartCompat="@drawable/baseline_calendar_month_24"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nap_sleepTime" />
+                app:layout_constraintBottom_toBottomOf="@+id/nap_date_label"
+                app:layout_constraintStart_toEndOf="@+id/nap_date_label"
+                app:layout_constraintTop_toTopOf="@+id/nap_date_label" />
 
             <TextView
                 android:id="@+id/last_notification_label"
@@ -157,37 +229,61 @@
                 android:text="@string/last_notification_label"
                 android:textAppearance="?attr/textAppearanceHeadline5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nap_date" />
+                app:layout_constraintTop_toBottomOf="@+id/nap_date_label" />
 
             <TextView
-                android:id="@+id/notification_title"
+                android:id="@+id/notification_title_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
-                android:hint="@string/title_label"
-                android:text="@{viewModel.notificationTitle}"
+                android:hint="@string/home_title_label"
                 android:textAppearance="?attr/textAppearanceBody1"
                 app:drawableStartCompat="@drawable/baseline_label_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/last_notification_label" />
 
             <TextView
-                android:id="@+id/notification_date"
+                android:id="@+id/notification_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_vertical"
+                android:hint="@string/title_label"
+                android:text="@{viewModel.notificationTitle}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintBottom_toBottomOf="@+id/notification_title_label"
+                app:layout_constraintStart_toEndOf="@+id/notification_title_label"
+                app:layout_constraintTop_toTopOf="@+id/notification_title_label" />
+
+            <TextView
+                android:id="@+id/notification_date_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
-                android:hint="@string/date_label"
-                android:text="@{viewModel.notificationDate}"
+                android:hint="@string/date_tag"
                 android:textAppearance="?attr/textAppearanceBody1"
                 app:drawableStartCompat="@drawable/baseline_calendar_month_24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/notification_title" />
+                app:layout_constraintTop_toBottomOf="@+id/notification_title_label" />
+
+            <TextView
+                android:id="@+id/notification_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_vertical"
+                android:hint="@string/date_label"
+                android:text="@{viewModel.notificationDate}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintBottom_toBottomOf="@+id/notification_date_label"
+                app:layout_constraintStart_toEndOf="@+id/notification_date_label"
+                app:layout_constraintTop_toTopOf="@+id/notification_date_label" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>
