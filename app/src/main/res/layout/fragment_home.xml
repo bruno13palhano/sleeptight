@@ -22,75 +22,172 @@
             android:layout_height="match_parent"
             tools:context=".ui.home.HomeFragment">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/status_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="?android:windowBackground"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profile_image"
+                android:layout_width="112dp"
+                android:layout_height="112dp"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="32dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/baseline_image_24"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:cardCornerRadius="0dp"
-                app:cardElevation="4dp">
+                app:shapeAppearanceOverlay="@style/ImageViewRounded" />
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/profile_image"
-                    android:layout_width="112dp"
-                    android:layout_height="112dp"
-                    android:scaleType="centerCrop"
-                    android:layout_marginHorizontal="16dp"
-                    android:src="@drawable/baseline_image_24"
-                    android:layout_gravity="center_vertical|end"
-                    app:shapeAppearanceOverlay="@style/ImageViewRounded" />
+            <TextView
+                android:id="@+id/current_baby_status_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/current_baby_status_label"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                app:layout_constraintBottom_toBottomOf="@+id/profile_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/profile_image"
+                app:layout_constraintVertical_bias="0.0" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/current_baby_status_label"
-                        android:layout_margin="16dp"
-                        android:textAppearance="?attr/textAppearanceHeadline5" />
-                    <TextView
-                        android:id="@+id/baby_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:text="@{viewModel.babyName}"
-                        android:hint="@string/baby_name_label"
-                        android:gravity="center_vertical"
-                        android:drawablePadding="8dp"
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        app:drawableStartCompat="@drawable/baseline_label_24" />
-                    <TextView
-                        android:id="@+id/height"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_marginTop="8dp"
-                        android:text="@{viewModel.height}"
-                        android:gravity="center_vertical"
-                        android:hint="@string/birth_height_label"
-                        android:drawablePadding="8dp"
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        app:drawableStartCompat="@drawable/baseline_square_foot_24" />
-                    <TextView
-                        android:id="@+id/weight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="@{viewModel.weight}"
-                        android:hint="@string/birth_weight_label"
-                        android:gravity="center_vertical"
-                        android:drawablePadding="8dp"
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        app:drawableStartCompat="@drawable/baseline_balance_24" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:id="@+id/baby_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:hint="@string/baby_name_label"
+                android:text="@{viewModel.babyName}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:drawableStartCompat="@drawable/baseline_label_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/current_baby_status_label" />
+
+            <TextView
+                android:id="@+id/height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:hint="@string/birth_height_label"
+                android:text="@{viewModel.height}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:drawableStartCompat="@drawable/baseline_square_foot_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/baby_name" />
+
+            <TextView
+                android:id="@+id/weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:hint="@string/birth_weight_label"
+                android:text="@{viewModel.weight}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:drawableStartCompat="@drawable/baseline_balance_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/height" />
+
+            <TextView
+                android:id="@+id/last_nap_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/last_nap_label"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/weight" />
+
+            <TextView
+                android:id="@+id/nap_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:hint="@string/title_label"
+                android:text="@{viewModel.napTitle}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:drawableStartCompat="@drawable/baseline_label_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/last_nap_label" />
+
+            <TextView
+                android:id="@+id/nap_sleepTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:hint="@string/sleeping_time_label"
+                android:text="@{viewModel.napSleepingTime}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:drawableStartCompat="@drawable/baseline_timer_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nap_title" />
+
+            <TextView
+                android:id="@+id/nap_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:hint="@string/date_label"
+                android:text="@{viewModel.napDate}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:drawableStartCompat="@drawable/baseline_calendar_month_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nap_sleepTime" />
+
+            <TextView
+                android:id="@+id/last_notification_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/last_notification_label"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nap_date" />
+
+            <TextView
+                android:id="@+id/notification_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:hint="@string/title_label"
+                android:text="@{viewModel.notificationTitle}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:drawableStartCompat="@drawable/baseline_label_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/last_notification_label" />
+
+            <TextView
+                android:id="@+id/notification_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:hint="@string/date_label"
+                android:text="@{viewModel.notificationDate}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:drawableStartCompat="@drawable/baseline_calendar_month_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/notification_title" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>
