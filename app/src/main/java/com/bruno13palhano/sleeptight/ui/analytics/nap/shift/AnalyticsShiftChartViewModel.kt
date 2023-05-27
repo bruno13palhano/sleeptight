@@ -63,7 +63,7 @@ class AnalyticsShiftChartViewModel @Inject constructor(
                     Day.SUNDAY -> {
                         setShiftHourAndMinute(
                             startTime = nap.startTime,
-                            sleepTime = nap.sleepTime,
+                            sleepTime = nap.sleepingTime,
                             dayHours = sundayHoursDay,
                             nightHours = sundayHoursNight,
                             dayMinutes = sundayMinutesDay,
@@ -73,7 +73,7 @@ class AnalyticsShiftChartViewModel @Inject constructor(
                     Day.MONDAY -> {
                         setShiftHourAndMinute(
                             startTime = nap.startTime,
-                            sleepTime = nap.sleepTime,
+                            sleepTime = nap.sleepingTime,
                             dayHours = mondayHoursDay,
                             nightHours = mondayHoursNight,
                             dayMinutes = mondayMinutesDay,
@@ -83,7 +83,7 @@ class AnalyticsShiftChartViewModel @Inject constructor(
                     Day.TUESDAY -> {
                         setShiftHourAndMinute(
                             startTime = nap.startTime,
-                            sleepTime = nap.sleepTime,
+                            sleepTime = nap.sleepingTime,
                             dayHours = tuesdayHoursDay,
                             nightHours = tuesdayHoursNight,
                             dayMinutes = tuesdayMinutesDay,
@@ -93,7 +93,7 @@ class AnalyticsShiftChartViewModel @Inject constructor(
                     Day.WEDNESDAY -> {
                         setShiftHourAndMinute(
                             startTime = nap.startTime,
-                            sleepTime = nap.sleepTime,
+                            sleepTime = nap.sleepingTime,
                             dayHours = wednesdayHoursDay,
                             nightHours = wednesdayHoursNight,
                             dayMinutes = wednesdayMinutesDay,
@@ -103,7 +103,7 @@ class AnalyticsShiftChartViewModel @Inject constructor(
                     Day.THURSDAY -> {
                         setShiftHourAndMinute(
                             startTime = nap.startTime,
-                            sleepTime = nap.sleepTime,
+                            sleepTime = nap.sleepingTime,
                             dayHours = thursdayHoursDay,
                             nightHours = thursdayHoursNight,
                             dayMinutes = thursdayMinutesDay,
@@ -113,7 +113,7 @@ class AnalyticsShiftChartViewModel @Inject constructor(
                     Day.FRIDAY -> {
                         setShiftHourAndMinute(
                             startTime = nap.startTime,
-                            sleepTime = nap.sleepTime,
+                            sleepTime = nap.sleepingTime,
                             dayHours = fridayHoursDay,
                             nightHours = fridayHoursNight,
                             dayMinutes = fridayMinutesDay,
@@ -123,7 +123,7 @@ class AnalyticsShiftChartViewModel @Inject constructor(
                     Day.SATURDAY -> {
                         setShiftHourAndMinute(
                             startTime = nap.startTime,
-                            sleepTime = nap.sleepTime,
+                            sleepTime = nap.sleepingTime,
                             dayHours = saturdayHoursDay,
                             nightHours = saturdayHoursNight,
                             dayMinutes = saturdayMinutesDay,

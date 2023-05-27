@@ -39,32 +39,32 @@ class AnalyticsWeekChartViewModel @Inject constructor(
             it.forEach { nap ->
                 when (whichDay(nap.date)) {
                     Day.SUNDAY -> {
-                        sundayHours.add(hourToInt(nap.sleepTime))
-                        sundayMinutes.add(minuteToInt(nap.sleepTime))
+                        sundayHours.add(hourToInt(nap.sleepingTime))
+                        sundayMinutes.add(minuteToInt(nap.sleepingTime))
                     }
                     Day.MONDAY -> {
-                        mondayHours.add(hourToInt(nap.sleepTime))
-                        mondayMinutes.add(minuteToInt(nap.sleepTime))
+                        mondayHours.add(hourToInt(nap.sleepingTime))
+                        mondayMinutes.add(minuteToInt(nap.sleepingTime))
                     }
                     Day.TUESDAY -> {
-                        tuesdayHours.add(hourToInt(nap.sleepTime))
-                        tuesdayMinute.add(minuteToInt(nap.sleepTime))
+                        tuesdayHours.add(hourToInt(nap.sleepingTime))
+                        tuesdayMinute.add(minuteToInt(nap.sleepingTime))
                     }
                     Day.WEDNESDAY -> {
-                        wednesdayHours.add(hourToInt(nap.sleepTime))
-                        wednesdayMinute.add(minuteToInt(nap.sleepTime))
+                        wednesdayHours.add(hourToInt(nap.sleepingTime))
+                        wednesdayMinute.add(minuteToInt(nap.sleepingTime))
                     }
                     Day.THURSDAY -> {
-                        thursdayHours.add(hourToInt(nap.sleepTime))
-                        thursdayMinute.add(minuteToInt(nap.sleepTime))
+                        thursdayHours.add(hourToInt(nap.sleepingTime))
+                        thursdayMinute.add(minuteToInt(nap.sleepingTime))
                     }
                     Day.FRIDAY -> {
-                        fridayHours.add(hourToInt(nap.sleepTime))
-                        fridayMinutes.add(minuteToInt(nap.sleepTime))
+                        fridayHours.add(hourToInt(nap.sleepingTime))
+                        fridayMinutes.add(minuteToInt(nap.sleepingTime))
                     }
                     Day.SATURDAY -> {
-                        saturdayHours.add(hourToInt(nap.sleepTime))
-                        saturdayMinutes.add(minuteToInt(nap.sleepTime))
+                        saturdayHours.add(hourToInt(nap.sleepingTime))
+                        saturdayMinutes.add(minuteToInt(nap.sleepingTime))
                     }
                 }
             }

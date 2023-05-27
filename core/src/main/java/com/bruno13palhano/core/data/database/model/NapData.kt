@@ -21,8 +21,8 @@ internal data class NapData(
     @ColumnInfo(name = "start")
     val startTime: Long,
 
-    @ColumnInfo(name = "sleep_time")
-    val sleepTime: Long,
+    @ColumnInfo(name = "sleeping_time")
+    val sleepingTime: Long,
 
     @ColumnInfo(name = "end")
     val endTime: Long,
@@ -37,7 +37,7 @@ internal fun NapData.asNap() = Nap(
     date = date,
     startTime = startTime,
     endTime = endTime,
-    sleepTime = sleepTime,
+    sleepingTime = sleepingTime,
     observation = observation
 )
 
@@ -47,6 +47,6 @@ internal fun Nap.asNapData() = NapData(
     date = date,
     startTime = startTime,
     endTime = endTime,
-    sleepTime = sleepTime,
+    sleepingTime = sleepingTime,
     observation = observation
 )

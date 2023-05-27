@@ -6,6 +6,6 @@ data class Nap (
     val date: Long,
     val startTime: Long,
     val endTime: Long,
-    val sleepTime: Long,
+    val sleepingTime: Long,
     val observation: String
 )

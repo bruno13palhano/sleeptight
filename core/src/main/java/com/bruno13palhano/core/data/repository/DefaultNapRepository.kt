@@ -36,7 +36,7 @@ internal class DefaultNapRepository @Inject constructor(
                     date = 0L,
                     startTime = 0L,
                     endTime = 0L,
-                    sleepTime = 0L,
+                    sleepingTime = 0L,
                     observation = ""
                 )
             }
@@ -62,7 +62,7 @@ internal class DefaultNapRepository @Inject constructor(
                     date = 0L,
                     startTime = 0L,
                     endTime = 0L,
-                    sleepTime = 0L,
+                    sleepingTime = 0L,
                     observation = ""
                 )
             }

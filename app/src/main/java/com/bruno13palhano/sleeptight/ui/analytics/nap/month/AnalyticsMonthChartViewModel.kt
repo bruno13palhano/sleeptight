@@ -49,52 +49,52 @@ class AnalyticsMonthChartViewModel @Inject constructor(
             it.forEach { nap ->
                 when (whichMonth(nap.date)) {
                     Month.JANUARY -> {
-                        januaryHours.add(hourToInt(nap.sleepTime))
-                        januaryMinutes.add(minuteToInt(nap.sleepTime))
+                        januaryHours.add(hourToInt(nap.sleepingTime))
+                        januaryMinutes.add(minuteToInt(nap.sleepingTime))
                     }
                     Month.FEBRUARY -> {
-                        februaryHours.add(hourToInt(nap.sleepTime))
-                        februaryMinutes.add(minuteToInt(nap.sleepTime))
+                        februaryHours.add(hourToInt(nap.sleepingTime))
+                        februaryMinutes.add(minuteToInt(nap.sleepingTime))
                     }
                     Month.MARCH -> {
-                        marchHours.add(hourToInt(nap.sleepTime))
-                        marchMinutes.add(minuteToInt(nap.sleepTime))
+                        marchHours.add(hourToInt(nap.sleepingTime))
+                        marchMinutes.add(minuteToInt(nap.sleepingTime))
                     }
                     Month.APRIL -> {
-                        aprilHours.add(hourToInt(nap.sleepTime))
-                        aprilMinutes.add(minuteToInt(nap.sleepTime))
+                        aprilHours.add(hourToInt(nap.sleepingTime))
+                        aprilMinutes.add(minuteToInt(nap.sleepingTime))
                     }
                     Month.MAY -> {
-                        mayHours.add(hourToInt(nap.sleepTime))
-                        mayMinutes.add(minuteToInt(nap.sleepTime))
+                        mayHours.add(hourToInt(nap.sleepingTime))
+                        mayMinutes.add(minuteToInt(nap.sleepingTime))
                     }
                     Month.JUNE -> {
-                        juneHours.add(hourToInt(nap.sleepTime))
-                        juneMinutes.add(minuteToInt(nap.sleepTime))
+                        juneHours.add(hourToInt(nap.sleepingTime))
+                        juneMinutes.add(minuteToInt(nap.sleepingTime))
                     }
                     Month.JULY -> {
-                        julyHours.add(hourToInt(nap.sleepTime))
-                        julyMinutes.add(minuteToInt(nap.sleepTime))
+                        julyHours.add(hourToInt(nap.sleepingTime))
+                        julyMinutes.add(minuteToInt(nap.sleepingTime))
                     }
                     Month.AUGUST -> {
-                        augustHours.add(hourToInt(nap.sleepTime))
-                        augustMinutes.add(minuteToInt(nap.sleepTime))
+                        augustHours.add(hourToInt(nap.sleepingTime))
+                        augustMinutes.add(minuteToInt(nap.sleepingTime))
                     }
                     Month.SEPTEMBER -> {
-                        septemberHours.add(hourToInt(nap.sleepTime))
-                        septemberMinutes.add(minuteToInt(nap.sleepTime))
+                        septemberHours.add(hourToInt(nap.sleepingTime))
+                        septemberMinutes.add(minuteToInt(nap.sleepingTime))
                     }
                     Month.OCTOBER -> {
-                        octoberHours.add(hourToInt(nap.sleepTime))
-                        octoberMinutes.add(minuteToInt(nap.sleepTime))
+                        octoberHours.add(hourToInt(nap.sleepingTime))
+                        octoberMinutes.add(minuteToInt(nap.sleepingTime))
                     }
                     Month.NOVEMBER -> {
-                        novemberHours.add(hourToInt(nap.sleepTime))
-                        novemberMinutes.add(minuteToInt(nap.sleepTime))
+                        novemberHours.add(hourToInt(nap.sleepingTime))
+                        novemberMinutes.add(minuteToInt(nap.sleepingTime))
                     }
                     Month.DECEMBER -> {
-                        decemberHours.add(hourToInt(nap.sleepTime))
-                        decemberMinutes.add(minuteToInt(nap.sleepTime))
+                        decemberHours.add(hourToInt(nap.sleepingTime))
+                        decemberMinutes.add(minuteToInt(nap.sleepingTime))
                     }
                 }
             }

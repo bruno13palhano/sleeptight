@@ -24,7 +24,7 @@ class AnalyticsNapChartViewModel @Inject constructor(
             val allDate = mutableListOf<String>()
 
             it.forEach { nap ->
-                allSleepTime.add(timeToDecimal(nap.sleepTime))
+                allSleepTime.add(timeToDecimal(nap.sleepingTime))
                 allDate.add(DateFormatUtil.format(nap.date))
             }
 

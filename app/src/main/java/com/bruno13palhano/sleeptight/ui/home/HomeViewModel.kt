@@ -137,7 +137,7 @@ class HomeViewModel @Inject constructor(
             napRepository.getLastStream().collect {
                 _napTitle.value = it.title
                 _napDate.value = it.date
-                _napSleepingTime.value = it.sleepTime
+                _napSleepingTime.value = it.sleepingTime
             }
         }
     }
