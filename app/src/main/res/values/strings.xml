@@ -33,6 +33,8 @@
     <string name="start_time_tag">Start time:</string>
     <string name="end_time_tag">End time:</string>
     <string name="last_nap_label">Last nap</string>
+    <string name="last_nap_date_label">Last nap date</string>
+    <string name="last_nap_sleeping_time_label">Last nap sleeping time</string>
     <string name="sleeping_time_label">Sleeping Time</string>
 
     <!--  Settings labels  -->
@@ -171,8 +173,17 @@
     <string name="description_label">Description</string>
     <string name="hour_label">Hour</string>
     <string name="last_notification_label">Last notification</string>
+    <string name="last_notification_date_label">Last notification date</string>
 
     <!--  Common labels  -->
     <string name="add_button">Add button</string>
     <string name="delete_label">Delete</string>
+
+    <!--  Home labels  -->
+    <string name="home_baby_name_label">Baby status:</string>
+    <string name="home_height_label">Height:</string>
+    <string name="home_weight_label">Weight:</string>
+    <string name="home_title_label">Title:</string>
+    <string name="home_sleeping_time_label">Sleeping time:</string>
+    <string name="home_last_status">Last Status</string>
 </resources>
