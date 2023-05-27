@@ -15,9 +15,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewNapObservationBinding
+import com.bruno13palhano.sleeptight.ui.lists.ButtonItemVisibility
 import kotlinx.coroutines.launch
 
-class NewNapObservationFragment : Fragment() {
+class NewNapObservationFragment : Fragment(), ButtonItemVisibility {
     private var _binding: FragmentNewNapObservationBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NewNapViewModel by activityViewModels()
@@ -37,11 +38,7 @@ class NewNapObservationFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.title.collect {
-                    if (it != "") {
-                        enableNextButton()
-                    } else {
-                        disableNextButton()
-                    }
+                    setButtonVisibility(it)
                 }
             }
         }
@@ -60,11 +57,19 @@ class NewNapObservationFragment : Fragment() {
         )
     }
 
-    private fun enableNextButton() {
+    override fun setButtonVisibility(title: String) {
+        if (title != "") {
+            enableButton()
+        } else {
+            disableButton()
+        }
+    }
+
+    override fun enableButton() {
         binding.next.visibility = VISIBLE
     }
 
-    private fun disableNextButton() {
+    override fun disableButton() {
         binding.next.visibility = GONE
     }
 }

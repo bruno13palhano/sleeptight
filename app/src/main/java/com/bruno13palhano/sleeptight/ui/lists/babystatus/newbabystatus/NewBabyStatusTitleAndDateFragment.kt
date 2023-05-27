@@ -20,12 +20,13 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewBabyStatusTitleAndDateBinding
+import com.bruno13palhano.sleeptight.ui.lists.ButtonItemVisibility
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NewBabyStatusTitleAndDateFragment : Fragment() {
+class NewBabyStatusTitleAndDateFragment : Fragment(), ButtonItemVisibility {
     private var _binding: FragmentNewBabyStatusTitleAndDateBinding? = null
     private val binding get() = _binding!!
     private lateinit var inputMethodManager: InputMethodManager
@@ -51,11 +52,7 @@ class NewBabyStatusTitleAndDateFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.title.collect {
-                        if (it != "") {
-                            enableNextButton()
-                        } else {
-                            disableNextButton()
-                        }
+                        setButtonVisibility(it)
                     }
                 }
                 launch {
@@ -112,11 +109,19 @@ class NewBabyStatusTitleAndDateFragment : Fragment() {
         }
     }
 
-    private fun enableNextButton() {
+    override fun setButtonVisibility(title: String) {
+        if (title != "") {
+            enableButton()
+        } else {
+            disableButton()
+        }
+    }
+
+    override fun enableButton() {
         binding.next.visibility = VISIBLE
     }
 
-    private fun disableNextButton() {
+    override fun disableButton() {
         binding.next.visibility = GONE
     }
 }

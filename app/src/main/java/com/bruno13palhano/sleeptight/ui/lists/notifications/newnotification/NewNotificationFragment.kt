@@ -21,6 +21,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewNotificationBinding
+import com.bruno13palhano.sleeptight.ui.lists.ButtonItemVisibility
 import com.bruno13palhano.sleeptight.ui.lists.notifications.AlarmNotification
 import com.bruno13palhano.sleeptight.ui.lists.notifications.receivers.NotificationReceiver
 import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
@@ -30,7 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NewNotificationFragment : Fragment() {
+class NewNotificationFragment : Fragment(), ButtonItemVisibility {
     private var _binding: FragmentNewNotificationBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NewNotificationViewModel by viewModels()
@@ -76,7 +77,7 @@ class NewNotificationFragment : Fragment() {
                 launch {
                     viewModel.title.collect {
                         title = it
-                        setDoneButtonVisibility(it)
+                        setButtonVisibility(it)
                     }
                 }
                 launch {
@@ -172,19 +173,19 @@ class NewNotificationFragment : Fragment() {
         }
     }
 
-    private fun setDoneButtonVisibility(title: String) {
+    override fun setButtonVisibility(title: String) {
         if (title != "") {
-            enableDoneButton()
+            enableButton()
         } else {
-            disableDoneButton()
+            disableButton()
         }
     }
 
-    private fun enableDoneButton() {
+    override fun enableButton() {
         binding.done.visibility = VISIBLE
     }
 
-    private fun disableDoneButton() {
+    override fun disableButton() {
         binding.done.visibility = GONE
     }
 }
