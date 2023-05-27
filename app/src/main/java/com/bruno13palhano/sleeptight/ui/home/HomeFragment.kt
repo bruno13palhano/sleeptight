@@ -1,7 +1,10 @@
 package com.bruno13palhano.sleeptight.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -50,6 +53,27 @@ class HomeFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.share_toolbar_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.share -> {
+                        shareLastInformation()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -58,5 +82,21 @@ class HomeFragment : Fragment() {
     private fun navigateToLogin() {
         findNavController().navigate(
             HomeFragmentDirections.actionHomeToLogin())
+    }
+    
+    private fun shareLastInformation() {
+        val text = "${getString(R.string.baby_name_label)}: ${binding.babyName.text}\n" +
+                   "${getString(R.string.birth_height_label)}: ${binding.height.text}\n" +
+                   "${getString(R.string.birth_weight_label)}: ${binding.weight.text}\n" +
+                   "${getString(R.string.last_nap_date_label)}: ${binding.napDate.text}\n" +
+                   "${getString(R.string.last_nap_sleeping_time_label)}: ${binding.napSleepingTime.text}"
+
+        val share = Intent.createChooser(Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "text/*"
+            putExtra(Intent.EXTRA_TITLE, "Last status")
+            putExtra(Intent.EXTRA_TEXT, text)
+        }, null)
+        this@HomeFragment.requireContext().startActivity(share)
     }
 }
