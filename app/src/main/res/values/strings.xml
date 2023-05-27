@@ -32,6 +32,8 @@
     <string name="date_tag">Date:</string>
     <string name="start_time_tag">Start time:</string>
     <string name="end_time_tag">End time:</string>
+    <string name="last_nap_label">Last nap</string>
+    <string name="sleeping_time_label">Sleeping Time</string>
 
     <!--  Settings labels  -->
     <string name="birth_time_label">Birth time</string>
@@ -168,6 +170,7 @@
     <string name="off_label">Off</string>
     <string name="description_label">Description</string>
     <string name="hour_label">Hour</string>
+    <string name="last_notification_label">Last notification</string>
 
     <!--  Common labels  -->
     <string name="add_button">Add button</string>
