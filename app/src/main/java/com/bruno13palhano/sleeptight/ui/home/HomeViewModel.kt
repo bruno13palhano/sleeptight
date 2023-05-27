@@ -1,6 +1,8 @@
 package com.bruno13palhano.sleeptight.ui.home
 
 import android.icu.text.DateFormat
+import android.icu.util.Calendar
+import android.icu.util.TimeZone
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.authentication.DefaultUserFirebase
@@ -103,7 +105,10 @@ class HomeViewModel @Inject constructor(
     private val _napSleepingTime = MutableStateFlow(0L)
     val napSleepingTime = _napSleepingTime.asStateFlow()
         .map {
-            DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(it)
+            val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+            calendar.timeInMillis = it
+
+            DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(calendar)
         }
         .stateIn(
             scope = viewModelScope,
