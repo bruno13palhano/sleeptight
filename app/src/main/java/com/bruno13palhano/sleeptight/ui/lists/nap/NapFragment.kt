@@ -4,6 +4,8 @@ import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import android.os.Bundle
 import android.view.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.fragment.app.Fragment
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -15,6 +17,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNapBinding
+import com.bruno13palhano.sleeptight.ui.lists.ButtonItemVisibility
 import com.bruno13palhano.sleeptight.ui.lists.CommonItemActions
 import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -23,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NapFragment : Fragment(), CommonItemActions {
+class NapFragment : Fragment(), CommonItemActions, ButtonItemVisibility {
     private var _binding: FragmentNapBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NapViewModel by viewModels()
@@ -50,6 +53,11 @@ class NapFragment : Fragment(), CommonItemActions {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.title.collect {
+                        setButtonVisibility(it)
+                    }
+                }
                 launch {
                     viewModel.date.collect {
                         setDatePicker(it)
@@ -155,5 +163,21 @@ class NapFragment : Fragment(), CommonItemActions {
         endTimePicker.addOnPositiveButtonClickListener {
             viewModel.setEndTime(endTimePicker.hour, endTimePicker.minute)
         }
+    }
+
+    override fun setButtonVisibility(title: String) {
+        if (title.trim() != "") {
+            enableButton()
+        } else {
+            disableButton()
+        }
+    }
+
+    override fun enableButton() {
+        binding.done.visibility = VISIBLE
+    }
+
+    override fun disableButton() {
+        binding.done.visibility = GONE
     }
 }

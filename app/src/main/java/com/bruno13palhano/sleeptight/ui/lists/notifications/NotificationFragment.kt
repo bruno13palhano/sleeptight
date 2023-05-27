@@ -13,6 +13,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -24,6 +26,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNotificationBinding
+import com.bruno13palhano.sleeptight.ui.lists.ButtonItemVisibility
 import com.bruno13palhano.sleeptight.ui.lists.CommonItemActions
 import com.bruno13palhano.sleeptight.ui.lists.notifications.receivers.NotificationReceiver
 import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
@@ -33,7 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NotificationFragment : Fragment(), CommonItemActions {
+class NotificationFragment : Fragment(), CommonItemActions, ButtonItemVisibility {
     private var _binding: FragmentNotificationBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NotificationViewModel by viewModels()
@@ -70,6 +73,7 @@ class NotificationFragment : Fragment(), CommonItemActions {
                 launch {
                     viewModel.title.collect {
                         title = it
+                        setButtonVisibility(it)
                     }
                 }
                 launch {
@@ -205,5 +209,21 @@ class NotificationFragment : Fragment(), CommonItemActions {
         )
 
         findNavController().navigateUp()
+    }
+
+    override fun setButtonVisibility(title: String) {
+        if (title.trim() != "") {
+            enableButton()
+        } else {
+            disableButton()
+        }
+    }
+
+    override fun enableButton() {
+        binding.done.visibility = VISIBLE
+    }
+
+    override fun disableButton() {
+        binding.done.visibility = GONE
     }
 }
