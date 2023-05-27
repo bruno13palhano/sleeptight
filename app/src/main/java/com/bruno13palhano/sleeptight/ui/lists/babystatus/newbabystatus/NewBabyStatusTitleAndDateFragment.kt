@@ -110,7 +110,7 @@ class NewBabyStatusTitleAndDateFragment : Fragment(), ButtonItemVisibility {
     }
 
     override fun setButtonVisibility(title: String) {
-        if (title != "") {
+        if (title.trim() != "") {
             enableButton()
         } else {
             disableButton()
