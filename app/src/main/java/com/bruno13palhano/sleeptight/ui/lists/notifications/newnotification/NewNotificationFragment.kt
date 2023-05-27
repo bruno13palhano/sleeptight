@@ -10,6 +10,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -74,6 +76,7 @@ class NewNotificationFragment : Fragment() {
                 launch {
                     viewModel.title.collect {
                         title = it
+                        setDoneButtonVisibility(it)
                     }
                 }
                 launch {
@@ -167,5 +170,21 @@ class NewNotificationFragment : Fragment() {
                 findNavController().navigateUp()
             }
         }
+    }
+
+    private fun setDoneButtonVisibility(title: String) {
+        if (title != "") {
+            enableDoneButton()
+        } else {
+            disableDoneButton()
+        }
+    }
+
+    private fun enableDoneButton() {
+        binding.done.visibility = VISIBLE
+    }
+
+    private fun disableDoneButton() {
+        binding.done.visibility = GONE
     }
 }
