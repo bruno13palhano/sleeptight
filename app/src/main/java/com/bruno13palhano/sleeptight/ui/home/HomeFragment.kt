@@ -85,18 +85,42 @@ class HomeFragment : Fragment() {
     }
     
     private fun shareLastInformation() {
-        val text = "${getString(R.string.baby_name_label)}: ${binding.babyName.text}\n" +
-                   "${getString(R.string.birth_height_label)}: ${binding.height.text}\n" +
-                   "${getString(R.string.birth_weight_label)}: ${binding.weight.text}\n" +
-                   "${getString(R.string.last_nap_date_label)}: ${binding.napDate.text}\n" +
-                   "${getString(R.string.last_nap_sleeping_time_label)}: ${binding.napSleepingTime.text}"
+        val text = getStatusText()
 
         val share = Intent.createChooser(Intent().apply {
             action = Intent.ACTION_SEND
             type = "text/*"
-            putExtra(Intent.EXTRA_TITLE, "Last status")
+            putExtra(Intent.EXTRA_TITLE, getString(R.string.home_last_status))
             putExtra(Intent.EXTRA_TEXT, text)
         }, null)
         this@HomeFragment.requireContext().startActivity(share)
+    }
+
+    private fun getStatusText(): String {
+        return if (binding.napTitle.text != "" && binding.notificationTitle.text != "") {
+            "${getString(R.string.baby_name_label)}: ${binding.babyName.text}\n" +
+                    "${getString(R.string.birth_height_label)}: ${binding.height.text}\n" +
+                    "${getString(R.string.birth_weight_label)}: ${binding.weight.text}\n" +
+                    "${getString(R.string.last_nap_date_label)}: ${binding.napDate.text}\n" +
+                    "${getString(R.string.last_nap_sleeping_time_label)}: ${binding.napSleepingTime.text}\n" +
+                    "${getString(R.string.last_notification_label)}: ${binding.notificationTitle.text}\n" +
+                    "${getString(R.string.last_notification_date_label)}: ${binding.notificationDate.text}"
+        } else if (binding.napTitle.text != "") {
+            "${getString(R.string.baby_name_label)}: ${binding.babyName.text}\n" +
+                    "${getString(R.string.birth_height_label)}: ${binding.height.text}\n" +
+                    "${getString(R.string.birth_weight_label)}: ${binding.weight.text}\n" +
+                    "${getString(R.string.last_nap_date_label)}: ${binding.napDate.text}\n" +
+                    "${getString(R.string.last_nap_sleeping_time_label)}: ${binding.napSleepingTime.text}\n"
+        } else if (binding.notificationTitle.text != "") {
+            "${getString(R.string.baby_name_label)}: ${binding.babyName.text}\n" +
+                    "${getString(R.string.birth_height_label)}: ${binding.height.text}\n" +
+                    "${getString(R.string.birth_weight_label)}: ${binding.weight.text}\n" +
+                    "${getString(R.string.last_notification_label)}: ${binding.notificationTitle.text}\n" +
+                    "${getString(R.string.last_notification_date_label)}: ${binding.notificationDate.text}"
+        } else {
+            "${getString(R.string.baby_name_label)}: ${binding.babyName.text}\n" +
+            "${getString(R.string.birth_height_label)}: ${binding.height.text}\n" +
+            "${getString(R.string.birth_weight_label)}: ${binding.weight.text}"
+        }
     }
 }
