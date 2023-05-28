@@ -132,11 +132,11 @@
                 android:id="@+id/nap_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/weight_label">
+
                 <TextView
                     android:id="@+id/last_nap_label"
                     android:layout_width="wrap_content"
@@ -152,6 +152,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/nap_title_label"
                         android:layout_width="wrap_content"
@@ -180,6 +181,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/nap_sleepingTime_label"
                         android:layout_width="wrap_content"
@@ -208,6 +210,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/nap_date_label"
                         android:layout_width="wrap_content"
