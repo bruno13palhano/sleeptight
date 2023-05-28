@@ -98,37 +98,17 @@ class HomeFragment : Fragment() {
 
     private fun setNapVisibility(napTitle: String) {
         if (napTitle == "") {
-            binding.lastNapLabel.visibility = GONE
-            binding.napTitleLabel.visibility = GONE
-            binding.napTitle.visibility = GONE
-            binding.napDateLabel.visibility = GONE
-            binding.napDate.visibility = GONE
-            binding.napSleepingTimeLabel.visibility = GONE
-            binding.napSleepingTime.visibility = GONE
+            binding.napLayout.visibility = GONE
         } else {
-            binding.lastNapLabel.visibility = VISIBLE
-            binding.napTitleLabel.visibility = VISIBLE
-            binding.napTitle.visibility = VISIBLE
-            binding.napDateLabel.visibility = VISIBLE
-            binding.napDate.visibility = VISIBLE
-            binding.napSleepingTimeLabel.visibility = VISIBLE
-            binding.napSleepingTime.visibility = VISIBLE
+            binding.napLayout.visibility = VISIBLE
         }
     }
 
     private fun setNotificationVisibility(notificationTitle: String) {
         if (notificationTitle == "") {
-            binding.lastNotificationLabel.visibility = GONE
-            binding.notificationTitleLabel.visibility = GONE
-            binding.notificationTitle.visibility = GONE
-            binding.notificationDateLabel.visibility = GONE
-            binding.notificationDate.visibility = GONE
+            binding.notificationLayout.visibility = GONE
         } else {
-            binding.lastNotificationLabel.visibility = VISIBLE
-            binding.notificationTitleLabel.visibility = VISIBLE
-            binding.notificationTitle.visibility = VISIBLE
-            binding.notificationDateLabel.visibility = VISIBLE
-            binding.notificationDate.visibility = VISIBLE
+            binding.notificationLayout.visibility = VISIBLE
         }
     }
 
