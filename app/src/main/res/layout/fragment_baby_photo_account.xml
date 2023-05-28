@@ -21,22 +21,22 @@
             android:id="@+id/photo_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="32dp"
+            app:cardCornerRadius="132dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:cardCornerRadius="132dp">
+            app:layout_constraintVertical_bias="0.0">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/photo"
                 android:layout_width="264dp"
                 android:layout_height="264dp"
                 android:layout_gravity="center"
+                android:onClick="@{v -> uiEvents.onPhotoClick()}"
                 android:scaleType="centerCrop"
                 android:src="@drawable/baseline_image_24"
-                android:onClick="@{v -> uiEvents.onPhotoClick()}"
                 app:shapeAppearanceOverlay="@style/ImageViewRounded" />
         </com.google.android.material.card.MaterialCardView>
 

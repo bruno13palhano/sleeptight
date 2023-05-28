@@ -34,7 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
             android:hint="@string/birth_date_label"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,8 +47,8 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:maxLines="1"
-                android:text="@{viewModel.dateUi}"
-                android:onClick="@{v -> uiEvents.onDateClick()}" />
+                android:onClick="@{v -> uiEvents.onDateClick()}"
+                android:text="@{viewModel.dateUi}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
