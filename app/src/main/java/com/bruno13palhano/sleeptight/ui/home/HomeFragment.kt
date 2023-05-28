@@ -3,6 +3,8 @@ package com.bruno13palhano.sleeptight.ui.home
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -42,6 +44,16 @@ class HomeFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.napTitle.collect {
+                        setNapVisibility(it)
+                    }
+                }
+                launch {
+                    viewModel.notificationTitle.collect {
+                        setNotificationVisibility(it)
+                    }
+                }
                 launch {
                     viewModel.profileImage.collect {
                         binding.profileImage.load(it)
@@ -83,7 +95,43 @@ class HomeFragment : Fragment() {
         findNavController().navigate(
             HomeFragmentDirections.actionHomeToLogin())
     }
-    
+
+    private fun setNapVisibility(napTitle: String) {
+        if (napTitle == "") {
+            binding.lastNapLabel.visibility = GONE
+            binding.napTitleLabel.visibility = GONE
+            binding.napTitle.visibility = GONE
+            binding.napDateLabel.visibility = GONE
+            binding.napDate.visibility = GONE
+            binding.napSleepingTimeLabel.visibility = GONE
+            binding.napSleepingTime.visibility = GONE
+        } else {
+            binding.lastNapLabel.visibility = VISIBLE
+            binding.napTitleLabel.visibility = VISIBLE
+            binding.napTitle.visibility = VISIBLE
+            binding.napDateLabel.visibility = VISIBLE
+            binding.napDate.visibility = VISIBLE
+            binding.napSleepingTimeLabel.visibility = VISIBLE
+            binding.napSleepingTime.visibility = VISIBLE
+        }
+    }
+
+    private fun setNotificationVisibility(notificationTitle: String) {
+        if (notificationTitle == "") {
+            binding.lastNotificationLabel.visibility = GONE
+            binding.notificationTitleLabel.visibility = GONE
+            binding.notificationTitle.visibility = GONE
+            binding.notificationDateLabel.visibility = GONE
+            binding.notificationDate.visibility = GONE
+        } else {
+            binding.lastNotificationLabel.visibility = VISIBLE
+            binding.notificationTitleLabel.visibility = VISIBLE
+            binding.notificationTitle.visibility = VISIBLE
+            binding.notificationDateLabel.visibility = VISIBLE
+            binding.notificationDate.visibility = VISIBLE
+        }
+    }
+
     private fun shareLastInformation() {
         val text = getStatusText()
 
