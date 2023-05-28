@@ -27,7 +27,7 @@ class NotificationWork @AssistedInject constructor(
     private lateinit var notificationManager: NotificationManager
 
     override suspend fun doWork(): Result {
-        notificationRepository.getAllNotificationsStream().collect {
+        notificationRepository.getAllStream().collect {
             notificationManager =
                 context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
