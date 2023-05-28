@@ -22,39 +22,59 @@
             android:layout_height="match_parent"
             tools:context=".ui.babystatus.newbabystatus.NewBabyStatusTitleAndDateFragment">
 
+            <TextView
+                android:id="@+id/title_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:drawableStartCompat="@drawable/baseline_label_24"
+                app:layout_constraintBottom_toBottomOf="@+id/title_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/title_layout" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/title_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
                 android:hint="@string/title_label"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/title_label"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:maxLines="1"
                     android:imeOptions="actionDone"
-                    android:singleLine="true"
                     android:inputType="text"
-                    android:text="@={viewModel.title}"/>
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@={viewModel.title}" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/date_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:drawableStartCompat="@drawable/baseline_calendar_month_24"
+                app:layout_constraintBottom_toBottomOf="@+id/date_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/date_layout" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/date_layout"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:hint="@string/date_label"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/date_label"
                 app:layout_constraintTop_toBottomOf="@+id/title_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
