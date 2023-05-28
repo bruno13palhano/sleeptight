@@ -15,7 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewNapObservationBinding
-import com.bruno13palhano.sleeptight.ui.lists.ButtonItemVisibility
+import com.bruno13palhano.sleeptight.ui.ButtonItemVisibility
 import kotlinx.coroutines.launch
 
 class NewNapObservationFragment : Fragment(), ButtonItemVisibility {
@@ -57,7 +57,7 @@ class NewNapObservationFragment : Fragment(), ButtonItemVisibility {
         )
     }
 
-    override fun setButtonVisibility(title: String) {
+    private fun setButtonVisibility(title: String) {
         if (title.trim() != "") {
             enableButton()
         } else {

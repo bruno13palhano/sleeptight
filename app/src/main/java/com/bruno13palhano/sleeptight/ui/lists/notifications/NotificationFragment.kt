@@ -26,7 +26,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNotificationBinding
-import com.bruno13palhano.sleeptight.ui.lists.ButtonItemVisibility
+import com.bruno13palhano.sleeptight.ui.ButtonItemVisibility
 import com.bruno13palhano.sleeptight.ui.lists.CommonItemActions
 import com.bruno13palhano.sleeptight.ui.lists.notifications.receivers.NotificationReceiver
 import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
@@ -211,7 +211,7 @@ class NotificationFragment : Fragment(), CommonItemActions, ButtonItemVisibility
         findNavController().navigateUp()
     }
 
-    override fun setButtonVisibility(title: String) {
+    private fun setButtonVisibility(title: String) {
         if (title.trim() != "") {
             enableButton()
         } else {

@@ -17,7 +17,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentBabyStatusBinding
-import com.bruno13palhano.sleeptight.ui.lists.ButtonItemVisibility
+import com.bruno13palhano.sleeptight.ui.ButtonItemVisibility
 import com.bruno13palhano.sleeptight.ui.lists.CommonItemActions
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
@@ -123,7 +123,7 @@ class BabyStatusFragment : Fragment(), CommonItemActions, ButtonItemVisibility {
         }
     }
 
-    override fun setButtonVisibility(title: String) {
+    private fun setButtonVisibility(title: String) {
         if (title.trim() != "") {
             enableButton()
         } else {

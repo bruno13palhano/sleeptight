@@ -20,7 +20,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewBabyStatusTitleAndDateBinding
-import com.bruno13palhano.sleeptight.ui.lists.ButtonItemVisibility
+import com.bruno13palhano.sleeptight.ui.ButtonItemVisibility
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -109,7 +109,7 @@ class NewBabyStatusTitleAndDateFragment : Fragment(), ButtonItemVisibility {
         }
     }
 
-    override fun setButtonVisibility(title: String) {
+    private fun setButtonVisibility(title: String) {
         if (title.trim() != "") {
             enableButton()
         } else {
