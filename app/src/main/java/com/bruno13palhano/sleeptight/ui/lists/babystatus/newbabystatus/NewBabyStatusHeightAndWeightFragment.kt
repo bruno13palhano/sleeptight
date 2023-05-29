@@ -9,6 +9,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethod
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
@@ -27,6 +28,7 @@ class NewBabyStatusHeightAndWeightFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var inputMethodManager: InputMethodManager
     private val viewModel: NewBabyStatusViewModel by activityViewModels()
+    private var heightAndTitle: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +54,7 @@ class NewBabyStatusHeightAndWeightFragment : Fragment() {
                         } else {
                             disableDoneButton()
                         }
+                        heightAndTitle = it
                     }
                 }
             }
@@ -67,7 +70,7 @@ class NewBabyStatusHeightAndWeightFragment : Fragment() {
         inputMethodManager.showSoftInput(binding.height, InputMethodManager.SHOW_IMPLICIT)
         binding.height.setOnEditorActionListener { _, i, _ ->
             if (i == EditorInfo.IME_ACTION_DONE) {
-                inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+                binding.weight.requestFocus()
             }
 
             false
@@ -76,6 +79,10 @@ class NewBabyStatusHeightAndWeightFragment : Fragment() {
         binding.weight.setOnEditorActionListener { _, i, _ ->
             if (i == EditorInfo.IME_ACTION_DONE) {
                 inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+
+                if (heightAndTitle) {
+                    navigateToHome()
+                }
             }
 
             false
