@@ -74,6 +74,7 @@ class NewBabyStatusTitleAndDateFragment : Fragment(), ButtonItemVisibility {
         binding.title.setOnEditorActionListener { _, i, _ ->
             if (i == EditorInfo.IME_ACTION_DONE) {
                 inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+                onDateClick()
             }
 
             false
