@@ -17,6 +17,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -110,6 +111,19 @@ class CreateAccountViewModel @Inject constructor(
     fun setWeight(weight: Float) {
         _weight.value = weight
     }
+
+    val createAccountUi = combine(username, email, password) { username, email, password ->
+        CreateAccountUi(
+            username = username,
+            email = email,
+            password = password
+        )
+    }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = CreateAccountUi(),
+            started = WhileSubscribed(5_000)
+        )
 
     fun insertUser() {
         val user = User(
@@ -205,4 +219,10 @@ class CreateAccountViewModel @Inject constructor(
         object Success: LoginStatus()
         object Default: LoginStatus()
     }
+
+    data class CreateAccountUi(
+        val username: String = "",
+        val email: String = "",
+        val password: String = ""
+    )
 }
