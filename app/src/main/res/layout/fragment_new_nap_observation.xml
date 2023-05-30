@@ -65,6 +65,8 @@
                     android:id="@+id/new_nap_title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
                     android:maxLines="1"
                     android:text="@={viewModel.title}" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -95,6 +97,8 @@
                     android:id="@+id/new_nap_observation"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
                     android:gravity="top"
                     android:minLines="2"
                     android:text="@={viewModel.observation}" />
