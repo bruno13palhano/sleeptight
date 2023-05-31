@@ -35,6 +35,8 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+private const val NOTIFICATION_ACTION_PREFIX = "com.bruno13palhano.sleeptight"
+
 @AndroidEntryPoint
 class NotificationFragment : Fragment(), CommonItemActions, ButtonItemVisibility {
     private var _binding: FragmentNotificationBinding? = null
@@ -51,6 +53,9 @@ class NotificationFragment : Fragment(), CommonItemActions, ButtonItemVisibility
     private lateinit var timePicker: MaterialTimePicker
     private lateinit var notificationManager: NotificationManager
     private lateinit var alarmManager: AlarmManager
+    private lateinit var notifyIntent: Intent
+    private lateinit var notifyPendingIntent: PendingIntent
+    private lateinit var alarmNotification: AlarmNotification
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -135,14 +140,14 @@ class NotificationFragment : Fragment(), CommonItemActions, ButtonItemVisibility
     }
 
     override fun onDeleteItem() {
-        viewModel.deleteNotification(notificationId)
+        viewModel.deleteNotification(notificationId) {
+            cancelNotification()
+        }
         findNavController().navigateUp()
     }
 
     override fun onUpdateItem() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.updateNotification(notificationId)
-        }
+        viewModel.updateNotification(notificationId)
         updateAlarm()
     }
 
@@ -175,31 +180,7 @@ class NotificationFragment : Fragment(), CommonItemActions, ButtonItemVisibility
     }
 
     private fun updateAlarm() {
-        notificationManager =
-            activity?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-
-        val notifyIntent = Intent(requireContext(), NotificationReceiver::class.java)
-
-        notifyIntent.apply {
-            putExtra("id", notificationId.toInt())
-            putExtra("title", title)
-            putExtra("description", description)
-        }
-
-        val notifyPendingIntent = PendingIntent.getBroadcast(
-            requireContext(),
-            notificationId.toInt(),
-            notifyIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        alarmManager = requireContext().getSystemService(ALARM_SERVICE) as AlarmManager
-
-        val alarmNotification = AlarmNotification(
-            notificationManager = notificationManager,
-            alarmManager = alarmManager
-        )
-
+        setupNotification()
         alarmNotification.updateAlarmManager(
             notifyPendingIntent = notifyPendingIntent,
             notificationId = notificationId.toInt(),
@@ -209,6 +190,38 @@ class NotificationFragment : Fragment(), CommonItemActions, ButtonItemVisibility
         )
 
         findNavController().navigateUp()
+    }
+
+    private fun cancelNotification() {
+        setupNotification()
+        alarmNotification.cancelNotification(notifyPendingIntent, notificationId.toInt())
+    }
+
+    private fun setupNotification() {
+        notificationManager =
+            activity?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
+        notifyIntent = Intent(requireContext(), NotificationReceiver::class.java)
+        notifyIntent.apply {
+            action = "$NOTIFICATION_ACTION_PREFIX.${notificationId}"
+            putExtra("id", notificationId.toInt())
+            putExtra("title", title)
+            putExtra("description", description)
+        }
+
+        notifyPendingIntent = PendingIntent.getBroadcast(
+            requireContext(),
+            notificationId.toInt(),
+            notifyIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        alarmManager = requireContext().getSystemService(ALARM_SERVICE) as AlarmManager
+
+        alarmNotification = AlarmNotification(
+            notificationManager = notificationManager,
+            alarmManager = alarmManager
+        )
     }
 
     private fun setButtonVisibility(title: String) {
