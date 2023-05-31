@@ -30,6 +30,8 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+private const val DELETE_ACTION_PREFIX = "com.bruno13palhano.sleeptight"
+
 @AndroidEntryPoint
 class NewNotificationFragment : Fragment(), ButtonItemVisibility {
     private var _binding: FragmentNewNotificationBinding? = null
@@ -102,8 +104,9 @@ class NewNotificationFragment : Fragment(), ButtonItemVisibility {
     }
 
     fun onActionClick() {
-        viewModel.insertNotification()
-        setAlarm()
+        viewModel.insertNotification {
+            setAlarm(it)
+        }
     }
 
     fun onTimeClick() {
@@ -134,43 +137,40 @@ class NewNotificationFragment : Fragment(), ButtonItemVisibility {
         }
     }
 
-    private fun setAlarm() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getLastNotification().collect {
-                notificationManager =
-                    activity?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+    private fun setAlarm(id: Long) {
+        notificationManager =
+            activity?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
-                val notifyIntent = Intent(requireContext(), NotificationReceiver::class.java)
-                notifyIntent.apply {
-                    putExtra("id", it.id.toInt())
-                    putExtra("title", title)
-                    putExtra("description", description)
-                }
-
-                val notifyPendingIntent = PendingIntent.getBroadcast(
-                    requireContext(),
-                    it.id.toInt(),
-                    notifyIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                )
-
-                alarmManager = requireContext().getSystemService(ALARM_SERVICE) as AlarmManager
-
-                val alarmNotification = AlarmNotification(
-                    notificationManager = notificationManager,
-                    alarmManager = alarmManager
-                )
-
-                alarmNotification.setAlarmManager(
-                    notifyPendingIntent = notifyPendingIntent,
-                    time = time,
-                    date = date,
-                    repeat = repeat
-                )
-
-                findNavController().navigateUp()
-            }
+        val notifyIntent = Intent(requireContext(), NotificationReceiver::class.java)
+        notifyIntent.apply {
+            action = "${DELETE_ACTION_PREFIX}.${id}"
+            putExtra("id", id.toInt())
+            putExtra("title", title)
+            putExtra("description", description)
         }
+
+        val notifyPendingIntent = PendingIntent.getBroadcast(
+            requireContext(),
+            id.toInt(),
+            notifyIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        alarmManager = requireContext().getSystemService(ALARM_SERVICE) as AlarmManager
+
+        val alarmNotification = AlarmNotification(
+            notificationManager = notificationManager,
+            alarmManager = alarmManager
+        )
+
+        alarmNotification.setAlarmManager(
+            notifyPendingIntent = notifyPendingIntent,
+            time = time,
+            date = date,
+            repeat = repeat
+        )
+
+        findNavController().navigateUp()
     }
 
     private fun setButtonVisibility(title: String) {
