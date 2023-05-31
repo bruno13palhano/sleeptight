@@ -8,6 +8,10 @@
         <variable
             name="uiEvnets"
             type="com.bruno13palhano.sleeptight.ui.login.LoginFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.bruno13palhano.sleeptight.ui.login.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,7 +45,8 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:text="@={viewModel.email}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -71,7 +76,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:text="@={viewModel.password}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
