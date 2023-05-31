@@ -17,7 +17,7 @@ internal interface NotificationDao {
     fun getNotificationByIdStream(id: Long): Flow<NotificationData>
 
     @Insert
-    suspend fun insertNotification(notification: NotificationData)
+    suspend fun insertNotification(notification: NotificationData): Long
 
     @Query("DELETE FROM notification_table WHERE id = :id")
     suspend fun deleteNotificationById(id: Long)

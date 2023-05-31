@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 internal interface NapDao {
 
     @Insert(onConflict = REPLACE)
-    suspend fun insert(nap: NapData)
+    suspend fun insert(nap: NapData): Long
 
     @Query("SELECT * FROM nap_table")
     fun getAllStream(): Flow<List<NapData>>

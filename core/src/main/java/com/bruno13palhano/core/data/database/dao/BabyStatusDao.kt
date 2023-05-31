@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 internal interface BabyStatusDao {
 
     @Insert(onConflict = REPLACE)
-    suspend fun insert(babyStatus: BabyStatusData)
+    suspend fun insert(babyStatus: BabyStatusData): Long
 
     @Query("SELECT * FROM baby_status_table")
     fun getAllStream(): Flow<List<BabyStatusData>>
