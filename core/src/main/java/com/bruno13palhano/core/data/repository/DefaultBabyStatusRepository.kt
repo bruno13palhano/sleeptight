@@ -11,8 +11,8 @@ import javax.inject.Inject
 internal class DefaultBabyStatusRepository @Inject constructor(
     private val babyStatusDao: BabyStatusDao
 ) : BabyStatusRepository {
-    override suspend fun insert(model: BabyStatus) {
-        babyStatusDao.insert(model.asBabyStatusData())
+    override suspend fun insert(model: BabyStatus): Long {
+        return babyStatusDao.insert(model.asBabyStatusData())
     }
 
     override fun getAllStream(): Flow<List<BabyStatus>> {

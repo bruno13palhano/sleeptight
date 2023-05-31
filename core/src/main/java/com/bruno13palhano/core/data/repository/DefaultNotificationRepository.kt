@@ -31,8 +31,8 @@ internal class DefaultNotificationRepository @Inject constructor(
             }
     }
 
-    override suspend fun insert(model: Notification) {
-        notificationDao.insertNotification(model.asNotificationData())
+    override suspend fun insert(model: Notification): Long {
+        return notificationDao.insertNotification(model.asNotificationData())
     }
 
     override suspend fun deleteById(id: Long) {

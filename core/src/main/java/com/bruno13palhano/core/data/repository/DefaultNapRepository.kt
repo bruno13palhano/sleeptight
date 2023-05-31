@@ -13,8 +13,8 @@ import javax.inject.Singleton
 internal class DefaultNapRepository @Inject constructor(
     private val napDao: NapDao
 ) : NapRepository {
-    override suspend fun insert(model: Nap) {
-        napDao.insert(model.asNapData())
+    override suspend fun insert(model: Nap): Long {
+        return napDao.insert(model.asNapData())
     }
 
     override fun getAllStream(): Flow<List<Nap>> {
