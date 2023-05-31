@@ -19,6 +19,7 @@ class AlarmNotification(
 
     fun cancelNotification(notifyPendingIntent: PendingIntent, notificationId: Int) {
         notificationManager.cancel(notificationId)
+        notifyPendingIntent.cancel()
         alarmManager.cancel(notifyPendingIntent)
     }
 
@@ -29,7 +30,7 @@ class AlarmNotification(
         date: Long,
         repeat: Boolean
     ) {
-        cancelNotification(notifyPendingIntent, notificationId)
+        notificationManager.cancel(notificationId)
         setAlarmManager(notifyPendingIntent, time, date, repeat)
     }
 
