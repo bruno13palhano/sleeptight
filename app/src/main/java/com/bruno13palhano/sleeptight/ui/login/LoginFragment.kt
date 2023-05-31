@@ -19,11 +19,12 @@ import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentLoginBinding
+import com.bruno13palhano.sleeptight.ui.ButtonItemVisibility
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
+class LoginFragment : Fragment(), ButtonItemVisibility {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: LoginViewModel by viewModels()
@@ -37,24 +38,36 @@ class LoginFragment : Fragment() {
         val view = binding.root
 
         binding.uiEvnets = this
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
 
         (requireActivity() as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(null)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.loginStatus.collect {
-                    when (it) {
-                        LoginViewModel.LoginStatus.Loading -> {
-                            onLoginLoading()
+                    launch {
+                        viewModel.isEmailAndPasswordNotEmpty.collect {
+                            setButtonVisibility(it)
                         }
-                        LoginViewModel.LoginStatus.Success -> {
-                            onLoginSuccess()
-                        }
-                        LoginViewModel.LoginStatus.Error -> {
-                            onLoginError()
-                        }
-                        LoginViewModel.LoginStatus.Default -> {
+                    }
+                    launch {
+                        when (it) {
+                            LoginViewModel.LoginStatus.Loading -> {
+                                onLoginLoading()
+                            }
 
+                            LoginViewModel.LoginStatus.Success -> {
+                                onLoginSuccess()
+                            }
+
+                            LoginViewModel.LoginStatus.Error -> {
+                                onLoginError()
+                            }
+
+                            LoginViewModel.LoginStatus.Default -> {
+
+                            }
                         }
                     }
                 }
@@ -108,5 +121,21 @@ class LoginFragment : Fragment() {
     override fun onDetach() {
         (activity as MainActivity).showBottomNavigation()
         super.onDetach()
+    }
+
+    private fun setButtonVisibility(isEmailAndPasswordNotEmpty: Boolean) {
+        if (isEmailAndPasswordNotEmpty) {
+            enableButton()
+        } else {
+            disableButton()
+        }
+    }
+
+    override fun enableButton() {
+        binding.done.visibility = VISIBLE
+    }
+
+    override fun disableButton() {
+        binding.done.visibility = GONE
     }
 }

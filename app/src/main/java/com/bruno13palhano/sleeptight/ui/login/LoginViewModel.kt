@@ -9,7 +9,10 @@ import com.bruno13palhano.core.data.repository.UserRepository
 import com.bruno13palhano.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +23,18 @@ class LoginViewModel @Inject constructor(
 ) : ViewModel() {
     private val _loginStatus = MutableStateFlow<LoginStatus>(LoginStatus.Default)
     val loginStatus = _loginStatus.asStateFlow()
+
+    val email = MutableStateFlow("")
+    val password = MutableStateFlow("")
+
+    val isEmailAndPasswordNotEmpty = combine(email, password) { email, password ->
+        isValuesValid(email, password)
+    }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = false,
+            started = WhileSubscribed(5_000)
+        )
 
     fun login(
         email: String,
