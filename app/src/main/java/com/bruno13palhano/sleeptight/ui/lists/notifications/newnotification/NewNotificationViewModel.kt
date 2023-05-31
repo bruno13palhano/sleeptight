@@ -74,7 +74,7 @@ class NewNotificationViewModel @Inject constructor(
         _date.value = date
     }
 
-    fun insertNotification(onNotificationInsert: (id: Long) -> Unit) {
+    fun insertNotification(onNotificationInserted: (id: Long) -> Unit) {
         val notification = Notification(
             id = 0L,
             title = title.value,
@@ -85,7 +85,7 @@ class NewNotificationViewModel @Inject constructor(
         )
         viewModelScope.launch {
             val id = notificationRepository.insert(notification)
-            onNotificationInsert(id)
+            onNotificationInserted(id)
         }
     }
 }
