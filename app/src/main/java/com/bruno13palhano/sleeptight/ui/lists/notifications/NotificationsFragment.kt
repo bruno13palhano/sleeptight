@@ -24,6 +24,8 @@ import com.bruno13palhano.sleeptight.ui.lists.CommonListView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+private const val NOTIFICATION_ACTION_PREFIX = "com.bruno13palhano.sleeptight"
+
 @AndroidEntryPoint
 class NotificationsFragment : Fragment(), CommonListView {
     private var _binding: FragmentCommonListBinding? = null
@@ -44,9 +46,10 @@ class NotificationsFragment : Fragment(), CommonListView {
 
         val adapter = NotificationsAdapter(
             onItemClick = { onListItemClick(it) },
-            onDeleteItemClick = {
-                cancelNotification(it.toInt())
-                viewModel.deleteNotification(it)
+            onDeleteItemClick = { id, title, description ->
+                viewModel.deleteNotification(id) {
+                    cancelNotification(id.toInt(), title, description)
+                }
             }
         )
         binding.list.adapter = adapter
@@ -81,17 +84,20 @@ class NotificationsFragment : Fragment(), CommonListView {
             NotificationsFragmentDirections.actionNotificationsToNewNotification())
     }
 
-    private fun cancelNotification(notificationId: Int) {
+    private fun cancelNotification(notificationId: Int, title: String, description: String) {
         val notifyIntent = Intent(requireContext(), NotificationReceiver::class.java)
         notifyIntent.apply {
+            action = "$NOTIFICATION_ACTION_PREFIX.$notificationId"
             putExtra("id", notificationId)
+            putExtra("title", title)
+            putExtra("description", description)
         }
 
         val notifyPendingIntent = PendingIntent.getBroadcast(
             requireContext(),
             notificationId,
             notifyIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
         val alarmManager = requireContext().getSystemService(ALARM_SERVICE) as AlarmManager
