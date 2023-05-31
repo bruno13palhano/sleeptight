@@ -17,6 +17,8 @@ import com.bruno13palhano.sleeptight.ui.lists.notifications.receivers.Notificati
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
+private const val DELETE_ACTION_PREFIX = "com.bruno13palhano.sleeptight"
+
 @HiltWorker
 class NotificationWork @AssistedInject constructor(
     @Assisted private val context: Context,
@@ -35,6 +37,7 @@ class NotificationWork @AssistedInject constructor(
                 if (notification.repeat) {
                     val notifyIntent = Intent(context, NotificationReceiver::class.java)
                     notifyIntent.apply {
+                        action = "${DELETE_ACTION_PREFIX}.${notification.id}"
                         putExtra("id", notification.id.toInt())
                         putExtra("title", notification.title)
                         putExtra("description", notification.description)
