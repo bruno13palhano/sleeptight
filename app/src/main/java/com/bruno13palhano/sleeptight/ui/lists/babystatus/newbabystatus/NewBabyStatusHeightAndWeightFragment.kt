@@ -27,7 +27,7 @@ class NewBabyStatusHeightAndWeightFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var inputMethodManager: InputMethodManager
     private val viewModel: NewBabyStatusViewModel by activityViewModels()
-    private var heightAndTitle: Boolean = false
+    private var isHeightAndTitleValid: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,12 +48,8 @@ class NewBabyStatusHeightAndWeightFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.heightAndWeightValue.collect {
-                        if (it) {
-                            enableDoneButton()
-                        } else {
-                            disableDoneButton()
-                        }
-                        heightAndTitle = it
+                        setButtonVisibility(it)
+                        isHeightAndTitleValid = it
                     }
                 }
             }
@@ -79,7 +75,7 @@ class NewBabyStatusHeightAndWeightFragment : Fragment() {
             if (i == EditorInfo.IME_ACTION_DONE) {
                 inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 
-                if (heightAndTitle) {
+                if (isHeightAndTitleValid) {
                     navigateToHome()
                 }
             }
@@ -97,6 +93,14 @@ class NewBabyStatusHeightAndWeightFragment : Fragment() {
         findNavController().navigate(
             NewBabyStatusHeightAndWeightFragmentDirections.actionHeightAndWeightToStatusList())
         viewModel.insertBabyStatus()
+    }
+
+    private fun setButtonVisibility(isHeightAndWeightValid: Boolean) {
+        if (isHeightAndWeightValid) {
+            enableDoneButton()
+        } else {
+            disableDoneButton()
+        }
     }
 
     private fun enableDoneButton() {
