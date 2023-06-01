@@ -57,7 +57,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun isValuesValid(email: String, password: String): Boolean =
-        email != "" && password != ""
+        email.trim() != "" && password.trim() != ""
 
     private fun insertUserInDatabase(user: User) {
         viewModelScope.launch {
