@@ -39,6 +39,15 @@ class CreateAccountViewModel @Inject constructor(
     val babyName = MutableStateFlow("")
     val birthplace = MutableStateFlow("")
 
+    val isUserDataNotEmpty = combine(username, email, password) { username, email, password ->
+        isUserDataNotEmpty(username, email, password)
+    }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = false,
+            started = WhileSubscribed(5_000)
+        )
+
     private val _photo = MutableStateFlow(createBitmap(1,1))
     private val _photoUi = MutableStateFlow("")
     val photoUi = _photoUi.asStateFlow()
@@ -112,19 +121,6 @@ class CreateAccountViewModel @Inject constructor(
         _weight.value = weight
     }
 
-    val createAccountUi = combine(username, email, password) { username, email, password ->
-        CreateAccountUi(
-            username = username,
-            email = email,
-            password = password
-        )
-    }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = CreateAccountUi(),
-            started = WhileSubscribed(5_000)
-        )
-
     fun insertUser() {
         val user = User(
             username = username.value,
@@ -139,7 +135,7 @@ class CreateAccountViewModel @Inject constructor(
         )
 
         loading()
-        if (isUserValid(user)) {
+        if (isUserDataNotEmpty(user.username, user.email, user.password)) {
             authentication.createUser(
                 user = user,
                 onSuccess = {
@@ -206,8 +202,8 @@ class CreateAccountViewModel @Inject constructor(
         )
     }
 
-    private fun isUserValid(user: User): Boolean =
-        user.username != "" && user.email != "" && user.password != ""
+    private fun isUserDataNotEmpty(username: String, email: String, password: String): Boolean =
+        username.trim() != "" && email.trim() != "" && password.trim() != ""
 
     private fun loading() {
         _loginStatus.value = LoginStatus.Loading
@@ -219,10 +215,4 @@ class CreateAccountViewModel @Inject constructor(
         object Success: LoginStatus()
         object Default: LoginStatus()
     }
-
-    data class CreateAccountUi(
-        val username: String = "",
-        val email: String = "",
-        val password: String = ""
-    )
 }
