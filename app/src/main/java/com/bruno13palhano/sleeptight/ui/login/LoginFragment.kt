@@ -8,6 +8,8 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -21,6 +23,7 @@ import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentLoginBinding
 import com.bruno13palhano.sleeptight.ui.ButtonItemVisibility
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -28,6 +31,8 @@ class LoginFragment : Fragment(), ButtonItemVisibility {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: LoginViewModel by viewModels()
+    private lateinit var inputMethodManager: InputMethodManager
+    private var isEmailAndPasswordNotEmpty = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +46,9 @@ class LoginFragment : Fragment(), ButtonItemVisibility {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
+        inputMethodManager = activity
+            ?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
         (requireActivity() as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(null)
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -49,6 +57,7 @@ class LoginFragment : Fragment(), ButtonItemVisibility {
                     launch {
                         viewModel.isEmailAndPasswordNotEmpty.collect {
                             setButtonVisibility(it)
+                            isEmailAndPasswordNotEmpty = it
                         }
                     }
                     launch {
@@ -75,6 +84,35 @@ class LoginFragment : Fragment(), ButtonItemVisibility {
         }
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(200)
+            binding.email.requestFocus()
+            inputMethodManager.showSoftInput(binding.email, InputMethodManager.SHOW_IMPLICIT)
+            binding.email.setOnEditorActionListener { _, i, _ ->
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    binding.password.requestFocus()
+                }
+
+                false
+            }
+        }
+
+        binding.password.setOnEditorActionListener { _, i, _ ->
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+
+                if (isEmailAndPasswordNotEmpty) {
+                    onLoginClick()
+                }
+            }
+
+            false
+        }
     }
 
     override fun onDestroyView() {
