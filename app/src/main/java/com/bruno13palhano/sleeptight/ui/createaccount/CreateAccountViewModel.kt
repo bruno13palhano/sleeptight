@@ -38,9 +38,40 @@ class CreateAccountViewModel @Inject constructor(
     val password = MutableStateFlow("")
     val babyName = MutableStateFlow("")
     val birthplace = MutableStateFlow("")
+    val height = MutableStateFlow("")
+    val weight = MutableStateFlow("")
 
     val isUserDataNotEmpty = combine(username, email, password) { username, email, password ->
         isUserDataNotEmpty(username, email, password)
+    }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = false,
+            started = WhileSubscribed(5_000)
+        )
+
+    val isBabyNameNotEmpty = babyName.asStateFlow()
+        .map {
+            it != ""
+        }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = false,
+            started = WhileSubscribed(5_000)
+        )
+
+    val isBirthplaceNotEmpty = birthplace.asStateFlow()
+        .map {
+            it != ""
+        }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = false,
+            started = WhileSubscribed(5_000)
+        )
+
+    val isHeightAndWeightNotEmpty = combine(height, weight) { height, weight ->
+        height.trim() != "" && weight.trim() != ""
     }
         .stateIn(
             scope = viewModelScope,
@@ -89,38 +120,6 @@ class CreateAccountViewModel @Inject constructor(
         _time.value = time
     }
 
-    private val _height = MutableStateFlow(0F)
-    val height = _height.asStateFlow()
-    val heightUi = _height.asStateFlow()
-        .map {
-            String.format("%.1fcm", it)
-        }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
-
-    fun setHeight(height: Float) {
-        _height.value = height
-    }
-
-    private val _weight = MutableStateFlow(0F)
-    val weight = _weight.asStateFlow()
-    val weightUi = _weight.asStateFlow()
-        .map {
-            String.format("%.1fkg", it)
-        }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
-
-    fun setWeight(weight: Float) {
-        _weight.value = weight
-    }
-
     fun insertUser() {
         val user = User(
             username = username.value,
@@ -130,8 +129,8 @@ class CreateAccountViewModel @Inject constructor(
             birthplace = birthplace.value,
             birthdate = _date.value,
             birthtime = _time.value,
-            height = _height.value,
-            weight = _weight.value
+            height = stringToFloat(height.value),
+            weight = stringToFloat(weight.value)
         )
 
         loading()
@@ -182,8 +181,8 @@ class CreateAccountViewModel @Inject constructor(
         birthplace.value = ""
         _date.value = MaterialDatePicker.todayInUtcMilliseconds()
         _time.value = calendar.timeInMillis
-        _height.value = 0F
-        _weight.value = 0F
+        height.value = ""
+        weight.value = ""
     }
 
     private fun updateUserUrlPhoto(
@@ -200,6 +199,12 @@ class CreateAccountViewModel @Inject constructor(
                 onFail()
             }
         )
+    }
+
+    private fun stringToFloat(value: String): Float {
+        return try {
+            value.toFloat()
+        } catch (ignored: Exception) { 0F }
     }
 
     private fun isUserDataNotEmpty(username: String, email: String, password: String): Boolean =
