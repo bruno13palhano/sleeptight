@@ -17,7 +17,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentBabyBirthAccountBinding
-import com.bruno13palhano.sleeptight.ui.settings.EditFloatingInputDialog
+import com.bruno13palhano.sleeptight.ui.ButtonItemVisibility
 import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -25,10 +25,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class BabyBirthAccountFragment : Fragment() {
+class BabyBirthAccountFragment : Fragment(), ButtonItemVisibility {
     private var _binding: FragmentBabyBirthAccountBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CreateAccountViewModel by activityViewModels()
+    private var isHeightAndWeightNotEmpty = false
 
     private lateinit var datePicker: MaterialDatePicker<Long>
     private lateinit var timePicker: MaterialTimePicker
@@ -73,6 +74,12 @@ class BabyBirthAccountFragment : Fragment() {
 
                             }
                         }
+                    }
+                }
+                launch {
+                    viewModel.isHeightAndWeightNotEmpty.collect {
+                        isHeightAndWeightNotEmpty = it
+                        setButtonVisibility()
                     }
                 }
             }
@@ -137,35 +144,19 @@ class BabyBirthAccountFragment : Fragment() {
         }
     }
 
-    fun onHeightClick() {
-        val editHeightDialog = EditFloatingInputDialog(
-            object : EditFloatingInputDialog.EditDialogListener {
-                override fun onDialogPositiveClick(newValue: Float) {
-                    viewModel.setHeight(newValue)
-                }
-            },
-            getString(R.string.birth_height_label),
-            R.drawable.baseline_square_foot_24
-        )
-        editHeightDialog.show(
-            requireParentFragment().parentFragmentManager,
-            "login_height_dialog"
-        )
+    private fun setButtonVisibility() {
+        if (isHeightAndWeightNotEmpty) {
+            enableButton()
+        } else {
+            disableButton()
+        }
     }
 
-    fun onWeightClick() {
-        val editWeightDialog = EditFloatingInputDialog(
-            object : EditFloatingInputDialog.EditDialogListener {
-                override fun onDialogPositiveClick(newValue: Float) {
-                    viewModel.setWeight(newValue)
-                }
-            },
-            getString(R.string.new_weight_label),
-            R.drawable.baseline_balance_24
-        )
-        editWeightDialog.show(
-            requireParentFragment().parentFragmentManager,
-            "login_weight_dialog"
-        )
+    override fun enableButton() {
+        binding.done.visibility = VISIBLE
+    }
+
+    override fun disableButton() {
+        binding.done.visibility = GONE
     }
 }
