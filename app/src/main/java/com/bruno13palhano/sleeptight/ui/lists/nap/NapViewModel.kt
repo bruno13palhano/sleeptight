@@ -65,6 +65,14 @@ class NapViewModel @Inject constructor(
     }
 
     val title = MutableStateFlow("")
+    val isTitleNotEmpty = title.asStateFlow()
+        .map { it.trim() != "" }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = false,
+            started = WhileSubscribed(5_000)
+        )
+
     val observation = MutableStateFlow("")
 
     fun getNap(id: Long) {
