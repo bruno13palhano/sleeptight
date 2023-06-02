@@ -48,6 +48,7 @@ class NotificationFragment : Fragment(), CommonItemActions, ButtonItemVisibility
     private var time: Long = 0L
     private var date: Long = 0L
     private var repeat: Boolean = false
+    private var isTitleNotEmpty = false
 
     private lateinit var datePicker: MaterialDatePicker<Long>
     private lateinit var timePicker: MaterialTimePicker
@@ -78,7 +79,13 @@ class NotificationFragment : Fragment(), CommonItemActions, ButtonItemVisibility
                 launch {
                     viewModel.title.collect {
                         title = it
-                        setButtonVisibility(it)
+
+                    }
+                }
+                launch {
+                    viewModel.isTitleNotEmpty.collect {
+                        isTitleNotEmpty = it
+                        setButtonVisibility()
                     }
                 }
                 launch {
@@ -224,8 +231,8 @@ class NotificationFragment : Fragment(), CommonItemActions, ButtonItemVisibility
         )
     }
 
-    private fun setButtonVisibility(title: String) {
-        if (title.trim() != "") {
+    override fun setButtonVisibility() {
+        if (isTitleNotEmpty) {
             enableButton()
         } else {
             disableButton()

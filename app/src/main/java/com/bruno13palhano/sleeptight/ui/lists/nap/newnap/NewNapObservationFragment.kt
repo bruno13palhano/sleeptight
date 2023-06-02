@@ -26,7 +26,7 @@ class NewNapObservationFragment : Fragment(), ButtonItemVisibility {
     private val binding get() = _binding!!
     private val viewModel: NewNapViewModel by activityViewModels()
     private lateinit var inputMethodManager: InputMethodManager
-    private var title = ""
+    private var isTitleNotEmpty = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,9 +45,9 @@ class NewNapObservationFragment : Fragment(), ButtonItemVisibility {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.title.collect {
-                    setButtonVisibility(it)
-                    title = it
+                viewModel.isTitleNotEmpty.collect {
+                    isTitleNotEmpty = it
+                    setButtonVisibility()
                 }
             }
         }
@@ -71,7 +71,7 @@ class NewNapObservationFragment : Fragment(), ButtonItemVisibility {
         binding.newNapObservation.setOnEditorActionListener { _, i, _ ->
             if (i == EditorInfo.IME_ACTION_DONE) {
                 inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-                if (isTitleNotEmpty()) {
+                if (isTitleNotEmpty) {
                     navigateToDate()
                 }
             }
@@ -79,9 +79,6 @@ class NewNapObservationFragment : Fragment(), ButtonItemVisibility {
             false
         }
     }
-
-    private fun isTitleNotEmpty()
-        = title != ""
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -93,8 +90,8 @@ class NewNapObservationFragment : Fragment(), ButtonItemVisibility {
             NewNapObservationFragmentDirections.actionObservationToDate())
     }
 
-    private fun setButtonVisibility(title: String) {
-        if (title.trim() != "") {
+    override fun setButtonVisibility() {
+        if (isTitleNotEmpty) {
             enableButton()
         } else {
             disableButton()

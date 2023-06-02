@@ -32,6 +32,7 @@ class NewBabyStatusTitleAndDateFragment : Fragment(), ButtonItemVisibility {
     private lateinit var inputMethodManager: InputMethodManager
     private lateinit var datePicker: MaterialDatePicker<Long>
     private val viewModel: NewBabyStatusViewModel by activityViewModels()
+    private var isTitleNotEmpty = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,8 +52,9 @@ class NewBabyStatusTitleAndDateFragment : Fragment(), ButtonItemVisibility {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.title.collect {
-                        setButtonVisibility(it)
+                    viewModel.isTitleNotEmpty.collect {
+                        isTitleNotEmpty = it
+                        setButtonVisibility()
                     }
                 }
                 launch {
@@ -110,8 +112,8 @@ class NewBabyStatusTitleAndDateFragment : Fragment(), ButtonItemVisibility {
         }
     }
 
-    private fun setButtonVisibility(title: String) {
-        if (title.trim() != "") {
+    override fun setButtonVisibility() {
+        if (isTitleNotEmpty) {
             enableButton()
         } else {
             disableButton()

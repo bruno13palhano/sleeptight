@@ -56,8 +56,8 @@ class LoginFragment : Fragment(), ButtonItemVisibility {
                 viewModel.loginStatus.collect {
                     launch {
                         viewModel.isEmailAndPasswordNotEmpty.collect {
-                            setButtonVisibility(it)
                             isEmailAndPasswordNotEmpty = it
+                            setButtonVisibility()
                         }
                     }
                     launch {
@@ -161,7 +161,7 @@ class LoginFragment : Fragment(), ButtonItemVisibility {
         super.onDetach()
     }
 
-    private fun setButtonVisibility(isEmailAndPasswordNotEmpty: Boolean) {
+    override fun setButtonVisibility() {
         if (isEmailAndPasswordNotEmpty) {
             enableButton()
         } else {

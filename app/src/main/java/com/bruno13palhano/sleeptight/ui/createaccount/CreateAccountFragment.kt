@@ -49,8 +49,8 @@ class CreateAccountFragment : Fragment(), ButtonItemVisibility {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.isUserDataNotEmpty.collect {
-                        setButtonVisibility(it)
                         isUserDataNotEmpty = it
+                        setButtonVisibility()
                     }
                 }
             }
@@ -108,7 +108,7 @@ class CreateAccountFragment : Fragment(), ButtonItemVisibility {
         findNavController().navigateUp()
     }
 
-    private fun setButtonVisibility(isUserDataNotEmpty: Boolean) {
+    override fun setButtonVisibility() {
         if (isUserDataNotEmpty) {
             enableButton()
         } else {

@@ -144,7 +144,7 @@ class BabyBirthAccountFragment : Fragment(), ButtonItemVisibility {
         }
     }
 
-    private fun setButtonVisibility() {
+    override fun setButtonVisibility() {
         if (isHeightAndWeightNotEmpty) {
             enableButton()
         } else {

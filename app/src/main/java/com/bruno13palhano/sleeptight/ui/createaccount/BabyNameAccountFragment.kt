@@ -86,7 +86,7 @@ class BabyNameAccountFragment : Fragment(), ButtonItemVisibility {
             BabyNameAccountFragmentDirections.actionBabyNameToBayBirthplace())
     }
 
-    private fun setButtonVisibility() {
+    override fun setButtonVisibility() {
         if (isBabyNameNotEmpty) {
             enableButton()
         } else {

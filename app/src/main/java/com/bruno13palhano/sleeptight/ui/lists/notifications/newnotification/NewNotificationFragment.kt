@@ -46,6 +46,7 @@ class NewNotificationFragment : Fragment(), ButtonItemVisibility {
     private var date: Long = 0L
     private var time: Long = 0L
     private var repeat: Boolean = false
+    private var isTitleNotEmpty = false
 
     private lateinit var notificationManager: NotificationManager
     private lateinit var alarmManager: AlarmManager
@@ -79,7 +80,12 @@ class NewNotificationFragment : Fragment(), ButtonItemVisibility {
                 launch {
                     viewModel.title.collect {
                         title = it
-                        setButtonVisibility(it)
+                    }
+                }
+                launch {
+                    viewModel.isTitleNotEmpty.collect {
+                        isTitleNotEmpty = it
+                        setButtonVisibility()
                     }
                 }
                 launch {
@@ -173,8 +179,8 @@ class NewNotificationFragment : Fragment(), ButtonItemVisibility {
         findNavController().navigateUp()
     }
 
-    private fun setButtonVisibility(title: String) {
-        if (title.trim() != "") {
+    override fun setButtonVisibility() {
+        if (isTitleNotEmpty) {
             enableButton()
         } else {
             disableButton()

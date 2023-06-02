@@ -85,7 +85,7 @@ class BabyBirthplaceAccountFragment : Fragment(), ButtonItemVisibility {
             BabyBirthplaceAccountFragmentDirections.actionBabyBirthplaceToBabyBirth())
     }
 
-    private fun setButtonVisibility() {
+    override fun setButtonVisibility() {
         if (isBirthplaceNotEmpty) {
             enableButton()
         } else {

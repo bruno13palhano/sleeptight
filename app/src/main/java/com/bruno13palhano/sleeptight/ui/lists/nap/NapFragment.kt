@@ -31,6 +31,7 @@ class NapFragment : Fragment(), CommonItemActions, ButtonItemVisibility {
     private val binding get() = _binding!!
     private val viewModel: NapViewModel by viewModels()
     private var napId: Long = 0L
+    private var isTitleNotEmpty = false
 
     private lateinit var datePicker: MaterialDatePicker<Long>
     private lateinit var startTimePicker: MaterialTimePicker
@@ -54,8 +55,9 @@ class NapFragment : Fragment(), CommonItemActions, ButtonItemVisibility {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.title.collect {
-                        setButtonVisibility(it)
+                    viewModel.isTitleNotEmpty.collect {
+                        isTitleNotEmpty = it
+                        setButtonVisibility()
                     }
                 }
                 launch {
@@ -165,8 +167,8 @@ class NapFragment : Fragment(), CommonItemActions, ButtonItemVisibility {
         }
     }
 
-    private fun setButtonVisibility(title: String) {
-        if (title.trim() != "") {
+    override fun setButtonVisibility() {
+        if (isTitleNotEmpty) {
             enableButton()
         } else {
             disableButton()
