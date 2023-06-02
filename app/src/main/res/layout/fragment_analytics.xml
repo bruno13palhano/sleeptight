@@ -32,32 +32,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/week_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/week_description_label"
-                android:textAppearance="?attr/textAppearanceBody2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/baby_status_chart" />
-
-            <TextView
-                android:id="@+id/month_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/month_description_label"
-                android:textAppearance="?attr/textAppearanceBody2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/week_chart" />
-
-            <TextView
                 android:id="@+id/naps_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,49 +41,9 @@
                 android:text="@string/naps_description_label"
                 android:textAppearance="?attr/textAppearanceBody2"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/month_chart" />
-
-            <TextView
-                android:id="@+id/shift_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/shift_description_label"
-                android:textAppearance="?attr/textAppearanceBody2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nap_chart" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/week_chart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/week_chart_label"
-                android:onClick="@{v -> uiEvents.navigateToWeekChart()}"
-                android:text="@string/week_chart_label"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/week_label" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/month_chart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/month_chart_label"
-                android:onClick="@{v -> uiEvents.navigateToMonthChart()}"
-                android:text="@string/month_chart_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/month_label" />
+                app:layout_constraintTop_toBottomOf="@+id/baby_status_chart" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/baby_status_chart"
@@ -121,6 +55,7 @@
                 android:onClick="@{v -> uiEvents.navigateToBabyStatusChart()}"
                 android:text="@string/baby_status_chart_label"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/baby_status_label" />
 
@@ -138,18 +73,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/naps_label" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/shift_chart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/shift_chart_label"
-                android:onClick="@{v -> uiEvents.navigateToShiftChart()}"
-                android:text="@string/shift_chart_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/shift_label" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>
