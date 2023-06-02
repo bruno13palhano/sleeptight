@@ -10,6 +10,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -38,6 +39,14 @@ class NewBabyStatusViewModel @Inject constructor(
     val title = MutableStateFlow("")
     val height = MutableStateFlow("")
     val weight = MutableStateFlow("")
+
+    val isTitleNotEmpty = title.asStateFlow()
+        .map { it.trim() != "" }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = false,
+            started = WhileSubscribed(5_000)
+        )
 
     val heightAndWeightValue = combine(height, weight) { height, weight ->
         height != "" && weight != ""

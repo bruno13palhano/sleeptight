@@ -26,6 +26,14 @@ class NotificationViewModel @Inject constructor(
     val description = MutableStateFlow("")
     val repeat = MutableStateFlow(false)
 
+    val isTitleNotEmpty = title.asStateFlow()
+        .map { it.trim() != "" }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = false,
+            started = WhileSubscribed(5_000)
+        )
+
     private val _hour = MutableStateFlow(0L)
     val hour = _hour.asStateFlow()
         .stateIn(
