@@ -8,6 +8,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
@@ -30,7 +31,6 @@ class BabyBirthAccountFragment : Fragment(), ButtonItemVisibility {
     private val binding get() = _binding!!
     private val viewModel: CreateAccountViewModel by activityViewModels()
     private var isHeightAndWeightNotEmpty = false
-
     private lateinit var datePicker: MaterialDatePicker<Long>
     private lateinit var timePicker: MaterialTimePicker
 
@@ -86,6 +86,18 @@ class BabyBirthAccountFragment : Fragment(), ButtonItemVisibility {
         }
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.height.setOnEditorActionListener { _, i, _ ->
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                binding.weight.requestFocus()
+            }
+
+            false
+        }
     }
 
     override fun onDestroyView() {
