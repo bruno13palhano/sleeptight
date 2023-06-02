@@ -129,10 +129,11 @@
                 android:id="@+id/height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
                 android:maxLines="1"
-                android:text="@{viewModel.heightUi}"
-                android:onClick="@{v -> uiEvents.onHeightClick()}"/>
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:text="@={viewModel.height}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
@@ -162,10 +163,11 @@
                 android:id="@+id/weight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
                 android:maxLines="1"
-                android:text="@{viewModel.weightUi}"
-                android:onClick="@{v -> uiEvents.onWeightClick()}"/>
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:text="@={viewModel.weight}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <FrameLayout
