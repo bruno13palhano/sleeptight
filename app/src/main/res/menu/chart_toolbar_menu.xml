@@ -15,16 +15,16 @@
 
                 <item
                     android:id="@+id/month_nap_chart"
-                    android:title="@string/month_chart_label" />
+                    android:title="@string/naps_per_month_label" />
                 <item
                     android:id="@+id/week_nap_chart"
-                    android:title="@string/week_chart_label" />
+                    android:title="@string/naps_per_week_label" />
                 <item
                     android:id="@+id/shift_nap_chart"
-                    android:title="@string/shift_chart_label" />
+                    android:title="@string/naps_per_shift_label" />
                 <item
                     android:id="@+id/share"
-                    android:title="@string/share_label" />
+                    android:title="@string/share_nap_chart_label" />
             </group>
         </menu>
     </item>

@@ -36,6 +36,9 @@
     <string name="last_nap_date_label">Last nap date</string>
     <string name="last_nap_sleeping_time_label">Last nap sleeping time</string>
     <string name="sleeping_time_label">Sleeping Time</string>
+    <string name="naps_per_week_label">Naps per week</string>
+    <string name="naps_per_month_label">Naps per months</string>
+    <string name="naps_per_shift_label">Naps per shift</string>
 
     <!--  Settings labels  -->
     <string name="birth_time_label">Birth time</string>
@@ -94,6 +97,7 @@
     <string name="shift_description_label">Chart with naps per shift</string>
     <string name="day_label">Day</string>
     <string name="night_label">Night</string>
+    <string name="share_nap_chart_label">Share chart</string>
 
     <!--  Days of te week  -->
     <string name="sunday_label">Sunday</string>
