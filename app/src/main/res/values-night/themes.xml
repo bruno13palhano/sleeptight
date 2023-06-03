@@ -2,23 +2,26 @@
     <!-- Base application theme. -->
     <style name="Theme.SleepTight" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/light_blue</item>
-        <item name="colorPrimaryVariant">@color/dark_purple</item>
+        <item name="colorPrimary">@color/light_purple</item>
+        <item name="colorPrimaryVariant">@color/gray_secondary_nav</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/light_purple</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorSecondary">@color/light_blue</item>
+        <item name="colorSecondaryVariant">@color/gray_primary_nav</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:statusBarColor">@color/gray_primary_nav</item>
         <!-- Customize your theme here. -->
 
         <item name="android:windowBackground">@color/gray_primary</item>
+        <item name="android:navigationBarColor">@color/gray_primary_nav</item>
+
     </style>
 
     <style name="SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowBackground">@drawable/background</item>
+        <item name="android:navigationBarColor">@color/white</item>
     </style>
 
     <style name="ImageViewRounded">
