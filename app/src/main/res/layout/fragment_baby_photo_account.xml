@@ -21,7 +21,7 @@
             android:id="@+id/photo_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             app:cardCornerRadius="132dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +55,6 @@
             app:layout_constraintTop_toBottomOf="@+id/photo_card"
             app:layout_constraintVertical_bias="1.0"
             app:srcCompat="@drawable/baseline_navigate_next_24"
-            app:tint="?colorOnPrimary"
             app:backgroundTint="?colorPrimary" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

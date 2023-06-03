@@ -37,7 +37,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:hint="@string/title_label"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -101,8 +101,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/date_layout"
                 app:layout_constraintVertical_bias="1.0"
                 app:srcCompat="@drawable/baseline_navigate_next_24"
-                app:backgroundTint="?colorPrimary"
-                app:tint="?colorOnPrimary"/>
+                app:backgroundTint="?colorPrimary" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>
