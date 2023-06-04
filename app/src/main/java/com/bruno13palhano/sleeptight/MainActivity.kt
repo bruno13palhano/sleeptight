@@ -9,7 +9,6 @@ import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.LinearLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -35,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         val builder = AppBarConfiguration.Builder(navController.graph)
         val appBarConfiguration = builder.build()
         toolbar.setupWithNavController(navController, appBarConfiguration)
-        bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNavView = findViewById(R.id.bottom_nav)
         bottomNavView.setupWithNavController(navController)
 
         addMenuProvider(object : MenuProvider {
