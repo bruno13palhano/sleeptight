@@ -39,6 +39,7 @@
     <string name="naps_per_week_label">Naps per week</string>
     <string name="naps_per_month_label">Naps per months</string>
     <string name="naps_per_shift_label">Naps per shift</string>
+    <string name="title_and_observations_label">Title and Observations</string>
 
     <!--  Settings labels  -->
     <string name="birth_time_label">Birth time</string>

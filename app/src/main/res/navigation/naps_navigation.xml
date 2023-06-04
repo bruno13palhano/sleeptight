@@ -34,7 +34,7 @@
     <fragment
         android:id="@+id/newNapObservationFragment"
         android:name="com.bruno13palhano.sleeptight.ui.lists.nap.newnap.NewNapObservationFragment"
-        android:label="@string/observation_label"
+        android:label="@string/title_and_observations_label"
         tools:layout="@layout/fragment_new_nap_observation">
 
         <action
