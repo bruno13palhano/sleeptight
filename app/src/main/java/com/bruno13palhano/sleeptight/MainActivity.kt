@@ -1,5 +1,6 @@
 package com.bruno13palhano.sleeptight
 
+import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -7,6 +8,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -44,6 +47,20 @@ class MainActivity : AppCompatActivity() {
                 return menuItem.onNavDestinationSelected(navController)
             }
         })
+
+        val linearLayout = findViewById<LinearLayout>(R.id.main_layout)
+        linearLayout.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = Rect()
+            linearLayout.getWindowVisibleDisplayFrame(rect)
+            val screenHeight = linearLayout.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
+
+            if (keypadHeight > screenHeight * 0.15) {
+                hideBottomNavigation()
+            } else {
+                showBottomNavigation()
+            }
+        }
     }
 
     fun showBottomNavigation() {
