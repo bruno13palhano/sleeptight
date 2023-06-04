@@ -1,6 +1,7 @@
 package com.bruno13palhano.sleeptight.ui.login
 
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -88,6 +90,12 @@ class LoginFragment : Fragment(), ButtonItemVisibility {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener {
+            try {
+                (activity as MainActivity).hideBottomNavigation()
+            } catch (ignored: Exception) {}
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             delay(200)
