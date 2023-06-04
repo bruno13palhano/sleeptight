@@ -68,8 +68,8 @@
     <string name="already_have_account_label">Already have an account?</string>
     <string name="baby_name_label">Baby name</string>
     <string name="birthplace_label">Birthplace</string>
-    <string name="birth_height_label">Height</string>
-    <string name="birth_weight_label">Weight</string>
+    <string name="birth_height_label">Height in cm</string>
+    <string name="birth_weight_label">Weight in kg</string>
     <string name="birth_information_label">Birth information</string>
     <string name="login_error_label">Login error</string>
     <string name="create_account_error_label">Error creating account</string>
