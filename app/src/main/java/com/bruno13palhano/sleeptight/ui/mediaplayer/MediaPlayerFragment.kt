@@ -142,7 +142,7 @@ import com.google.common.util.concurrent.MoreExecutors
                 primaryColorTyped, true)
 
             val secondaryColorTyped = TypedValue()
-            requireContext().theme.resolveAttribute(com.google.android.material.R.attr.colorOnPrimary,
+            requireContext().theme.resolveAttribute(com.google.android.material.R.attr.backgroundColor,
                 secondaryColorTyped, true)
 
             if (position == controller?.currentMediaItemIndex) {
