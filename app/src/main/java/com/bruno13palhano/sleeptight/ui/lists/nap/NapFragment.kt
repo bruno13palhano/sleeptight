@@ -1,5 +1,6 @@
 package com.bruno13palhano.sleeptight.ui.lists.nap
 
+import android.graphics.Rect
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import android.os.Bundle
@@ -15,6 +16,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNapBinding
 import com.bruno13palhano.sleeptight.ui.ButtonItemVisibility
@@ -36,6 +38,29 @@ class NapFragment : Fragment(), CommonItemActions, ButtonItemVisibility {
     private lateinit var datePicker: MaterialDatePicker<Long>
     private lateinit var startTimePicker: MaterialTimePicker
     private lateinit var endTimePicker: MaterialTimePicker
+
+    private val listener = ViewTreeObserver.OnGlobalLayoutListener {
+        val rect = Rect()
+        binding.root.getWindowVisibleDisplayFrame(rect)
+        val screenHeight = binding.root.rootView.height
+        val keypadHeight = screenHeight - rect.bottom
+
+        if (keypadHeight > screenHeight * 0.15) {
+            onKeypadOpen()
+        } else {
+            onKeypadClose()
+        }
+    }
+
+    private fun onKeypadOpen() {
+        (activity as MainActivity).hideBottomNavigation()
+        disableButton()
+    }
+
+    private fun onKeypadClose() {
+        (activity as MainActivity).showBottomNavigation()
+        enableButton()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -109,6 +134,16 @@ class NapFragment : Fragment(), CommonItemActions, ButtonItemVisibility {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener(listener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.root.viewTreeObserver.removeOnGlobalLayoutListener(listener)
     }
 
     override fun onUpdateItem() {
