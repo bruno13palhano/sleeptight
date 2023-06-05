@@ -1,9 +1,7 @@
 package com.bruno13palhano.sleeptight.ui.settings
 
 import android.graphics.Bitmap
-import android.icu.util.Calendar
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -19,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentSettingsBinding
+import com.bruno13palhano.sleeptight.ui.ButtonItemVisibility
 import com.bruno13palhano.sleeptight.ui.createaccount.PhotoListener
 import com.bruno13palhano.sleeptight.ui.createaccount.ProfilePhotoLifecycleObserver
 import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
@@ -28,13 +27,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SettingsFragment : Fragment() {
+class SettingsFragment : Fragment(), ButtonItemVisibility {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SettingsViewModel by viewModels()
     private lateinit var datePicker: MaterialDatePicker<Long>
     private lateinit var timePicker: MaterialTimePicker
     private lateinit var photoObserver: ProfilePhotoLifecycleObserver
+    private var isUserDataNotEmpty = false
+    private var isEditable = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,8 +67,11 @@ class SettingsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.babyNameUi.collect {
-                        binding.babyName.text = it
+                    viewModel.isUserdataNotEmpty.collect {
+                        isUserDataNotEmpty = it.isUserDataNotEmpty
+                        isEditable = it.isEditable
+                        setButtonVisibility()
+                        setEditProfileVisibility()
                     }
                 }
                 launch {
@@ -76,106 +80,13 @@ class SettingsFragment : Fragment() {
                     }
                 }
                 launch {
-                    viewModel.isEditable.collect { isEditable ->
-                        binding.photo.setOnClickListener {
-                            if (isEditable) {
-                                photoObserver.selectImage()
-                            }
-                        }
-
-                        binding.babyName.setOnClickListener {
-                            if (isEditable) {
-                                val editBabyNameDialog = EditStringDialog(
-                                    object : EditStringDialog.EditDialogListener {
-                                        override fun onDialogPositiveClick(newValue: String) {
-                                            if (newValue != "")
-                                                viewModel.setBabyName(newValue)
-                                        }
-                                    },
-                                    "New baby name",
-                                    R.drawable.baseline_child_friendly_24
-                                )
-                                editBabyNameDialog.show(
-                                    requireParentFragment().parentFragmentManager,
-                                    "edit_baby_name"
-                                )
-                            }
-                        }
-
-                        binding.birthDateLabel.setOnClickListener {
-                            if (isEditable) {
-                                setDatePicker()
-                                datePicker.show(
-                                    parentFragmentManager.beginTransaction(),
-                                    "birth_date"
-                                )
-                            }
-                        }
-
-                        binding.timeLayout.setOnClickListener {
-                            if (isEditable) {
-                                setTimePicker()
-                                timePicker.show(
-                                    parentFragmentManager.beginTransaction(),
-                                    "birth_time"
-                                )
-                            }
-                        }
-
-                        binding.localLayout.setOnClickListener {
-                            if (isEditable) {
-                                val editLocalDialog = EditStringDialog(
-                                    object : EditStringDialog.EditDialogListener {
-                                        override fun onDialogPositiveClick(newValue: String) {
-                                            if (newValue != "")
-                                                viewModel.localUi.value = newValue
-                                        }
-                                    },
-                                    getString(R.string.new_local_label),
-                                    R.drawable.baseline_location_on_24
-                                )
-                                editLocalDialog.show(
-                                    requireParentFragment().parentFragmentManager,
-                                    "edit_local"
-                                )
-                            }
-                        }
-
-                        binding.heightLayout.setOnClickListener {
-                            if (isEditable) {
-                                val editHeightDialog = EditFloatingInputDialog(
-                                    object : EditFloatingInputDialog.EditDialogListener {
-                                        override fun onDialogPositiveClick(newValue: Float) {
-                                            viewModel.setHeight(newValue)
-                                        }
-                                    },
-                                    getString(R.string.new_height_label),
-                                    R.drawable.baseline_square_foot_24
-                                )
-                                editHeightDialog.show(
-                                    requireParentFragment().parentFragmentManager,
-                                    "edit_height"
-                                )
-                            }
-                        }
-
-                        binding.weightLayout.setOnClickListener {
-                            if (isEditable) {
-                                val editWeightDialog = EditFloatingInputDialog(
-                                    object : EditFloatingInputDialog.EditDialogListener {
-                                        override fun onDialogPositiveClick(newValue: Float) {
-                                            viewModel.setWeight(newValue)
-                                        }
-                                    },
-                                    getString(R.string.new_weight_label),
-                                    R.drawable.baseline_balance_24
-                                )
-                                editWeightDialog.show(
-                                    requireParentFragment().parentFragmentManager,
-                                    "edit_weight"
-                                )
-                            }
-                        }
+                    viewModel.date.collect {
+                        setDatePicker(it)
+                    }
+                }
+                launch {
+                    viewModel.time.collect {
+                        setTimePicker(it)
                     }
                 }
             }
@@ -196,8 +107,7 @@ class SettingsFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.edit_profile -> {
-                        enableViews()
-                        viewModel.setEditable(true)
+                        viewModel.activeEditable()
                         true
                     }
                     R.id.share_profile -> {
@@ -224,56 +134,81 @@ class SettingsFragment : Fragment() {
             SettingsFragmentDirections.actionSettingsToHome())
     }
 
-    private fun setDatePicker() {
+    fun onImageClick() {
+        photoObserver.selectImage()
+    }
+
+    fun onDateClick() {
+        if (!datePicker.isAdded)
+            datePicker.show(parentFragmentManager.beginTransaction(), "birth_date")
+    }
+
+    fun onTimeClick() {
+        if (!timePicker.isAdded)
+            timePicker.show(parentFragmentManager.beginTransaction(), "birth_time")
+    }
+
+    private fun setDatePicker(date: Long) {
         datePicker = MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .setSelection(date)
             .build()
         datePicker.addOnPositiveButtonClickListener {
             viewModel.sateBirthDate(it)
         }
     }
 
-    private fun setTimePicker() {
-        val calendar = Calendar.getInstance()
-        timePicker = TimePickerUtil.prepareTimePicker(calendar.timeInMillis)
+    private fun setTimePicker(time: Long) {
+        timePicker = TimePickerUtil.prepareTimePicker(time)
         timePicker.addOnPositiveButtonClickListener {
-            calendar[Calendar.HOUR_OF_DAY] = timePicker.hour
-            calendar[Calendar.MINUTE] = timePicker.minute
-            viewModel.setBirthTime(calendar.timeInMillis)
+            viewModel.setBirthTime(timePicker.hour, timePicker.minute)
         }
     }
 
     fun onDoneClick() {
-        disableViews()
-        viewModel.setEditable(false)
         viewModel.updateUserValues()
     }
 
-    private fun enableViews() {
+    private fun setEditProfileVisibility() {
+        if (isEditable) {
+            enableEditProfile()
+        } else {
+            disableEditProfile()
+        }
+    }
+
+    private fun enableEditProfile() {
+        binding.babyName.isEnabled = true
+        binding.birthplace.isEnabled = true
+        binding.date.isEnabled = true
+        binding.time.isEnabled= true
+        binding.height.isEnabled = true
+        binding.weight.isEnabled = true
+    }
+
+    private fun disableEditProfile() {
+        binding.babyName.isEnabled = false
+        binding.birthplace.isEnabled = false
+        binding.date.isEnabled = false
+        binding.time.isEnabled = false
+        binding.height.isEnabled = false
+        binding.weight.isEnabled = false
+    }
+
+    override fun setButtonVisibility() {
+        if (isUserDataNotEmpty && isEditable) {
+            enableButton()
+        } else {
+            disableButton()
+        }
+    }
+
+    override fun enableButton() {
         binding.settingsDone.visibility = VISIBLE
-        val typedValue = TypedValue()
-        requireContext().theme.resolveAttribute(com.google.android.material.R.attr
-            .colorOnSecondary, typedValue, true)
-        setDividersColor(typedValue.data)
     }
 
-    private fun disableViews() {
+    override fun disableButton() {
         binding.settingsDone.visibility = GONE
-        val typedValue = TypedValue()
-        requireContext().theme.resolveAttribute(com.google.android.material.R.attr
-            .divider, typedValue, true)
-        setDividersColor(typedValue.data)
-    }
-
-    private fun setDividersColor(color: Int) {
-        binding.materialDivider.setBackgroundColor(color)
-        binding.materialDivider2.setBackgroundColor(color)
-        binding.materialDivider3.setBackgroundColor(color)
-        binding.materialDivider4.setBackgroundColor(color)
-        binding.materialDivider5.setBackgroundColor(color)
-        binding.materialDivider6.setBackgroundColor(color)
-        binding.materialDivider7.setBackgroundColor(color)
     }
 }

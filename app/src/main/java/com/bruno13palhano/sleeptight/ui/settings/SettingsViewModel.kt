@@ -10,11 +10,13 @@ import com.bruno13palhano.authentication.UserAuthentication
 import com.bruno13palhano.core.data.di.DefaultUserRep
 import com.bruno13palhano.core.data.repository.UserRepository
 import com.bruno13palhano.model.User
+import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -26,18 +28,21 @@ class SettingsViewModel @Inject constructor(
     @DefaultUserRep private val userRepository: UserRepository
 ) : ViewModel() {
 
-    private val _isEditable = MutableStateFlow(false)
-    val isEditable = _isEditable.asStateFlow()
+    private val isEditable = MutableStateFlow(false)
 
-    fun toggleEditable() {
-        _isEditable.value = !_isEditable.value
+    fun activeEditable() {
+        isEditable.value = true
     }
 
-    fun setEditable(isEditable: Boolean) {
-        _isEditable.value = isEditable
-    }
+    private val _username = MutableStateFlow("")
+    val username = _username.asStateFlow()
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = "",
+            started = WhileSubscribed(5_000)
+        )
 
-    private val date = MutableStateFlow(0L)
+    val date = MutableStateFlow(0L)
     val dateUi = date.asStateFlow()
         .map {
             DateFormatUtil.format(it)
@@ -52,7 +57,7 @@ class SettingsViewModel @Inject constructor(
         this.date.value = date
     }
 
-    private val time = MutableStateFlow(0L)
+    val time = MutableStateFlow(0L)
     val timeUi = time.asStateFlow()
         .map {
             DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(it)
@@ -63,48 +68,34 @@ class SettingsViewModel @Inject constructor(
             started = WhileSubscribed(5_000)
         )
 
-    fun setBirthTime(time: Long) {
-        this.time.value = time
+    fun setBirthTime(hour: Int, minute: Int) {
+        this.time.value = CalendarUtil.timeToMilliseconds(hour, minute)
     }
 
-    val localUi = MutableStateFlow("")
+    val birthplace = MutableStateFlow("")
+    val height = MutableStateFlow("")
+    val weight = MutableStateFlow("")
+    val babyName = MutableStateFlow("")
 
-    private val height = MutableStateFlow(0F)
-    val heightUi = height.asStateFlow()
-        .map {
-            String.format("%.1fcm", it)
-        }
+    val isUserdataNotEmpty = combine(
+        babyName, birthplace, height, weight, isEditable
+    ) { babyName, birthplace, height, weight, isEditable ->
+        ActionDoneStateUi(
+            isUserDataNotEmpty = babyName.trim() != "" && birthplace.trim() != ""
+                    && height.trim() != "" && weight.trim() != "",
+            isEditable = isEditable
+        )
+    }
         .stateIn(
             scope = viewModelScope,
-            initialValue = "",
+            initialValue = ActionDoneStateUi(),
             started = WhileSubscribed(5_000)
         )
 
-    fun setHeight(height: Float) {
-        this.height.value = height
-    }
-
-    private val weight = MutableStateFlow(0F)
-    val weightUi = weight.asStateFlow()
-        .map {
-            String.format("%.1fkg", it)
-        }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
-
-    fun setWeight(weight: Float) {
-        this.weight.value = weight
-    }
-
-    private val babyName = MutableStateFlow("")
-    val babyNameUi = babyName.asStateFlow()
-
-    fun setBabyName(babyName: String) {
-        this.babyName.value = babyName
-    }
+    data class ActionDoneStateUi(
+        val isUserDataNotEmpty: Boolean = false,
+        val isEditable: Boolean = false
+    )
 
     private val photo = MutableStateFlow("")
     val photoUi = photo.asStateFlow()
@@ -121,18 +112,20 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             userRepository.getUserByIdStream(authentication.getCurrentUser().id).collect {
                 userInDB = it
+                _username.value = it.username
                 babyName.value = it.babyName
                 photo.value = it.babyUrlPhoto
-                localUi.value = it.birthplace
+                birthplace.value = it.birthplace
                 date.value = it.birthdate
                 time.value = it.birthtime
-                height.value = it.height
-                weight.value = it.weight
+                height.value = it.height.toString()
+                weight.value = it.weight.toString()
             }
         }
     }
 
     fun updateUserValues() {
+        isEditable.value = false
         val currentUser = authentication.getCurrentUser()
 
         val user = User(
@@ -141,11 +134,11 @@ class SettingsViewModel @Inject constructor(
             email = currentUser.email,
             babyName = babyName.value,
             babyUrlPhoto = photo.value,
-            birthplace = localUi.value,
+            birthplace = birthplace.value,
             birthdate = date.value,
             birthtime = time.value,
-            height = height.value,
-            weight = weight.value
+            height = stringToFloat(height.value),
+            weight = stringToFloat(weight.value)
         )
 
         if (userInDB != user) {
@@ -207,6 +200,12 @@ class SettingsViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    private fun stringToFloat(value: String): Float {
+        return try {
+            value.toFloat()
+        } catch (ignored: Exception) { 0F }
     }
 
     private fun updateUserPhotoInDatabase(urlPhoto: String, id: String) {
