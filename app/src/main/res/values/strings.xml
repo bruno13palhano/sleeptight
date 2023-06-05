@@ -56,6 +56,9 @@
     <string name="new_local_label">New local</string>
     <string name="new_height_label">New height</string>
     <string name="new_weight_label">New weight</string>
+    <string name="baby_profile_label">Baby profile</string>
+    <string name="place_day_time_label">Place, day and ime of birth</string>
+    <string name="baby_measurements_birth_label">Baby measurements at birth</string>
 
     <!--  Login labels  -->
     <string name="login_label">Login</string>
