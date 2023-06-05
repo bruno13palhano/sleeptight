@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.NavHostFragment
@@ -21,10 +22,35 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var bottomNavView: BottomNavigationView
+    private lateinit var root: LinearLayout
+
+    private val listener = ViewTreeObserver.OnGlobalLayoutListener {
+        val rect = Rect()
+        root.getWindowVisibleDisplayFrame(rect)
+        val screenHeight = root.rootView.height
+        val keypadHeight = screenHeight - rect.bottom
+
+        if (keypadHeight > screenHeight * 0.15) {
+            hideBottomNavigation()
+        } else {
+            showBottomNavigation()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        root.viewTreeObserver.addOnGlobalLayoutListener(listener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        root.viewTreeObserver.removeOnGlobalLayoutListener(listener)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        root = findViewById(R.id.main_layout)
 
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -46,20 +72,6 @@ class MainActivity : AppCompatActivity() {
                 return menuItem.onNavDestinationSelected(navController)
             }
         })
-
-        val linearLayout = findViewById<LinearLayout>(R.id.main_layout)
-        linearLayout.viewTreeObserver.addOnGlobalLayoutListener {
-            val rect = Rect()
-            linearLayout.getWindowVisibleDisplayFrame(rect)
-            val screenHeight = linearLayout.rootView.height
-            val keypadHeight = screenHeight - rect.bottom
-
-            if (keypadHeight > screenHeight * 0.15) {
-                hideBottomNavigation()
-            } else {
-                showBottomNavigation()
-            }
-        }
     }
 
     fun showBottomNavigation() {
