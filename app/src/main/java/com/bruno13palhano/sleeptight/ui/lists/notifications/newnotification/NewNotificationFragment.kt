@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context.ALARM_SERVICE
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,12 +14,14 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewNotificationBinding
 import com.bruno13palhano.sleeptight.ui.ButtonItemVisibility
@@ -50,6 +53,39 @@ class NewNotificationFragment : Fragment(), ButtonItemVisibility {
 
     private lateinit var notificationManager: NotificationManager
     private lateinit var alarmManager: AlarmManager
+
+    private val listener = ViewTreeObserver.OnGlobalLayoutListener {
+        val rect = Rect()
+        binding.root.getWindowVisibleDisplayFrame(rect)
+        val screenHeight = binding.root.rootView.height
+        val keypadHeight = screenHeight - rect.bottom
+
+        if (keypadHeight > screenHeight * 0.15) {
+            onKeypadOpen()
+        } else {
+            onKeypadClose()
+        }
+    }
+
+    private fun onKeypadOpen() {
+        (activity as MainActivity).hideBottomNavigation()
+        disableButton()
+    }
+
+    private fun onKeypadClose() {
+        (activity as MainActivity).showBottomNavigation()
+        enableButton()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener(listener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.root.viewTreeObserver.removeOnGlobalLayoutListener(listener)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
