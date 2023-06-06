@@ -8,6 +8,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -33,6 +34,20 @@ class LoginFragment : Fragment(), ButtonItemVisibility {
     private val viewModel: LoginViewModel by viewModels()
     private lateinit var inputMethodManager: InputMethodManager
     private var isEmailAndPasswordNotEmpty = false
+
+    private val listener = ViewTreeObserver.OnGlobalLayoutListener {
+        (activity as MainActivity).hideBottomNavigation()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener(listener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.root.viewTreeObserver.removeOnGlobalLayoutListener(listener)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,12 +103,6 @@ class LoginFragment : Fragment(), ButtonItemVisibility {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.root.viewTreeObserver.addOnGlobalLayoutListener {
-            try {
-                (activity as MainActivity).hideBottomNavigation()
-            } catch (ignored: Exception) {}
-        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             delay(200)
@@ -155,16 +164,6 @@ class LoginFragment : Fragment(), ButtonItemVisibility {
     fun navigateToCreateAccount() {
         findNavController().navigate(
             LoginFragmentDirections.actionLoginToCreateAccount())
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (activity as MainActivity).hideBottomNavigation()
-    }
-
-    override fun onDetach() {
-        (activity as MainActivity).showBottomNavigation()
-        super.onDetach()
     }
 
     override fun setButtonVisibility() {

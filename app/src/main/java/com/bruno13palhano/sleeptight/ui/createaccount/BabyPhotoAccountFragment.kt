@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -13,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import coil.load
+import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentBabyPhotoAccountBinding
 import kotlinx.coroutines.launch
@@ -22,6 +24,20 @@ class BabyPhotoAccountFragment : Fragment() {
     private val binding get() = _binding!!
     private val  viewModel: CreateAccountViewModel by activityViewModels()
     private lateinit var photoObserver: ProfilePhotoLifecycleObserver
+
+    private val listener = ViewTreeObserver.OnGlobalLayoutListener {
+        (activity as MainActivity).hideBottomNavigation()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener(listener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.root.viewTreeObserver.removeOnGlobalLayoutListener(listener)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

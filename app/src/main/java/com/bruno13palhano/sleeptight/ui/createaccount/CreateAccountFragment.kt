@@ -8,6 +8,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
@@ -16,6 +17,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentCreateAccountBinding
 import com.bruno13palhano.sleeptight.ui.ButtonItemVisibility
@@ -29,6 +31,20 @@ class CreateAccountFragment : Fragment(), ButtonItemVisibility {
     private val viewModel: CreateAccountViewModel by activityViewModels()
     private lateinit var inputMethodManager: InputMethodManager
     private var isUserDataNotEmpty = false
+
+    private val listener = ViewTreeObserver.OnGlobalLayoutListener {
+        (activity as MainActivity).hideBottomNavigation()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener(listener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.root.viewTreeObserver.removeOnGlobalLayoutListener(listener)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
