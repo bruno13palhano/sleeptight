@@ -48,7 +48,9 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@={viewModel.title}" />
+                    android:text="@={viewModel.title}"
+                    android:imeOptions="actionDone"
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -155,14 +157,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/on_label"
-                    android:checked="@={viewModel.repeat}" />
+                    android:checked="@={viewModel.repeat}"
+                    style="@style/Widget.App.RadioButton" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/repeat_off"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/off_label"
-                    android:checked="true" />
+                    android:checked="true"
+                    style="@style/Widget.App.RadioButton" />
             </RadioGroup>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -183,7 +187,9 @@
                     android:layout_height="match_parent"
                     android:gravity="top"
                     android:minLines="2"
-                    android:text="@={viewModel.description}" />
+                    android:text="@={viewModel.description}"
+                    android:imeOptions="actionDone"
+                    android:inputType="textMultiLine" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

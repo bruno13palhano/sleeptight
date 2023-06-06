@@ -143,14 +143,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/on_label"
-                    android:checked="@={viewModel.repeat}" />
+                    android:checked="@={viewModel.repeat}"
+                    style="@style/Widget.App.RadioButton" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/repeat_off"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="@string/off_label" />
+                    android:text="@string/off_label"
+                    style="@style/Widget.App.RadioButton" />
             </RadioGroup>
 
             <com.google.android.material.textfield.TextInputLayout
