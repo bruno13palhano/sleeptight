@@ -54,6 +54,8 @@ class CreateAccountFragment : Fragment(), ButtonItemVisibility {
             .inflate(inflater, R.layout.fragment_create_account, container, false)
         val view = binding.root
 
+        (activity as MainActivity).supportActionBar?.title = getString(R.string.create_account_label)
+
         binding.uiEvents = this
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel

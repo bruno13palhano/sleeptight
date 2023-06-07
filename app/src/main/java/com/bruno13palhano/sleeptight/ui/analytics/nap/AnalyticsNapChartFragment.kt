@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentAnalyticsNapChartBinding
 import com.bruno13palhano.sleeptight.ui.analytics.shareChart
@@ -31,6 +32,8 @@ class AnalyticsNapChartFragment : Fragment() {
         _binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_analytics_nap_chart, container, false)
         val view = binding.root
+
+        (activity as MainActivity).supportActionBar?.title = getString(R.string.naps_chart_label)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {

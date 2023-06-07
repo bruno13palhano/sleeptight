@@ -54,6 +54,8 @@ class BabyNameAccountFragment : Fragment(), ButtonItemVisibility {
             .inflate(inflater, R.layout.fragment_baby_name_account, container, false)
         val view = binding.root
 
+        (activity as MainActivity).supportActionBar?.title = getString(R.string.baby_name_label)
+
         binding.uiEvents = this
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel

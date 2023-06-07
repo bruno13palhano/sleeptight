@@ -54,6 +54,8 @@ class BabyBirthplaceAccountFragment : Fragment(), ButtonItemVisibility {
             .inflate(inflater, R.layout.fragment_baby_birthplace_account, container, false)
         val view = binding.root
 
+        (activity as MainActivity).supportActionBar?.title = getString(R.string.birthplace_label)
+
         inputMethodManager = activity
             ?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 

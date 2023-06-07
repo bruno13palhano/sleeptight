@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import coil.load
+import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentSettingsBinding
 import com.bruno13palhano.sleeptight.ui.ButtonItemVisibility
@@ -44,6 +45,8 @@ class SettingsFragment : Fragment(), ButtonItemVisibility {
         _binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_settings, container, false)
         val view = binding.root
+
+        (activity as MainActivity).supportActionBar?.title = getString(R.string.settings_label)
 
         binding.uiEvents = this
         binding.lifecycleOwner = viewLifecycleOwner

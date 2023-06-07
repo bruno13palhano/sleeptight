@@ -70,6 +70,8 @@ class NapFragment : Fragment(), CommonItemActions, ButtonItemVisibility {
             .inflate(inflater, R.layout.fragment_nap, container, false)
         val view = binding.root
 
+        (activity as MainActivity).supportActionBar?.title = getString(R.string.nap_label)
+
         binding.lifecycleOwner = viewLifecycleOwner
         binding.uiEvents = this
         binding.viewModel = viewModel

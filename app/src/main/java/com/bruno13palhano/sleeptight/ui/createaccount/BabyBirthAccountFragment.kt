@@ -58,6 +58,8 @@ class BabyBirthAccountFragment : Fragment(), ButtonItemVisibility {
             .inflate(inflater, R.layout.fragment_baby_birth_account, container, false)
         val view = binding.root
 
+        (activity as MainActivity).supportActionBar?.title = getString(R.string.birth_information_label)
+
         binding.uiEvents = this
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel

@@ -57,6 +57,8 @@ class LoginFragment : Fragment(), ButtonItemVisibility {
             .inflate(inflater, R.layout.fragment_login, container, false)
         val view = binding.root
 
+        (activity as MainActivity).supportActionBar?.title = getString(R.string.login_label)
+
         binding.uiEvnets = this
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel

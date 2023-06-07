@@ -16,6 +16,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewBabyStatusHeightAndWeightBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,6 +37,8 @@ class NewBabyStatusHeightAndWeightFragment : Fragment() {
         _binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_new_baby_status_height_and_weight, container, false)
         val view = binding.root
+
+        (activity as MainActivity).supportActionBar?.title = getString(R.string.baby_status_height_and_weight)
 
         binding.uiEvents = this
         binding.lifecycleOwner = viewLifecycleOwner

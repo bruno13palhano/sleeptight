@@ -15,6 +15,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentBabyStatusBinding
 import com.bruno13palhano.sleeptight.ui.ButtonItemVisibility
@@ -39,6 +40,8 @@ class BabyStatusFragment : Fragment(), CommonItemActions, ButtonItemVisibility {
         _binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_baby_status, container, false)
         val view = binding.root
+
+        (activity as MainActivity).supportActionBar?.title = getString(R.string.baby_status_label)
 
         binding.uiEvents = this
         binding.lifecycleOwner = viewLifecycleOwner

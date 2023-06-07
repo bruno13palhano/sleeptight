@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentNewNapEndBinding
 import com.bruno13palhano.sleeptight.ui.util.TimePickerUtil
@@ -31,6 +32,8 @@ class NewNapEndFragment : Fragment() {
         _binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_new_nap_end, container, false)
         val view = binding.root
+
+        (activity as MainActivity).supportActionBar?.title = getString(R.string.end_time_label)
 
         binding.uiEvents = this
         binding.lifecycleOwner = viewLifecycleOwner

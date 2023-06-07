@@ -15,6 +15,7 @@ import androidx.media3.common.*
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
+import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentMediaPlayerBinding
 import com.google.common.util.concurrent.ListenableFuture
@@ -38,6 +39,8 @@ import com.google.common.util.concurrent.MoreExecutors
         _binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_media_player, container, false)
         val view = binding.root
+
+        (activity as MainActivity).supportActionBar?.title = getString(R.string.media_player_label)
 
         mediaListAdapter = PlayingMediaItemArrayAdapter(requireActivity(), R.layout.fragment_media_player, subItemMediaLst)
         binding.currentPlayingList.adapter = mediaListAdapter

@@ -95,6 +95,8 @@ class NewNotificationFragment : Fragment(), ButtonItemVisibility {
             .inflate(inflater, R.layout.fragment_new_notification, container, false)
         val view = binding.root
 
+        (activity as MainActivity).supportActionBar?.title = getString(R.string.new_notification_label)
+
         binding.uiEvents = this
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel

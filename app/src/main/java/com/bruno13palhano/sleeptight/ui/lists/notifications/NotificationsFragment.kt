@@ -17,6 +17,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.databinding.FragmentCommonListBinding
 import com.bruno13palhano.sleeptight.ui.lists.notifications.receivers.NotificationReceiver
@@ -40,6 +41,8 @@ class NotificationsFragment : Fragment(), CommonListView {
         _binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_common_list, container, false)
         val view = binding.root
+
+        (activity as MainActivity).supportActionBar?.title = getString(R.string.notifications_label)
 
         notificationManager =
             activity?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager

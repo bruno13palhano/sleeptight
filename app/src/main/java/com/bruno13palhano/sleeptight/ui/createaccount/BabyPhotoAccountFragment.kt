@@ -47,6 +47,8 @@ class BabyPhotoAccountFragment : Fragment() {
             .inflate(inflater, R.layout.fragment_baby_photo_account, container, false)
         val view = binding.root
 
+        (activity as MainActivity).supportActionBar?.title = getString(R.string.baby_photo_label)
+
         binding.uiEvents = this
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
