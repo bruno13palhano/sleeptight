@@ -3,18 +3,24 @@ package com.bruno13palhano.core.data.repository
 import com.bruno13palhano.core.data.database.dao.UserDao
 import com.bruno13palhano.core.data.database.model.asUser
 import com.bruno13palhano.core.data.database.model.asUserData
+import com.bruno13palhano.core.data.di.ApplicationScope
 import com.bruno13palhano.model.User
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class DefaultUserRepository @Inject constructor(
-    private val userDao: UserDao
+    private val userDao: UserDao,
+    @ApplicationScope private val externalScope: CoroutineScope
 ) : UserRepository {
-    override suspend fun insertUser(user: User) {
-        userDao.insert(user.asUserData())
+    override fun insertUser(user: User) {
+        externalScope.launch {
+            userDao.insert(user.asUserData())
+        }
     }
 
     override fun getUserByIdStream(id: String): Flow<User> {
@@ -23,35 +29,51 @@ internal class DefaultUserRepository @Inject constructor(
         }
     }
 
-    override suspend fun updateUser(user: User) {
-        userDao.update(user.asUserData())
+    override fun updateUser(user: User) {
+        externalScope.launch {
+            userDao.update(user.asUserData())
+        }
     }
 
-    override suspend fun updateUserBabyName(babyName: String, id: String) {
-        userDao.updateUserBabyName(babyName, id)
+    override fun updateUserBabyName(babyName: String, id: String) {
+        externalScope.launch {
+            userDao.updateUserBabyName(babyName, id)
+        }
     }
 
-    override suspend fun updateUserUrlPhoto(urlPhoto: String, id: String) {
-        userDao.updateUserUrlPhoto(urlPhoto, id)
+    override fun updateUserUrlPhoto(urlPhoto: String, id: String) {
+        externalScope.launch {
+            userDao.updateUserUrlPhoto(urlPhoto, id)
+        }
     }
 
-    override suspend fun updateUserBirthplace(birthplace: String, id: String) {
-        userDao.updateUserBirthplace(birthplace, id)
+    override fun updateUserBirthplace(birthplace: String, id: String) {
+        externalScope.launch {
+            userDao.updateUserBirthplace(birthplace, id)
+        }
     }
 
-    override suspend fun updateUserBirthdate(birthdate: Long, id: String) {
-        userDao.updateUserBirthdate(birthdate, id)
+    override fun updateUserBirthdate(birthdate: Long, id: String) {
+        externalScope.launch {
+            userDao.updateUserBirthdate(birthdate, id)
+        }
     }
 
-    override suspend fun updateUserBirthtime(birthtime: Long, id: String) {
-        userDao.updateUserBirthtime(birthtime, id)
+    override fun updateUserBirthtime(birthtime: Long, id: String) {
+        externalScope.launch {
+            userDao.updateUserBirthtime(birthtime, id)
+        }
     }
 
-    override suspend fun updateUserHeight(height: Float, id: String) {
-        userDao.updateUserHeight(height, id)
+    override fun updateUserHeight(height: Float, id: String) {
+        externalScope.launch {
+            userDao.updateUserHeight(height, id)
+        }
     }
 
-    override suspend fun updateUserWeight(weight: Float, id: String) {
-        userDao.updateUserWeight(weight, id)
+    override fun updateUserWeight(weight: Float, id: String) {
+        externalScope.launch {
+            userDao.updateUserWeight(weight, id)
+        }
     }
 }
