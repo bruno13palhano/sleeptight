@@ -14,7 +14,7 @@ import javax.inject.Inject
 class AnalyticsBabyStatusChartViewModel @Inject constructor(
     @DefaultBabyStatusRep babyStatusRepository: BabyStatusRepository
 ) : ViewModel() {
-    val babyStatusChartUi = babyStatusRepository.getAllStream()
+    val babyStatusChartUi = babyStatusRepository.all
         .map {
             val heightList = mutableListOf<Float>()
             val weightList = mutableListOf<Float>()
@@ -29,11 +29,6 @@ class AnalyticsBabyStatusChartViewModel @Inject constructor(
                 allWeight = weightList
             )
         }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = BabyStatusChartUi(),
-            started = WhileSubscribed(5_000)
-        )
 
     data class BabyStatusChartUi(
         val allHeight: List<Float> = emptyList(),

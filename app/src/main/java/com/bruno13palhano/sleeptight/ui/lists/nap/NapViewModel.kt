@@ -97,14 +97,10 @@ class NapViewModel @Inject constructor(
             sleepingTime = CalendarUtil.getSleepTime(startTime.value, endTime.value),
             observation = observation.value
         )
-        viewModelScope.launch {
-            napRepository.update(nap)
-        }
+        napRepository.update(nap)
     }
 
     fun deleteNapById(id: Long) {
-        viewModelScope.launch {
-            napRepository.deleteById(id)
-        }
+        napRepository.deleteById(id)
     }
 }

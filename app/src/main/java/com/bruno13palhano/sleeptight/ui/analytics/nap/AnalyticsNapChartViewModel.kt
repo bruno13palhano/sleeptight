@@ -26,7 +26,7 @@ class AnalyticsNapChartViewModel @Inject constructor(
     @DefaultNapRep private val napRepository: NapRepository
 ) : ViewModel() {
 
-    val allNapChartUi = napRepository.getAllStream()
+    val allNapChartUi = napRepository.all
         .map {
             val allSleepTime = mutableListOf<Float>()
             val allDate = mutableListOf<String>()
@@ -40,13 +40,7 @@ class AnalyticsNapChartViewModel @Inject constructor(
                 allSleeptime = allSleepTime,
                 allDate = allDate
             )
-
         }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = AllNapChartUi(),
-            started = WhileSubscribed(5_000)
-        )
 
     private fun timeToDecimal(time: Long): Float {
         val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
@@ -73,7 +67,7 @@ class AnalyticsNapChartViewModel @Inject constructor(
         val allDate: List<String> = emptyList()
     )
 
-    val monthNapChartUi = napRepository.getAllStream()
+    val monthNapChartUi = napRepository.all
         .map {
             val januaryHours = mutableListOf<Int>()
             val januaryMinutes = mutableListOf<Int>()
@@ -168,11 +162,6 @@ class AnalyticsNapChartViewModel @Inject constructor(
                 december = averageSleepTimeDecimal(decemberHours, decemberMinutes)
             )
         }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = MonthNapChartUi(),
-            started = WhileSubscribed(5_000)
-        )
 
     data class MonthNapChartUi(
         val january: Float =  0.0F,
@@ -189,7 +178,7 @@ class AnalyticsNapChartViewModel @Inject constructor(
         val december: Float = 0.0F
     )
 
-    val weekNapChartUi = napRepository.getAllStream()
+    val weekNapChartUi = napRepository.all
         .map {
             val sundayHours = mutableListOf<Int>()
             val sundayMinutes = mutableListOf<Int>()
@@ -248,11 +237,6 @@ class AnalyticsNapChartViewModel @Inject constructor(
                 saturday = averageSleepTimeDecimal(saturdayHours, saturdayMinutes)
             )
         }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = WeekNapChartUi(),
-            started = WhileSubscribed(5_000)
-        )
 
     data class WeekNapChartUi(
         val sunday: Float = 0.0F,
@@ -293,7 +277,7 @@ class AnalyticsNapChartViewModel @Inject constructor(
     private var saturdayHoursDay = mutableListOf<Int>()
     private var saturdayMinutesDay = mutableListOf<Int>()
 
-    val shiftNapChartUi = napRepository.getAllStream()
+    val shiftNapChartUi = napRepository.all
         .map {
             it.forEach { nap->
                 when (whichDay(nap.date)) {
@@ -390,11 +374,6 @@ class AnalyticsNapChartViewModel @Inject constructor(
                 )
             )
         }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = ShiftNapChartUi(),
-            started = WhileSubscribed(5_000)
-        )
 
     private fun setShiftHourAndMinute(
         startTime: Long,

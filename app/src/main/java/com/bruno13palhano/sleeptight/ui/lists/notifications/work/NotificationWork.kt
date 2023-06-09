@@ -27,12 +27,14 @@ class NotificationWork @AssistedInject constructor(
 ) : CoroutineWorker(context, params) {
 
     private lateinit var notificationManager: NotificationManager
+    private lateinit var alarmManager: AlarmManager
 
     override suspend fun doWork(): Result {
-        notificationRepository.getAllStream().collect {
-            notificationManager =
-                context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager =
+            context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
 
+        notificationRepository.all.collect {
             it.forEach { notification ->
                 if (notification.repeat) {
                     val notifyIntent = Intent(context, NotificationReceiver::class.java)
@@ -49,8 +51,6 @@ class NotificationWork @AssistedInject constructor(
                         notifyIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                     )
-
-                    val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
 
                     val alarmNotification = AlarmNotification(
                         notificationManager = notificationManager,

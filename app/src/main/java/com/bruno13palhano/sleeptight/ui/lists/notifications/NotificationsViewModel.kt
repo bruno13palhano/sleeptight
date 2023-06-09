@@ -15,17 +15,10 @@ class NotificationsViewModel @Inject constructor(
     @DefaultNotificationRep private val notificationRepository: NotificationRepository
 ) : ViewModel() {
 
-    val allNotifications = notificationRepository.getAllStream()
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = emptyList(),
-            started = WhileSubscribed(5_000)
-        )
+    val allNotifications = notificationRepository.all
 
     fun deleteNotification(notificationId: Long, onNotificationDeleted: () -> Unit) {
-        viewModelScope.launch {
-            notificationRepository.deleteById(notificationId)
-            onNotificationDeleted()
-        }
+        notificationRepository.deleteById(notificationId)
+        onNotificationDeleted()
     }
 }

@@ -125,21 +125,21 @@ class HomeViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            babyStatusRepository.getLastStream().collect {
+            babyStatusRepository.last.collect {
                 _height.value = it.height
                 _weight.value = it.weight
             }
         }
 
         viewModelScope.launch {
-            notificationRepository.getLastStream().collect {
+            notificationRepository.last.collect {
                 _notificationTitle.value = it.title
                 _notificationDate.value = it.date
             }
         }
 
         viewModelScope.launch {
-            napRepository.getLastStream().collect {
+            napRepository.last.collect {
                 _napTitle.value = it.title
                 _napDate.value = it.date
                 _napSleepingTime.value = it.sleepingTime

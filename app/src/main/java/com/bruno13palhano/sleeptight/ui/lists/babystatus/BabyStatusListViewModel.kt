@@ -14,10 +14,5 @@ class BabyStatusListViewModel @Inject constructor(
     @DefaultBabyStatusRep private val babyStatusRepository: BabyStatusRepository
 ) : ViewModel() {
 
-    val babyStatusList = babyStatusRepository.getAllStream()
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = emptyList(),
-            started = WhileSubscribed(5_000)
-        )
+    val babyStatusList = babyStatusRepository.all
 }
