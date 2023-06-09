@@ -141,22 +141,20 @@ class CreateAccountViewModel @Inject constructor(
                     updateUserUrlPhoto(
                         photo = _photo.value,
                         onSuccess = { newPhotoUrl, userUid ->
-                            viewModelScope.launch {
-                                userRepository.insertUser(
-                                    User(
-                                        id = userUid,
-                                        username = user.username,
-                                        email = user.email,
-                                        babyName = user.babyName,
-                                        babyUrlPhoto = newPhotoUrl,
-                                        birthplace = user.birthplace,
-                                        birthdate = user.birthdate,
-                                        birthtime = user.birthtime,
-                                        height = user.height,
-                                        weight = user.weight
-                                    )
+                            userRepository.insertUser(
+                                User(
+                                    id = userUid,
+                                    username = user.username,
+                                    email = user.email,
+                                    babyName = user.babyName,
+                                    babyUrlPhoto = newPhotoUrl,
+                                    birthplace = user.birthplace,
+                                    birthdate = user.birthdate,
+                                    birthtime = user.birthtime,
+                                    height = user.height,
+                                    weight = user.weight
                                 )
-                            }
+                            )
                             _loginStatus.value = LoginStatus.Success
                             clearUserValues()
                         },

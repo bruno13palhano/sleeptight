@@ -60,9 +60,7 @@ class LoginViewModel @Inject constructor(
         email.trim() != "" && password.trim() != ""
 
     private fun insertUserInDatabase(user: User) {
-        viewModelScope.launch {
-            userRepository.insertUser(user)
-        }
+        userRepository.insertUser(user)
     }
 
     private fun loading() {

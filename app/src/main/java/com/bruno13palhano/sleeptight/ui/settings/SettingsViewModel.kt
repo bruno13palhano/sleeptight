@@ -209,45 +209,31 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun updateUserPhotoInDatabase(urlPhoto: String, id: String) {
-        viewModelScope.launch {
-            userRepository.updateUserUrlPhoto(urlPhoto, id)
-        }
+        userRepository.updateUserUrlPhoto(urlPhoto, id)
     }
 
     private fun updateUserBabyNameInDataBase(babyName: String, id: String) {
-        viewModelScope.launch {
-            userRepository.updateUserBabyName(babyName, id)
-        }
+        userRepository.updateUserBabyName(babyName, id)
     }
 
     private fun updateUserBirthplaceInDatabase(birthplace: String, id: String) {
-        viewModelScope.launch {
-            userRepository.updateUserBirthplace(birthplace, id)
-        }
+        userRepository.updateUserBirthplace(birthplace, id)
     }
 
     private fun updateUserBirthdateInDatabase(birthdate: Long, id: String) {
-        viewModelScope.launch {
-            userRepository.updateUserBirthdate(birthdate, id)
-        }
+        userRepository.updateUserBirthdate(birthdate, id)
     }
 
     private fun updateUserBirthtimeInDatabase(birthtime: Long, id: String) {
-        viewModelScope.launch {
-            userRepository.updateUserBirthtime(birthtime, id)
-        }
+        userRepository.updateUserBirthtime(birthtime, id)
     }
 
     private fun updateUserHeight(height: Float, id: String) {
-        viewModelScope.launch {
-            userRepository.updateUserHeight(height, id)
-        }
+        userRepository.updateUserHeight(height, id)
     }
 
     private fun updateUserWeight(weight: Float, id: String) {
-        viewModelScope.launch {
-            userRepository.updateUserWeight(weight, id)
-        }
+        userRepository.updateUserWeight(weight, id)
     }
 
     fun logout() {
