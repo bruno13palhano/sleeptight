@@ -40,7 +40,7 @@ internal class DefaultBabyStatusRepository @Inject constructor(
 
     override fun update(model: BabyStatus) {
         externalScope.launch {
-            babyStatusDao.updateBabyStatus(model.asBabyStatusData())
+            babyStatusDao.update(model.asBabyStatusData())
         }
     }
 

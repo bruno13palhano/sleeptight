@@ -38,7 +38,7 @@ internal class DefaultNotificationRepository @Inject constructor(
     }
 
     override suspend fun insert(model: Notification): Long {
-        return notificationDao.insertNotification(model.asNotificationData())
+        return notificationDao.insert(model.asNotificationData())
     }
 
     override fun deleteById(id: Long) {
@@ -49,7 +49,7 @@ internal class DefaultNotificationRepository @Inject constructor(
 
     override fun update(model: Notification) {
         externalScope.launch {
-            notificationDao.updateNotification(model.asNotificationData())
+            notificationDao.update(model.asNotificationData())
         }
     }
 

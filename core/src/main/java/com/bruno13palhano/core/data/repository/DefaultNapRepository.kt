@@ -48,7 +48,7 @@ internal class DefaultNapRepository @Inject constructor(
 
     override fun update(model: Nap) {
         externalScope.launch {
-            napDao.updateNap(model.asNapData())
+            napDao.update(model.asNapData())
         }
     }
 

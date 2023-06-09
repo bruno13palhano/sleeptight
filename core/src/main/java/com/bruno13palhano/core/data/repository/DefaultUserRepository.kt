@@ -24,7 +24,7 @@ internal class DefaultUserRepository @Inject constructor(
     }
 
     override suspend fun updateUser(user: User) {
-        userDao.updateUser(user.asUserData())
+        userDao.update(user.asUserData())
     }
 
     override suspend fun updateUserBabyName(babyName: String, id: String) {
