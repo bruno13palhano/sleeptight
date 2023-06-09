@@ -14,10 +14,5 @@ class NapsViewModel @Inject constructor(
     @DefaultNapRep private val napRepository: NapRepository
 ) : ViewModel() {
 
-    val uiState = napRepository.getAllStream()
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = emptyList(),
-            started = WhileSubscribed(5_000)
-        )
+    val uiState = napRepository.all
 }
