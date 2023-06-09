@@ -3,69 +3,69 @@ package com.bruno13palhano.core.data.repository
 import com.bruno13palhano.core.data.database.dao.NapDao
 import com.bruno13palhano.core.data.database.model.asNap
 import com.bruno13palhano.core.data.database.model.asNapData
+import com.bruno13palhano.core.data.di.ApplicationScope
 import com.bruno13palhano.model.Nap
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class DefaultNapRepository @Inject constructor(
-    private val napDao: NapDao
+    private val napDao: NapDao,
+    @ApplicationScope private val externalScope: CoroutineScope
 ) : NapRepository {
     override suspend fun insert(model: Nap): Long {
         return napDao.insert(model.asNapData())
     }
 
-    override fun getAllStream(): Flow<List<Nap>> {
-        return napDao.getAllStream().map {
-            it.map { nap ->
-                nap.asNap()
-            }
+    override val all: Flow<List<Nap>> = napDao.getAllStream()
+        .map {
+            it.map { napData -> napData.asNap() }
         }
-    }
+        .stateIn(
+            scope = externalScope,
+            started = WhileSubscribed(5_000),
+            initialValue = emptyList()
+        )
 
     override fun getByIdStream(id: Long): Flow<Nap> {
-        return napDao.getNapByIdStream(id).map {
-            try {
-                it.asNap()
-            } catch (ignored: Exception) {
-                Nap(
-                    id = 0L,
-                    title = "",
-                    date = 0L,
-                    startTime = 0L,
-                    endTime = 0L,
-                    sleepingTime = 0L,
-                    observation = ""
-                )
-            }
+        return napDao.getNapByIdStream(id)
+            .map { it.asNap() }
+            .catch { it.printStackTrace() }
+    }
+
+    override fun deleteById(id: Long) {
+        externalScope.launch {
+            napDao.deleteNapById(id)
         }
     }
 
-    override suspend fun update(model: Nap) {
-        napDao.updateNap(model.asNapData())
-    }
-
-    override suspend fun deleteById(id: Long) {
-        napDao.deleteNapById(id)
-    }
-
-    override fun getLastStream(): Flow<Nap> {
-        return napDao.getLastNapStream().map {
-            try {
-                it.asNap()
-            } catch (ignored: Exception) {
-                Nap(
-                    id = 0L,
-                    title = "",
-                    date = 0L,
-                    startTime = 0L,
-                    endTime = 0L,
-                    sleepingTime = 0L,
-                    observation = ""
-                )
-            }
+    override fun update(model: Nap) {
+        externalScope.launch {
+            napDao.updateNap(model.asNapData())
         }
     }
+
+    override val last = napDao.getLastNapStream()
+        .map { it.asNap() }
+        .catch { it.printStackTrace() }
+        .stateIn(
+            scope = externalScope,
+            started = WhileSubscribed(5_000),
+            initialValue = Nap(
+                id = 0L,
+                title = "",
+                date = 0L,
+                startTime = 0L,
+                endTime = 0L,
+                sleepingTime = 0L,
+                observation = ""
+            )
+        )
 }
