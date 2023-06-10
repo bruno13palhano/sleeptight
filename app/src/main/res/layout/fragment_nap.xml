@@ -49,7 +49,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:maxLines="1"
-                    android:text="@={viewModel.title}" />
+                    android:text="@={viewModel.title}"
+                    android:imeOptions="actionDone"
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -189,9 +191,11 @@
                     android:id="@+id/observation"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:text="@={viewModel.observation}"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
                     android:gravity="top"
-                    android:minLines="2"
-                    android:text="@={viewModel.observation}" />
+                    android:minLines="2" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
