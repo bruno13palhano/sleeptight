@@ -8,7 +8,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.bruno13palhano.sleeptight.ui.screens.AnalyticsScreen
 import com.bruno13palhano.sleeptight.ui.screens.HomeScreen
-import com.bruno13palhano.sleeptight.ui.screens.ListsScreen
 import com.bruno13palhano.sleeptight.ui.screens.PlayerScreen
 import com.bruno13palhano.sleeptight.ui.screens.SettingsScreen
 
