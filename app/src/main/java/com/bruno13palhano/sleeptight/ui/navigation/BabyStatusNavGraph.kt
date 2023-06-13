@@ -12,19 +12,31 @@ import com.bruno13palhano.sleeptight.ui.screens.babystatus.NewBabyStatusTitleAnd
 fun NavGraphBuilder.babyStatusNavGraph(navController: NavController) {
     navigation(
         startDestination = BabyStatusDestinations.ALL_BABY_STATUS_ROUTE,
-        route = ListsDestinations.LISTS_BABY_STATUS_ROUTE
+        route = ListsDestinations.BABY_STATUS_LIST_ROUTE
     ) {
+        val navActions = BabyStatusNavigationActions(navController)
         composable(route = BabyStatusDestinations.ALL_BABY_STATUS_ROUTE) {
-            BabyStatusListScreen()
+            BabyStatusListScreen(
+                onItemClick = { babyStatusId ->
+                    navActions.navigateFromAllToBabyStatus(babyStatusId)
+                },
+                onAddButtonClick = navActions.navigateFromAllToNewBabyStatusTitleAndDate
+            )
         }
-        composable(route = BabyStatusDestinations.BABY_STATUS_ROUTE) {
-            BabyStatusScreen()
+        composable(route = BabyStatusDestinations.BABY_STATUS_ROUTE+"{babyStatusId}") { backStackEntry ->
+            backStackEntry.arguments?.getString("babyStatusId")?.let { babyStatusId ->
+                BabyStatusScreen(babyStatusId.toLong())
+            }
         }
         composable(route = BabyStatusDestinations.NEW_BABY_STATUS_TITLE_AND_DATE_ROUTE) {
-            NewBabyStatusTitleAndDateScreen()
+            NewBabyStatusTitleAndDateScreen(
+                onNextButtonClick = navActions.navigateFromNewBabyStatusTitleAndDateToHeightAndWeight
+            )
         }
         composable(route = BabyStatusDestinations.NEW_BABY_STATUS_HEIGHT_AND_WEIGHT_ROUTE) {
-            NewBabyStatusHeightAndWeightScreen()
+            NewBabyStatusHeightAndWeightScreen(
+                onDoneButtonClick = navActions.navigateFromNewBabyHeightAndWeightToAll
+            )
         }
     }
 }
