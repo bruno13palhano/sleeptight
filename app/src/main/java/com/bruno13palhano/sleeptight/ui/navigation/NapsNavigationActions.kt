@@ -1,7 +1,40 @@
 package com.bruno13palhano.sleeptight.ui.navigation
 
-class NapsNavigationActions {
+import androidx.navigation.NavController
 
+class NapsNavigationActions(navController: NavController) {
+    val navigateFromNapsToNap: (napId: Long) -> Unit = {
+        navController.navigate(NapsDestination.NAP_ROUTE+"/$it") {
+            popUpTo(NapsDestination.NAPS_ROUTE)
+        }
+    }
+    val navigateFromNapsToNewNapTitleAndObservation: () -> Unit = {
+        navController.navigate(NapsDestination.NEW_NAP_TITLE_AND_OBSERVATION_ROUTE) {
+            popUpTo(NapsDestination.NAPS_ROUTE)
+        }
+    }
+    val navigateFromNewNapTitleAndObservationToDate: () -> Unit = {
+        navController.navigate(NapsDestination.NEW_NAP_DATE_ROUTE) {
+            popUpTo(NapsDestination.NEW_NAP_TITLE_AND_OBSERVATION_ROUTE)
+        }
+    }
+    val navigateFromNewNapDateToStartTime: () -> Unit = {
+        navController.navigate(NapsDestination.NEW_NAP_START_TIME_ROUTE) {
+            popUpTo(NapsDestination.NEW_NAP_DATE_ROUTE)
+        }
+    }
+    val navigateFromNewNapStartTimeToEndTime: () -> Unit = {
+        navController.navigate(NapsDestination.NEW_NAP_END_TIME_ROUTE) {
+            popUpTo(NapsDestination.NEW_NAP_START_TIME_ROUTE)
+        }
+    }
+    val navigateFromNewNapEndTimeToNaps: () -> Unit = {
+        navController.navigate(NapsDestination.NAPS_ROUTE) {
+            popUpTo(NapsDestination.NAPS_ROUTE) {
+                inclusive = true
+            }
+        }
+    }
 }
 
 object NapsDestination {
