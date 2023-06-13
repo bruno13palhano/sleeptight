@@ -1,9 +1,18 @@
 package com.bruno13palhano.sleeptight.ui.screens.naps
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun NewNapDateScreen() {
-    Text(text = "New Nap Date Screen")
+fun NewNapDateScreen(
+    onNextButtonClick: () -> Unit
+) {
+    Column {
+        Text(text = "New Nap Date Screen")
+        Button(onClick = onNextButtonClick) {
+            Text(text = "Go to New Nap Start Time")
+        }
+    }
 }

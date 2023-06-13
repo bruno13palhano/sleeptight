@@ -4,6 +4,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun NapScreen() {
-    Text(text = "Nap Screen")
+fun NapScreen(napId: Long) {
+    Text(text = "Nap Screen $napId")
 }
