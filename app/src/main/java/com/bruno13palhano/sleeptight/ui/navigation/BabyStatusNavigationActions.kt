@@ -1,6 +1,30 @@
 package com.bruno13palhano.sleeptight.ui.navigation
 
-class BabyStatusNavigationActions {
+import androidx.navigation.NavController
+
+class BabyStatusNavigationActions(navController: NavController) {
+    val navigateFromAllToBabyStatus: (babyStatusId: Long) -> Unit = {
+        navController.navigate(BabyStatusDestinations.BABY_STATUS_ROUTE+"$it") {
+            popUpTo(BabyStatusDestinations.ALL_BABY_STATUS_ROUTE)
+        }
+    }
+    val navigateFromAllToNewBabyStatusTitleAndDate: () -> Unit = {
+        navController.navigate(BabyStatusDestinations.NEW_BABY_STATUS_TITLE_AND_DATE_ROUTE) {
+            popUpTo(BabyStatusDestinations.ALL_BABY_STATUS_ROUTE)
+        }
+    }
+    val navigateFromNewBabyStatusTitleAndDateToHeightAndWeight: () -> Unit = {
+        navController.navigate(BabyStatusDestinations.NEW_BABY_STATUS_HEIGHT_AND_WEIGHT_ROUTE) {
+            popUpTo(BabyStatusDestinations.NEW_BABY_STATUS_TITLE_AND_DATE_ROUTE)
+        }
+    }
+    val navigateFromNewBabyHeightAndWeightToAll: () -> Unit = {
+        navController.navigate(BabyStatusDestinations.ALL_BABY_STATUS_ROUTE) {
+            popUpTo(BabyStatusDestinations.ALL_BABY_STATUS_ROUTE) {
+                inclusive = true
+            }
+        }
+    }
 }
 
 object BabyStatusDestinations {
