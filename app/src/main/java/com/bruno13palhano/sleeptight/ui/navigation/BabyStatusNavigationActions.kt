@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 
 class BabyStatusNavigationActions(navController: NavController) {
     val navigateFromAllToBabyStatus: (babyStatusId: Long) -> Unit = {
-        navController.navigate(BabyStatusDestinations.BABY_STATUS_ROUTE+"$it") {
+        navController.navigate("${BabyStatusDestinations.BABY_STATUS_ROUTE}$it") {
             popUpTo(BabyStatusDestinations.ALL_BABY_STATUS_ROUTE)
         }
     }
@@ -29,7 +29,8 @@ class BabyStatusNavigationActions(navController: NavController) {
 
 object BabyStatusDestinations {
     const val ALL_BABY_STATUS_ROUTE = "all_baby_status"
-    const val BABY_STATUS_ROUTE = "baby_status"
+    const val BABY_STATUS_ROUTE = "baby_status/"
+    const val BABY_STATUS_WITH_ID_ROUTE = "$BABY_STATUS_ROUTE{babyStatusId}"
     const val NEW_BABY_STATUS_TITLE_AND_DATE_ROUTE = "new_baby_status_title_and_date"
     const val NEW_BABY_STATUS_HEIGHT_AND_WEIGHT_ROUTE = "new_baby_status_height_and_weight"
 }

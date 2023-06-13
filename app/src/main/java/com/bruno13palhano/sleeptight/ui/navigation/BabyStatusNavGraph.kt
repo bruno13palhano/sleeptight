@@ -23,7 +23,7 @@ fun NavGraphBuilder.babyStatusNavGraph(navController: NavController) {
                 onAddButtonClick = navActions.navigateFromAllToNewBabyStatusTitleAndDate
             )
         }
-        composable(route = BabyStatusDestinations.BABY_STATUS_ROUTE+"{babyStatusId}") { backStackEntry ->
+        composable(route = BabyStatusDestinations.BABY_STATUS_WITH_ID_ROUTE) { backStackEntry ->
             backStackEntry.arguments?.getString("babyStatusId")?.let { babyStatusId ->
                 BabyStatusScreen(babyStatusId.toLong())
             }

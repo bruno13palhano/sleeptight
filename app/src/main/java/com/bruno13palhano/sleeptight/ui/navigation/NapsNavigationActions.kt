@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 
 class NapsNavigationActions(navController: NavController) {
     val navigateFromNapsToNap: (napId: Long) -> Unit = {
-        navController.navigate(NapsDestination.NAP_ROUTE+"/$it") {
+        navController.navigate("${NapsDestination.NAP_ROUTE}$it") {
             popUpTo(NapsDestination.NAPS_ROUTE)
         }
     }
@@ -39,7 +39,8 @@ class NapsNavigationActions(navController: NavController) {
 
 object NapsDestination {
     const val NAPS_ROUTE = "naps"
-    const val NAP_ROUTE = "nap"
+    const val NAP_ROUTE = "nap/"
+    const val NAP_WITH_ID_ROUTE = "$NAP_ROUTE{napId}"
     const val NEW_NAP_TITLE_AND_OBSERVATION_ROUTE = "new_nap_title_and_observation"
     const val NEW_NAP_DATE_ROUTE = "new_nap_date"
     const val NEW_NAP_START_TIME_ROUTE = "new_nap_start_time"
