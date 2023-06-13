@@ -4,6 +4,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun BabyStatusScreen() {
-    Text(text = "Baby Status Screen")
+fun BabyStatusScreen(babyStatusId: Long) {
+    Text(text = "Baby Status Screen $babyStatusId")
 }
