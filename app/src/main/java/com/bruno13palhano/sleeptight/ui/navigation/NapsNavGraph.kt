@@ -14,25 +14,39 @@ import com.bruno13palhano.sleeptight.ui.screens.naps.NewNapTitleAndObservationSc
 fun NavGraphBuilder.napsNavGraph(navController: NavController) {
     navigation(
         startDestination = NapsDestination.NAPS_ROUTE,
-        route = ListsDestinations.LISTS_NAPS_ROUTE
+        route = ListsDestinations.NAP_LIST_ROUTE
     ) {
+        val navActions = NapsNavigationActions(navController)
         composable(route = NapsDestination.NAPS_ROUTE) {
-            NapsScreen()
+            NapsScreen(
+                onItemClick = { napId -> navActions.navigateFromNapsToNap(napId) },
+                onAddButtonClick = navActions.navigateFromNapsToNewNapTitleAndObservation
+            )
         }
-        composable(route = NapsDestination.NAP_ROUTE) {
-            NapScreen()
+        composable(route = NapsDestination.NAP_ROUTE+"/{napId}") { backStatEntry ->
+            backStatEntry.arguments?.getString("napId")?.let { napId ->
+                NapScreen(napId.toLong())
+            }
         }
         composable(route = NapsDestination.NEW_NAP_TITLE_AND_OBSERVATION_ROUTE) {
-            NewNapTitleAndObservationScreen()
+            NewNapTitleAndObservationScreen(
+                onNextButtonClick = navActions.navigateFromNewNapTitleAndObservationToDate
+            )
         }
         composable(route = NapsDestination.NEW_NAP_DATE_ROUTE) {
-            NewNapDateScreen()
+            NewNapDateScreen(
+                onNextButtonClick = navActions.navigateFromNewNapDateToStartTime
+            )
         }
         composable(route = NapsDestination.NEW_NAP_START_TIME_ROUTE) {
-            NewNapStartTimeScreen()
+            NewNapStartTimeScreen(
+                onNextButtonClick = navActions.navigateFromNewNapStartTimeToEndTime
+            )
         }
         composable(route = NapsDestination.NEW_NAP_END_TIME_ROUTE) {
-            NewNapEndTimeScreen()
+            NewNapEndTimeScreen(
+                onDoneButtonClick = navActions.navigateFromNewNapEndTimeToNaps
+            )
         }
     }
 }
