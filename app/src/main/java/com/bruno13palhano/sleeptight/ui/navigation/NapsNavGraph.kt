@@ -23,8 +23,8 @@ fun NavGraphBuilder.napsNavGraph(navController: NavController) {
                 onAddButtonClick = navActions.navigateFromNapsToNewNapTitleAndObservation
             )
         }
-        composable(route = NapsDestination.NAP_ROUTE+"/{napId}") { backStatEntry ->
-            backStatEntry.arguments?.getString("napId")?.let { napId ->
+        composable(route = NapsDestination.NAP_ROUTE+"/{napId}") { backStackEntry ->
+            backStackEntry.arguments?.getString("napId")?.let { napId ->
                 NapScreen(napId.toLong())
             }
         }
