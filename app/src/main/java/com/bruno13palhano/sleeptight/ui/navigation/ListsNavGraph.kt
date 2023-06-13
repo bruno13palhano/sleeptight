@@ -1,7 +1,9 @@
 package com.bruno13palhano.sleeptight.ui.navigation
 
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.bruno13palhano.sleeptight.ui.screens.ListsScreen
@@ -11,17 +13,17 @@ fun NavGraphBuilder.listsNavGraph(navController: NavController) {
         startDestination = ListsDestinations.ALL_LISTS_ROUTE,
         route = SleepTightDestinations.LISTS_ROUTE
     ) {
+        val navActions = ListsNavigationActions(navController)
         composable(route = ListsDestinations.ALL_LISTS_ROUTE) {
-            ListsScreen()
+            ListsScreen(
+                onBabyStatusClick = { navActions.navigateToBabyStatusList() },
+                onNapsClick = { navActions.navigateToNapsList() },
+                onNotificationsClick = { navActions.navigateToNotificationsList() }
+            )
         }
-        composable(route = ListsDestinations.LISTS_BABY_STATUS_ROUTE) {
-            babyStatusNavGraph(navController = navController)
-        }
-        composable(route = ListsDestinations.LISTS_NAPS_ROUTE) {
-            napsNavGraph(navController = navController)
-        }
-        composable(route = ListsDestinations.LISTS_NOTIFICATIONS_ROUTE) {
-            notificationsNavGraph(navController = navController)
-        }
+
+        babyStatusNavGraph(navController = navController)
+        napsNavGraph(navController = navController)
+        notificationsNavGraph(navController = navController)
     }
 }
