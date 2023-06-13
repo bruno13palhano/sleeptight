@@ -24,7 +24,6 @@ fun SleepTightNavGraph(
         modifier = modifier
     ) {
 
-
         composable(route = SleepTightDestinations.HOME_ROUTE) {
             HomeScreen()
         }
