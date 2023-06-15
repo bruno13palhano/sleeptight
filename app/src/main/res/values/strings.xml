@@ -76,6 +76,12 @@
     <string name="birth_information_label">Birth information</string>
     <string name="login_error_label">Login error</string>
     <string name="create_account_error_label">Error creating account</string>
+    <string name="insert_email_label">Insert your email</string>
+    <string name="insert_password_label">Insert your password</string>
+    <string name="insert_username_label">Insert your username</string>
+    <string name="confirm_login_label">Confirm login</string>
+    <string name="hide_password_label">Hide password</string>
+    <string name="show_password_label">Show password</string>
 
     <!--  Chart colors  -->
     <string name="chart_background_color">#d6d6d6</string>
@@ -194,4 +200,5 @@
     <string name="home_title_label">Title:</string>
     <string name="home_sleeping_time_label">Sleeping time:</string>
     <string name="home_last_status">Last Status</string>
+    <string name="title_activity_main_compose">MainActivityCompose</string>
 </resources>
