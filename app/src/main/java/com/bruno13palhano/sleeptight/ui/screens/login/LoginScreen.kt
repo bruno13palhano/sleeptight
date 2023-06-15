@@ -5,9 +5,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Key
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -19,11 +26,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
@@ -38,13 +48,14 @@ fun LoginScreen(
         floatingActionButton = {
             FloatingActionButton(onClick = onLoginSuccess) {
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_done_24),
+                    imageVector = Icons.Filled.Done,
                     contentDescription = stringResource(id = R.string.confirm_login_label)
                 )
             }
         }
     ) {
         Column(modifier = Modifier.padding(it)) {
+            val focusManager = LocalFocusManager.current
             var email by remember { mutableStateOf(TextFieldValue("")) }
             OutlinedTextField(
                 modifier = Modifier
@@ -53,22 +64,25 @@ fun LoginScreen(
                 value = email,
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_email_24),
+                        imageVector = Icons.Filled.Email,
                         contentDescription = stringResource(id = R.string.email_label)
                     )
                 },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(onDone = {
+                    focusManager.moveFocus(FocusDirection.Next)
                     this.defaultKeyboardAction(ImeAction.Done)
                 }),
                 onValueChange = { emailValue ->
                     email = emailValue
                 },
+                singleLine = true,
                 label = { Text(text = stringResource(id = R.string.email_label)) },
                 placeholder = { Text(text = stringResource(id = R.string.insert_email_label)) }
             )
 
             var password by remember { mutableStateOf(TextFieldValue("")) }
+            var showPassword by remember { mutableStateOf(false) }
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -76,17 +90,44 @@ fun LoginScreen(
                 value = password,
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_key_24),
+                        imageVector = Icons.Filled.Key,
                         contentDescription = stringResource(id = R.string.password_label)
                     )
                 },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                trailingIcon = {
+                    if (showPassword) {
+                        IconButton(onClick = { showPassword = false }) {
+                            Icon(
+                                imageVector = Icons.Filled.Visibility,
+                                contentDescription = stringResource(id = R.string.hide_password_label)
+                            )
+                        }
+                    } else {
+                        IconButton(onClick = { showPassword = true }) {
+                            Icon(
+                                imageVector = Icons.Filled.VisibilityOff,
+                                contentDescription = stringResource(id = R.string.show_password_label)
+                            )
+                        }
+                    }
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Done
+                ),
                 keyboardActions = KeyboardActions(onDone = {
+                    focusManager.clearFocus()
                     this.defaultKeyboardAction(ImeAction.Done)
                 }),
                 onValueChange = { passwordValue ->
                     password = passwordValue
                 },
+                visualTransformation = if (showPassword) {
+                    VisualTransformation.None
+                } else {
+                    PasswordVisualTransformation()
+                },
+                singleLine = true,
                 label = { Text(text = stringResource(id = R.string.password_label)) },
                 placeholder = { Text(text = stringResource(id = R.string.insert_password_label)) }
             )
@@ -111,7 +152,7 @@ fun LoginScreenPreview() {
         floatingActionButton = {
             FloatingActionButton(onClick = { println("Login button was clicked!") }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_done_24),
+                    imageVector = Icons.Filled.Done,
                     contentDescription = stringResource(id = R.string.confirm_login_label)
                 )
             }
@@ -126,7 +167,7 @@ fun LoginScreenPreview() {
                 value = email,
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_email_24),
+                        imageVector = Icons.Filled.Email,
                         contentDescription = stringResource(id = R.string.email_label)
                     )
                 },
@@ -138,6 +179,7 @@ fun LoginScreenPreview() {
             )
 
             var password by remember { mutableStateOf(TextFieldValue("")) }
+            var showPassword by remember { mutableStateOf(false) }
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -145,9 +187,26 @@ fun LoginScreenPreview() {
                 value = password,
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_key_24),
+                        imageVector = Icons.Filled.Key,
                         contentDescription = stringResource(id = R.string.password_label)
                     )
+                },
+                trailingIcon = {
+                    if (showPassword) {
+                        IconButton(onClick = { showPassword = false }) {
+                            Icon(
+                                imageVector = Icons.Filled.Visibility,
+                                contentDescription = stringResource(id = R.string.show_password_label)
+                            )
+                        }
+                    } else {
+                        IconButton(onClick = { showPassword = true }) {
+                            Icon(
+                                imageVector = Icons.Filled.VisibilityOff,
+                                contentDescription = stringResource(id = R.string.hide_password_label)
+                            )
+                        }
+                    }
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 onValueChange = { passwordValue ->
