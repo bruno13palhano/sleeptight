@@ -50,7 +50,7 @@ fun LoginScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp, start = 16.dp, end = 16.dp),
-                onEmailChange = { emailValue -> email = emailValue},
+                onEmailChange = { emailValue -> email = emailValue },
                 onDone = { focusManager.moveFocus(FocusDirection.Next) }
             )
 
