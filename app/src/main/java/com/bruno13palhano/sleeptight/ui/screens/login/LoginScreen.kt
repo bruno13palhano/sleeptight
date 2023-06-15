@@ -3,19 +3,11 @@ package com.bruno13palhano.sleeptight.ui.screens.login
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Key
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -29,11 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
@@ -57,79 +45,22 @@ fun LoginScreen(
         Column(modifier = Modifier.padding(it)) {
             val focusManager = LocalFocusManager.current
             var email by remember { mutableStateOf(TextFieldValue("")) }
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 32.dp, start = 16.dp, end = 16.dp),
-                value = email,
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.Email,
-                        contentDescription = stringResource(id = R.string.email_label)
-                    )
-                },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = {
-                    focusManager.moveFocus(FocusDirection.Next)
-                    this.defaultKeyboardAction(ImeAction.Done)
-                }),
-                onValueChange = { emailValue ->
-                    email = emailValue
-                },
-                singleLine = true,
-                label = { Text(text = stringResource(id = R.string.email_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_email_label)) }
+            EmailField(
+                email = email,
+                modifier = Modifier.fillMaxWidth().padding(top = 32.dp, start = 16.dp, end = 16.dp),
+                onEmailChange = { emailValue -> email = emailValue},
+                onDone = { focusManager.moveFocus(FocusDirection.Next) }
             )
 
             var password by remember { mutableStateOf(TextFieldValue("")) }
             var showPassword by remember { mutableStateOf(false) }
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                value = password,
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.Key,
-                        contentDescription = stringResource(id = R.string.password_label)
-                    )
-                },
-                trailingIcon = {
-                    if (showPassword) {
-                        IconButton(onClick = { showPassword = false }) {
-                            Icon(
-                                imageVector = Icons.Filled.Visibility,
-                                contentDescription = stringResource(id = R.string.hide_password_label)
-                            )
-                        }
-                    } else {
-                        IconButton(onClick = { showPassword = true }) {
-                            Icon(
-                                imageVector = Icons.Filled.VisibilityOff,
-                                contentDescription = stringResource(id = R.string.show_password_label)
-                            )
-                        }
-                    }
-                },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(onDone = {
-                    focusManager.clearFocus()
-                    this.defaultKeyboardAction(ImeAction.Done)
-                }),
-                onValueChange = { passwordValue ->
-                    password = passwordValue
-                },
-                visualTransformation = if (showPassword) {
-                    VisualTransformation.None
-                } else {
-                    PasswordVisualTransformation()
-                },
-                singleLine = true,
-                label = { Text(text = stringResource(id = R.string.password_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_password_label)) }
+            PasswordField(
+                password = password,
+                showPassword = showPassword,
+                modifier = Modifier.fillMaxWidth().padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                onPasswordChange = { passwordValue -> password = passwordValue },
+                showPasswordCallback = { showPasswordValue -> showPassword = showPasswordValue },
+                onDone = { focusManager.clearFocus() }
             )
 
             TextButton(
@@ -159,67 +90,27 @@ fun LoginScreenPreview() {
         }
     ) {
         Column(modifier = Modifier.padding(it)) {
-            var email by remember { mutableStateOf(TextFieldValue("")) }
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 32.dp, start = 16.dp, end = 16.dp),
-                value = email,
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.Email,
-                        contentDescription = stringResource(id = R.string.email_label)
-                    )
-                },
-                onValueChange = { emailValue ->
-                    email = emailValue
-                },
-                label = { Text(text = stringResource(id = R.string.email_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_email_label)) }
+            val email by remember { mutableStateOf(TextFieldValue("")) }
+            EmailField(
+                email = email,
+                modifier = Modifier.fillMaxWidth().padding(top = 32.dp, start = 16.dp, end = 16.dp),
+                onEmailChange = {},
+                onDone = {}
             )
 
-            var password by remember { mutableStateOf(TextFieldValue("")) }
-            var showPassword by remember { mutableStateOf(false) }
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                value = password,
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.Key,
-                        contentDescription = stringResource(id = R.string.password_label)
-                    )
-                },
-                trailingIcon = {
-                    if (showPassword) {
-                        IconButton(onClick = { showPassword = false }) {
-                            Icon(
-                                imageVector = Icons.Filled.Visibility,
-                                contentDescription = stringResource(id = R.string.show_password_label)
-                            )
-                        }
-                    } else {
-                        IconButton(onClick = { showPassword = true }) {
-                            Icon(
-                                imageVector = Icons.Filled.VisibilityOff,
-                                contentDescription = stringResource(id = R.string.hide_password_label)
-                            )
-                        }
-                    }
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                onValueChange = { passwordValue ->
-                    password = passwordValue
-                },
-                label = { Text(text = stringResource(id = R.string.password_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_password_label)) }
+            val password by remember { mutableStateOf(TextFieldValue("")) }
+            val showPassword by remember { mutableStateOf(false) }
+            PasswordField(
+                password = password,
+                showPassword = showPassword,
+                modifier = Modifier.fillMaxWidth().padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                onPasswordChange = {},
+                showPasswordCallback = {},
+                onDone = {}
             )
 
             TextButton(
-                modifier = Modifier
-                    .align(Alignment.End)
-                    .padding(end = 8.dp),
+                modifier = Modifier.align(Alignment.End).padding(end = 8.dp),
                 onClick = {}
             ) {
                 Text(text = stringResource(id = R.string.create_account_label))
