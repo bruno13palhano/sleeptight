@@ -47,7 +47,9 @@ fun LoginScreen(
             var email by remember { mutableStateOf(TextFieldValue("")) }
             EmailField(
                 email = email,
-                modifier = Modifier.fillMaxWidth().padding(top = 32.dp, start = 16.dp, end = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 32.dp, start = 16.dp, end = 16.dp),
                 onEmailChange = { emailValue -> email = emailValue},
                 onDone = { focusManager.moveFocus(FocusDirection.Next) }
             )
@@ -57,7 +59,9 @@ fun LoginScreen(
             PasswordField(
                 password = password,
                 showPassword = showPassword,
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
                 onPasswordChange = { passwordValue -> password = passwordValue },
                 showPasswordCallback = { showPasswordValue -> showPassword = showPasswordValue },
                 onDone = { focusManager.clearFocus() }
@@ -93,7 +97,9 @@ fun LoginScreenPreview() {
             val email by remember { mutableStateOf(TextFieldValue("")) }
             EmailField(
                 email = email,
-                modifier = Modifier.fillMaxWidth().padding(top = 32.dp, start = 16.dp, end = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 32.dp, start = 16.dp, end = 16.dp),
                 onEmailChange = {},
                 onDone = {}
             )
@@ -103,14 +109,18 @@ fun LoginScreenPreview() {
             PasswordField(
                 password = password,
                 showPassword = showPassword,
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
                 onPasswordChange = {},
                 showPasswordCallback = {},
                 onDone = {}
             )
 
             TextButton(
-                modifier = Modifier.align(Alignment.End).padding(end = 8.dp),
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .padding(end = 8.dp),
                 onClick = {}
             ) {
                 Text(text = stringResource(id = R.string.create_account_label))
