@@ -3,9 +3,14 @@ package com.bruno13palhano.sleeptight.ui.screens.login
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Balance
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Key
 import androidx.compose.material.icons.filled.Label
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.SquareFoot
+import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -140,5 +145,179 @@ fun UsernameField(
         singleLine = true,
         label = { Text(text = stringResource(id = R.string.username_label)) },
         placeholder = { Text(text = stringResource(id = R.string.insert_username_label)) }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BabyNameField(
+    babyName: TextFieldValue,
+    modifier: Modifier,
+    onBabyNameChange: (babyName: TextFieldValue) -> Unit,
+    onDone: () -> Unit
+) {
+    OutlinedTextField(
+        modifier = modifier,
+        value = babyName,
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Filled.Label,
+                contentDescription = stringResource(id = R.string.baby_name_label)
+            )
+        },
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions(onDone = {
+            this.defaultKeyboardAction(ImeAction.Done)
+            onDone()
+        }),
+        onValueChange = { emailValue ->
+            onBabyNameChange(emailValue)
+        },
+        singleLine = true,
+        label = { Text(text = stringResource(id = R.string.baby_name_label)) },
+        placeholder = { Text(text = stringResource(id = R.string.insert_baby_name_label)) }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BirthplaceField(
+    birthplace: TextFieldValue,
+    modifier: Modifier,
+    onBirthplaceChange: (birthplace: TextFieldValue) -> Unit,
+    onDone: () -> Unit
+) {
+    OutlinedTextField(
+        modifier = modifier,
+        value = birthplace,
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Filled.LocationOn,
+                contentDescription = stringResource(id = R.string.birthplace_label)
+            )
+        },
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions(onDone = {
+            this.defaultKeyboardAction(ImeAction.Done)
+            onDone()
+        }),
+        onValueChange = { emailValue ->
+            onBirthplaceChange(emailValue)
+        },
+        singleLine = true,
+        label = { Text(text = stringResource(id = R.string.birthplace_label)) },
+        placeholder = { Text(text = stringResource(id = R.string.insert_birthplace_label)) }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DateField(
+    modifier: Modifier,
+    date: TextFieldValue
+) {
+    OutlinedTextField(
+        modifier = modifier,
+        value = date,
+        readOnly = true,
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Filled.CalendarMonth,
+                contentDescription = stringResource(id = R.string.birth_date_label)
+            )
+        },
+        onValueChange = {},
+        singleLine = true,
+        label = { Text(text = stringResource(id = R.string.birth_date_label)) },
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TimeField(
+    modifier: Modifier,
+    time: TextFieldValue
+) {
+    OutlinedTextField(
+        modifier = modifier,
+        value = time,
+        readOnly = true,
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Filled.Timer,
+                contentDescription = stringResource(id = R.string.birth_time_label)
+            )
+        },
+        onValueChange = {},
+        singleLine = true,
+        label = { Text(text = stringResource(id = R.string.birth_time_label)) },
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HeightField(
+    height: TextFieldValue,
+    modifier: Modifier,
+    onHeightChange: (height: TextFieldValue) -> Unit,
+    onDone: () -> Unit
+) {
+    OutlinedTextField(
+        modifier = modifier,
+        value = height,
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Filled.SquareFoot,
+                contentDescription = stringResource(id = R.string.birth_height_label)
+            )
+        },
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
+            keyboardType = KeyboardType.Decimal
+        ),
+        keyboardActions = KeyboardActions(onDone = {
+            this.defaultKeyboardAction(ImeAction.Done)
+            onDone()
+        }),
+        onValueChange = { emailValue ->
+            onHeightChange(emailValue)
+        },
+        singleLine = true,
+        label = { Text(text = stringResource(id = R.string.birth_height_label)) },
+        placeholder = { Text(text = stringResource(id = R.string.insert_height_label)) }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun WeightField(
+    weight: TextFieldValue,
+    modifier: Modifier,
+    onWeightChange: (weight: TextFieldValue) -> Unit,
+    onDone: () -> Unit
+) {
+    OutlinedTextField(
+        modifier = modifier,
+        value = weight,
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Filled.Balance,
+                contentDescription = stringResource(id = R.string.birth_weight_label)
+            )
+        },
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
+            keyboardType = KeyboardType.Decimal
+        ),
+        keyboardActions = KeyboardActions(onDone = {
+            this.defaultKeyboardAction(ImeAction.Done)
+            onDone()
+        }),
+        onValueChange = { emailValue ->
+            onWeightChange(emailValue)
+        },
+        singleLine = true,
+        label = { Text(text = stringResource(id = R.string.birth_weight_label)) },
+        placeholder = { Text(text = stringResource(id = R.string.insert_weight_label)) }
     )
 }
