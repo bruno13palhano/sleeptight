@@ -4,13 +4,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,9 +33,23 @@ import com.bruno13palhano.sleeptight.R
 @Composable
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
-    onCreateAccountButtonClick: () -> Unit
+    onCreateAccountButtonClick: () -> Unit,
+    onNavigationIconClick: () -> Unit
 ) {
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = stringResource(id = R.string.login_label)) },
+                navigationIcon = {
+                    IconButton(onClick = onNavigationIconClick) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.up_button_label)
+                        )
+                    }
+                }
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = onLoginSuccess) {
                 Icon(
@@ -49,7 +66,7 @@ fun LoginScreen(
                 email = email,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 32.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
                 onEmailChange = { emailValue -> email = emailValue },
                 onDone = { focusManager.moveFocus(FocusDirection.Next) }
             )
@@ -84,8 +101,21 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = stringResource(id = R.string.login_label)) },
+                navigationIcon = {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.up_button_label)
+                        )
+                    }
+                }
+            )
+        },
         floatingActionButton = {
-            FloatingActionButton(onClick = { println("Login button was clicked!") }) {
+            FloatingActionButton(onClick = {}) {
                 Icon(
                     imageVector = Icons.Filled.Done,
                     contentDescription = stringResource(id = R.string.confirm_login_label)
@@ -99,7 +129,7 @@ fun LoginScreenPreview() {
                 email = email,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 32.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
                 onEmailChange = {},
                 onDone = {}
             )
