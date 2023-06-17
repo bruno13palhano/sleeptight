@@ -1,61 +1,50 @@
 package com.bruno13palhano.sleeptight.ui.navigation
 
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 
-class LoginNavigationActions(navController: NavHostController) {
+class LoginNavigationActions(navController: NavController) {
     val navigateToLogin: () -> Unit = {
-        navController.navigate(LoginDestinations.LOGIN_ROUTE) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
+        navController.navigate(LoginDestinations.LOGIN_ROUTE)
+    }
+    val navigateFromLoginToHome: () -> Unit = {
+        navController.navigate(SleepTightDestinations.HOME_ROUTE) {
+            popUpTo(LoginDestinations.LOGIN_ROUTE) {
+                inclusive = true
             }
             launchSingleTop = true
-            restoreState = true
         }
     }
-    val navigateToCreateAccount: () -> Unit = {
+    val navigateFromLoginToCreateAccount: () -> Unit = {
         navController.navigate(LoginDestinations.CREATE_ACCOUNT_ROUTE) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
-            }
-            launchSingleTop = true
-            restoreState = true
+            popUpTo(LoginDestinations.LOGIN_ROUTE)
         }
     }
-    val navigateToBabyPhoto: () -> Unit = {
+    val navigateFromCreateAccountToBabyPhoto: () -> Unit = {
         navController.navigate(LoginDestinations.BABY_PHOTO_ROUTE) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
-            }
-            launchSingleTop = true
-            restoreState = true
+            popUpTo(LoginDestinations.CREATE_ACCOUNT_ROUTE)
         }
     }
-    val navigateToBabyName: () -> Unit = {
+    val navigateFromBabyPhotoToBabyName: () -> Unit = {
         navController.navigate(LoginDestinations.BABY_NAME_ROUTE) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
-            }
-            launchSingleTop = true
-            restoreState = true
+            popUpTo(LoginDestinations.BABY_PHOTO_ROUTE)
         }
     }
-    val navigateToBirthplace: () -> Unit = {
+    val navigateFromBabyNameToBirthplace: () -> Unit = {
         navController.navigate(LoginDestinations.BABY_BIRTHPLACE_ROUTE) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
-            }
-            launchSingleTop = true
-            restoreState = true
+            popUpTo(LoginDestinations.BABY_NAME_ROUTE)
         }
     }
-    val navigateToBirthAccount: () -> Unit = {
+    val navigateFromBirthplaceToBirthAccount: () -> Unit = {
         navController.navigate(LoginDestinations.BABY_BIRTH_ACCOUNT_ROUTE) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
+            popUpTo(LoginDestinations.BABY_BIRTHPLACE_ROUTE)
+        }
+    }
+    val navigateFromBirthAccountToHome: () -> Unit = {
+        navController.navigate(SleepTightDestinations.HOME_ROUTE) {
+            popUpTo(LoginDestinations.LOGIN_ROUTE) {
+                inclusive = true
             }
             launchSingleTop = true
-            restoreState = true
         }
     }
 }
