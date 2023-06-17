@@ -7,12 +7,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,9 +29,23 @@ import com.bruno13palhano.sleeptight.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BabyPhotoAccountScreen(
-    onNextButtonClick: () -> Unit
+    onNextButtonClick: () -> Unit,
+    onNavigationIconButton: () -> Unit
 ) {
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = stringResource(id = R.string.baby_photo_label)) },
+                navigationIcon = {
+                    IconButton(onClick = onNavigationIconButton) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.up_button_label)
+                        )
+                    }
+                }
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = onNextButtonClick) {
                 Icon(
@@ -45,7 +63,7 @@ fun BabyPhotoAccountScreen(
             Image(
                 modifier = Modifier
                     .size(200.dp)
-                    .padding(top = 32.dp)
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
                     .align(Alignment.CenterHorizontally)
                     .clip(CircleShape),
                 imageVector = Icons.Filled.Image,
@@ -60,8 +78,21 @@ fun BabyPhotoAccountScreen(
 @Composable
 fun BabyPhotoAccountScreen() {
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = stringResource(id = R.string.baby_photo_label)) },
+                navigationIcon = {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.up_button_label)
+                        )
+                    }
+                }
+            )
+        },
         floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ }) {
+            FloatingActionButton(onClick = {}) {
                 Icon(
                     imageVector = Icons.Filled.NavigateNext,
                     contentDescription = stringResource(id = R.string.next_label)
@@ -77,7 +108,7 @@ fun BabyPhotoAccountScreen() {
             Image(
                 modifier = Modifier
                     .size(200.dp)
-                    .padding(top = 32.dp)
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
                     .align(Alignment.CenterHorizontally)
                     .clip(CircleShape),
                 imageVector = Icons.Filled.Image,
