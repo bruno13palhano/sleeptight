@@ -14,6 +14,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Done
@@ -23,9 +24,11 @@ import androidx.compose.material.icons.filled.TimerOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,7 +50,8 @@ import com.bruno13palhano.sleeptight.R
 @Composable
 fun NapScreen(
     napId: Long,
-    onDoneClick: () -> Unit
+    onDoneClick: () -> Unit,
+    onNavigationIconClick: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val focusManager = LocalFocusManager.current
@@ -60,6 +64,19 @@ fun NapScreen(
     when (configuration.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
             Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = { Text(text = stringResource(id = R.string.naps_label)) },
+                        navigationIcon = {
+                            IconButton(onClick = onNavigationIconClick) {
+                                Icon(
+                                    imageVector = Icons.Filled.ArrowBack,
+                                    contentDescription = stringResource(id = R.string.up_button_label)
+                                )
+                            }
+                        }
+                    )
+                },
                 floatingActionButton = {
                     FloatingActionButton(onClick = onDoneClick) {
                         Icon(
@@ -112,62 +129,79 @@ fun NapScreen(
             }
         }
         else -> {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                CommonFields(
-                    title = title,
-                    date = date,
-                    startTime = startTime,
-                    endTime = endTime,
-                    onTitleChange = { titleValue -> title = titleValue },
-                    onTitleDone = { focusManager.moveFocus(FocusDirection.Next) },
-                    onDateDone = { focusManager.moveFocus(FocusDirection.Next) },
-                    onStartTimeDone = { focusManager.moveFocus(FocusDirection.Next) },
-                    onEndTimeDone = { focusManager.moveFocus(FocusDirection.Next) },
-                )
-
-                OutlinedTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .sizeIn(minHeight = 200.dp)
-                        .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                    value = observations,
-                    leadingIcon = {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .sizeIn(minHeight = 200.dp)
-                                .padding(top = 16.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Description,
-                                contentDescription = stringResource(id = R.string.description_label)
-                            )
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = { Text(text = stringResource(id = R.string.naps_label)) },
+                        navigationIcon = {
+                            IconButton(onClick = onNavigationIconClick) {
+                                Icon(
+                                    imageVector = Icons.Filled.ArrowBack,
+                                    contentDescription = stringResource(id = R.string.up_button_label)
+                                )
+                            }
                         }
-                    },
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                    keyboardActions = KeyboardActions(onDone = {
-                        this.defaultKeyboardAction(ImeAction.Done)
-                        focusManager.clearFocus()
-                    }),
-                    onValueChange = { observationsValue -> observations = observationsValue },
-                    label = { Text(text = stringResource(id = R.string.observation_label)) },
-                    placeholder = { Text(text = stringResource(id = R.string.insert_observations_label)) }
-                )
-
-                FloatingActionButton(
-                    modifier = Modifier
-                        .align(Alignment.End)
-                        .padding(16.dp),
-                    onClick = onDoneClick
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Done,
-                        contentDescription = stringResource(id = R.string.done_label)
                     )
+                }
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(it)
+                ) {
+                    CommonFields(
+                        title = title,
+                        date = date,
+                        startTime = startTime,
+                        endTime = endTime,
+                        onTitleChange = { titleValue -> title = titleValue },
+                        onTitleDone = { focusManager.moveFocus(FocusDirection.Next) },
+                        onDateDone = { focusManager.moveFocus(FocusDirection.Next) },
+                        onStartTimeDone = { focusManager.moveFocus(FocusDirection.Next) },
+                        onEndTimeDone = { focusManager.moveFocus(FocusDirection.Next) },
+                    )
+
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .sizeIn(minHeight = 200.dp)
+                            .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                        value = observations,
+                        leadingIcon = {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .sizeIn(minHeight = 200.dp)
+                                    .padding(top = 16.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.Description,
+                                    contentDescription = stringResource(id = R.string.description_label)
+                                )
+                            }
+                        },
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                        keyboardActions = KeyboardActions(onDone = {
+                            this.defaultKeyboardAction(ImeAction.Done)
+                            focusManager.clearFocus()
+                        }),
+                        onValueChange = { observationsValue -> observations = observationsValue },
+                        label = { Text(text = stringResource(id = R.string.observation_label)) },
+                        placeholder = { Text(text = stringResource(id = R.string.insert_observations_label)) }
+                    )
+
+                    FloatingActionButton(
+                        modifier = Modifier
+                            .align(Alignment.End)
+                            .padding(16.dp),
+                        onClick = onDoneClick
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Done,
+                            contentDescription = stringResource(id = R.string.done_label)
+                        )
+                    }
                 }
             }
         }
@@ -269,6 +303,19 @@ private fun CommonFields(
 @Composable
 fun NapScreenPreview() {
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = stringResource(id = R.string.naps_label)) },
+                navigationIcon = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Back button"
+                        )
+                    }
+                }
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = { /*TODO*/ }) {
                 Icon(
