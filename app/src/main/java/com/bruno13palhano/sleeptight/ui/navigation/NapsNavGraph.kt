@@ -20,32 +20,41 @@ fun NavGraphBuilder.napsNavGraph(navController: NavController) {
         composable(route = NapsDestination.NAPS_ROUTE) {
             NapsScreen(
                 onItemClick = { napId -> navActions.navigateFromNapsToNap(napId) },
-                onAddButtonClick = navActions.navigateFromNapsToNewNapTitleAndObservation
+                onAddButtonClick = navActions.navigateFromNapsToNewNapTitleAndObservation,
+                onNavigationIconClick = { navController.navigateUp() }
             )
         }
         composable(route = NapsDestination.NAP_WITH_ID_ROUTE) { backStackEntry ->
             backStackEntry.arguments?.getString("napId")?.let { napId ->
-                NapScreen(napId.toLong())
+                NapScreen(
+                    napId = napId.toLong(),
+                    onDoneClick = { navController.popBackStack() },
+                    onNavigationIconClick = { navController.navigateUp() }
+                )
             }
         }
         composable(route = NapsDestination.NEW_NAP_TITLE_AND_OBSERVATION_ROUTE) {
             NewNapTitleAndObservationScreen(
-                onNextButtonClick = navActions.navigateFromNewNapTitleAndObservationToDate
+                onNextButtonClick = navActions.navigateFromNewNapTitleAndObservationToDate,
+                onNavigationIconClick = { navController.navigateUp() }
             )
         }
         composable(route = NapsDestination.NEW_NAP_DATE_ROUTE) {
             NewNapDateScreen(
-                onNextButtonClick = navActions.navigateFromNewNapDateToStartTime
+                onNextButtonClick = navActions.navigateFromNewNapDateToStartTime,
+                onNavigationIconClick = { navController.navigateUp() }
             )
         }
         composable(route = NapsDestination.NEW_NAP_START_TIME_ROUTE) {
             NewNapStartTimeScreen(
-                onNextButtonClick = navActions.navigateFromNewNapStartTimeToEndTime
+                onNextButtonClick = navActions.navigateFromNewNapStartTimeToEndTime,
+                onNavigationIconClick = { navController.navigateUp() }
             )
         }
         composable(route = NapsDestination.NEW_NAP_END_TIME_ROUTE) {
             NewNapEndTimeScreen(
-                onDoneButtonClick = navActions.navigateFromNewNapEndTimeToNaps
+                onDoneButtonClick = navActions.navigateFromNewNapEndTimeToNaps,
+                onNavigationIconClick = { navController.navigateUp() }
             )
         }
     }
