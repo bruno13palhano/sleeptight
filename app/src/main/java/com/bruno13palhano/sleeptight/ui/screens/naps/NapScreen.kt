@@ -66,7 +66,7 @@ fun NapScreen(
             Scaffold(
                 topBar = {
                     TopAppBar(
-                        title = { Text(text = stringResource(id = R.string.naps_label)) },
+                        title = { Text(text = stringResource(id = R.string.nap_label)) },
                         navigationIcon = {
                             IconButton(onClick = onNavigationIconClick) {
                                 Icon(
@@ -132,7 +132,7 @@ fun NapScreen(
             Scaffold(
                 topBar = {
                     TopAppBar(
-                        title = { Text(text = stringResource(id = R.string.naps_label)) },
+                        title = { Text(text = stringResource(id = R.string.nap_label)) },
                         navigationIcon = {
                             IconButton(onClick = onNavigationIconClick) {
                                 Icon(
@@ -224,7 +224,7 @@ private fun CommonFields(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 32.dp, start = 16.dp, end = 16.dp),
+            .padding(top = 8.dp, start = 16.dp, end = 16.dp),
         value = title,
         leadingIcon = {
             Icon(
@@ -305,12 +305,12 @@ fun NapScreenPreview() {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(id = R.string.naps_label)) },
+                title = { Text(text = stringResource(id = R.string.nap_label)) },
                 navigationIcon = {
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Back button"
+                            contentDescription = stringResource(id = R.string.up_button_label)
                         )
                     }
                 }

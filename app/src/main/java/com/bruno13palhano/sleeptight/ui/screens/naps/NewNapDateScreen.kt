@@ -65,7 +65,7 @@ fun NewNapDateScreen(
             Image(
                 modifier = Modifier
                     .size(200.dp)
-                    .padding(top = 32.dp)
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
                     .align(Alignment.CenterHorizontally)
                     .clickable { },
                 imageVector = Icons.Filled.Image,
@@ -119,7 +119,7 @@ fun NewNapDateScreenPreview() {
             Image(
                 modifier = Modifier
                     .size(200.dp)
-                    .padding(top = 32.dp)
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
                     .align(Alignment.CenterHorizontally),
                 imageVector = Icons.Filled.Image,
                 contentDescription = stringResource(id = R.string.date_label)
