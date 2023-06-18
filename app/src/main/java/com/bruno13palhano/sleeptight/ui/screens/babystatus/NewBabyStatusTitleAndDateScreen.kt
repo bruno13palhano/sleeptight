@@ -1,19 +1,186 @@
 package com.bruno13palhano.sleeptight.ui.screens.babystatus
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.Label
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.bruno13palhano.sleeptight.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewBabyStatusTitleAndDateScreen(
-    onNextButtonClick: () -> Unit
+    onNextButtonClick: () -> Unit,
+    onNavigationIconClick: () -> Unit
 ) {
-    Column {
-        Text(text = "Baby Status Title And Date Screen")
+    val focusManager = LocalFocusManager.current
+    var title by remember { mutableStateOf(TextFieldValue("")) }
+    var date by remember { mutableStateOf(TextFieldValue("")) }
 
-        Button(onClick = onNextButtonClick) {
-            Text(text = "Go to New Baby Status Height And Weight")
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = stringResource(id = R.string.baby_status_title_and_date))},
+                navigationIcon = {
+                    IconButton(onClick = onNavigationIconClick) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.up_button_label)
+                        )
+                    }
+                }
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = onNextButtonClick) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = stringResource(id = R.string.add_button)
+                )
+            }
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+        ) {
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                value = title,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.Label,
+                        contentDescription = stringResource(id = R.string.title_label)
+                    )
+                },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = {
+                    this.defaultKeyboardAction(ImeAction.Done)
+                    focusManager.moveFocus(FocusDirection.Next)
+                }),
+                onValueChange = { titleValue -> title = titleValue },
+                singleLine = true,
+                label = { Text(text = stringResource(id = R.string.title_label)) },
+                placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) }
+            )
+
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .clickable { focusManager.clearFocus() },
+                value = date,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.CalendarMonth,
+                        contentDescription = stringResource(id = R.string.date_label)
+                    )
+                },
+                onValueChange = {},
+                singleLine = true,
+                label = { Text(text = stringResource(id = R.string.date_label)) },
+                placeholder = { Text(text = stringResource(id = R.string.insert_date_label)) }
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true)
+@Composable
+fun NewBabyStatusTitleAndDateScreenPreview() {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = stringResource(id = R.string.baby_status_title_and_date))},
+                navigationIcon = {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.up_button_label)
+                        )
+                    }
+                }
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {}) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = stringResource(id = R.string.add_button)
+                )
+            }
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+        ) {
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                value = TextFieldValue(""),
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.Label,
+                        contentDescription = stringResource(id = R.string.title_label)
+                    )
+                },
+                onValueChange = {},
+                singleLine = true,
+                label = { Text(text = stringResource(id = R.string.title_label)) },
+                placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) }
+            )
+
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                value = TextFieldValue(""),
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.CalendarMonth,
+                        contentDescription = stringResource(id = R.string.date_label)
+                    )
+                },
+                onValueChange = {},
+                singleLine = true,
+                label = { Text(text = stringResource(id = R.string.date_label)) },
+                placeholder = { Text(text = stringResource(id = R.string.insert_date_label)) }
+            )
         }
     }
 }
