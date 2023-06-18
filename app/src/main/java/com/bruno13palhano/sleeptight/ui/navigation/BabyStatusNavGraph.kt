@@ -20,22 +20,29 @@ fun NavGraphBuilder.babyStatusNavGraph(navController: NavController) {
                 onItemClick = { babyStatusId ->
                     navActions.navigateFromAllToBabyStatus(babyStatusId)
                 },
-                onAddButtonClick = navActions.navigateFromAllToNewBabyStatusTitleAndDate
+                onAddButtonClick = navActions.navigateFromAllToNewBabyStatusTitleAndDate,
+                onNavigationIconClick = { navController.navigateUp() }
             )
         }
         composable(route = BabyStatusDestinations.BABY_STATUS_WITH_ID_ROUTE) { backStackEntry ->
             backStackEntry.arguments?.getString("babyStatusId")?.let { babyStatusId ->
-                BabyStatusScreen(babyStatusId.toLong())
+                BabyStatusScreen(
+                    babyStatusId = babyStatusId.toLong(),
+                    onDoneButtonClick = { navController.navigateUp() },
+                    onNavigationIconClick = { navController.navigateUp() }
+                )
             }
         }
         composable(route = BabyStatusDestinations.NEW_BABY_STATUS_TITLE_AND_DATE_ROUTE) {
             NewBabyStatusTitleAndDateScreen(
-                onNextButtonClick = navActions.navigateFromNewBabyStatusTitleAndDateToHeightAndWeight
+                onNextButtonClick = navActions.navigateFromNewBabyStatusTitleAndDateToHeightAndWeight,
+                onNavigationIconClick = { navController.navigateUp() }
             )
         }
         composable(route = BabyStatusDestinations.NEW_BABY_STATUS_HEIGHT_AND_WEIGHT_ROUTE) {
             NewBabyStatusHeightAndWeightScreen(
-                onDoneButtonClick = navActions.navigateFromNewBabyHeightAndWeightToAll
+                onDoneButtonClick = navActions.navigateFromNewBabyHeightAndWeightToAll,
+                onNavigationIconClick = { navController.navigateUp() }
             )
         }
     }
