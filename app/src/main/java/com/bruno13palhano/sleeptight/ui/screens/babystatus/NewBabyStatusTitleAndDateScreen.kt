@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Label
+import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -62,7 +63,7 @@ fun NewBabyStatusTitleAndDateScreen(
         floatingActionButton = {
             FloatingActionButton(onClick = onNextButtonClick) {
                 Icon(
-                    imageVector = Icons.Filled.Add,
+                    imageVector = Icons.Filled.NavigateNext,
                     contentDescription = stringResource(id = R.string.add_button)
                 )
             }
@@ -137,7 +138,7 @@ fun NewBabyStatusTitleAndDateScreenPreview() {
         floatingActionButton = {
             FloatingActionButton(onClick = {}) {
                 Icon(
-                    imageVector = Icons.Filled.Add,
+                    imageVector = Icons.Filled.NavigateNext,
                     contentDescription = stringResource(id = R.string.add_button)
                 )
             }
