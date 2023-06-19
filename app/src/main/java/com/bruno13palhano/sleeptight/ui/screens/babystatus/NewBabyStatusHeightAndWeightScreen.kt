@@ -1,5 +1,6 @@
 package com.bruno13palhano.sleeptight.ui.screens.babystatus
 
+import android.icu.text.DecimalFormat
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,10 +29,12 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,6 +42,9 @@ fun NewBabyStatusHeightAndWeightScreen(
     onDoneButtonClick: () -> Unit,
     onNavigationIconClick: () -> Unit
 ) {
+    val decimalFormat = DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
+    val decimalSeparator = decimalFormat.decimalFormatSymbols.decimalSeparator
+    val pattern = remember { Regex("^\\d*\\$decimalSeparator?\\d*\$") }
     val focusManager = LocalFocusManager.current
     var height by remember { mutableStateOf(TextFieldValue("")) }
     var weight by remember { mutableStateOf(TextFieldValue("")) }
@@ -78,12 +84,19 @@ fun NewBabyStatusHeightAndWeightScreen(
                         contentDescription = stringResource(id = R.string.birth_height_label)
                     )
                 },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Decimal
+                ),
                 keyboardActions = KeyboardActions(onDone = {
                     this.defaultKeyboardAction(ImeAction.Done)
                     focusManager.moveFocus(FocusDirection.Next)
                 }),
-                onValueChange = { heightValue -> height = heightValue },
+                onValueChange = { heightValue ->
+                    if (heightValue.text.isEmpty() || heightValue.text.matches(pattern)) {
+                        height = heightValue
+                    }
+                },
                 singleLine = true,
                 label = { Text(text = stringResource(id = R.string.birth_height_label)) },
                 placeholder = { Text(text = stringResource(id = R.string.insert_height_label)) }
@@ -100,12 +113,19 @@ fun NewBabyStatusHeightAndWeightScreen(
                         contentDescription = stringResource(id = R.string.birth_weight_label)
                     )
                 },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Decimal
+                ),
                 keyboardActions = KeyboardActions(onDone = {
                     this.defaultKeyboardAction(ImeAction.Done)
                     focusManager.clearFocus()
                 }),
-                onValueChange = { weightValue -> weight = weightValue },
+                onValueChange = { weightValue ->
+                    if (weightValue.text.isEmpty() || weightValue.text.matches(pattern)) {
+                        weight = weightValue
+                    }
+                },
                 singleLine = true,
                 label = { Text(text = stringResource(id = R.string.birth_weight_label)) },
                 placeholder = { Text(text = stringResource(id = R.string.insert_weight_label)) }
