@@ -20,17 +20,23 @@ fun NavGraphBuilder.notificationsNavGraph(navController: NavController) {
                     navActions.navigateFromNotificationsToNotification(notificationId)
                 },
                 onAddButtonClick = navActions.navigateFromNotificationsToNewNotification,
+                onNavigationIconClick = { navController.navigateUp() }
             )
         }
         composable(route = NotificationsDestinations.NOTIFICATION_WITH_ID_ROUTE) { backStackEntry ->
             backStackEntry.arguments?.getString("notificationId")?.let { notificationId ->
-                NotificationScreen(notificationId.toLong())
+                NotificationScreen(
+                    notificationId = notificationId.toLong(),
+                    onDoneButtonClick = { navActions.navigateFromNotificationsToNotification },
+                    onNavigationIconClick = { navController.navigateUp() }
+                )
             }
         }
         composable(route = NotificationsDestinations.NEW_NOTIFICATION_ROUTE) {
-            NewNotificationScreen(onDoneButtonClick = {
-                navController.popBackStack()
-            })
+            NewNotificationScreen(
+                onDoneButtonClick = { navController.popBackStack() },
+                onNavigationIconClick = { navController.navigateUp() }
+            )
         }
     }
 }
