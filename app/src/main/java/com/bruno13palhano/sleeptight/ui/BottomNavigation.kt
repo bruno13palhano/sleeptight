@@ -1,22 +1,19 @@
 package com.bruno13palhano.sleeptight.ui
-
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
@@ -26,19 +23,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.navigation.SleepTightDestinations
-import com.bruno13palhano.sleeptight.ui.navigation.SleepTightNavGraph
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavigation(navController: NavHostController) {
-    Scaffold(
-        bottomBar = { BottomMenu(navController) }
-    ) { paddingValues ->
-        SleepTightNavGraph(
-            modifier = Modifier.padding(paddingValues),
-            navController = navController
-        )
-    }
+    BottomMenu(navController)
 }
 
 @Composable
@@ -76,7 +64,7 @@ fun BottomMenu(navController: NavController) {
 sealed class Screen(val route: String, val icon: ImageVector, @StringRes val resourceId: Int) {
     object Home : Screen(SleepTightDestinations.HOME_ROUTE, Icons.Filled.Home, R.string.home_label)
     object Lists : Screen(SleepTightDestinations.LISTS_ROUTE, Icons.Filled.List, R.string.lists_label)
-    object Player : Screen(SleepTightDestinations.PLAYER_ROUTE, Icons.Filled.PlayArrow, R.string.player_label)
-    object Analytics : Screen(SleepTightDestinations.ANALYTICS_ROUTE, Icons.Filled.Star, R.string.analytics_label)
+    object Player : Screen(SleepTightDestinations.PLAYER_ROUTE, Icons.Filled.MusicNote, R.string.player_label)
+    object Analytics : Screen(SleepTightDestinations.ANALYTICS_ROUTE, Icons.Filled.BarChart, R.string.analytics_label)
     object Settings: Screen(SleepTightDestinations.SETTINGS_ROUTE, Icons.Filled.Settings, R.string.settings_label)
 }
