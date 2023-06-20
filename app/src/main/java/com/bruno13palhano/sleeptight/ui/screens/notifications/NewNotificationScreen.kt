@@ -64,7 +64,7 @@ fun NewNotificationScreen(
             Scaffold(
                 topBar = {
                     TopAppBar(
-                        title = { Text(text = stringResource(id = R.string.notifications_label)) },
+                        title = { Text(text = stringResource(id = R.string.new_notification_label)) },
                         navigationIcon = {
                             IconButton(onClick = onNavigationIconClick) {
                                 Icon(
@@ -130,7 +130,7 @@ fun NewNotificationScreen(
             Scaffold(
                 topBar = {
                     TopAppBar(
-                        title = { Text(text = stringResource(id = R.string.notification_label)) },
+                        title = { Text(text = stringResource(id = R.string.new_notification_label)) },
                         navigationIcon = {
                             IconButton(onClick = onNavigationIconClick) {
                                 Icon(
@@ -313,7 +313,7 @@ fun NewNotificationScreenPreview() {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(id = R.string.notifications_label)) },
+                title = { Text(text = stringResource(id = R.string.new_notification_label)) },
                 navigationIcon = {
                     IconButton(onClick = {}) {
                         Icon(
