@@ -2,6 +2,8 @@ package com.bruno13palhano.sleeptight.ui.screens.naps
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -19,6 +21,7 @@ import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Label
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.TimerOff
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,6 +48,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
+import com.bruno13palhano.sleeptight.ui.screens.CommonMenu
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,6 +65,8 @@ fun NapScreen(
     var endTime by remember { mutableStateOf(TextFieldValue("")) }
     var observations by remember { mutableStateOf(TextFieldValue("")) }
 
+    var expanded by remember { mutableStateOf(false) }
+
     when (configuration.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
             Scaffold(
@@ -74,7 +80,33 @@ fun NapScreen(
                                     contentDescription = stringResource(id = R.string.up_button_label)
                                 )
                             }
-                        }
+                        },
+                        actions = {
+                            IconButton(
+                                onClick = { expanded = true }
+                            ) {
+                                Box(contentAlignment = Alignment.Center) {
+                                    Icon(
+                                        imageVector = Icons.Filled.MoreVert,
+                                        contentDescription = stringResource(id = R.string.more_options_label)
+                                    )
+
+                                    Column(
+                                        modifier = Modifier.fillMaxSize(),
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        CommonMenu(
+                                            expanded = expanded,
+                                            onDismissRequest = { expandedValue ->
+                                                expanded = expandedValue
+                                            },
+                                            onClick = { println("index: $it") }
+                                        )
+                                    }
+                                }
+                            }
+                        },
                     )
                 },
                 floatingActionButton = {
@@ -313,7 +345,17 @@ fun NapScreenPreview() {
                             contentDescription = stringResource(id = R.string.up_button_label)
                         )
                     }
-                }
+                },
+                actions = {
+                    IconButton(
+                        onClick = {}
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.MoreVert,
+                            contentDescription = stringResource(id = R.string.more_options_label)
+                        )
+                    }
+                },
             )
         },
         floatingActionButton = {
