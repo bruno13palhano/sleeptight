@@ -2,9 +2,12 @@ package com.bruno13palhano.sleeptight.ui.screens.notifications
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
@@ -18,6 +21,7 @@ import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Label
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -44,6 +48,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
+import com.bruno13palhano.sleeptight.ui.screens.CommonMenu
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,18 +65,46 @@ fun NotificationScreen(
     var repeat by remember { mutableStateOf(false) }
     var description by remember { mutableStateOf(TextFieldValue("")) }
 
+    var expanded by remember { mutableStateOf(false) }
+
     when (configuration.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
             Scaffold(
                 topBar = {
                     TopAppBar(
-                        title = { Text(text = stringResource(id = R.string.notifications_label)) },
+                        title = { Text(text = stringResource(id = R.string.notification_label)) },
                         navigationIcon = {
                             IconButton(onClick = onNavigationIconClick) {
                                 Icon(
                                     imageVector = Icons.Filled.ArrowBack,
                                     contentDescription = stringResource(id = R.string.up_button_label)
                                 )
+                            }
+                        },
+                        actions = {
+                            IconButton(
+                                onClick = { expanded = true }
+                            ) {
+                                Box(contentAlignment = Alignment.Center) {
+                                    Icon(
+                                        imageVector = Icons.Filled.MoreVert,
+                                        contentDescription = stringResource(id = R.string.more_options_label)
+                                    )
+
+                                    Column(
+                                        modifier = Modifier.fillMaxSize(),
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        CommonMenu(
+                                            expanded = expanded,
+                                            onDismissRequest = { expandedValue ->
+                                                expanded = expandedValue
+                                            },
+                                            onClick = { println("index: $it") }
+                                        )
+                                    }
+                                }
                             }
                         }
                     )
@@ -138,6 +171,32 @@ fun NotificationScreen(
                                     imageVector = Icons.Filled.ArrowBack,
                                     contentDescription = stringResource(id = R.string.up_button_label)
                                 )
+                            }
+                        },
+                        actions = {
+                            IconButton(
+                                onClick = { expanded = true }
+                            ) {
+                                Box(contentAlignment = Alignment.Center) {
+                                    Icon(
+                                        imageVector = Icons.Filled.MoreVert,
+                                        contentDescription = stringResource(id = R.string.more_options_label)
+                                    )
+
+                                    Column(
+                                        modifier = Modifier.fillMaxSize(),
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        CommonMenu(
+                                            expanded = expanded,
+                                            onDismissRequest = { expandedValue ->
+                                                expanded = expandedValue
+                                            },
+                                            onClick = { println("index: $it") }
+                                        )
+                                    }
+                                }
                             }
                         }
                     )
@@ -314,12 +373,22 @@ fun NotificationScreenPreview() {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(id = R.string.notifications_label)) },
+                title = { Text(text = stringResource(id = R.string.notification_label)) },
                 navigationIcon = {
                     IconButton(onClick = {}) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = stringResource(id = R.string.up_button_label)
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(
+                        onClick = {}
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.MoreVert,
+                            contentDescription = stringResource(id = R.string.more_options_label)
                         )
                     }
                 }
