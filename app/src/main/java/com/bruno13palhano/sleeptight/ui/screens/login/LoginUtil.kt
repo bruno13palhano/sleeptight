@@ -28,6 +28,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextOverflow
 import com.bruno13palhano.sleeptight.R
 import java.util.Locale
 
@@ -231,7 +232,12 @@ fun DateField(
         },
         onValueChange = {},
         singleLine = true,
-        label = { Text(text = stringResource(id = R.string.birth_date_label)) },
+        label = {
+            Text(
+                text = stringResource(id = R.string.birth_date_label),
+                overflow = TextOverflow.Ellipsis
+            )
+        },
     )
 }
 
