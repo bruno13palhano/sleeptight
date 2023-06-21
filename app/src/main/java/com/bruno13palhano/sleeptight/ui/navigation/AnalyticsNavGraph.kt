@@ -24,11 +24,15 @@ fun NavGraphBuilder.analyticsNavGraph(navController: NavController) {
         }
 
         composable(route = AnalyticsDestinations.BABY_STATUS_CHARTS_ROUTE) {
-            BabyStatusChartsScreen()
+            BabyStatusChartsScreen(
+                onNavigationIconClick = { navController.navigateUp() }
+            )
         }
 
         composable(route = AnalyticsDestinations.NAP_CHARTS_ROUTE) {
-            NapChartsScreen()
+            NapChartsScreen(
+                onNavigationIconClick = { navController.navigateUp() }
+            )
         }
     }
 }
