@@ -3,6 +3,7 @@ package com.bruno13palhano.sleeptight.ui.screens.analytics
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -18,11 +19,21 @@ import com.bruno13palhano.sleeptight.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BabyStatusChartsScreen() {
+fun BabyStatusChartsScreen(
+    onNavigationIconClick: () -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.baby_status_chart_label)) },
+                navigationIcon = {
+                    IconButton(onClick = onNavigationIconClick) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.up_button_label)
+                        )
+                    }
+                },
                 actions = {
                     IconButton(onClick = {}) {
                         Icon(
@@ -48,6 +59,14 @@ fun BabyStatusChartsScreenPreview() {
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.baby_status_chart_label)) },
+                navigationIcon = {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.up_button_label)
+                        )
+                    }
+                },
                 actions = {
                     IconButton(onClick = {}) {
                         Icon(
