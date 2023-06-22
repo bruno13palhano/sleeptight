@@ -40,6 +40,11 @@
     <string name="naps_per_month_label">Naps per months</string>
     <string name="naps_per_shift_label">Naps per shift</string>
     <string name="title_and_observations_label">Title and Observations</string>
+    <string name="insert_title_label">Insert the title</string>
+    <string name="insert_date_label">Insert the date</string>
+    <string name="insert_start_time_label">Insert the start time</string>
+    <string name="insert_end_time_label">Insert the end time</string>
+    <string name="insert_observations_label">Insert observations</string>
 
     <!--  Settings labels  -->
     <string name="birth_time_label">Birth time</string>
@@ -79,6 +84,10 @@
     <string name="insert_email_label">Insert your email</string>
     <string name="insert_password_label">Insert your password</string>
     <string name="insert_username_label">Insert your username</string>
+    <string name="insert_baby_name_label">Insert the baby name</string>
+    <string name="insert_birthplace_label">Insert the birthplace</string>
+    <string name="insert_height_label">Insert the height</string>
+    <string name="insert_weight_label">Insert the weight</string>
     <string name="confirm_login_label">Confirm login</string>
     <string name="hide_password_label">Hide password</string>
     <string name="show_password_label">Show password</string>
@@ -95,6 +104,7 @@
     <string name="baby_status_chart_label">BabyStatus Chart</string>
     <string name="naps_chart_label">Naps Chart</string>
     <string name="all_naps_chart_label">All Naps</string>
+    <string name="all_nap_charts_label">All Charts Nap</string>
     <string name="shift_chart_label">Naps Per shift Chart</string>
     <string name="average_hours_label">Average hours</string>
     <string name="average_hour_per_week_label">Average hours per weekday</string>
@@ -169,6 +179,8 @@
     <string name="delete_baby_status_label">Delete Baby Status</string>
     <string name="all_baby_status_label">All baby status</string>
     <string name="current_baby_status_label">Current baby status</string>
+    <string name="insert_hours_label">Insert the hours</string>
+    <string name="insert_description_label">Insert description</string>
 
     <!--  Lists label  -->
     <string name="lists_label">Lists</string>
@@ -192,6 +204,7 @@
     <!--  Common labels  -->
     <string name="add_button">Add button</string>
     <string name="delete_label">Delete</string>
+    <string name="up_button_label">Up button</string>
 
     <!--  Home labels  -->
     <string name="home_baby_name_label">Baby status:</string>
