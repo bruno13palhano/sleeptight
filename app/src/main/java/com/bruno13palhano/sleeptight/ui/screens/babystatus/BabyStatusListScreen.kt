@@ -3,6 +3,7 @@
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
@@ -15,19 +16,24 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bruno13palhano.sleeptight.R
+import com.bruno13palhano.sleeptight.ui.lists.babystatus.BabyStatusListViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+ @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BabyStatusListScreen(
     onItemClick: (babyStatusId: Long) -> Unit,
     onAddButtonClick: () -> Unit,
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
+    babyStatusListViewModel: BabyStatusListViewModel = hiltViewModel()
 ) {
     Scaffold(
         topBar = {
@@ -52,10 +58,12 @@ fun BabyStatusListScreen(
             }
         }
     ) {
+        val babyStatusList by babyStatusListViewModel.babyStatusList.collectAsStateWithLifecycle()
+
         LazyColumn(modifier = Modifier.padding(it)) {
-            items(35) {
-                ItemBabyTest {
-                    onItemClick(it.toLong())
+            items(babyStatusList) { babyStatus ->
+                ItemBabyTest(title = babyStatus.title) {
+                    onItemClick(babyStatus.id)
                 }
             }
         }
@@ -91,7 +99,7 @@ fun BabyStatusListScreenPreview() {
     ) {
         LazyColumn(modifier = Modifier.padding(it)) {
             items(35) {
-                ItemBabyTest {
+                ItemBabyTest("BabyStatus") {
 
                 }
             }
@@ -102,6 +110,7 @@ fun BabyStatusListScreenPreview() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ItemBabyTest(
+    title: String,
     onItemClick: () -> Unit
 ) {
     ElevatedCard(
@@ -113,7 +122,7 @@ fun ItemBabyTest(
         Text(
             modifier = Modifier
                 .padding(16.dp),
-            text = "Item",
+            text = title,
             fontSize = 22.sp
         )
     }
