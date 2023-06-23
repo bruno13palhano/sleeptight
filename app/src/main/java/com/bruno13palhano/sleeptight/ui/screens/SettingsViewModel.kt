@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.settings
+package com.bruno13palhano.sleeptight.ui.screens
 
 import android.graphics.Bitmap
 import android.icu.text.DateFormat

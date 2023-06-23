@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.lists.notifications.receivers
+package com.bruno13palhano.sleeptight.ui.screens.notifications.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -6,7 +6,7 @@ import android.content.Intent
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.bruno13palhano.sleeptight.ui.lists.notifications.work.NotificationWork
+import com.bruno13palhano.sleeptight.ui.screens.notifications.work.NotificationWork
 
 class NotificationRebootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {

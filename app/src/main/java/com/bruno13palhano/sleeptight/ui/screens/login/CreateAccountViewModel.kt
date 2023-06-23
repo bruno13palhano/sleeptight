@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.createaccount
+package com.bruno13palhano.sleeptight.ui.screens.login
 
 import android.graphics.Bitmap
 import android.icu.text.DateFormat
@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

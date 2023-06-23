@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.lists.babystatus.newbabystatus
+package com.bruno13palhano.sleeptight.ui.screens.babystatus
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

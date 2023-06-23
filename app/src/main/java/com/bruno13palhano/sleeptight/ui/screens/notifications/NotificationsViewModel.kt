@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.lists.notifications
+package com.bruno13palhano.sleeptight.ui.screens.notifications
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.lists.nap
+package com.bruno13palhano.sleeptight.ui.screens.naps
 
 import android.icu.text.DateFormat
 import android.icu.util.Calendar

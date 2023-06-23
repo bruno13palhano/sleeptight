@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.analytics
+package com.bruno13palhano.sleeptight.ui.screens.analytics
 
 import android.content.ContentValues
 import android.content.Context

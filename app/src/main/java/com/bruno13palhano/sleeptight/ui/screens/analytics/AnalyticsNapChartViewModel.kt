@@ -1,24 +1,15 @@
-package com.bruno13palhano.sleeptight.ui.analytics.nap
+package com.bruno13palhano.sleeptight.ui.screens.analytics
 
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.di.DefaultNapRep
 import com.bruno13palhano.core.data.repository.NapRepository
 import com.bruno13palhano.model.Day
 import com.bruno13palhano.model.Month
-import com.bruno13palhano.sleeptight.ui.analytics.averageSleepTimeDecimal
-import com.bruno13palhano.sleeptight.ui.analytics.hourToInt
-import com.bruno13palhano.sleeptight.ui.analytics.isStartTimeAtNight
-import com.bruno13palhano.sleeptight.ui.analytics.minuteToInt
-import com.bruno13palhano.sleeptight.ui.analytics.whichDay
-import com.bruno13palhano.sleeptight.ui.analytics.whichMonth
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel

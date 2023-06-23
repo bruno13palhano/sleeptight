@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.lists.notifications.newnotification
+package com.bruno13palhano.sleeptight.ui.screens.notifications
 
 import android.icu.text.DateFormat
 import android.icu.util.Calendar
