@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.createaccount
+package com.bruno13palhano.sleeptight.ui.screens.login
 
 import android.content.ContentResolver
 import android.graphics.Bitmap
