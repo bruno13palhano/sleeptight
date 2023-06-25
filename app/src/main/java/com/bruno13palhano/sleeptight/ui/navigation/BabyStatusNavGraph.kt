@@ -33,8 +33,7 @@ fun NavGraphBuilder.babyStatusNavGraph(
             backStackEntry.arguments?.getString("babyStatusId")?.let { babyStatusId ->
                 BabyStatusScreen(
                     babyStatusId = babyStatusId.toLong(),
-                    onDoneButtonClick = { navController.navigateUp() },
-                    onNavigationIconClick = { navController.navigateUp() }
+                    navigateUp = { navController.navigateUp() }
                 )
             }
         }
