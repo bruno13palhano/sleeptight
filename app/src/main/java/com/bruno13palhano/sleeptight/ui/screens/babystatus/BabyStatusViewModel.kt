@@ -1,5 +1,9 @@
 package com.bruno13palhano.sleeptight.ui.screens.babystatus
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.di.DefaultBabyStatusRep
@@ -7,11 +11,6 @@ import com.bruno13palhano.core.data.repository.BabyStatusRepository
 import com.bruno13palhano.model.BabyStatus
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,40 +18,43 @@ import javax.inject.Inject
 class BabyStatusViewModel @Inject constructor(
     @DefaultBabyStatusRep private val babyStatusRepository: BabyStatusRepository
 ) : ViewModel() {
-    val title = MutableStateFlow("")
-    val height = MutableStateFlow("")
-    val weight = MutableStateFlow("")
+    var title by mutableStateOf("")
+        private set
+    var dateInMillis by mutableLongStateOf(0L)
+        private set
+    var date by mutableStateOf("")
+        private set
+    var height by mutableStateOf("")
+        private set
+    var weight by mutableStateOf("")
+        private set
 
-    val isTitleNotEmpty = title.asStateFlow()
-        .map { it.trim() != "" }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = false,
-            started = WhileSubscribed(5_000)
-        )
+    val isTitleNotEmpty = title.trim() != ""
 
-    val date = MutableStateFlow(0L)
-    val dateUi = date.asStateFlow()
-        .map {
-            DateFormatUtil.format(it)
-        }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
+    fun updateTitle(title: String) {
+        this.title = title
+    }
 
-    fun setDate(date: Long) {
-        this.date.value = date
+    fun updateDate(date: Long) {
+        dateInMillis = date
+        this.date = DateFormatUtil.format(dateInMillis)
+    }
+
+    fun updateHeight(height: String) {
+        this.height = height
+    }
+
+    fun updateWeight(weight: String) {
+        this.weight = weight
     }
 
     fun getBabyStatus(id: Long) {
         viewModelScope.launch {
             babyStatusRepository.getByIdStream(id).collect {
-                title.value = it.title
-                height.value = it.height.toString()
-                weight.value = it.weight.toString()
-                date.value = it.date
+                title = it.title
+                height = it.height.toString()
+                weight = it.weight.toString()
+                updateDate(it.date)
             }
         }
     }
@@ -67,10 +69,10 @@ class BabyStatusViewModel @Inject constructor(
         viewModelScope.launch {
             val babyStatus = BabyStatus(
                 id = id,
-                title = title.value,
-                date = date.value,
-                height = stringToFloat(height.value),
-                weight = stringToFloat(weight.value)
+                title = title,
+                date = dateInMillis,
+                height = stringToFloat(height),
+                weight = stringToFloat(weight)
             )
             babyStatusRepository.update(babyStatus)
         }
