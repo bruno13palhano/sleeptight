@@ -1,6 +1,6 @@
 package com.bruno13palhano.sleeptight.ui.screens.babystatus
 
-import androidx.compose.foundation.clickable
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,11 +8,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Label
 import androidx.compose.material.icons.filled.NavigateNext
+import androidx.compose.material3.Button
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -21,6 +24,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,10 +32,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
@@ -40,11 +45,48 @@ import com.bruno13palhano.sleeptight.R
 @Composable
 fun NewBabyStatusTitleAndDateScreen(
     onNextButtonClick: () -> Unit,
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
+    newBabyStatusViewModel: NewBabyStatusViewModel
 ) {
+    val configuration = LocalConfiguration.current
     val focusManager = LocalFocusManager.current
-    var title by remember { mutableStateOf(TextFieldValue("")) }
-    var date by remember { mutableStateOf(TextFieldValue("")) }
+
+    var showDatePickerDialog by remember { mutableStateOf(false) }
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = newBabyStatusViewModel.dateInMillis,
+        initialDisplayMode = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            DisplayMode.Picker
+        } else {
+            DisplayMode.Input
+        }
+    )
+
+    if (showDatePickerDialog) {
+        DatePickerDialog(
+            onDismissRequest = {
+                showDatePickerDialog = false
+                focusManager.clearFocus(force = true)
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        datePickerState.selectedDateMillis?.let {
+                            newBabyStatusViewModel.updateDate(it)
+                        }
+                        showDatePickerDialog = false
+                        focusManager.clearFocus(force = true)
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.date_label))
+                }
+            }
+        ) {
+            DatePicker(
+                state = datePickerState,
+                showModeToggle = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+            )
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -78,7 +120,7 @@ fun NewBabyStatusTitleAndDateScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                value = title,
+                value = newBabyStatusViewModel.title,
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Label,
@@ -90,7 +132,7 @@ fun NewBabyStatusTitleAndDateScreen(
                     this.defaultKeyboardAction(ImeAction.Done)
                     focusManager.moveFocus(FocusDirection.Next)
                 }),
-                onValueChange = { titleValue -> title = titleValue },
+                onValueChange = newBabyStatusViewModel::updateTitle,
                 singleLine = true,
                 label = { Text(text = stringResource(id = R.string.title_label)) },
                 placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) }
@@ -100,8 +142,12 @@ fun NewBabyStatusTitleAndDateScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp)
-                    .clickable { focusManager.clearFocus() },
-                value = date,
+                    .onFocusChanged { focusState ->
+                        if (focusState.hasFocus) {
+                            showDatePickerDialog = true
+                        }
+                    },
+                value = newBabyStatusViewModel.date,
                 readOnly = true,
                 leadingIcon = {
                     Icon(
@@ -154,7 +200,7 @@ fun NewBabyStatusTitleAndDateScreenPreview() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                value = TextFieldValue(""),
+                value = "",
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Label,
@@ -171,7 +217,7 @@ fun NewBabyStatusTitleAndDateScreenPreview() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                value = TextFieldValue(""),
+                value = "",
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.CalendarMonth,
