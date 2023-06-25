@@ -21,16 +21,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
@@ -39,11 +34,10 @@ import com.bruno13palhano.sleeptight.R
 @Composable
 fun NewNapTitleAndObservationScreen(
     onNextButtonClick: () -> Unit,
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
+    newNapViewModel: NewNapViewModel
 ) {
     val focusManager = LocalFocusManager.current
-    var title by remember { mutableStateOf(TextFieldValue("")) }
-    var observations by remember { mutableStateOf(TextFieldValue("")) }
 
     Scaffold(
         topBar = {
@@ -70,24 +64,23 @@ fun NewNapTitleAndObservationScreen(
     ) {
         CommonFields(
             modifier = Modifier.padding(it),
-            title = title,
-            observations = observations,
-            onTitleChange = { titleValue -> title = titleValue },
-            onObservationsChange = { observationsValue -> observations = observationsValue },
+            title = newNapViewModel.title,
+            observations = newNapViewModel.observations,
+            onTitleChange = newNapViewModel::updateTitle,
+            onObservationsChange = newNapViewModel::updateObservations,
             onTitleDone = { focusManager.moveFocus(FocusDirection.Next) },
             onObservationsDone = { focusManager.clearFocus() }
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CommonFields(
     modifier: Modifier,
-    title: TextFieldValue,
-    observations: TextFieldValue,
-    onTitleChange: (title: TextFieldValue) -> Unit,
-    onObservationsChange: (observations: TextFieldValue) -> Unit,
+    title: String,
+    observations: String,
+    onTitleChange: (title: String) -> Unit,
+    onObservationsChange: (observations: String) -> Unit,
     onTitleDone: () -> Unit,
     onObservationsDone: () -> Unit
 ) {
@@ -173,8 +166,8 @@ fun NewNapTitleAndObservationScreenPreview() {
     ) {
         CommonFields(
             modifier = Modifier.padding(it),
-            title = TextFieldValue(""),
-            observations = TextFieldValue(""),
+            title = "",
+            observations = "",
             onTitleChange = {},
             onObservationsChange = {},
             onTitleDone = {},
