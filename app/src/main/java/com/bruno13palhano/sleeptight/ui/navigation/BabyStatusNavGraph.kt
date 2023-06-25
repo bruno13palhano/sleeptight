@@ -1,5 +1,7 @@
 package com.bruno13palhano.sleeptight.ui.navigation
 
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -9,7 +11,10 @@ import com.bruno13palhano.sleeptight.ui.screens.babystatus.BabyStatusListScreen
 import com.bruno13palhano.sleeptight.ui.screens.babystatus.BabyStatusScreen
 import com.bruno13palhano.sleeptight.ui.screens.babystatus.NewBabyStatusTitleAndDateScreen
 
-fun NavGraphBuilder.babyStatusNavGraph(navController: NavController) {
+fun NavGraphBuilder.babyStatusNavGraph(
+    navController: NavController,
+    viewModelStoreOwner: ViewModelStoreOwner
+) {
     navigation(
         startDestination = BabyStatusDestinations.ALL_BABY_STATUS_ROUTE,
         route = ListsDestinations.BABY_STATUS_LIST_ROUTE
@@ -36,13 +41,15 @@ fun NavGraphBuilder.babyStatusNavGraph(navController: NavController) {
         composable(route = BabyStatusDestinations.NEW_BABY_STATUS_TITLE_AND_DATE_ROUTE) {
             NewBabyStatusTitleAndDateScreen(
                 onNextButtonClick = navActions.navigateFromNewBabyStatusTitleAndDateToHeightAndWeight,
-                onNavigationIconClick = { navController.navigateUp() }
+                onNavigationIconClick = { navController.navigateUp() },
+                newBabyStatusViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner)
             )
         }
         composable(route = BabyStatusDestinations.NEW_BABY_STATUS_HEIGHT_AND_WEIGHT_ROUTE) {
             NewBabyStatusHeightAndWeightScreen(
                 onDoneButtonClick = navActions.navigateFromNewBabyHeightAndWeightToAll,
-                onNavigationIconClick = { navController.navigateUp() }
+                onNavigationIconClick = { navController.navigateUp() },
+                newBabyStatusViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner)
             )
         }
     }
