@@ -59,3 +59,17 @@ object DateFormatUtil {
         return dateFormat.format(dateInMillis)
     }
 }
+
+fun getHour(time: Long): Int {
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = time
+
+    return calendar[Calendar.HOUR_OF_DAY]
+}
+
+fun getMinute(time: Long): Int {
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = time
+
+    return calendar[Calendar.MINUTE]
+}

@@ -1,7 +1,6 @@
 package com.bruno13palhano.sleeptight.ui.screens.naps
 
 import android.icu.text.DateFormat
-import android.icu.util.Calendar
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
@@ -14,6 +13,8 @@ import com.bruno13palhano.core.data.repository.NapRepository
 import com.bruno13palhano.model.Nap
 import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
+import com.bruno13palhano.sleeptight.ui.util.getHour
+import com.bruno13palhano.sleeptight.ui.util.getMinute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -112,19 +113,5 @@ class NapViewModel @Inject constructor(
     private fun updateNapEndTime(endTime: Long) {
         endTimeInMillis = endTime
         this.endTime = DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(endTime)
-    }
-
-    private fun getHour(time: Long): Int {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = time
-
-        return calendar[Calendar.HOUR_OF_DAY]
-    }
-
-    private fun getMinute(time: Long): Int {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = time
-
-        return calendar[Calendar.MINUTE]
     }
 }
