@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.SquareFoot
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -32,12 +31,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.bruno13palhano.sleeptight.R
 import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmailField(
-    email: TextFieldValue,
+    email: String,
     modifier: Modifier,
-    onEmailChange: (email: TextFieldValue) -> Unit,
+    onEmailChange: (email: String) -> Unit,
     onDone: () -> Unit
 ) {
     OutlinedTextField(
@@ -63,13 +61,12 @@ fun EmailField(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordField(
-    password: TextFieldValue,
+    password: String,
     showPassword: Boolean,
     modifier: Modifier,
-    onPasswordChange: (password: TextFieldValue) -> Unit,
+    onPasswordChange: (password: String) -> Unit,
     showPasswordCallback: (showPassword: Boolean) -> Unit,
     onDone: () -> Unit
 ) {
@@ -121,12 +118,11 @@ fun PasswordField(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UsernameField(
-    username: TextFieldValue,
+    username: String,
     modifier: Modifier,
-    onUsernameChange: (username: TextFieldValue) -> Unit,
+    onUsernameChange: (username: String) -> Unit,
     onDone: () -> Unit
 ) {
     OutlinedTextField(
@@ -152,12 +148,11 @@ fun UsernameField(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BabyNameField(
-    babyName: TextFieldValue,
+    babyName: String,
     modifier: Modifier,
-    onBabyNameChange: (babyName: TextFieldValue) -> Unit,
+    onBabyNameChange: (babyName: String) -> Unit,
     onDone: () -> Unit
 ) {
     OutlinedTextField(
@@ -183,12 +178,11 @@ fun BabyNameField(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BirthplaceField(
-    birthplace: TextFieldValue,
+    birthplace: String,
     modifier: Modifier,
-    onBirthplaceChange: (birthplace: TextFieldValue) -> Unit,
+    onBirthplaceChange: (birthplace: String) -> Unit,
     onDone: () -> Unit
 ) {
     OutlinedTextField(
@@ -214,11 +208,10 @@ fun BirthplaceField(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateField(
     modifier: Modifier,
-    date: TextFieldValue
+    date: String
 ) {
     OutlinedTextField(
         modifier = modifier,
@@ -241,11 +234,10 @@ fun DateField(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimeField(
     modifier: Modifier,
-    time: TextFieldValue
+    time: String
 ) {
     OutlinedTextField(
         modifier = modifier,
@@ -263,12 +255,11 @@ fun TimeField(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HeightField(
-    height: TextFieldValue,
+    height: String,
     modifier: Modifier,
-    onHeightChange: (height: TextFieldValue) -> Unit,
+    onHeightChange: (height: String) -> Unit,
     onDone: () -> Unit
 ) {
     val decimalFormat = DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
@@ -293,7 +284,7 @@ fun HeightField(
             onDone()
         }),
         onValueChange = { heightValue ->
-            if (heightValue.text.isEmpty() || heightValue.text.matches(pattern)) {
+            if (heightValue.isEmpty() || heightValue.matches(pattern)) {
                 onHeightChange(heightValue)
             }
         },
@@ -303,12 +294,11 @@ fun HeightField(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeightField(
-    weight: TextFieldValue,
+    weight: String,
     modifier: Modifier,
-    onWeightChange: (weight: TextFieldValue) -> Unit,
+    onWeightChange: (weight: String) -> Unit,
     onDone: () -> Unit
 ) {
     val decimalFormat = DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
@@ -333,7 +323,7 @@ fun WeightField(
             onDone()
         }),
         onValueChange = { weightValue ->
-            if (weightValue.text.isEmpty() || weightValue.text.matches(pattern)) {
+            if (weightValue.isEmpty() || weightValue.matches(pattern)) {
                 onWeightChange(weightValue)
             }
         },
