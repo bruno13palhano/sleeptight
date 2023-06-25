@@ -23,7 +23,7 @@ fun NavGraphBuilder.listsNavGraph(
             )
         }
 
-        babyStatusNavGraph(navController = navController)
+        babyStatusNavGraph(navController = navController, viewModelStoreOwner = viewModelStoreOwner)
         napsNavGraph(navController = navController, viewModelStoreOwner = viewModelStoreOwner)
         notificationsNavGraph(navController = navController)
     }
