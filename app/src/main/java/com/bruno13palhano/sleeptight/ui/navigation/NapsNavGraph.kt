@@ -34,8 +34,7 @@ fun NavGraphBuilder.napsNavGraph(
             backStackEntry.arguments?.getString("napId")?.let { napId ->
                 NapScreen(
                     napId = napId.toLong(),
-                    onDoneClick = { navController.popBackStack() },
-                    onNavigationIconClick = { navController.navigateUp() }
+                    navigateUp = { navController.navigateUp() }
                 )
             }
         }

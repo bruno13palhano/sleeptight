@@ -64,8 +64,7 @@ import com.bruno13palhano.sleeptight.ui.screens.TimePickerDialog
 @Composable
 fun NapScreen(
     napId: Long,
-    onDoneClick: () -> Unit,
-    onNavigationIconClick: () -> Unit,
+    navigateUp: () -> Unit,
     napViewModel: NapViewModel = hiltViewModel()
 ) {
     LaunchedEffect(key1 = null) {
@@ -184,7 +183,7 @@ fun NapScreen(
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.nap_label)) },
                 navigationIcon = {
-                    IconButton(onClick = onNavigationIconClick) {
+                    IconButton(onClick = navigateUp) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = stringResource(id = R.string.up_button_label)
@@ -211,7 +210,10 @@ fun NapScreen(
                                     onDismissRequest = { expandedValue ->
                                         expanded = expandedValue
                                     },
-                                    onClick = { println("index: $it") }
+                                    onClick = {
+                                        napViewModel.deleteNapById(napId)
+                                        navigateUp()
+                                    }
                                 )
                             }
                         }
@@ -224,7 +226,7 @@ fun NapScreen(
                 FloatingActionButton(
                     onClick = {
                         napViewModel.updateNap(id = napId)
-                        onDoneClick()
+                        navigateUp()
                     }
                 ) {
                     Icon(
@@ -320,7 +322,7 @@ fun NapScreen(
                     modifier = Modifier
                         .align(Alignment.End)
                         .padding(16.dp),
-                    onClick = onDoneClick
+                    onClick = navigateUp
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Done,
