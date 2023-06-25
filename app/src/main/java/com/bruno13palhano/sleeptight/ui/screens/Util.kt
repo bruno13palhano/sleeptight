@@ -24,6 +24,11 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.bruno13palhano.sleeptight.R
 
+object CommonMenuItemIndex {
+    const val DELETE_ITEM_INDEX = 0
+    const val SHARE_ITEM_INDEX = 1
+}
+
 @Composable
 fun CommonMenu(
     expanded: Boolean,
