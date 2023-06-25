@@ -58,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.screens.CommonMenu
+import com.bruno13palhano.sleeptight.ui.screens.CommonMenuItemIndex
 import com.bruno13palhano.sleeptight.ui.screens.TimePickerDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -210,9 +211,16 @@ fun NapScreen(
                                     onDismissRequest = { expandedValue ->
                                         expanded = expandedValue
                                     },
-                                    onClick = {
-                                        napViewModel.deleteNapById(napId)
-                                        navigateUp()
+                                    onClick = { index ->
+                                        when (index) {
+                                            CommonMenuItemIndex.DELETE_ITEM_INDEX -> {
+                                                napViewModel.deleteNapById(napId)
+                                                navigateUp()
+                                            }
+                                            CommonMenuItemIndex.SHARE_ITEM_INDEX -> {
+
+                                            }
+                                        }
                                     }
                                 )
                             }
