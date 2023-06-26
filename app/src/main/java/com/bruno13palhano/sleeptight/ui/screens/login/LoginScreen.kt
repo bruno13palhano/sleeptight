@@ -1,11 +1,14 @@
 package com.bruno13palhano.sleeptight.ui.screens.login
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -24,34 +27,83 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bruno13palhano.sleeptight.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
     onCreateAccountButtonClick: () -> Unit,
-    onNavigationIconClick: () -> Unit
+    loginViewModel: LoginViewModel = hiltViewModel()
+) {
+    val focusManager = LocalFocusManager.current
+    var showPassword by remember { mutableStateOf(false) }
+
+    val loginStatus by loginViewModel.loginStatus.collectAsStateWithLifecycle()
+
+    when(loginStatus) {
+        LoginViewModel.LoginStatus.Default -> {
+            LoginContent(
+                onCreateAccountButtonClick = onCreateAccountButtonClick,
+                email =  loginViewModel.email,
+                password = loginViewModel.password,
+                showPassword = showPassword,
+                onEmailChange = { emailValue -> loginViewModel.updateEmail(emailValue) },
+                onPasswordChange = { passwordValue -> loginViewModel.updatePassword(passwordValue) },
+                onShowPasswordChange = { showPasswordValue -> showPassword = showPasswordValue },
+                onEmailDone = { focusManager.moveFocus(FocusDirection.Next) },
+                onPasswordDone = { focusManager.clearFocus(force = true) },
+                login = { loginViewModel.login() }
+            )
+        }
+        LoginViewModel.LoginStatus.Success -> {
+            onLoginSuccess()
+        }
+        LoginViewModel.LoginStatus.Loading -> {
+            CircularProgress()
+        }
+        LoginViewModel.LoginStatus.Error -> {
+            LoginContent(
+                onCreateAccountButtonClick = onCreateAccountButtonClick,
+                email =  loginViewModel.email,
+                password = loginViewModel.password,
+                showPassword = showPassword,
+                onEmailChange = { emailValue -> loginViewModel.updateEmail(emailValue) },
+                onPasswordChange = { passwordValue -> loginViewModel.updatePassword(passwordValue) },
+                onShowPasswordChange = { showPasswordValue -> showPassword = showPasswordValue },
+                onEmailDone = { focusManager.moveFocus(FocusDirection.Next) },
+                onPasswordDone = { focusManager.clearFocus(force = true) },
+                login = { loginViewModel.login() }
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LoginContent(
+    onCreateAccountButtonClick: () -> Unit,
+    email: String,
+    password: String,
+    showPassword: Boolean,
+    onEmailChange: (email: String) -> Unit,
+    onPasswordChange: (password: String) -> Unit,
+    onShowPasswordChange: (showPassword: Boolean) -> Unit,
+    onEmailDone: () -> Unit,
+    onPasswordDone: () -> Unit,
+    login: () -> Unit
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(id = R.string.login_label)) },
-                navigationIcon = {
-                    IconButton(onClick = onNavigationIconClick) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
-                        )
-                    }
-                }
+                title = { Text(text = stringResource(id = R.string.login_label)) }
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = onLoginSuccess) {
+            FloatingActionButton(onClick = login) {
                 Icon(
                     imageVector = Icons.Filled.Done,
                     contentDescription = stringResource(id = R.string.confirm_login_label)
@@ -60,28 +112,26 @@ fun LoginScreen(
         }
     ) {
         Column(modifier = Modifier.padding(it)) {
-            val focusManager = LocalFocusManager.current
-            var email by remember { mutableStateOf(TextFieldValue("")) }
             EmailField(
                 email = email,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                onEmailChange = { emailValue -> email = emailValue },
-                onDone = { focusManager.moveFocus(FocusDirection.Next) }
+                onEmailChange = { emailValue -> onEmailChange(emailValue) },
+                onDone = onEmailDone
             )
 
-            var password by remember { mutableStateOf(TextFieldValue("")) }
-            var showPassword by remember { mutableStateOf(false) }
             PasswordField(
                 password = password,
                 showPassword = showPassword,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                onPasswordChange = { passwordValue -> password = passwordValue },
-                showPasswordCallback = { showPasswordValue -> showPassword = showPasswordValue },
-                onDone = { focusManager.clearFocus() }
+                onPasswordChange = { passwordValue -> onPasswordChange(passwordValue) },
+                showPasswordCallback = { showPasswordValue ->
+                    onShowPasswordChange(showPasswordValue)
+                },
+                onDone = onPasswordDone
             )
 
             TextButton(
@@ -96,65 +146,35 @@ fun LoginScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.login_label)) },
-                navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
-                        )
-                    }
-                }
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Filled.Done,
-                    contentDescription = stringResource(id = R.string.confirm_login_label)
-                )
-            }
-        }
+    LoginContent(
+        onCreateAccountButtonClick = {},
+        email = "",
+        password = "",
+        showPassword = false,
+        onEmailChange = {},
+        onPasswordChange = {},
+        onShowPasswordChange = {},
+        onEmailDone = {},
+        onPasswordDone = {},
+        login = {}
+    )
+}
+
+@Composable
+fun CircularProgress() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(modifier = Modifier.padding(it)) {
-            val email by remember { mutableStateOf(TextFieldValue("")) }
-            EmailField(
-                email = email,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                onEmailChange = {},
-                onDone = {}
-            )
-
-            val password by remember { mutableStateOf(TextFieldValue("")) }
-            val showPassword by remember { mutableStateOf(false) }
-            PasswordField(
-                password = password,
-                showPassword = showPassword,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                onPasswordChange = {},
-                showPasswordCallback = {},
-                onDone = {}
-            )
-
-            TextButton(
-                modifier = Modifier
-                    .align(Alignment.End)
-                    .padding(end = 8.dp),
-                onClick = {}
-            ) {
-                Text(text = stringResource(id = R.string.create_account_label))
-            }
-        }
+        CircularProgressIndicator(
+            modifier = Modifier.padding(16.dp),
+            strokeWidth = 4.dp
+        )
     }
 }
