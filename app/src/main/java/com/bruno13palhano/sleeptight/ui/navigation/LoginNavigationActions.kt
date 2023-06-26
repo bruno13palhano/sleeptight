@@ -8,7 +8,7 @@ class LoginNavigationActions(navController: NavController) {
     }
     val navigateFromLoginToHome: () -> Unit = {
         navController.navigate(SleepTightDestinations.HOME_ROUTE) {
-            popUpTo(LoginDestinations.LOGIN_ROUTE) {
+            popUpTo(SleepTightDestinations.LOGIN_CREATE_ACCOUNT_ROUTE) {
                 inclusive = true
             }
             launchSingleTop = true
