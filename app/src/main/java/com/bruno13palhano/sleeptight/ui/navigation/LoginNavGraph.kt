@@ -20,8 +20,7 @@ fun NavGraphBuilder.loginNavGraph(navController: NavController) {
         composable(route = LoginDestinations.LOGIN_ROUTE) {
             LoginScreen(
                 onLoginSuccess = navActions.navigateFromLoginToHome,
-                onCreateAccountButtonClick = navActions.navigateFromLoginToCreateAccount,
-                onNavigationIconClick = { navController.navigateUp() }
+                onCreateAccountButtonClick = navActions.navigateFromLoginToCreateAccount
             )
         }
         composable(route = LoginDestinations.CREATE_ACCOUNT_ROUTE) {
