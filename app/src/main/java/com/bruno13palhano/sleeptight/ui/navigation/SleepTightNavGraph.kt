@@ -16,7 +16,6 @@ fun SleepTightNavGraph(
     navController: NavHostController,
     startDestination: String = SleepTightDestinations.HOME_ROUTE,
     viewModelStoreOwner: ViewModelStoreOwner,
-    showBottomMenu: (showMenu: Boolean) -> Unit = {}
 ) {
     NavHost(
         navController = navController,
@@ -24,7 +23,7 @@ fun SleepTightNavGraph(
         modifier = modifier
     ) {
 
-        loginNavGraph(navController = navController)
+        loginNavGraph(navController = navController, viewModelStoreOwner = viewModelStoreOwner)
 
         composable(route = SleepTightDestinations.HOME_ROUTE) {
             HomeScreen(
@@ -35,8 +34,7 @@ fun SleepTightNavGraph(
                         }
                         launchSingleTop = true
                     }
-                },
-                showBottomMenu = { showMenu -> showBottomMenu(showMenu) }
+                }
             )
         }
 
