@@ -1,5 +1,7 @@
 package com.bruno13palhano.sleeptight.ui.navigation
 
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -11,7 +13,10 @@ import com.bruno13palhano.sleeptight.ui.screens.login.BabyPhotoAccountScreen
 import com.bruno13palhano.sleeptight.ui.screens.login.CreateAccountScreen
 import com.bruno13palhano.sleeptight.ui.screens.login.LoginScreen
 
-fun NavGraphBuilder.loginNavGraph(navController: NavController) {
+fun NavGraphBuilder.loginNavGraph(
+    navController: NavController,
+    viewModelStoreOwner: ViewModelStoreOwner
+) {
     navigation(
         startDestination = LoginDestinations.LOGIN_ROUTE,
         route = SleepTightDestinations.LOGIN_CREATE_ACCOUNT_ROUTE
@@ -26,31 +31,36 @@ fun NavGraphBuilder.loginNavGraph(navController: NavController) {
         composable(route = LoginDestinations.CREATE_ACCOUNT_ROUTE) {
             CreateAccountScreen(
                 onNextButtonClick = navActions.navigateFromCreateAccountToBabyPhoto,
-                onNavigationIconClick = { navController.navigateUp() }
+                onNavigationIconClick = { navController.navigateUp() },
+                createAccountViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner)
             )
         }
         composable(route = LoginDestinations.BABY_PHOTO_ROUTE) {
             BabyPhotoAccountScreen(
                 onNextButtonClick = navActions.navigateFromBabyPhotoToBabyName,
-                onNavigationIconButton = { navController.navigateUp() }
+                onNavigationIconButton = { navController.navigateUp() },
+                createAccountViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
         composable(route = LoginDestinations.BABY_NAME_ROUTE) {
             BabyNameAccountScreen(
                 onNextButtonClick = navActions.navigateFromBabyNameToBirthplace,
-                onNavigationIconClick = { navController.navigateUp() }
+                onNavigationIconClick = { navController.navigateUp() },
+                createAccountViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner)
             )
         }
         composable(route = LoginDestinations.BABY_BIRTHPLACE_ROUTE) {
             BabyBirthplaceAccountScreen(
                 onNextButtonClick = navActions.navigateFromBirthplaceToBirthAccount,
-                onNavigationIconClick = { navController.navigateUp() }
+                onNavigationIconClick = { navController.navigateUp() },
+                createAccountViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner)
             )
         }
         composable(route = LoginDestinations.BABY_BIRTH_ACCOUNT_ROUTE) {
             BabyBirthAccountScreen(
                 onCreateAccountSuccess = navActions.navigateFromBirthAccountToHome,
-                onNavigationIconClick = { navController.navigateUp() }
+                onNavigationIconClick = { navController.navigateUp() },
+                createAccountViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner)
             )
         }
     }
