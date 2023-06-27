@@ -102,7 +102,7 @@ internal class UserFirebase @Inject constructor(
     }
 
     override fun updateUserUrlPhoto(
-        photo: Bitmap,
+        photo: ByteArray,
         onSuccess: (newPhotoUrl: String, userUid: String) -> Unit,
         onFail: () -> Unit
     ) {
@@ -110,11 +110,7 @@ internal class UserFirebase @Inject constructor(
 
         auth.currentUser?.let {
             val profilePhotoRef = storageRef.child("${it.email}/profile_image.jpg")
-            val baos = ByteArrayOutputStream()
-            photo.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-            val data = baos.toByteArray()
-
-            val uploadTask = profilePhotoRef.putBytes(data)
+            val uploadTask = profilePhotoRef.putBytes(photo)
             uploadTask
                 .addOnSuccessListener { taskSnapshot ->
                     profilePhotoRef.downloadUrl.addOnSuccessListener { uri ->

@@ -9,7 +9,7 @@ interface UserAuthentication {
     fun logout()
     fun isUserAuthenticated(): Boolean
     fun getCurrentUser(): User
-    fun updateUserUrlPhoto(photo: Bitmap, onSuccess: (newPhotoUrl: String, userUid: String) -> Unit,
+    fun updateUserUrlPhoto(photo: ByteArray, onSuccess: (newPhotoUrl: String, userUid: String) -> Unit,
         onFail: () -> Unit)
     fun updateUsername(username: String, onSuccess: (newUsername: String, userUid: String) -> Unit,
         onFail: () -> Unit)
