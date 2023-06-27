@@ -1,14 +1,17 @@
 package com.bruno13palhano.sleeptight.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +30,22 @@ import com.bruno13palhano.sleeptight.R
 object CommonMenuItemIndex {
     const val DELETE_ITEM_INDEX = 0
     const val SHARE_ITEM_INDEX = 1
+}
+
+@Composable
+fun CircularProgress() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier.padding(16.dp),
+            strokeWidth = 4.dp
+        )
+    }
 }
 
 @Composable
@@ -55,7 +74,6 @@ fun CommonMenu(
         }
     }
 }
-
 
 @Composable
 fun TimePickerDialog(
