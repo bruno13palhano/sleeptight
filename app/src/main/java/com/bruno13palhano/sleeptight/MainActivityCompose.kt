@@ -15,6 +15,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -39,6 +40,7 @@ class MainActivityCompose : ComponentActivity() {
                     val navController = rememberNavController()
                     var showBottomBar by rememberSaveable { mutableStateOf(false) }
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    val mainViewModel: MainViewModel = hiltViewModel()
 
                     showBottomBar = when (navBackStackEntry?.destination?.route) {
                         LoginDestinations.LOGIN_ROUTE -> false
@@ -47,7 +49,9 @@ class MainActivityCompose : ComponentActivity() {
                         LoginDestinations.BABY_PHOTO_ROUTE -> false
                         LoginDestinations.BABY_BIRTHPLACE_ROUTE -> false
                         LoginDestinations.BABY_BIRTH_ACCOUNT_ROUTE -> false
-                        SleepTightDestinations.HOME_ROUTE -> false
+                        SleepTightDestinations.HOME_ROUTE -> {
+                            mainViewModel.isUserAuthenticated()
+                        }
                         else -> true
                     }
 
@@ -64,10 +68,7 @@ class MainActivityCompose : ComponentActivity() {
                         SleepTightNavGraph(
                             modifier = Modifier.padding(paddingValues),
                             navController = navController,
-                            viewModelStoreOwner = this,
-                            showBottomMenu = {
-                                showBottomBar = it
-                            }
+                            viewModelStoreOwner = this
                         )
                     }
                 }
