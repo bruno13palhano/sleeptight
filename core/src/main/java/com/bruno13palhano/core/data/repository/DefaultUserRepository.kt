@@ -7,6 +7,7 @@ import com.bruno13palhano.core.data.di.ApplicationScope
 import com.bruno13palhano.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,9 +25,9 @@ internal class DefaultUserRepository @Inject constructor(
     }
 
     override fun getUserByIdStream(id: String): Flow<User> {
-        return userDao.getUserByIdStream(id).map {
-            it.asUser()
-        }
+        return userDao.getUserByIdStream(id)
+            .map { it.asUser() }
+            .catch { it.printStackTrace() }
     }
 
     override fun updateUser(user: User) {
