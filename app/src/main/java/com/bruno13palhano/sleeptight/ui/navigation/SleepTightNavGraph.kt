@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.bruno13palhano.sleeptight.ui.screens.HomeScreen
 import com.bruno13palhano.sleeptight.ui.screens.PlayerScreen
 import com.bruno13palhano.sleeptight.ui.screens.SettingsScreen
@@ -14,9 +13,10 @@ import com.bruno13palhano.sleeptight.ui.screens.SettingsScreen
 @Composable
 fun SleepTightNavGraph(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController,
     startDestination: String = SleepTightDestinations.HOME_ROUTE,
-    viewModelStoreOwner: ViewModelStoreOwner
+    viewModelStoreOwner: ViewModelStoreOwner,
+    showBottomMenu: (showMenu: Boolean) -> Unit = {}
 ) {
     NavHost(
         navController = navController,
@@ -24,10 +24,20 @@ fun SleepTightNavGraph(
         modifier = modifier
     ) {
 
-        loginNavGraph(navController)
+        loginNavGraph(navController = navController)
 
         composable(route = SleepTightDestinations.HOME_ROUTE) {
-            HomeScreen()
+            HomeScreen(
+                navigateToLogin = {
+                    navController.navigate(SleepTightDestinations.LOGIN_CREATE_ACCOUNT_ROUTE) {
+                        popUpTo(SleepTightDestinations.HOME_ROUTE) {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                    }
+                },
+                showBottomMenu = { showMenu -> showBottomMenu(showMenu) }
+            )
         }
 
         listsNavGraph(navController = navController, viewModelStoreOwner = viewModelStoreOwner)
@@ -39,7 +49,15 @@ fun SleepTightNavGraph(
         analyticsNavGraph(navController)
 
         composable(route = SleepTightDestinations.SETTINGS_ROUTE) {
-            SettingsScreen()
+            SettingsScreen(
+                navigateToLogin = {
+                    navController.navigate(SleepTightDestinations.LOGIN_CREATE_ACCOUNT_ROUTE) {
+                        popUpTo(SleepTightDestinations.SETTINGS_ROUTE) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
     }
 }
