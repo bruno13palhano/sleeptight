@@ -26,11 +26,6 @@ internal class DefaultBabyStatusRepository @Inject constructor(
         .map {
             it.map { babyStatusData -> babyStatusData.asBabyStatus() }
         }
-        .stateIn(
-            scope = externalScope,
-            started = WhileSubscribed(5_000),
-            initialValue = emptyList()
-        )
 
     override fun getByIdStream(id: Long): Flow<BabyStatus> {
         return babyStatusDao.getBabyStatusByIdStream(id)

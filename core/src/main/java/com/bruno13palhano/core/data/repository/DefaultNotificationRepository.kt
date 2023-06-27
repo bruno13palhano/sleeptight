@@ -25,11 +25,6 @@ internal class DefaultNotificationRepository @Inject constructor(
         .map {
             it.map { notificationData -> notificationData.asNotification() }
         }
-        .stateIn(
-            scope = externalScope,
-            started = WhileSubscribed(5_000),
-            initialValue = emptyList()
-        )
 
     override fun getByIdStream(id: Long): Flow<Notification> {
         return notificationDao.getNotificationByIdStream(id)

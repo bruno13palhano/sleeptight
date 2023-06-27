@@ -28,11 +28,6 @@ internal class DefaultNapRepository @Inject constructor(
         .map {
             it.map { napData -> napData.asNap() }
         }
-        .stateIn(
-            scope = externalScope,
-            started = WhileSubscribed(5_000),
-            initialValue = emptyList()
-        )
 
     override fun getByIdStream(id: Long): Flow<Nap> {
         return napDao.getNapByIdStream(id)
