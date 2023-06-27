@@ -22,16 +22,52 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateAccountScreen(
     onNextButtonClick: () -> Unit,
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
+    createAccountViewModel: CreateAccountViewModel
+) {
+    val focusManager = LocalFocusManager.current
+    var showPassword by remember { mutableStateOf(false) }
+
+    CreateAccountContent(
+        username = createAccountViewModel.username,
+        email = createAccountViewModel.email,
+        password = createAccountViewModel.password,
+        showPassword = showPassword,
+        onUsernameChange = createAccountViewModel::updateUsername,
+        onEmailChange = createAccountViewModel::updateEmail,
+        onPasswordChange = createAccountViewModel::updatePassword,
+        onShowPasswordChange = { showPasswordValue -> showPassword = showPasswordValue },
+        onUsernameDone = { focusManager.moveFocus(FocusDirection.Next) },
+        onEmailDone = { focusManager.moveFocus(FocusDirection.Next) },
+        onPasswordDone = { focusManager.clearFocus(force = true) },
+        onNavigationIconClick = onNavigationIconClick,
+        onNextButtonClick = onNextButtonClick
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CreateAccountContent(
+    username: String,
+    email: String,
+    password: String,
+    showPassword: Boolean,
+    onUsernameChange: (username: String) -> Unit,
+    onEmailChange: (email: String) -> Unit,
+    onPasswordChange: (password: String) -> Unit,
+    onShowPasswordChange: (showPassword: Boolean) -> Unit,
+    onUsernameDone: () -> Unit,
+    onEmailDone: () -> Unit,
+    onPasswordDone: () -> Unit,
+    onNavigationIconClick: () -> Unit,
+    onNextButtonClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -57,103 +93,54 @@ fun CreateAccountScreen(
         }
     ) {
         Column(modifier = Modifier.padding(it)) {
-            val focusManager = LocalFocusManager.current
-            var username by remember { mutableStateOf(TextFieldValue("")) }
             UsernameField(
                 username = username,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                onUsernameChange = { usernameValue -> username = usernameValue },
-                onDone = { focusManager.moveFocus(FocusDirection.Next) }
+                onUsernameChange = onUsernameChange,
+                onDone = onUsernameDone
             )
 
-            var email by remember { mutableStateOf(TextFieldValue("")) }
             EmailField(
                 email = email,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                onEmailChange = { emailValue -> email = emailValue },
-                onDone = { focusManager.moveFocus(FocusDirection.Next) }
+                onEmailChange = onEmailChange,
+                onDone = onEmailDone
             )
 
-            var password by remember { mutableStateOf(TextFieldValue("")) }
-            var showPassword by remember { mutableStateOf(false) }
             PasswordField(
                 password = password,
                 showPassword = showPassword,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                onPasswordChange = { passwordValue -> password = passwordValue },
-                showPasswordCallback = { showPasswordValue -> showPassword = showPasswordValue },
-                onDone = { focusManager.clearFocus() }
+                onPasswordChange = onPasswordChange,
+                showPasswordCallback = { showPasswordValue -> onShowPasswordChange(showPasswordValue) },
+                onDone = onPasswordDone
             )
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun CreateAccountScreenPreview() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.create_account_label)) },
-                navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
-                        )
-                    }
-                }
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Filled.NavigateNext,
-                    contentDescription = stringResource(id = R.string.next_label)
-                )
-            }
-        }
-    ) {
-        Column(modifier = Modifier.padding(it)) {
-            val username by remember { mutableStateOf(TextFieldValue("")) }
-            UsernameField(
-                username = username,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                onUsernameChange = {},
-                onDone = {}
-            )
-
-            val email by remember { mutableStateOf(TextFieldValue("")) }
-            EmailField(
-                email = email,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                onEmailChange = {},
-                onDone = {},
-            )
-
-            val password by remember { mutableStateOf(TextFieldValue("")) }
-            val showPassword by remember { mutableStateOf(false) }
-            PasswordField(
-                password = password,
-                showPassword = showPassword,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                onPasswordChange = {},
-                showPasswordCallback = {},
-                onDone = {}
-            )
-        }
-    }
+    CreateAccountContent(
+        username = "",
+        email = "",
+        password = "",
+        showPassword = false,
+        onUsernameChange = {},
+        onEmailChange = {},
+        onPasswordChange = {},
+        onShowPasswordChange = {},
+        onUsernameDone = {},
+        onEmailDone = {},
+        onPasswordDone = {},
+        onNavigationIconClick = {},
+        onNextButtonClick = {}
+    )
 }
