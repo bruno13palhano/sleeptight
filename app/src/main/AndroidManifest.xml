@@ -53,7 +53,6 @@
             android:exported="false"
             tools:node="merge">
 
-            <!-- If you are using androidx.startup to initialize other components -->
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"
                 android:value="androidx.startup"
@@ -61,11 +60,11 @@
         </provider>
 
         <receiver
-            android:name=".ui.lists.notifications.receivers.NotificationReceiver"
+            android:name=".ui.screens.notifications.receivers.NotificationReceiver"
             android:enabled="true"
             android:exported="false" />
         <receiver
-            android:name=".ui.lists.notifications.receivers.NotificationRebootReceiver"
+            android:name=".ui.screens.notifications.receivers.NotificationRebootReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
