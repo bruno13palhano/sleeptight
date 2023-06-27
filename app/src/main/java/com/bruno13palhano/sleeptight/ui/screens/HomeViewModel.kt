@@ -116,6 +116,10 @@ class HomeViewModel @Inject constructor(
             started = WhileSubscribed(5_000)
         )
 
+
+
+    private fun isUserAuthenticated() = authentication.isUserAuthenticated()
+
     init {
         viewModelScope.launch {
             userRepository.getUserByIdStream(authentication.getCurrentUser().id).collect {
@@ -147,6 +151,25 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun isUserAuthenticated(): Boolean =
-        authentication.isUserAuthenticated()
+    private val isLogged = isUserAuthenticated()
+    val homeState = flow {
+        emit(
+            if (isLogged) {
+                HomeState.LoggedIn
+            } else {
+                HomeState.NotLoggedIn
+            }
+        )
+    }
+        .stateIn(
+            scope = viewModelScope,
+            started = WhileSubscribed(5_000),
+            initialValue = HomeState.Loading
+        )
+
+    sealed class HomeState {
+        object Loading: HomeState()
+        object LoggedIn: HomeState()
+        object NotLoggedIn: HomeState()
+    }
 }
