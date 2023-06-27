@@ -1,9 +1,13 @@
 package com.bruno13palhano.sleeptight.ui.screens.login
 
-import android.graphics.Bitmap
 import android.icu.text.DateFormat
 import android.icu.util.Calendar
-import androidx.core.graphics.createBitmap
+import android.net.Uri
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.authentication.DefaultUserFirebase
@@ -11,14 +15,15 @@ import com.bruno13palhano.authentication.UserAuthentication
 import com.bruno13palhano.core.data.di.DefaultUserRep
 import com.bruno13palhano.core.data.repository.UserRepository
 import com.bruno13palhano.model.User
+import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
+import com.bruno13palhano.sleeptight.ui.util.getHour
+import com.bruno13palhano.sleeptight.ui.util.getMinute
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -27,109 +32,102 @@ class CreateAccountViewModel @Inject constructor(
     @DefaultUserFirebase private val authentication: UserAuthentication,
     @DefaultUserRep private val userRepository: UserRepository
 ) : ViewModel() {
-    private val calendar = Calendar.getInstance()
-
     private val _loginStatus = MutableStateFlow<LoginStatus>(LoginStatus.Default)
     val loginStatus = _loginStatus.asStateFlow()
-
-    val username = MutableStateFlow("")
-    val email = MutableStateFlow("")
-    val password = MutableStateFlow("")
-    val babyName = MutableStateFlow("")
-    val birthplace = MutableStateFlow("")
-    val height = MutableStateFlow("")
-    val weight = MutableStateFlow("")
-
-    val isUserDataNotEmpty = combine(username, email, password) { username, email, password ->
-        isUserDataNotEmpty(username, email, password)
-    }
         .stateIn(
             scope = viewModelScope,
-            initialValue = false,
-            started = WhileSubscribed(5_000)
+            started = WhileSubscribed(5_000),
+            initialValue = LoginStatus.Default
         )
 
-    val isBabyNameNotEmpty = babyName.asStateFlow()
-        .map {
-            it != ""
-        }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = false,
-            started = WhileSubscribed(5_000)
-        )
+    var username by mutableStateOf("")
+        private set
+    var email by mutableStateOf("")
+        private set
+    var password by mutableStateOf("")
+        private set
+    var babyName by mutableStateOf("")
+        private set
+    var birthplace by mutableStateOf("")
+        private set
+    var birthdateInMillis by mutableLongStateOf(MaterialDatePicker.todayInUtcMilliseconds())
+        private set
+    var birthdate by mutableStateOf("")
+        private set
+    var birthtimeInMillis by mutableLongStateOf(Calendar.getInstance().timeInMillis)
+        private set
+    var birthtimeHour by mutableIntStateOf(getHour(birthtimeInMillis))
+        private set
+    var birthtimeMinute by mutableIntStateOf(getMinute(birthtimeInMillis))
+        private set
+    var birthtime by mutableStateOf("")
+        private set
+    var height by mutableStateOf("")
+        private set
+    var weight by mutableStateOf("")
+        private set
+    var photoUri by mutableStateOf<Uri>(Uri.EMPTY)
+        private set
+    var photoByteArray by mutableStateOf(ByteArray(1024))
+        private set
 
-    val isBirthplaceNotEmpty = birthplace.asStateFlow()
-        .map {
-            it != ""
-        }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = false,
-            started = WhileSubscribed(5_000)
-        )
-
-    val isHeightAndWeightNotEmpty = combine(height, weight) { height, weight ->
-        height.trim() != "" && weight.trim() != ""
-    }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = false,
-            started = WhileSubscribed(5_000)
-        )
-
-    private val _photo = MutableStateFlow(createBitmap(1,1))
-    private val _photoUi = MutableStateFlow("")
-    val photoUi = _photoUi.asStateFlow()
-
-    fun setPhoto(photo: Bitmap, uri: String) {
-        _photo.value = photo
-        _photoUi.value = uri
+    fun updateUsername(username: String) {
+        this.username = username
     }
 
-    private val _date = MutableStateFlow(MaterialDatePicker.todayInUtcMilliseconds())
-    val date = _date.asStateFlow()
-    val dateUi = _date.asStateFlow()
-        .map {
-            DateFormatUtil.format(it)
-        }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
-
-    fun setDate(date: Long) {
-        _date.value = date
+    fun updateEmail(email: String) {
+        this.email = email
     }
 
-    private val _time = MutableStateFlow(calendar.timeInMillis)
-    val time = _time.asStateFlow()
-    val timeUi = _time.asStateFlow()
-        .map {
-            DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(it)
-        }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
+    fun updatePassword(password: String) {
+        this.password = password
+    }
 
-    fun setTime(time: Long) {
-        _time.value = time
+    fun updateBabyName(babyName: String) {
+        this.babyName = babyName
+    }
+
+    fun updateBirthplace(birthplace: String) {
+        this.birthplace = birthplace
+    }
+
+    fun updatePhotoUri(photoUri: Uri) {
+        this.photoUri = photoUri
+    }
+
+    fun updatePhotoByteArray(photoByteArray: ByteArray) {
+        this.photoByteArray = photoByteArray
+    }
+
+    fun updateDate(birthdate: Long) {
+        birthdateInMillis = birthdate
+        this.birthdate = DateFormatUtil.format(birthdate)
+    }
+
+    fun updateTime(hour: Int, minute: Int) {
+        birthtimeInMillis = CalendarUtil.timeToMilliseconds(hour, minute)
+        this.birthtime = DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(birthtimeInMillis)
+    }
+
+    fun updateHeight(height: String) {
+        this.height = height
+    }
+
+    fun updateWeight(weight: String) {
+        this.weight = weight
     }
 
     fun insertUser() {
         val user = User(
-            username = username.value,
-            email = email.value,
-            password = password.value,
-            babyName = babyName.value,
-            birthplace = birthplace.value,
-            birthdate = _date.value,
-            birthtime = _time.value,
-            height = stringToFloat(height.value),
-            weight = stringToFloat(weight.value)
+            username = username,
+            email = email,
+            password = password,
+            babyName = babyName,
+            birthplace = birthplace,
+            birthdate = birthdateInMillis,
+            birthtime = birthtimeInMillis,
+            height = stringToFloat(height),
+            weight = stringToFloat(weight)
         )
 
         loading()
@@ -138,7 +136,7 @@ class CreateAccountViewModel @Inject constructor(
                 user = user,
                 onSuccess = {
                     updateUserUrlPhoto(
-                        photo = _photo.value,
+                        photo = photoByteArray,
                         onSuccess = { newPhotoUrl, userUid ->
                             userRepository.insertUser(
                                 User(
@@ -158,32 +156,32 @@ class CreateAccountViewModel @Inject constructor(
                             clearUserValues()
                         },
                         onFail = {
-                            _loginStatus.value = LoginStatus.Error
+                            _loginStatus.value = LoginStatus.Default
                         }
                     )
                 },
                 onFail = {
-                    _loginStatus.value = LoginStatus.Error
+                    _loginStatus.value = LoginStatus.Default
                 }
             )
         }
     }
 
     private fun clearUserValues() {
-        username.value = ""
-        email.value = ""
-        password.value = ""
-        _photo.value = createBitmap(1,1)
-        _photoUi.value = ""
-        birthplace.value = ""
-        _date.value = MaterialDatePicker.todayInUtcMilliseconds()
-        _time.value = calendar.timeInMillis
-        height.value = ""
-        weight.value = ""
+        username = ""
+        email = ""
+        password = ""
+        photoUri = Uri.EMPTY
+        photoByteArray = ByteArray(1024)
+        birthplace = ""
+        birthtimeInMillis = MaterialDatePicker.todayInUtcMilliseconds()
+        birthtimeInMillis = Calendar.getInstance().timeInMillis
+        height = ""
+        weight = ""
     }
 
     private fun updateUserUrlPhoto(
-        photo: Bitmap,
+        photo: ByteArray,
         onSuccess: (newPhotoUrl: String, userUid: String) -> Unit,
         onFail: () -> Unit
     ) {
@@ -213,7 +211,6 @@ class CreateAccountViewModel @Inject constructor(
 
     sealed class LoginStatus {
         object Loading: LoginStatus()
-        object Error: LoginStatus()
         object Success: LoginStatus()
         object Default: LoginStatus()
     }
