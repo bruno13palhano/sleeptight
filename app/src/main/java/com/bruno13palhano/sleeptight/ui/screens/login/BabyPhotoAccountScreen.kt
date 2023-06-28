@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.bruno13palhano.sleeptight.R
+import com.bruno13palhano.sleeptight.ui.util.getBytes
 import java.io.IOException
 import kotlin.jvm.Throws
 
@@ -49,8 +50,8 @@ fun BabyPhotoAccountScreen(
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
                 createAccountViewModel.updatePhotoUri(it)
-                getBytes(context, it)?.let { imageByTeArray ->
-                    createAccountViewModel.updatePhotoByteArray(imageByTeArray)
+                getBytes(context, it)?.let { imageByteArray ->
+                    createAccountViewModel.updatePhotoByteArray(imageByteArray)
                 }
             }
         }
@@ -124,11 +125,4 @@ fun BabyPhotoAccountScreen() {
         onNavigationIconButton = {},
         onNextButtonClick = {}
     )
-}
-
-@Throws(IOException::class)
-fun getBytes(context: Context, uri: Uri): ByteArray? {
-    return context.contentResolver.openInputStream(uri)?.use {
-        it.buffered().readBytes()
-    }
 }

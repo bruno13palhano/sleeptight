@@ -1,10 +1,14 @@
 package com.bruno13palhano.sleeptight.ui.util
 
+import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
+import android.net.Uri
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat.CLOCK_24H
+import java.io.IOException
+import kotlin.jvm.Throws
 
 object CalendarUtil {
     fun dateToMilliseconds(year: Int, month: Int, day: Int): Long {
@@ -72,4 +76,11 @@ fun getMinute(time: Long): Int {
     calendar.timeInMillis = time
 
     return calendar[Calendar.MINUTE]
+}
+
+@Throws(IOException::class)
+fun getBytes(context: Context, uri: Uri): ByteArray? {
+    return context.contentResolver.openInputStream(uri)?.use {
+        it.buffered().readBytes()
+    }
 }
