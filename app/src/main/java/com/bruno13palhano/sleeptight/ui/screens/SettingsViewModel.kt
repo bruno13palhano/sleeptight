@@ -1,8 +1,12 @@
 package com.bruno13palhano.sleeptight.ui.screens
 
-import android.graphics.Bitmap
 import android.icu.text.DateFormat
-import androidx.core.graphics.createBitmap
+import android.net.Uri
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.authentication.DefaultUserFirebase
@@ -12,12 +16,12 @@ import com.bruno13palhano.core.data.repository.UserRepository
 import com.bruno13palhano.model.User
 import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
+import com.bruno13palhano.sleeptight.ui.util.getHour
+import com.bruno13palhano.sleeptight.ui.util.getMinute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,123 +32,126 @@ class SettingsViewModel @Inject constructor(
     @DefaultUserRep private val userRepository: UserRepository
 ) : ViewModel() {
 
-    private val isEditable = MutableStateFlow(false)
+    private lateinit var userInDB: User
+    private val _isEditable = MutableStateFlow(false)
+    val isEditable = _isEditable.asStateFlow()
+        .stateIn(
+            scope = viewModelScope,
+            started = WhileSubscribed(5_000),
+            initialValue = false
+        )
 
     fun activeEditable() {
-        isEditable.value = true
+        _isEditable.value = true
     }
 
-    private val _username = MutableStateFlow("")
-    val username = _username.asStateFlow()
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
+    var username by mutableStateOf("")
+        private set
+    var babyName by mutableStateOf("")
+        private set
+    var birthplace by mutableStateOf("")
+        private set
+    var birthdateInMillis by mutableLongStateOf(0L)
+        private set
+    var birthdate by mutableStateOf("")
+        private set
+    var birthtimeInMillis by mutableLongStateOf(0L)
+        private set
+    var birthtimeHour by mutableIntStateOf(0)
+        private set
+    var birthtimeMinute by mutableIntStateOf(0)
+        private set
+    var birthtime by mutableStateOf("")
+        private set
+    var height by mutableStateOf("")
+        private set
+    var weight by mutableStateOf("")
+        private set
+    var photoUri by mutableStateOf<Uri>(Uri.EMPTY)
+        private set
+    var photoByteArray by mutableStateOf(ByteArray(1024))
+        private set
 
-    val date = MutableStateFlow(0L)
-    val dateUi = date.asStateFlow()
-        .map {
-            DateFormatUtil.format(it)
-        }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
-
-    fun sateBirthDate(date: Long) {
-        this.date.value = date
+    fun updateBabyName(babyName: String) {
+        this.babyName = babyName
     }
 
-    val time = MutableStateFlow(0L)
-    val timeUi = time.asStateFlow()
-        .map {
-            DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(it)
-        }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
-
-    fun setBirthTime(hour: Int, minute: Int) {
-        this.time.value = CalendarUtil.timeToMilliseconds(hour, minute)
+    fun updateBirthplace(birthplace: String) {
+        this.birthplace = birthplace
     }
 
-    val birthplace = MutableStateFlow("")
-    val height = MutableStateFlow("")
-    val weight = MutableStateFlow("")
-    val babyName = MutableStateFlow("")
-
-    val isUserdataNotEmpty = combine(
-        babyName, birthplace, height, weight, isEditable
-    ) { babyName, birthplace, height, weight, isEditable ->
-        ActionDoneStateUi(
-            isUserDataNotEmpty = babyName.trim() != "" && birthplace.trim() != ""
-                    && height.trim() != "" && weight.trim() != "",
-            isEditable = isEditable
-        )
+    fun updateBirthdate(birthdate: Long) {
+        birthdateInMillis = birthdate
+        this.birthdate = DateFormatUtil.format(birthdateInMillis)
     }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = ActionDoneStateUi(),
-            started = WhileSubscribed(5_000)
-        )
+
+    fun updateBirthtime(hour: Int, minute: Int) {
+        birthtimeInMillis = CalendarUtil.timeToMilliseconds(hour, minute)
+        birthtime = DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(birthtimeInMillis)
+    }
+
+    fun updateHeight(height: String) {
+        this.height = height
+    }
+
+    fun updateWeight(weight: String) {
+        this.weight = weight
+    }
+
+    fun updatePhotoUri(photoUri: Uri) {
+        this.photoUri = photoUri
+    }
+
+    fun updatePhotoByteArray(photoByteArray: ByteArray) {
+        this.photoByteArray = photoByteArray
+    }
 
     data class ActionDoneStateUi(
         val isUserDataNotEmpty: Boolean = false,
         val isEditable: Boolean = false
     )
 
-    private val photo = MutableStateFlow("")
-    val photoUi = photo.asStateFlow()
-    private val bitmapPhoto = MutableStateFlow(createBitmap(1, 1))
-
-    fun setBabyPhoto(bitmap: Bitmap, uri: String) {
-        bitmapPhoto.value = bitmap
-        photo.value = uri
-    }
-
-    private lateinit var userInDB: User
-
     init {
         viewModelScope.launch {
             userRepository.getUserByIdStream(authentication.getCurrentUser().id).collect {
                 userInDB = it
-                _username.value = it.username
-                babyName.value = it.babyName
-                photo.value = it.babyUrlPhoto
-                birthplace.value = it.birthplace
-                date.value = it.birthdate
-                time.value = it.birthtime
-                height.value = it.height.toString()
-                weight.value = it.weight.toString()
+                username = it.username
+                babyName = it.babyName
+                photoUri = Uri.parse(it.babyUrlPhoto)
+                birthplace = it.birthplace
+                birthdateInMillis = it.birthdate
+                birthdate = DateFormatUtil.format(it.birthdate)
+                birthtimeInMillis = it.birthtime
+                birthtimeHour = getHour(it.birthtime)
+                birthtimeMinute = getMinute(it.birthtime)
+                birthtime = DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(it.birthtime)
+                height = it.height.toString()
+                weight = it.weight.toString()
             }
         }
     }
 
     fun updateUserValues() {
-        isEditable.value = false
+        _isEditable.value = false
         val currentUser = authentication.getCurrentUser()
 
         val user = User(
             id = currentUser.id,
             username = currentUser.username,
             email = currentUser.email,
-            babyName = babyName.value,
-            babyUrlPhoto = photo.value,
-            birthplace = birthplace.value,
-            birthdate = date.value,
-            birthtime = time.value,
-            height = stringToFloat(height.value),
-            weight = stringToFloat(weight.value)
+            babyName = babyName,
+            babyUrlPhoto = photoUri.toString(),
+            birthplace = birthplace,
+            birthdate = birthdateInMillis,
+            birthtime = birthtimeInMillis,
+            height = stringToFloat(height),
+            weight = stringToFloat(weight)
         )
 
         if (userInDB != user) {
             if (userInDB.babyUrlPhoto != user.babyUrlPhoto) {
                 authentication.updateUserUrlPhoto(
-                    photo = bitmapPhoto.value,
+                    photo = photoByteArray,
                     onSuccess = { newPhotoUrl, userUid ->
                         updateUserPhotoInDatabase(newPhotoUrl, userUid)
                     },
