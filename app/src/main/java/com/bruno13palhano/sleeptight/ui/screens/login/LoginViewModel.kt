@@ -3,7 +3,9 @@ package com.bruno13palhano.sleeptight.ui.screens.login
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.authentication.DefaultUserFirebase
 import com.bruno13palhano.authentication.UserAuthentication
 import com.bruno13palhano.core.data.di.DefaultUserRep
@@ -11,7 +13,10 @@ import com.bruno13palhano.core.data.repository.UserRepository
 import com.bruno13palhano.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,7 +32,14 @@ class LoginViewModel @Inject constructor(
     var password by mutableStateOf("")
         private set
 
-    val isEmailAndPasswordNotEmpty = isValuesValid(email, password)
+    val isEmailAndPasswordNotEmpty: StateFlow<Boolean> = snapshotFlow {
+        isValuesValid(email, password)
+    }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = false
+        )
 
     fun updateEmail(email: String) {
         this.email = email

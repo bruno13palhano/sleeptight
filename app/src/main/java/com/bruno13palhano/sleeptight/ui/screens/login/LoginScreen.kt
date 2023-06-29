@@ -1,5 +1,6 @@
 package com.bruno13palhano.sleeptight.ui.screens.login
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -39,11 +40,13 @@ fun LoginScreen(
     var showPassword by remember { mutableStateOf(false) }
 
     val loginStatus by loginViewModel.loginStatus.collectAsStateWithLifecycle()
+    val showButton by loginViewModel.isEmailAndPasswordNotEmpty.collectAsStateWithLifecycle()
 
     when(loginStatus) {
         LoginViewModel.LoginStatus.Default -> {
             LoginContent(
                 onCreateAccountButtonClick = onCreateAccountButtonClick,
+                showButton = showButton,
                 email =  loginViewModel.email,
                 password = loginViewModel.password,
                 showPassword = showPassword,
@@ -64,6 +67,7 @@ fun LoginScreen(
         LoginViewModel.LoginStatus.Error -> {
             LoginContent(
                 onCreateAccountButtonClick = onCreateAccountButtonClick,
+                showButton = showButton,
                 email =  loginViewModel.email,
                 password = loginViewModel.password,
                 showPassword = showPassword,
@@ -82,6 +86,7 @@ fun LoginScreen(
 @Composable
 fun LoginContent(
     onCreateAccountButtonClick: () -> Unit,
+    showButton: Boolean,
     email: String,
     password: String,
     showPassword: Boolean,
@@ -99,11 +104,15 @@ fun LoginContent(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = login) {
-                Icon(
-                    imageVector = Icons.Filled.Done,
-                    contentDescription = stringResource(id = R.string.confirm_login_label)
-                )
+            if (showButton) {
+                AnimatedVisibility(visible = true) {
+                    FloatingActionButton(onClick = login) {
+                        Icon(
+                            imageVector = Icons.Filled.Done,
+                            contentDescription = stringResource(id = R.string.confirm_login_label)
+                        )
+                    }
+                }
             }
         }
     ) {
@@ -147,6 +156,7 @@ fun LoginContent(
 fun LoginScreenPreview() {
     LoginContent(
         onCreateAccountButtonClick = {},
+        showButton = false,
         email = "",
         password = "",
         showPassword = false,
