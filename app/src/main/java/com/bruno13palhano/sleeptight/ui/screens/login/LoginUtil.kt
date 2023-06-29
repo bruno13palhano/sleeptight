@@ -150,6 +150,7 @@ fun UsernameField(
 @Composable
 fun BabyNameField(
     babyName: String,
+    isEnabled: Boolean = true,
     modifier: Modifier,
     onBabyNameChange: (babyName: String) -> Unit,
     onDone: () -> Unit
@@ -172,6 +173,7 @@ fun BabyNameField(
             onBabyNameChange(emailValue)
         },
         singleLine = true,
+        enabled = isEnabled,
         label = { Text(text = stringResource(id = R.string.baby_name_label)) },
         placeholder = { Text(text = stringResource(id = R.string.insert_baby_name_label)) }
     )
@@ -180,6 +182,7 @@ fun BabyNameField(
 @Composable
 fun BirthplaceField(
     birthplace: String,
+    isEnabled: Boolean = true,
     modifier: Modifier,
     onBirthplaceChange: (birthplace: String) -> Unit,
     onDone: () -> Unit
@@ -202,6 +205,7 @@ fun BirthplaceField(
             onBirthplaceChange(emailValue)
         },
         singleLine = true,
+        enabled = isEnabled,
         label = { Text(text = stringResource(id = R.string.birthplace_label)) },
         placeholder = { Text(text = stringResource(id = R.string.insert_birthplace_label)) }
     )
@@ -209,8 +213,9 @@ fun BirthplaceField(
 
 @Composable
 fun DateField(
+    date: String,
     modifier: Modifier,
-    date: String
+    isEnabled: Boolean = true
 ) {
     OutlinedTextField(
         modifier = modifier,
@@ -224,6 +229,7 @@ fun DateField(
         },
         onValueChange = {},
         singleLine = true,
+        enabled = isEnabled,
         label = {
             Text(
                 text = stringResource(id = R.string.birth_date_label),
@@ -235,8 +241,9 @@ fun DateField(
 
 @Composable
 fun TimeField(
+    time: String,
     modifier: Modifier,
-    time: String
+    isEnabled: Boolean = true
 ) {
     OutlinedTextField(
         modifier = modifier,
@@ -250,6 +257,7 @@ fun TimeField(
         },
         onValueChange = {},
         singleLine = true,
+        enabled = isEnabled,
         label = { Text(text = stringResource(id = R.string.birth_time_label)) },
     )
 }
@@ -257,6 +265,7 @@ fun TimeField(
 @Composable
 fun HeightField(
     height: String,
+    isEnabled: Boolean = true,
     modifier: Modifier,
     onHeightChange: (height: String) -> Unit,
     onDone: () -> Unit
@@ -288,6 +297,7 @@ fun HeightField(
             }
         },
         singleLine = true,
+        enabled = isEnabled,
         label = { Text(text = stringResource(id = R.string.birth_height_label)) },
         placeholder = { Text(text = stringResource(id = R.string.insert_height_label)) }
     )
@@ -296,6 +306,7 @@ fun HeightField(
 @Composable
 fun WeightField(
     weight: String,
+    isEnabled: Boolean = true,
     modifier: Modifier,
     onWeightChange: (weight: String) -> Unit,
     onDone: () -> Unit
@@ -327,6 +338,7 @@ fun WeightField(
             }
         },
         singleLine = true,
+        enabled = isEnabled,
         label = { Text(text = stringResource(id = R.string.birth_weight_label)) },
         placeholder = { Text(text = stringResource(id = R.string.insert_weight_label)) }
     )
