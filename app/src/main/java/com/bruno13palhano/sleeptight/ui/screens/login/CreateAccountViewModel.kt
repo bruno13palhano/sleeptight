@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.authentication.DefaultUserFirebase
@@ -23,6 +24,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
@@ -52,7 +54,7 @@ class CreateAccountViewModel @Inject constructor(
         private set
     var birthdateInMillis by mutableLongStateOf(MaterialDatePicker.todayInUtcMilliseconds())
         private set
-    var birthdate by mutableStateOf("")
+    var birthdate by mutableStateOf(DateFormatUtil.format(birthdateInMillis))
         private set
     var birthtimeInMillis by mutableLongStateOf(Calendar.getInstance().timeInMillis)
         private set
@@ -60,7 +62,8 @@ class CreateAccountViewModel @Inject constructor(
         private set
     var birthtimeMinute by mutableIntStateOf(getMinute(birthtimeInMillis))
         private set
-    var birthtime by mutableStateOf("")
+    var birthtime: String by mutableStateOf(DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE)
+        .format(birthtimeInMillis))
         private set
     var height by mutableStateOf("")
         private set
@@ -116,6 +119,19 @@ class CreateAccountViewModel @Inject constructor(
     fun updateWeight(weight: String) {
         this.weight = weight
     }
+
+    val isUserBasicDataNotEmpty: StateFlow<Boolean> = snapshotFlow {
+        isUserDataNotEmpty(username, email, password)
+    }
+        .stateIn(
+            scope = viewModelScope,
+            started = WhileSubscribed(5_000),
+            initialValue = false
+        )
+
+    fun isBabyNameNotEmpty() = babyName.trim() != ""
+    fun isBirthplaceNotEmpty() = birthplace.trim() != ""
+    fun isHeightAndWeightNotEmpty() = height.trim() != "" && weight.trim() != ""
 
     fun insertUser() {
         val user = User(
