@@ -1,6 +1,9 @@
 package com.bruno13palhano.sleeptight.ui.screens
 
 import android.content.res.Configuration
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -8,6 +11,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -50,14 +54,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.rememberAsyncImagePainter
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.screens.login.BabyNameField
 import com.bruno13palhano.sleeptight.ui.screens.login.BirthplaceField
@@ -65,6 +70,7 @@ import com.bruno13palhano.sleeptight.ui.screens.login.DateField
 import com.bruno13palhano.sleeptight.ui.screens.login.HeightField
 import com.bruno13palhano.sleeptight.ui.screens.login.TimeField
 import com.bruno13palhano.sleeptight.ui.screens.login.WeightField
+import com.bruno13palhano.sleeptight.ui.util.getBytes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,6 +78,7 @@ fun SettingsScreen(
     navigateToLogin: () -> Unit,
     settingsViewModel: SettingsViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val configuration = LocalConfiguration.current
     val focusManager = LocalFocusManager.current
     val isEditable by settingsViewModel.isEditable.collectAsStateWithLifecycle()
@@ -80,6 +87,16 @@ fun SettingsScreen(
     var datePickerState = rememberDatePickerState()
     var showTimePickerDialog by remember { mutableStateOf(false) }
     var timePickerState = rememberTimePickerState()
+
+    val galleryLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                settingsViewModel.updatePhotoUri(it)
+                getBytes(context, it)?.let { imageByteArray ->
+                    settingsViewModel.updatePhotoByteArray(imageByteArray)
+                }
+            }
+        }
 
     if (showDatePickerDialog) {
         DatePickerDialog(
@@ -147,13 +164,17 @@ fun SettingsScreen(
 
     SettingsContent(
         orientation = configuration.orientation,
+        isEditable = isEditable,
+        username = settingsViewModel.username,
         babyName = settingsViewModel.babyName,
+        photoUri = settingsViewModel.photoUri,
         birthplace = settingsViewModel.birthplace,
         height = settingsViewModel.height,
         weight = settingsViewModel.weight,
         birthtime = settingsViewModel.birthtime,
         birthdate = settingsViewModel.birthdate,
         onBabyNameChange = settingsViewModel::updateBabyName,
+        onPhotoClick = { galleryLauncher.launch("image/*") },
         onBirthplaceChange = settingsViewModel::updateBirthplace,
         onHeightChange = settingsViewModel::updateHeight,
         onWeightChange = settingsViewModel::updateWeight,
@@ -166,7 +187,7 @@ fun SettingsScreen(
         onItemClick = { index ->
             when (index) {
                 SettingsMenuIndex.EDIT_ITEM_INDEX -> {
-
+                    settingsViewModel.activeEditable()
                 }
                 SettingsMenuIndex.SHARE_ITEM_INDEX -> {
 
@@ -190,13 +211,17 @@ fun SettingsScreen(
 @Composable
 fun SettingsContent(
     orientation: Int,
+    isEditable: Boolean,
+    username: String,
     babyName: String,
+    photoUri: Uri,
     birthplace: String,
     height: String,
     weight: String,
     birthtime: String,
     birthdate: String,
     onBabyNameChange: (babyName: String) -> Unit,
+    onPhotoClick: () -> Unit,
     onBirthplaceChange: (birthplace: String) -> Unit,
     onHeightChange: (height: String) -> Unit,
     onWeightChange: (weight: String) -> Unit,
@@ -258,7 +283,7 @@ fun SettingsContent(
             )
         },
         floatingActionButton = {
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            if (orientation == Configuration.ORIENTATION_PORTRAIT && isEditable) {
                 FloatingActionButton(onClick = onActionButtonClick) {
                     Icon(
                         imageVector = Icons.Filled.Done,
@@ -291,14 +316,18 @@ fun SettingsContent(
                             .size(128.dp)
                             .clip(CircleShape)
                             .border(2.dp, MaterialTheme.colorScheme.secondary, CircleShape)
-                            .clickable { },
+                            .clickable {
+                                if (isEditable) {
+                                    onPhotoClick()
+                                }
+                            },
                         contentScale = ContentScale.Crop,
-                        painter = painterResource(id = R.drawable.logo_1),
+                        painter = rememberAsyncImagePainter(photoUri),
                         contentDescription = stringResource(id = R.string.baby_photo_label)
                     )
 
                     Text(
-                        text = stringResource(id = R.string.username_label),
+                        text = username,
                         fontSize = 22.sp
                     )
                 }
@@ -306,6 +335,7 @@ fun SettingsContent(
 
             BabyNameField(
                 babyName = babyName,
+                isEnabled = isEditable,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp),
@@ -315,6 +345,7 @@ fun SettingsContent(
 
             BirthplaceField(
                 birthplace = birthplace,
+                isEnabled = isEditable,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp),
@@ -324,6 +355,7 @@ fun SettingsContent(
 
             HeightField(
                 height = height,
+                isEnabled = isEditable,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp),
@@ -333,6 +365,7 @@ fun SettingsContent(
 
             WeightField(
                 weight = weight,
+                isEnabled = isEditable,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp),
@@ -353,7 +386,8 @@ fun SettingsContent(
                                 onBirthtimeDone()
                             }
                         },
-                    time = birthtime
+                    time = birthtime,
+                    isEnabled = isEditable
                 )
 
                 DateField(
@@ -365,21 +399,26 @@ fun SettingsContent(
                                 onBirthdateDone()
                             }
                         },
-                    date = birthdate
+                    date = birthdate,
+                    isEnabled = isEditable
                 )
             }
 
             if (orientation != Configuration.ORIENTATION_PORTRAIT) {
-                FloatingActionButton(
-                    modifier = Modifier
-                        .align(Alignment.End)
-                        .padding(16.dp),
-                    onClick = onActionButtonClick
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Done,
-                        contentDescription = stringResource(id = R.string.done_label)
-                    )
+                if (isEditable) {
+                    FloatingActionButton(
+                        modifier = Modifier
+                            .align(Alignment.End)
+                            .padding(16.dp),
+                        onClick = onActionButtonClick
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Done,
+                            contentDescription = stringResource(id = R.string.done_label)
+                        )
+                    }
+                } else {
+                    Spacer(modifier = Modifier.size(8.dp))
                 }
             }
         }
@@ -391,13 +430,17 @@ fun SettingsContent(
 fun SettingsScreenPreview() {
     SettingsContent(
         orientation = 1,
+        isEditable = false,
+        username = "",
         babyName = "",
+        photoUri = Uri.EMPTY,
         birthplace = "",
         height = "",
         weight = "",
         birthtime = "",
         birthdate = "",
         onBabyNameChange = {},
+        onPhotoClick = {},
         onBirthplaceChange = {},
         onHeightChange = {},
         onWeightChange = {},
