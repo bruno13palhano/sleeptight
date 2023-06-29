@@ -129,6 +129,7 @@ fun BabyBirthAccountScreen(
                 birthtime = createAccountViewModel.birthtime,
                 height = createAccountViewModel.height,
                 weight = createAccountViewModel.weight,
+                showButton = createAccountViewModel.isHeightAndWeightNotEmpty(),
                 configuration = configuration,
                 onHeightChange = createAccountViewModel::updateHeight,
                 onWeightChange = createAccountViewModel::updateWeight,
@@ -156,6 +157,7 @@ private fun BabyBirthAccountContent(
     birthtime: String,
     height: String,
     weight: String,
+    showButton: Boolean,
     configuration: Configuration,
     onHeightChange: (height: String) -> Unit,
     onWeightChange: (weight: String) -> Unit,
@@ -182,15 +184,13 @@ private fun BabyBirthAccountContent(
         },
         floatingActionButton = {
             if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                FloatingActionButton(
-                    onClick = {
-                        createUser()
+                if (showButton) {
+                    FloatingActionButton(onClick = createUser) {
+                        Icon(
+                            imageVector = Icons.Filled.Done,
+                            contentDescription = stringResource(id = R.string.done_label)
+                        )
                     }
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Done,
-                        contentDescription = stringResource(id = R.string.done_label)
-                    )
                 }
             }
         }
@@ -269,6 +269,7 @@ fun BabyBirthAccountScreenPreview() {
         birthtime = "",
         height = "",
         weight = "",
+        showButton = false,
         configuration = LocalConfiguration.current,
         onHeightChange = {},
         onWeightChange = {},

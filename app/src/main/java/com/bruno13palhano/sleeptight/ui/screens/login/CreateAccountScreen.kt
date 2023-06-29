@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bruno13palhano.sleeptight.R
 
 @Composable
@@ -34,8 +35,10 @@ fun CreateAccountScreen(
 ) {
     val focusManager = LocalFocusManager.current
     var showPassword by remember { mutableStateOf(false) }
+    val showButton by createAccountViewModel.isUserBasicDataNotEmpty.collectAsStateWithLifecycle()
 
     CreateAccountContent(
+        showButton = showButton,
         username = createAccountViewModel.username,
         email = createAccountViewModel.email,
         password = createAccountViewModel.password,
@@ -55,6 +58,7 @@ fun CreateAccountScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateAccountContent(
+    showButton: Boolean,
     username: String,
     email: String,
     password: String,
@@ -84,11 +88,13 @@ fun CreateAccountContent(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = onNextButtonClick) {
-                Icon(
-                    imageVector = Icons.Filled.NavigateNext,
-                    contentDescription = stringResource(id = R.string.next_label)
-                )
+            if (showButton) {
+                FloatingActionButton(onClick = onNextButtonClick) {
+                    Icon(
+                        imageVector = Icons.Filled.NavigateNext,
+                        contentDescription = stringResource(id = R.string.next_label)
+                    )
+                }
             }
         }
     ) {
@@ -129,6 +135,7 @@ fun CreateAccountContent(
 @Composable
 fun CreateAccountScreenPreview() {
     CreateAccountContent(
+        showButton = false,
         username = "",
         email = "",
         password = "",

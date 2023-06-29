@@ -31,6 +31,7 @@ fun BabyBirthplaceAccountScreen(
 
     BabyBirthplaceAccountContent(
         birthplace = createAccountViewModel.birthplace,
+        showButton = createAccountViewModel.isBirthplaceNotEmpty(),
         onBirthplaceChange = createAccountViewModel::updateBirthplace,
         onBirthplaceDone = { focusManager.clearFocus(force = true) },
         onNavigationIconClick = onNavigationIconClick,
@@ -42,6 +43,7 @@ fun BabyBirthplaceAccountScreen(
 @Composable
 fun BabyBirthplaceAccountContent(
     birthplace: String,
+    showButton: Boolean,
     onBirthplaceChange: (birthplace: String) -> Unit,
     onBirthplaceDone: () -> Unit,
     onNavigationIconClick: () -> Unit,
@@ -62,11 +64,13 @@ fun BabyBirthplaceAccountContent(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = onNextButtonClick) {
-                Icon(
-                    imageVector = Icons.Filled.NavigateNext,
-                    contentDescription = stringResource(id = R.string.next_label)
-                )
+            if (showButton) {
+                FloatingActionButton(onClick = onNextButtonClick) {
+                    Icon(
+                        imageVector = Icons.Filled.NavigateNext,
+                        contentDescription = stringResource(id = R.string.next_label)
+                    )
+                }
             }
         }
     ) {
@@ -88,6 +92,7 @@ fun BabyBirthplaceAccountContent(
 fun BabyBirthplaceAccountScreenPreview() {
     BabyBirthplaceAccountContent(
         birthplace = "",
+        showButton = false,
         onBirthplaceChange = {},
         onBirthplaceDone = {},
         onNavigationIconClick = {},

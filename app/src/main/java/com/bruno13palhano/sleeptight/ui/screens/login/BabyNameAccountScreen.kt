@@ -31,6 +31,7 @@ fun BabyNameAccountScreen(
 
     BabyNameAccountContent(
         babyName = createAccountViewModel.babyName,
+        showButton = createAccountViewModel.isBabyNameNotEmpty(),
         onBabyNameChange = createAccountViewModel::updateBabyName,
         onBabyNameDone = {focusManager.clearFocus(force = true)},
         onNavigationIconClick = onNavigationIconClick,
@@ -42,6 +43,7 @@ fun BabyNameAccountScreen(
 @Composable
 fun BabyNameAccountContent(
     babyName: String,
+    showButton: Boolean,
     onBabyNameChange: (babyName: String) -> Unit,
     onBabyNameDone: () -> Unit,
     onNavigationIconClick: () -> Unit,
@@ -62,11 +64,13 @@ fun BabyNameAccountContent(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = onNextButtonClick) {
-                Icon(
-                    imageVector = Icons.Filled.NavigateNext,
-                    contentDescription = stringResource(id = R.string.next_label)
-                )
+            if (showButton) {
+                FloatingActionButton(onClick = onNextButtonClick) {
+                    Icon(
+                        imageVector = Icons.Filled.NavigateNext,
+                        contentDescription = stringResource(id = R.string.next_label)
+                    )
+                }
             }
         }
     ) {
@@ -88,6 +92,7 @@ fun BabyNameAccountContent(
 fun BabyNameAccountScreenPreview() {
     BabyNameAccountContent(
         babyName = "",
+        showButton = false,
         onBabyNameChange = {},
         onBabyNameDone = {},
         onNavigationIconClick = {},
