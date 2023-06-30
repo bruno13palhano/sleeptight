@@ -50,6 +50,8 @@ import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.screens.CommonMenu
 
+private const val NOTIFICATION_ACTION_PREFIX = "com.bruno13palhano.sleeptight"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotificationScreen(
