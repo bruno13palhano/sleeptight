@@ -64,7 +64,7 @@ class NotificationViewModel @Inject constructor(
         timeInMillis = CalendarUtil.timeToMilliseconds(hour, minute)
         timeHour = getHour(timeInMillis)
         timeMinute = getMinute(timeInMillis)
-        this.time = DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(dateInMillis)
+        this.time = DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(timeInMillis)
     }
 
     fun setNotification(id: Long) {
