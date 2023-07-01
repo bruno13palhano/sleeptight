@@ -24,16 +24,33 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.bruno13palhano.model.BabyStatus
 import com.bruno13palhano.sleeptight.R
-import com.bruno13palhano.sleeptight.ui.lists.babystatus.BabyStatusListViewModel
 
- @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BabyStatusListScreen(
     onItemClick: (babyStatusId: Long) -> Unit,
     onAddButtonClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
     babyStatusListViewModel: BabyStatusListViewModel = hiltViewModel()
+) {
+    val babyStatusList by babyStatusListViewModel.babyStatusList.collectAsStateWithLifecycle()
+
+    BabyStatusContent(
+        babyStatusList = babyStatusList,
+        onItemClick = onItemClick,
+        onNavigationIconClick = onNavigationIconClick,
+        onAddButtonClick = onAddButtonClick
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BabyStatusContent(
+    babyStatusList: List<BabyStatus>,
+    onItemClick: (id: Long) -> Unit,
+    onNavigationIconClick: () -> Unit,
+    onAddButtonClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -58,10 +75,13 @@ fun BabyStatusListScreen(
             }
         }
     ) {
-        val babyStatusList by babyStatusListViewModel.babyStatusList.collectAsStateWithLifecycle()
-
         LazyColumn(modifier = Modifier.padding(it)) {
-            items(babyStatusList) { babyStatus ->
+            items(
+                items = babyStatusList,
+                key = { babyStatus ->
+                    babyStatus.id
+                }
+            ) { babyStatus ->
                 ItemBabyTest(title = babyStatus.title) {
                     onItemClick(babyStatus.id)
                 }
@@ -70,41 +90,27 @@ fun BabyStatusListScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun BabyStatusListScreenPreview() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.all_baby_status_label)) },
-                navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
-                        )
-                    }
-                }
+    val babyStatusList = mutableListOf<BabyStatus>()
+    for (i in 1..15) {
+        babyStatusList.add(
+            BabyStatus(
+                id = i.toLong(),
+                title = "BabyStatus $i",
+                date = 0L,
+                height = 0F,
+                weight = 0F
             )
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = stringResource(id = R.string.add_button)
-                )
-            }
-        }
-    ) {
-        LazyColumn(modifier = Modifier.padding(it)) {
-            items(35) {
-                ItemBabyTest("BabyStatus") {
-
-                }
-            }
-        }
+        )
     }
+    BabyStatusContent(
+        babyStatusList = babyStatusList,
+        onItemClick = {},
+        onNavigationIconClick = {},
+        onAddButtonClick = {}
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
