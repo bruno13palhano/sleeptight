@@ -24,16 +24,33 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.bruno13palhano.model.Notification
 import com.bruno13palhano.sleeptight.R
-import com.bruno13palhano.sleeptight.ui.lists.notifications.NotificationsViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotificationsScreen(
     onItemClick: (notificationId: Long) -> Unit,
     onAddButtonClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
     notificationsViewModel: NotificationsViewModel = hiltViewModel()
+) {
+    val notificationList by notificationsViewModel.allNotifications.collectAsStateWithLifecycle()
+
+    NotificationsContent(
+        notificationList = notificationList,
+        onItemClick = onItemClick,
+        onNavigationIconClick = onNavigationIconClick,
+        onAddButtonClick = onAddButtonClick
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NotificationsContent(
+    notificationList: List<Notification>,
+    onItemClick: (id: Long) -> Unit,
+    onNavigationIconClick: () -> Unit,
+    onAddButtonClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -58,10 +75,11 @@ fun NotificationsScreen(
             }
         }
     ) {
-        val notificationList by notificationsViewModel.allNotifications.collectAsStateWithLifecycle()
 
         LazyColumn(modifier = Modifier.padding(it)) {
-            items(notificationList) { notification ->
+            items(items = notificationList, key = { notification ->
+                notification.id
+            }) { notification ->
                 NotificationItemTest(title = notification.title) {
                     onItemClick(notification.id)
                 }
@@ -70,41 +88,28 @@ fun NotificationsScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun NotificationsScreenPreview() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.notifications_label)) },
-                navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
-                        )
-                    }
-                }
+    val notificationList = mutableListOf<Notification>()
+    for (i in 1..15) {
+        notificationList.add(
+            Notification(
+                id = i.toLong(),
+                title = "notification $i",
+                description = "",
+                time = 0L,
+                date = 0L,
+                repeat = false
             )
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = stringResource(id = R.string.add_button)
-                )
-            }
-        }
-    ) {
-        LazyColumn(modifier = Modifier.padding(it)) {
-            items(35) {
-                NotificationItemTest("notification") {
-
-                }
-            }
-        }
+        )
     }
+    NotificationsContent(
+        notificationList = notificationList,
+        onItemClick = {},
+        onNavigationIconClick = {},
+        onAddButtonClick = {}
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -116,7 +121,7 @@ fun NotificationItemTest(
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 8.dp),
+            .padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp),
         onClick = onItemClick
     ) {
         Text(
