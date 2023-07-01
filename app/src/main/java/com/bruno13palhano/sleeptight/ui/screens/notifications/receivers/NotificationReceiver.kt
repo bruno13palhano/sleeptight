@@ -7,8 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.app.NotificationCompat
-import com.bruno13palhano.sleeptight.MainActivity
-import com.bruno13palhano.sleeptight.MainActivityCompose
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.SplashScreenActivity
 
