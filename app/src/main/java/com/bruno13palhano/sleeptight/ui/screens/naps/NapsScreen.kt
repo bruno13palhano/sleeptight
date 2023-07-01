@@ -24,16 +24,33 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.bruno13palhano.model.Nap
 import com.bruno13palhano.sleeptight.R
-import com.bruno13palhano.sleeptight.ui.lists.nap.NapsViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NapsScreen(
     onItemClick: (napId: Long) -> Unit,
     onAddButtonClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
     napsViewModel: NapsViewModel = hiltViewModel()
+) {
+    val napList by napsViewModel.uiState.collectAsStateWithLifecycle()
+
+    NapsContent(
+        napList = napList,
+        onItemClick = onItemClick,
+        onNavigationIconClick = onNavigationIconClick,
+        onAddButtonClick = onAddButtonClick
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NapsContent(
+    napList: List<Nap>,
+    onItemClick: (id: Long) -> Unit,
+    onNavigationIconClick: () -> Unit,
+    onAddButtonClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -58,10 +75,11 @@ fun NapsScreen(
             }
         }
     ) {
-        val napList by napsViewModel.uiState.collectAsStateWithLifecycle()
-
         LazyColumn(modifier = Modifier.padding(it)) {
-            items(napList) { nap ->
+            items(
+                items = napList,
+                key = { nap -> nap.id }
+            ) { nap ->
                 ItemTest(title = nap.title) {
                     onItemClick(nap.id)
                 }
@@ -70,44 +88,31 @@ fun NapsScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun NapsScreenPreview() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.naps_label)) },
-                navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
-                        )
-                    }
-                }
+    val napList = mutableListOf<Nap>()
+    for (i in 1..15) {
+        napList.add(
+            Nap(
+                id = i.toLong(),
+                title = "Notification $i",
+                date = 0L,
+                startTime = 0L,
+                endTime = 0L,
+                sleepingTime = 0L,
+                observation = ""
             )
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = stringResource(id = R.string.add_button)
-                )
-            }
-        }
-    ) {
-        LazyColumn(modifier = Modifier.padding(it)) {
-            items(35) {
-                ItemTest("Nap") {
-
-                }
-            }
-        }
+        )
     }
+    NapsContent(
+        napList = napList,
+        onItemClick = {},
+        onNavigationIconClick = {},
+        onAddButtonClick = {}
+    )
 }
 
-//@Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ItemTest(
