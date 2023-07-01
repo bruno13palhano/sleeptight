@@ -96,7 +96,7 @@ fun NapsScreenPreview() {
         napList.add(
             Nap(
                 id = i.toLong(),
-                title = "Notification $i",
+                title = "Naps $i",
                 date = 0L,
                 startTime = 0L,
                 endTime = 0L,
