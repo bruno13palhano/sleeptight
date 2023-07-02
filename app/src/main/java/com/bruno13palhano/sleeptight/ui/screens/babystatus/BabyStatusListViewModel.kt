@@ -20,4 +20,9 @@ class BabyStatusListViewModel @Inject constructor(
             started = WhileSubscribed(5_000),
             initialValue = emptyList()
         )
+
+    fun deleteBabyStatus(babyStatusId: Long, onBabyStatusDeleted: () -> Unit) {
+        babyStatusRepository.deleteById(babyStatusId)
+        onBabyStatusDeleted()
+    }
 }
