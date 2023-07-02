@@ -1,13 +1,11 @@
 package com.bruno13palhano.sleeptight.ui.screens.naps
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -20,12 +18,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bruno13palhano.model.Nap
 import com.bruno13palhano.sleeptight.R
+import com.bruno13palhano.sleeptight.ui.screens.ItemList
+import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 
 @Composable
 fun NapsScreen(
@@ -40,7 +38,12 @@ fun NapsScreen(
         napList = napList,
         onItemClick = onItemClick,
         onNavigationIconClick = onNavigationIconClick,
-        onAddButtonClick = onAddButtonClick
+        onAddButtonClick = onAddButtonClick,
+        onDeleteItemClick = { napId ->
+            napsViewModel.deleteNap(napId) {
+
+            }
+        }
     )
 }
 
@@ -49,6 +52,7 @@ fun NapsScreen(
 fun NapsContent(
     napList: List<Nap>,
     onItemClick: (id: Long) -> Unit,
+    onDeleteItemClick: (id: Long) -> Unit,
     onNavigationIconClick: () -> Unit,
     onAddButtonClick: () -> Unit
 ) {
@@ -80,9 +84,13 @@ fun NapsContent(
                 items = napList,
                 key = { nap -> nap.id }
             ) { nap ->
-                ItemTest(title = nap.title) {
-                    onItemClick(nap.id)
-                }
+                ItemList(
+                    id = nap.id,
+                    title = nap.title,
+                    date = DateFormatUtil.format(nap.date),
+                    onItemClick = { onItemClick(nap.id) },
+                    onDeleteItemClick = { onDeleteItemClick(nap.id) }
+                )
             }
         }
     }
@@ -96,7 +104,7 @@ fun NapsScreenPreview() {
         napList.add(
             Nap(
                 id = i.toLong(),
-                title = "Naps $i",
+                title = "${stringResource(id = R.string.nap_label)} $i",
                 date = 0L,
                 startTime = 0L,
                 endTime = 0L,
@@ -109,27 +117,7 @@ fun NapsScreenPreview() {
         napList = napList,
         onItemClick = {},
         onNavigationIconClick = {},
-        onAddButtonClick = {}
+        onAddButtonClick = {},
+        onDeleteItemClick = {}
     )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ItemTest(
-    title: String,
-    onItemClick: () -> Unit
-) {
-    ElevatedCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp),
-        onClick = onItemClick
-    ) {
-        Text(
-            modifier = Modifier
-                .padding(16.dp),
-            text = title,
-            fontSize = 22.sp
-        )
-    }
 }

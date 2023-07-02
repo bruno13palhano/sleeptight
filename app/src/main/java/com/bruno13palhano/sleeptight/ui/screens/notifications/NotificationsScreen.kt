@@ -1,13 +1,11 @@
 package com.bruno13palhano.sleeptight.ui.screens.notifications
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -20,12 +18,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bruno13palhano.model.Notification
 import com.bruno13palhano.sleeptight.R
+import com.bruno13palhano.sleeptight.ui.screens.ItemList
+import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 
 @Composable
 fun NotificationsScreen(
@@ -40,7 +38,12 @@ fun NotificationsScreen(
         notificationList = notificationList,
         onItemClick = onItemClick,
         onNavigationIconClick = onNavigationIconClick,
-        onAddButtonClick = onAddButtonClick
+        onAddButtonClick = onAddButtonClick,
+        onDeleteItemClick = { notificationId ->
+            notificationsViewModel.deleteNotification(notificationId) {
+
+            }
+        }
     )
 }
 
@@ -49,6 +52,7 @@ fun NotificationsScreen(
 fun NotificationsContent(
     notificationList: List<Notification>,
     onItemClick: (id: Long) -> Unit,
+    onDeleteItemClick: (id: Long) -> Unit,
     onNavigationIconClick: () -> Unit,
     onAddButtonClick: () -> Unit
 ) {
@@ -80,9 +84,13 @@ fun NotificationsContent(
             items(items = notificationList, key = { notification ->
                 notification.id
             }) { notification ->
-                NotificationItemTest(title = notification.title) {
-                    onItemClick(notification.id)
-                }
+                ItemList(
+                    id = notification.id,
+                    title = notification.title,
+                    date = DateFormatUtil.format(notification.date),
+                    onItemClick = { onItemClick(notification.id) },
+                    onDeleteItemClick = { onDeleteItemClick(notification.id) }
+                )
             }
         }
     }
@@ -96,7 +104,7 @@ fun NotificationsScreenPreview() {
         notificationList.add(
             Notification(
                 id = i.toLong(),
-                title = "notification $i",
+                title = "${stringResource(id = R.string.notification_label)} $i",
                 description = "",
                 time = 0L,
                 date = 0L,
@@ -108,27 +116,7 @@ fun NotificationsScreenPreview() {
         notificationList = notificationList,
         onItemClick = {},
         onNavigationIconClick = {},
-        onAddButtonClick = {}
+        onAddButtonClick = {},
+        onDeleteItemClick = {}
     )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun NotificationItemTest(
-    title: String,
-    onItemClick: () -> Unit
-) {
-    ElevatedCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp),
-        onClick = onItemClick
-    ) {
-        Text(
-            modifier = Modifier
-                .padding(16.dp),
-            text = title,
-            fontSize = 22.sp
-        )
-    }
 }

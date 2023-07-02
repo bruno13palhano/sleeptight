@@ -1,13 +1,11 @@
  package com.bruno13palhano.sleeptight.ui.screens.babystatus
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -20,14 +18,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bruno13palhano.model.BabyStatus
 import com.bruno13palhano.sleeptight.R
+import com.bruno13palhano.sleeptight.ui.screens.ItemList
+import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 
-@Composable
+ @Composable
 fun BabyStatusListScreen(
     onItemClick: (babyStatusId: Long) -> Unit,
     onAddButtonClick: () -> Unit,
@@ -40,7 +38,12 @@ fun BabyStatusListScreen(
         babyStatusList = babyStatusList,
         onItemClick = onItemClick,
         onNavigationIconClick = onNavigationIconClick,
-        onAddButtonClick = onAddButtonClick
+        onAddButtonClick = onAddButtonClick,
+        onDeleteItemClick = { babyStatusId ->
+            babyStatusListViewModel.deleteBabyStatus(babyStatusId) {
+
+            }
+        }
     )
 }
 
@@ -49,6 +52,7 @@ fun BabyStatusListScreen(
 fun BabyStatusContent(
     babyStatusList: List<BabyStatus>,
     onItemClick: (id: Long) -> Unit,
+    onDeleteItemClick: (id: Long) -> Unit,
     onNavigationIconClick: () -> Unit,
     onAddButtonClick: () -> Unit
 ) {
@@ -82,9 +86,13 @@ fun BabyStatusContent(
                     babyStatus.id
                 }
             ) { babyStatus ->
-                ItemBabyTest(title = babyStatus.title) {
-                    onItemClick(babyStatus.id)
-                }
+                ItemList(
+                    id = babyStatus.id,
+                    title = babyStatus.title,
+                    date = DateFormatUtil.format(babyStatus.date),
+                    onItemClick = { onItemClick(babyStatus.id) },
+                    onDeleteItemClick = { onDeleteItemClick(babyStatus.id) }
+                )
             }
         }
     }
@@ -98,7 +106,7 @@ fun BabyStatusListScreenPreview() {
         babyStatusList.add(
             BabyStatus(
                 id = i.toLong(),
-                title = "BabyStatus $i",
+                title = "${stringResource(id = R.string.baby_status_label)} $i",
                 date = 0L,
                 height = 0F,
                 weight = 0F
@@ -109,27 +117,7 @@ fun BabyStatusListScreenPreview() {
         babyStatusList = babyStatusList,
         onItemClick = {},
         onNavigationIconClick = {},
-        onAddButtonClick = {}
+        onAddButtonClick = {},
+        onDeleteItemClick = {}
     )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ItemBabyTest(
-    title: String,
-    onItemClick: () -> Unit
-) {
-    ElevatedCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp),
-        onClick = onItemClick
-    ) {
-        Text(
-            modifier = Modifier
-                .padding(16.dp),
-            text = title,
-            fontSize = 22.sp
-        )
-    }
 }
