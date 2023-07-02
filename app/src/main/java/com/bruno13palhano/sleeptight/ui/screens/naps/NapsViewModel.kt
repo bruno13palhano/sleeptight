@@ -20,4 +20,9 @@ class NapsViewModel @Inject constructor(
             started = WhileSubscribed(5_000),
             initialValue = emptyList()
         )
+
+    fun deleteNap(napId: Long, onNapDeleted: () -> Unit) {
+        napRepository.deleteById(napId)
+        onNapDeleted()
+    }
 }
