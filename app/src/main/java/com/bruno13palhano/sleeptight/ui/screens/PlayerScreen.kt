@@ -17,17 +17,20 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL
@@ -48,18 +51,32 @@ private val subItemMediaLst: MutableList<MediaItem> = mutableListOf()
 
 @Composable
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
-fun PlayerScreen() {
+fun PlayerScreen(
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+) {
     val context = LocalContext.current
     var isVisible by remember { mutableStateOf(false) }
 
-    if (isVisible) {
-        PlayerContent(context = context)
+    DisposableEffect(key1 = lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_START) {
+                initializeController(context) {
+                    isVisible = true
+                }
+            } else if (event == Lifecycle.Event.ON_STOP) {
+                releaseController()
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
     }
 
-    LaunchedEffect(key1 = Unit) {
-        initializeController(context) {
-            isVisible = true
-        }
+    if (isVisible) {
+        PlayerContent(context = context)
     }
 }
 
@@ -117,25 +134,15 @@ fun PlayerContent(
                 .fillMaxWidth()
                 .fillMaxHeight()
         ) {
-            DisposableEffect(
-                AndroidView(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .sizeIn(maxHeight = 300.dp),
-                    factory = {
-                        PlayerView(context).apply {
-                            showController()
-                            useController = true
-                            player = controller
-                            setRepeatToggleModes(REPEAT_TOGGLE_MODE_ONE or REPEAT_TOGGLE_MODE_ALL)
-                            layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
-                        }
-                    },
-                    update = {}
-                )
-            ) {
-                onDispose { releaseController() }
-            }
+            val playerView = playerView(context = context)
+            AndroidView(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .sizeIn(maxHeight = 300.dp),
+                factory = { playerView },
+                update = {}
+            )
+
             LazyColumn {
                 items(items = subItemMediaLst) { mediaItem ->
                     Text(text = mediaItem.mediaId)
@@ -143,6 +150,44 @@ fun PlayerContent(
             }
         }
     }
+}
+
+@Composable
+@androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
+fun playerView(context: Context): PlayerView {
+    val playerView = PlayerView(context).apply {
+        showController()
+        useController = true
+        player = controller
+        setRepeatToggleModes(REPEAT_TOGGLE_MODE_ONE or REPEAT_TOGGLE_MODE_ALL)
+        layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+    }
+
+    val lifecycle = LocalLifecycleOwner.current
+    DisposableEffect(key1 = lifecycle) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_RESUME -> {
+                    playerView.onResume()
+                }
+                Lifecycle.Event.ON_PAUSE -> {
+                    playerView.onPause()
+                }
+                Lifecycle.Event.ON_STOP -> {
+                    playerView.player = null
+                }
+                else -> {}
+            }
+        }
+
+        lifecycle.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycle.lifecycle.removeObserver(observer)
+        }
+    }
+
+    return playerView
 }
 
 @Preview(showBackground = true)
