@@ -12,7 +12,7 @@ import com.bruno13palhano.sleeptight.R
             album = "Ao vivo",
             artist = "Gusttavo Lima",
             genre = "Sertanejo",
-            source = RawResourceDataSource.buildRawResourceUri(R.raw.bloqueado),
+            source = RawResourceDataSource.buildRawResourceUri(R.raw.cara_da_derrota),
             image = null
         ),
         SleepMusic(
@@ -21,7 +21,7 @@ import com.bruno13palhano.sleeptight.R
             album = "Ao vivo",
             artist = "Gusttavo Lima",
             genre = "Sertanejo",
-            source = RawResourceDataSource.buildRawResourceUri(R.raw.ficha_limpa),
+            source = RawResourceDataSource.buildRawResourceUri(R.raw.desejo_imortal),
             image = null
         ),
         SleepMusic(
@@ -30,7 +30,7 @@ import com.bruno13palhano.sleeptight.R
             album = "Ao vivo",
             artist = "Gusttavo Lima",
             genre = "Sertanejo",
-            source = RawResourceDataSource.buildRawResourceUri(R.raw.nao_me_arranha),
+            source = RawResourceDataSource.buildRawResourceUri(R.raw.ex_dos_meus_sonhos),
             image = null
         ),
         SleepMusic(
@@ -39,7 +39,7 @@ import com.bruno13palhano.sleeptight.R
             album = "Ao vivo",
             artist = "Gusttavo Lima",
             genre = "Sertanejo",
-            source = RawResourceDataSource.buildRawResourceUri(R.raw.quebrando_protocolo),
+            source = RawResourceDataSource.buildRawResourceUri(R.raw.larga_essa_rua),
             image = null
         ),
         SleepMusic(
@@ -48,7 +48,7 @@ import com.bruno13palhano.sleeptight.R
             album = "Ao vivo",
             artist = "Zé Neto e Cristiano",
             genre = "Sertanejo",
-            source = RawResourceDataSource.buildRawResourceUri(R.raw.decida),
+            source = RawResourceDataSource.buildRawResourceUri(R.raw.nunca_mais_largo),
             image = null
         ),
         SleepMusic(
@@ -57,7 +57,7 @@ import com.bruno13palhano.sleeptight.R
             album = "Ao vivo",
             artist = "Zé Neto e Cristiano",
             genre = "Sertanejo",
-            source = RawResourceDataSource.buildRawResourceUri(R.raw.saudade),
+            source = RawResourceDataSource.buildRawResourceUri(R.raw.saudade_da_minha_vida),
             image = null
         ),
         SleepMusic(
@@ -66,7 +66,7 @@ import com.bruno13palhano.sleeptight.R
             album = "Ao vivo",
             artist = "Zé Neto e Cristiano",
             genre = "Sertanejo",
-            source = RawResourceDataSource.buildRawResourceUri(R.raw.uma_vez_por_mes),
+            source = RawResourceDataSource.buildRawResourceUri(R.raw.saudade_fudida),
             image = null
         )
     )
