@@ -1,84 +1,104 @@
 package com.bruno13palhano.sleeptight
 
-import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View.GONE
-import android.view.View.VISIBLE
-import android.view.ViewTreeObserver
-import android.widget.LinearLayout
-import androidx.core.view.MenuProvider
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.onNavDestinationSelected
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.bruno13palhano.sleeptight.ui.BottomNavigation
+import com.bruno13palhano.sleeptight.ui.navigation.LoginDestinations
+import com.bruno13palhano.sleeptight.ui.navigation.SleepTightDestinations
+import com.bruno13palhano.sleeptight.ui.navigation.SleepTightNavGraph
+import com.bruno13palhano.sleeptight.ui.screens.CircularProgress
+import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private lateinit var bottomNavView: BottomNavigationView
-    private lateinit var root: LinearLayout
-
-    private val listener = ViewTreeObserver.OnGlobalLayoutListener {
-        val rect = Rect()
-        root.getWindowVisibleDisplayFrame(rect)
-        val screenHeight = root.rootView.height
-        val keypadHeight = screenHeight - rect.bottom
-
-        if (keypadHeight > screenHeight * 0.15) {
-            hideBottomNavigation()
-        } else {
-            showBottomNavigation()
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        root.viewTreeObserver.addOnGlobalLayoutListener(listener)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        root.viewTreeObserver.removeOnGlobalLayoutListener(listener)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        root = findViewById(R.id.main_layout)
+        setContent {
+            SleepTightTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    val navController = rememberNavController()
+                    var showBottomBar by rememberSaveable { mutableStateOf(false) }
+                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    val mainViewModel: MainViewModel = hiltViewModel()
 
-        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-        val builder = AppBarConfiguration.Builder(navController.graph)
-        val appBarConfiguration = builder.build()
-        toolbar.setupWithNavController(navController, appBarConfiguration)
-        bottomNavView = findViewById(R.id.bottom_nav)
-        bottomNavView.setupWithNavController(navController)
+                    showBottomBar = when (navBackStackEntry?.destination?.route) {
+                        LoginDestinations.LOGIN_ROUTE -> false
+                        LoginDestinations.CREATE_ACCOUNT_ROUTE -> false
+                        LoginDestinations.BABY_NAME_ROUTE -> false
+                        LoginDestinations.BABY_PHOTO_ROUTE -> false
+                        LoginDestinations.BABY_BIRTHPLACE_ROUTE -> false
+                        LoginDestinations.BABY_BIRTH_ACCOUNT_ROUTE -> false
+                        SleepTightDestinations.HOME_ROUTE -> {
+                            mainViewModel.isUserAuthenticated()
+                        }
+                        else -> true
+                    }
 
-        addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-
+                    Scaffold(
+                        bottomBar = {
+                            if (navBackStackEntry == null) {
+                                CircularProgress()
+                            } else {
+                                if (showBottomBar)
+                                    BottomNavigation(navController = navController)
+                            }
+                        }
+                    ) { paddingValues ->
+                        SleepTightNavGraph(
+                            modifier = Modifier.padding(paddingValues),
+                            navController = navController,
+                            viewModelStoreOwner = this
+                        )
+                    }
+                }
             }
+        }
+    }
+}
 
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return menuItem.onNavDestinationSelected(navController)
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun SleetTightTest() {
+    val navController = rememberNavController()
+    SleepTightTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            Scaffold(
+                bottomBar = {
+                    BottomNavigation(navController = navController)
+                }
+            ) { paddingValues ->
+                LocalViewModelStoreOwner.current?.let {
+                    SleepTightNavGraph(
+                        modifier = Modifier.padding(paddingValues),
+                        navController = navController,
+                        viewModelStoreOwner = it,
+                    )
+                }
             }
-        })
-    }
-
-    fun showBottomNavigation() {
-        bottomNavView.visibility = VISIBLE
-    }
-
-    fun hideBottomNavigation() {
-        bottomNavView.visibility = GONE
+        }
     }
 }
