@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -141,6 +142,9 @@ fun PlayerContent(
     ) {
         var isPlaying by remember { mutableStateOf(false) }
         var currentMusicIndex by remember { mutableIntStateOf(0) }
+        var title by remember { mutableStateOf("") }
+        var artist by remember { mutableStateOf("") }
+        var album by remember { mutableStateOf("") }
 
         Column(
             modifier = Modifier
@@ -156,13 +160,19 @@ fun PlayerContent(
                     player.player?.addListener(object : Player.Listener {
                         override fun onEvents(player: Player, events: Player.Events) {
                             currentMusicIndex = player.currentMediaItemIndex
-                        }
-
-                        override fun onIsPlayingChanged(isP: Boolean) {
-                            isPlaying = isP
+                            title = player.mediaMetadata.title.toString()
+                            artist = player.mediaMetadata.artist.toString()
+                            album = player.mediaMetadata.albumTitle.toString()
+                            isPlaying = player.isPlaying
                         }
                     })
                 }
+            )
+
+            CurrentMediaCard(
+                title = title,
+                artist = artist,
+                album = album
             )
 
             LazyColumn(
@@ -262,8 +272,13 @@ fun MusicItemList(
         onClick = { onItemClick(index) }
     ) {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = if (isCurrentMusic) {
+                Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.secondary)
+            } else {
+                Modifier.fillMaxWidth()
+            }
         ) {
             Column {
                 Text(
@@ -301,5 +316,27 @@ fun MusicItemList(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun CurrentMediaCard(
+    title: String,
+    artist: String,
+    album: String,
+) {
+    Column {
+        Text(
+            modifier = Modifier
+                .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+            text = title,
+            style = MaterialTheme.typography.titleLarge
+        )
+        Text(
+            modifier = Modifier
+                .padding(top = 4.dp, start = 16.dp, end = 16.dp),
+            text = "$artist, $album",
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
