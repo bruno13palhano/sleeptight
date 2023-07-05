@@ -4,27 +4,38 @@ import android.content.ComponentName
 import android.content.Context
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -47,7 +58,7 @@ private lateinit var controllerFuture: ListenableFuture<MediaController>
 private val controller: MediaController?
     get() = if (controllerFuture.isDone) controllerFuture.get() else null
 private val subItemMediaLst: MutableList<MediaItem> = mutableListOf()
-
+private var mediaI: MediaItem? = null
 
 @Composable
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
@@ -103,7 +114,7 @@ private fun setController(launched: () -> Unit) {
     ctrl.addListener(
         object : Player.Listener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
-//                super.onMediaItemTransition(mediaItem, reason)
+                mediaI = mediaItem
             }
         }
     )
@@ -128,11 +139,12 @@ fun PlayerContent(
             TopAppBar(title = { Text(text = stringResource(id = R.string.player_label)) })
         }
     ) {
+        var isPlaying by remember { mutableStateOf(false) }
+        var currentMusicIndex by remember { mutableIntStateOf(0) }
+
         Column(
             modifier = Modifier
                 .padding(it)
-                .fillMaxWidth()
-                .fillMaxHeight()
         ) {
             val playerView = playerView(context = context)
             AndroidView(
@@ -140,12 +152,46 @@ fun PlayerContent(
                     .fillMaxWidth()
                     .sizeIn(maxHeight = 300.dp),
                 factory = { playerView },
-                update = {}
+                update = { player ->
+                    player.player?.addListener(object : Player.Listener {
+                        override fun onEvents(player: Player, events: Player.Events) {
+                            currentMusicIndex = player.currentMediaItemIndex
+                        }
+
+                        override fun onIsPlayingChanged(isP: Boolean) {
+                            isPlaying = isP
+                        }
+                    })
+                }
             )
 
-            LazyColumn {
-                items(items = subItemMediaLst) { mediaItem ->
-                    Text(text = mediaItem.mediaId)
+            LazyColumn(
+                modifier = Modifier
+                    .padding(top = 4.dp),
+            ) {
+                itemsIndexed(items = subItemMediaLst) { index, mediaItem ->
+                    MusicItemList(
+                        index = index,
+                        isPlaying = isPlaying,
+                        isCurrentMusic = currentMusicIndex == index,
+                        title = mediaItem.mediaMetadata.title.toString(),
+                        artist = mediaItem.mediaMetadata.artist.toString(),
+                        onItemClick = { idx ->
+                            playerView.player?.seekToDefaultPosition(idx)
+                            currentMusicIndex = playerView.player?.currentMediaItemIndex ?: 0
+                        },
+                        onPlayPauseClick = {
+                            isPlaying = if (isPlaying) {
+                                playerView.player?.pause()
+                                currentMusicIndex = playerView.player?.currentMediaItemIndex ?: 0
+                                false
+                            } else {
+                                playerView.player?.play()
+                                currentMusicIndex = playerView.player?.currentMediaItemIndex ?: 0
+                                true
+                            }
+                        }
+                    )
                 }
             }
         }
@@ -196,4 +242,64 @@ fun PlayerScreenPreview() {
     PlayerContent(
         context = LocalContext.current
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MusicItemList(
+    index: Int,
+    isPlaying: Boolean,
+    isCurrentMusic: Boolean,
+    title: String,
+    artist: String,
+    onItemClick: (index: Int) -> Unit,
+    onPlayPauseClick: (isPlaying: Boolean) -> Unit
+) {
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(1.dp),
+        onClick = { onItemClick(index) }
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            Column {
+                Text(
+                    modifier = Modifier
+                        .padding(start = 16.dp, end = 16.dp, top = 8.dp),
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    modifier = Modifier
+                        .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 8.dp),
+                    text = artist,
+                    fontFamily = FontFamily.Serif,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+
+            if (isCurrentMusic) {
+                IconButton(
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd),
+                    onClick = { onPlayPauseClick(isPlaying) }
+                ) {
+                    if (isPlaying) {
+                        Icon(
+                            imageVector = Icons.Filled.Pause,
+                            contentDescription = stringResource(id = R.string.player_label)
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Filled.PlayArrow,
+                            contentDescription = stringResource(id = R.string.player_label)
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
