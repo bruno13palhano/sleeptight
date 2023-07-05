@@ -263,7 +263,7 @@ fun MusicItemList(
     title: String,
     artist: String,
     onItemClick: (index: Int) -> Unit,
-    onPlayPauseClick: (isPlaying: Boolean) -> Unit
+    onPlayPauseClick: () -> Unit
 ) {
     ElevatedCard(
         modifier = Modifier
@@ -300,7 +300,7 @@ fun MusicItemList(
                 IconButton(
                     modifier = Modifier
                         .align(Alignment.CenterEnd),
-                    onClick = { onPlayPauseClick(isPlaying) }
+                    onClick = onPlayPauseClick
                 ) {
                     if (isPlaying) {
                         Icon(
