@@ -196,6 +196,7 @@ fun PlayerContent(
                                 currentMusicIndex = playerView.player?.currentMediaItemIndex ?: 0
                                 false
                             } else {
+                                playerView.player?.prepare()
                                 playerView.player?.play()
                                 currentMusicIndex = playerView.player?.currentMediaItemIndex ?: 0
                                 true
