@@ -3,13 +3,17 @@ package com.bruno13palhano.sleeptight.ui.screens.analytics
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.di.DefaultNapRep
 import com.bruno13palhano.core.data.repository.NapRepository
 import com.bruno13palhano.model.Day
 import com.bruno13palhano.model.Month
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
+import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,11 +31,22 @@ class AnalyticsNapChartViewModel @Inject constructor(
                 allDate.add(DateFormatUtil.format(nap.date))
             }
 
-            AllNapChartUi(
-                allSleeptime = allSleepTime,
-                allDate = allDate
+            val chartM = mutableListOf<Pair<String, Float>>()
+            for (i in 0 until allDate.size) {
+                chartM.add(Pair(allDate[i], allSleepTime[i]))
+            }
+
+            ChartEntryModelProducer(
+                chartM.mapIndexed { index, (date, y) ->
+                    NapChartEntry(date, index.toFloat(), y)
+                }
             )
         }
+        .stateIn(
+            scope = viewModelScope,
+            started = WhileSubscribed(5_000),
+            initialValue = ChartEntryModelProducer()
+        )
 
     private fun timeToDecimal(time: Long): Float {
         val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
