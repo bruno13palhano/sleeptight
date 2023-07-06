@@ -4,15 +4,21 @@ import android.content.ComponentName
 import android.content.Context
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
@@ -22,6 +28,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -33,8 +40,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
@@ -129,7 +138,7 @@ private fun updateCurrentPlaylistUI() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 @Composable
 fun PlayerContent(
@@ -139,71 +148,73 @@ fun PlayerContent(
         topBar = {
             TopAppBar(title = { Text(text = stringResource(id = R.string.player_label)) })
         }
-    ) {
+    ) { paddingValues ->
         var isPlaying by remember { mutableStateOf(false) }
         var currentMusicIndex by remember { mutableIntStateOf(0) }
         var title by remember { mutableStateOf("") }
         var artist by remember { mutableStateOf("") }
         var album by remember { mutableStateOf("") }
 
-        Column(
+        val playerView = playerView(context = context)
+        LazyColumn(
             modifier = Modifier
-                .padding(it)
+                .padding(paddingValues),
         ) {
-            val playerView = playerView(context = context)
-            AndroidView(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .sizeIn(maxHeight = 300.dp),
-                factory = { playerView },
-                update = { player ->
-                    player.player?.addListener(object : Player.Listener {
-                        override fun onEvents(player: Player, events: Player.Events) {
-                            currentMusicIndex = player.currentMediaItemIndex
-                            title = player.mediaMetadata.title.toString()
-                            artist = player.mediaMetadata.artist.toString()
-                            album = player.mediaMetadata.albumTitle.toString()
-                            isPlaying = player.isPlaying
-                        }
-                    })
-                }
-            )
-
-            CurrentMediaCard(
-                title = title,
-                artist = artist,
-                album = album
-            )
-
-            LazyColumn(
-                modifier = Modifier
-                    .padding(top = 4.dp),
-            ) {
-                itemsIndexed(items = subItemMediaLst) { index, mediaItem ->
-                    MusicItemList(
-                        index = index,
-                        isPlaying = isPlaying,
-                        isCurrentMusic = currentMusicIndex == index,
-                        title = mediaItem.mediaMetadata.title.toString(),
-                        artist = mediaItem.mediaMetadata.artist.toString(),
-                        onItemClick = { idx ->
-                            playerView.player?.seekToDefaultPosition(idx)
-                            currentMusicIndex = playerView.player?.currentMediaItemIndex ?: 0
-                        },
-                        onPlayPauseClick = {
-                            isPlaying = if (isPlaying) {
-                                playerView.player?.pause()
-                                currentMusicIndex = playerView.player?.currentMediaItemIndex ?: 0
-                                false
-                            } else {
-                                playerView.player?.prepare()
-                                playerView.player?.play()
-                                currentMusicIndex = playerView.player?.currentMediaItemIndex ?: 0
-                                true
+            stickyHeader {
+                Surface {
+                    Column {
+                        AndroidView(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .sizeIn(maxHeight = 300.dp),
+                            factory = { playerView },
+                            update = { player ->
+                                player.player?.addListener(object : Player.Listener {
+                                    override fun onEvents(
+                                        player: Player,
+                                        events: Player.Events
+                                    ) {
+                                        currentMusicIndex = player.currentMediaItemIndex
+                                        title = player.mediaMetadata.title.toString()
+                                        artist = player.mediaMetadata.artist.toString()
+                                        album = player.mediaMetadata.albumTitle.toString()
+                                        isPlaying = player.isPlaying
+                                    }
+                                })
                             }
-                        }
-                    )
+                        )
+                        CurrentMediaCard(
+                            title = title,
+                            artist = artist,
+                            album = album
+                        )
+                    }
                 }
+            }
+            itemsIndexed(items = subItemMediaLst) { index, mediaItem ->
+                MusicItemList(
+                    index = index,
+                    isPlaying = isPlaying,
+                    isCurrentMusic = currentMusicIndex == index,
+                    title = mediaItem.mediaMetadata.title.toString(),
+                    artist = mediaItem.mediaMetadata.artist.toString(),
+                    onItemClick = { idx ->
+                        playerView.player?.seekToDefaultPosition(idx)
+                        currentMusicIndex = playerView.player?.currentMediaItemIndex ?: 0
+                    },
+                    onPlayPauseClick = {
+                        isPlaying = if (isPlaying) {
+                            playerView.player?.pause()
+                            currentMusicIndex = playerView.player?.currentMediaItemIndex ?: 0
+                            false
+                        } else {
+                            playerView.player?.prepare()
+                            playerView.player?.play()
+                            currentMusicIndex = playerView.player?.currentMediaItemIndex ?: 0
+                            true
+                        }
+                    }
+                )
             }
         }
     }
@@ -269,7 +280,7 @@ fun MusicItemList(
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(1.dp),
+            .padding(horizontal = 2.dp, vertical = 1.dp),
         onClick = { onItemClick(index) }
     ) {
         Box(
@@ -326,18 +337,33 @@ fun CurrentMediaCard(
     artist: String,
     album: String,
 ) {
-    Column {
-        Text(
+    Row(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Image(
             modifier = Modifier
-                .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-            text = title,
-            style = MaterialTheme.typography.titleLarge
+                .padding(start = 16.dp, top = 16.dp, bottom = 8.dp)
+                .size(64.dp)
+                .clip(CircleShape)
+                .border(2.dp, MaterialTheme.colorScheme.secondary, CircleShape),
+            painter = painterResource(id = R.drawable.logo_1),
+            contentDescription = stringResource(id = R.string.baby_photo_label)
         )
-        Text(
-            modifier = Modifier
-                .padding(top = 4.dp, start = 16.dp, end = 16.dp),
-            text = "$artist, $album",
-            style = MaterialTheme.typography.bodyMedium
-        )
+        Column(
+            modifier = Modifier.align(Alignment.CenterVertically)
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                text = title,
+                style = MaterialTheme.typography.titleLarge
+            )
+            Text(
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 16.dp, bottom = 4.dp),
+                text = "$artist, $album",
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
     }
 }
