@@ -112,4 +112,5 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.1"
 
     implementation "io.coil-kt:coil-compose:2.4.0"
+    implementation "com.patrykandpatrick.vico:compose-m3:1.6.5"
 }
