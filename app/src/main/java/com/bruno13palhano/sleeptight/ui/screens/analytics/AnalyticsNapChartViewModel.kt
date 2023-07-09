@@ -8,6 +8,7 @@ import com.bruno13palhano.core.data.di.DefaultNapRep
 import com.bruno13palhano.core.data.repository.NapRepository
 import com.bruno13palhano.model.Day
 import com.bruno13palhano.model.Month
+import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AnalyticsNapChartViewModel @Inject constructor(
-    @DefaultNapRep private val napRepository: NapRepository
+    @DefaultNapRep private val napRepository: NapRepository,
+    private val stringResourceProvider: StringResourceProvider
 ) : ViewModel() {
 
     val allNapChartUi = napRepository.all
@@ -67,11 +69,6 @@ class AnalyticsNapChartViewModel @Inject constructor(
         return if (timeDecimal == 0.0F) 0.0F else String.format("%.2f", timeDecimal)
             .replace(",", ".").toFloat()
     }
-
-    data class AllNapChartUi(
-        val allSleeptime: List<Float> = emptyList(),
-        val allDate: List<String> = emptyList()
-    )
 
     val monthNapChartUi = napRepository.all
         .map {
@@ -153,36 +150,31 @@ class AnalyticsNapChartViewModel @Inject constructor(
                 }
             }
 
-            MonthNapChartUi(
-                january = averageSleepTimeDecimal(januaryHours, januaryMinutes),
-                february = averageSleepTimeDecimal(februaryHours, februaryMinutes),
-                march = averageSleepTimeDecimal(marchHours, marchMinutes),
-                april = averageSleepTimeDecimal(aprilHours, aprilMinutes),
-                may = averageSleepTimeDecimal(mayHours, mayMinutes),
-                june = averageSleepTimeDecimal(juneHours, juneMinutes),
-                july = averageSleepTimeDecimal(julyHours, julyMinutes),
-                august = averageSleepTimeDecimal(augustHours, augustMinutes),
-                september = averageSleepTimeDecimal(septemberHours, septemberMinutes),
-                october = averageSleepTimeDecimal(octoberHours, octoberMinutes),
-                november = averageSleepTimeDecimal(novemberHours, novemberMinutes),
-                december = averageSleepTimeDecimal(decemberHours, decemberMinutes)
+            val chartM = mutableListOf<Pair<String, Float>>()
+            chartM.add(Pair(stringResourceProvider.getString(R.string.january_label), averageSleepTimeDecimal(januaryHours, januaryMinutes)))
+            chartM.add(Pair(stringResourceProvider.getString(R.string.february_label), averageSleepTimeDecimal(februaryHours, februaryMinutes)))
+            chartM.add(Pair(stringResourceProvider.getString(R.string.march_label), averageSleepTimeDecimal(marchHours, marchMinutes)))
+            chartM.add(Pair(stringResourceProvider.getString(R.string.april_label), averageSleepTimeDecimal(aprilHours, aprilMinutes)))
+            chartM.add(Pair(stringResourceProvider.getString(R.string.may_label), averageSleepTimeDecimal(mayHours, mayMinutes)))
+            chartM.add(Pair(stringResourceProvider.getString(R.string.june_label), averageSleepTimeDecimal(juneHours, juneMinutes)))
+            chartM.add(Pair(stringResourceProvider.getString(R.string.july_label), averageSleepTimeDecimal(julyHours, julyMinutes)))
+            chartM.add(Pair(stringResourceProvider.getString(R.string.august_label), averageSleepTimeDecimal(augustHours, augustMinutes)))
+            chartM.add(Pair(stringResourceProvider.getString(R.string.september_label), averageSleepTimeDecimal(septemberHours, septemberMinutes)))
+            chartM.add(Pair(stringResourceProvider.getString(R.string.october_label), averageSleepTimeDecimal(octoberHours, octoberMinutes)))
+            chartM.add(Pair(stringResourceProvider.getString(R.string.november_label), averageSleepTimeDecimal(novemberHours, novemberMinutes)))
+            chartM.add(Pair(stringResourceProvider.getString(R.string.december_label), averageSleepTimeDecimal(decemberHours, decemberMinutes)))
+
+            ChartEntryModelProducer(
+                chartM.mapIndexed { index, (month, y) ->
+                    NapChartEntry(month, index.toFloat(), y)
+                }
             )
         }
-
-    data class MonthNapChartUi(
-        val january: Float =  0.0F,
-        val february: Float = 0.0F,
-        val march: Float = 0.0F,
-        val april: Float = 0.0F,
-        val may: Float = 0.0F,
-        val june: Float = 0.0F,
-        val july: Float = 0.0F,
-        val august: Float = 0.0F,
-        val september: Float = 0.0F,
-        val october: Float = 0.0F,
-        val november: Float = 0.0F,
-        val december: Float = 0.0F
-    )
+        .stateIn(
+            scope = viewModelScope,
+            started = WhileSubscribed(5_000),
+            initialValue = ChartEntryModelProducer()
+        )
 
     val weekNapChartUi = napRepository.all
         .map {
@@ -233,26 +225,27 @@ class AnalyticsNapChartViewModel @Inject constructor(
                     }
                 }
             }
-            WeekNapChartUi(
-                sunday = averageSleepTimeDecimal(sundayHours, sundayMinutes),
-                monday = averageSleepTimeDecimal(mondayHours, mondayMinutes),
-                tuesday = averageSleepTimeDecimal(tuesdayHours, tuesdayMinute),
-                wednesday = averageSleepTimeDecimal(wednesdayHours, wednesdayMinute),
-                thursday = averageSleepTimeDecimal(thursdayHours, thursdayMinute),
-                friday = averageSleepTimeDecimal(fridayHours, fridayMinutes),
-                saturday = averageSleepTimeDecimal(saturdayHours, saturdayMinutes)
+
+            val chartM = mutableListOf<Pair<String, Float>>()
+            chartM.add(Pair(stringResourceProvider.getString(R.string.sunday_label), averageSleepTimeDecimal(sundayHours, sundayMinutes)))
+            chartM.add(Pair(stringResourceProvider.getString(R.string.monday_label), averageSleepTimeDecimal(mondayHours, mondayMinutes)))
+            chartM.add(Pair(stringResourceProvider.getString(R.string.tuesday_label), averageSleepTimeDecimal(tuesdayHours, tuesdayMinute)))
+            chartM.add(Pair(stringResourceProvider.getString(R.string.wednesday_label), averageSleepTimeDecimal(wednesdayHours, wednesdayMinute)))
+            chartM.add(Pair(stringResourceProvider.getString(R.string.thursday_label), averageSleepTimeDecimal(thursdayHours, thursdayMinute)))
+            chartM.add(Pair(stringResourceProvider.getString(R.string.friday_label), averageSleepTimeDecimal(fridayHours, fridayMinutes)))
+            chartM.add(Pair(stringResourceProvider.getString(R.string.saturday_label), averageSleepTimeDecimal(saturdayHours, saturdayMinutes)))
+
+            ChartEntryModelProducer(
+                chartM.mapIndexed { index, (weekday, y) ->
+                    NapChartEntry(weekday, index.toFloat(), y)
+                }
             )
         }
-
-    data class WeekNapChartUi(
-        val sunday: Float = 0.0F,
-        val monday: Float = 0.0F,
-        val tuesday: Float = 0.0F,
-        val wednesday: Float = 0.0F,
-        val thursday: Float = 0.0F,
-        val friday: Float = 0.0F,
-        val saturday: Float = 0.0F
-    )
+        .stateIn(
+            scope = viewModelScope,
+            started = WhileSubscribed(5_000),
+            initialValue = ChartEntryModelProducer()
+        )
 
     private var sundayHoursNight = mutableListOf<Int>()
     private var sundayMinutesNight = mutableListOf<Int>()
@@ -359,27 +352,39 @@ class AnalyticsNapChartViewModel @Inject constructor(
                     }
                 }
             }
-            ShiftNapChartUi(
-                day = WeekDays(
-                    sunday = averageSleepTimeDecimal(sundayHoursDay, sundayMinutesDay),
-                    monday = averageSleepTimeDecimal(mondayHoursDay, mondayMinutesDay),
-                    tuesday = averageSleepTimeDecimal(tuesdayHoursDay, tuesdayMinutesDay),
-                    wednesday = averageSleepTimeDecimal(wednesdayHoursDay, wednesdayMinutesDay),
-                    thursday = averageSleepTimeDecimal(thursdayHoursDay, thursdayMinutesDay),
-                    friday = averageSleepTimeDecimal(fridayHoursDay, fridayMinutesDay),
-                    saturday = averageSleepTimeDecimal(saturdayHoursDay, saturdayMinutesDay)
-                ),
-                night = WeekDays(
-                    sunday = averageSleepTimeDecimal(sundayHoursNight, sundayMinutesNight),
-                    monday = averageSleepTimeDecimal(mondayHoursNight, mondayMinutesNight),
-                    tuesday = averageSleepTimeDecimal(tuesdayHoursNight, tuesdayMinutesNight),
-                    wednesday = averageSleepTimeDecimal(wednesdayHoursNight, wednesdayMinutesNight),
-                    thursday = averageSleepTimeDecimal(thursdayHoursNight, thursdayMinutesNight),
-                    friday = averageSleepTimeDecimal(fridayHoursNight, fridayMinutesNight),
-                    saturday = averageSleepTimeDecimal(saturdayHoursNight, saturdayMinutesNight)
-                )
+
+            val chartMDay = mutableListOf<Pair<String, Float>>()
+            chartMDay.add(Pair(stringResourceProvider.getString(R.string.sunday_label), averageSleepTimeDecimal(sundayHoursDay, sundayMinutesDay)))
+            chartMDay.add(Pair(stringResourceProvider.getString(R.string.monday_label), averageSleepTimeDecimal(mondayHoursDay, mondayMinutesDay)))
+            chartMDay.add(Pair(stringResourceProvider.getString(R.string.tuesday_label), averageSleepTimeDecimal(tuesdayHoursDay, tuesdayMinutesDay)))
+            chartMDay.add(Pair(stringResourceProvider.getString(R.string.wednesday_label), averageSleepTimeDecimal(wednesdayHoursDay, wednesdayMinutesDay)))
+            chartMDay.add(Pair(stringResourceProvider.getString(R.string.thursday_label), averageSleepTimeDecimal(thursdayHoursDay, thursdayMinutesDay)))
+            chartMDay.add(Pair(stringResourceProvider.getString(R.string.friday_label), averageSleepTimeDecimal(fridayHoursDay, fridayMinutesDay)))
+            chartMDay.add(Pair(stringResourceProvider.getString(R.string.saturday_label), averageSleepTimeDecimal(saturdayHoursDay, saturdayMinutesDay)))
+
+            val chartMNight = mutableListOf<Pair<String, Float>>()
+            chartMNight.add(Pair(stringResourceProvider.getString(R.string.sunday_label), averageSleepTimeDecimal(sundayHoursNight, sundayMinutesNight)))
+            chartMNight.add(Pair(stringResourceProvider.getString(R.string.monday_label), averageSleepTimeDecimal(mondayHoursNight, mondayMinutesNight)))
+            chartMNight.add(Pair(stringResourceProvider.getString(R.string.tuesday_label), averageSleepTimeDecimal(tuesdayHoursNight, tuesdayMinutesNight)))
+            chartMNight.add(Pair(stringResourceProvider.getString(R.string.wednesday_label), averageSleepTimeDecimal(wednesdayHoursNight, wednesdayMinutesNight)))
+            chartMNight.add(Pair(stringResourceProvider.getString(R.string.thursday_label), averageSleepTimeDecimal(thursdayHoursNight, thursdayMinutesNight)))
+            chartMNight.add(Pair(stringResourceProvider.getString(R.string.friday_label), averageSleepTimeDecimal(fridayHoursNight, fridayMinutesNight)))
+            chartMNight.add(Pair(stringResourceProvider.getString(R.string.saturday_label), averageSleepTimeDecimal(saturdayHoursNight, saturdayMinutesNight)))
+
+            ChartEntryModelProducer(
+                chartMDay.mapIndexed { index, (weekday, y) ->
+                    NapChartEntry(weekday, index.toFloat(), y)
+                },
+                chartMNight.mapIndexed { index, (weekday, y) ->
+                    NapChartEntry(weekday, index.toFloat(), y)
+                }
             )
         }
+        .stateIn(
+            scope = viewModelScope,
+            started = WhileSubscribed(5_000),
+            initialValue = ChartEntryModelProducer()
+        )
 
     private fun setShiftHourAndMinute(
         startTime: Long,
@@ -397,19 +402,4 @@ class AnalyticsNapChartViewModel @Inject constructor(
             dayMinutes.add(minuteToInt(sleepTime))
         }
     }
-
-    data class ShiftNapChartUi(
-        val day: WeekDays = WeekDays(),
-        val night: WeekDays = WeekDays()
-    )
-
-    data class WeekDays(
-        val sunday: Float = 0F,
-        val monday: Float = 0F,
-        val tuesday: Float = 0F,
-        val wednesday: Float = 0F,
-        val thursday: Float = 0F,
-        val friday: Float = 0F,
-        val saturday: Float = 0F
-    )
 }
