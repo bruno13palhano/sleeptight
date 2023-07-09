@@ -76,7 +76,7 @@ fun NapChartsScreen(
         },
         onMenuItemClick = {
             when (it) {
-                NapChartsMenuIndex.ALL_NAPS_CHARTS_ITEM_INDEX -> {
+                NapChartsMenuIndex.ALL_NAPS_CHART_ITEM_INDEX -> {
                     chartEntry = allNaps
                 }
                 NapChartsMenuIndex.NAP_MONTH_CHART_ITEM_INDEX -> {
@@ -204,7 +204,7 @@ fun NapChartsScreenPreview() {
 }
 
 object NapChartsMenuIndex {
-    const val ALL_NAPS_CHARTS_ITEM_INDEX = 0
+    const val ALL_NAPS_CHART_ITEM_INDEX = 0
     const val NAP_MONTH_CHART_ITEM_INDEX = 1
     const val NAP_WEEK_CHART_ITEM_INDEX = 2
     const val NAP_SHIFT_CHART_ITEM_INDEX = 3
