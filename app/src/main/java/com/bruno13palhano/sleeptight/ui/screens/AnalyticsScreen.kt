@@ -9,12 +9,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.MultilineChart
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.navigation.AnalyticsDestinations
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnalyticsScreen(
     onItemClick: (route: String) -> Unit
@@ -40,6 +39,18 @@ fun AnalyticsScreen(
         AnalyticsItem.NapCharts
     )
 
+    AnalyticsContent(
+        onItemClick = onItemClick,
+        items = items
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AnalyticsContent(
+    onItemClick: (route: String) -> Unit,
+    items: List<AnalyticsItem>
+) {
     Scaffold(
         topBar = {
             TopAppBar(title = { Text(text = stringResource(id = R.string.analytics_label))} )
@@ -49,10 +60,16 @@ fun AnalyticsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.SpaceEvenly
         ) {
             items.forEach{ analyticsItem ->
-                AnalyticsCard(analyticsItem = analyticsItem) {
+                AnalyticsCard(
+                    analyticsItem = analyticsItem,
+                    modifier = Modifier
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                        .weight(1F, true)
+                ) {
                     onItemClick(analyticsItem.route)
                 }
             }
@@ -60,7 +77,6 @@ fun AnalyticsScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun AnalyticsScreenPreview() {
@@ -69,35 +85,21 @@ fun AnalyticsScreenPreview() {
         AnalyticsItem.NapCharts
     )
 
-    Scaffold(
-        topBar = {
-            TopAppBar(title = { Text(text = stringResource(id = R.string.analytics_label))} )
-        }
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
-        ) {
-            items.forEach { analyticsItem ->
-                AnalyticsCard(analyticsItem = analyticsItem) {
-
-                }
-            }
-        }
-    }
+    AnalyticsContent(
+        onItemClick = {},
+        items = items
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnalyticsCard(
     analyticsItem: AnalyticsItem,
+    modifier: Modifier,
     onItemClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier
-            .sizeIn(maxHeight = 128.dp)
-            .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+        modifier = modifier,
         shape = RoundedCornerShape(8.dp),
         onClick = onItemClick
     ) {
@@ -125,6 +127,6 @@ fun AnalyticsCard(
 }
 
 sealed class AnalyticsItem(@StringRes val text: Int, val imageVector: ImageVector, val route: String) {
-    object BabyStatusCharts: AnalyticsItem(R.string.all_baby_status_label, Icons.Filled.Image, AnalyticsDestinations.BABY_STATUS_CHARTS_ROUTE)
-    object NapCharts: AnalyticsItem(R.string.all_naps_chart_label, Icons.Filled.Image, AnalyticsDestinations.NAP_CHARTS_ROUTE)
+    object BabyStatusCharts: AnalyticsItem(R.string.all_baby_status_label, Icons.Filled.MultilineChart, AnalyticsDestinations.BABY_STATUS_CHARTS_ROUTE)
+    object NapCharts: AnalyticsItem(R.string.all_naps_chart_label, Icons.Filled.BarChart, AnalyticsDestinations.NAP_CHARTS_ROUTE)
 }
