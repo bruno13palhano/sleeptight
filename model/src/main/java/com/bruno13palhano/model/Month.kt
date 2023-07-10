@@ -1,16 +1,21 @@
 package com.bruno13palhano.model
 
-enum class Month(val month: String) {
-    JANUARY("JANUARY"),
-    FEBRUARY("FEBRUARY"),
-    MARCH("MARCH"),
-    APRIL("APRIL"),
-    MAY("MAY"),
-    JUNE("JUNE"),
-    JULY("JULY"),
-    AUGUST("AUGUST"),
-    SEPTEMBER("SEPTEMBER"),
-    OCTOBER("OCTOBER"),
-    NOVEMBER("NOVEMBER"),
-    DECEMBER("DECEMBER")
+/**
+ * Months of the year.
+ *
+ * An enum to wrap the months of the year.
+ */
+enum class Month {
+    JANUARY,
+    FEBRUARY,
+    MARCH,
+    APRIL,
+    MAY,
+    JUNE,
+    JULY,
+    AUGUST,
+    SEPTEMBER,
+    OCTOBER,
+    NOVEMBER,
+    DECEMBER
 }
