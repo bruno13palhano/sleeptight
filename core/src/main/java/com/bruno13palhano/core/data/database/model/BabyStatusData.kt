@@ -5,6 +5,16 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.bruno13palhano.model.BabyStatus
 
+/**
+ * BabyStatus as an Entity.
+ *
+ * An entity class to persist the BabyStatus in database.
+ * @property id the id to identify this BabyStatus.
+ * @property title the title of this BabyStatus.
+ * @property date the date in milliseconds when this BabyStatus was measured.
+ * @property height the height when this BabyStatus was measured.
+ * @property weight the weight when this BabyStatus was measured.
+ */
 @Entity(tableName = "baby_status_table")
 internal data class BabyStatusData(
 
@@ -25,6 +35,10 @@ internal data class BabyStatusData(
     val weight: Float
 )
 
+/**
+ * Transforms [BabyStatus] into [BabyStatusData].
+ * @return [BabyStatusData].
+ */
 internal fun BabyStatus.asBabyStatusData() = BabyStatusData(
     id = id,
     title = title,
@@ -33,6 +47,10 @@ internal fun BabyStatus.asBabyStatusData() = BabyStatusData(
     weight = weight
 )
 
+/**
+ * Transforms [BabyStatusData] into [BabyStatus].
+ * @return [BabyStatus].
+ */
 internal fun BabyStatusData.asBabyStatus() = BabyStatus(
     id = id,
     title = title,

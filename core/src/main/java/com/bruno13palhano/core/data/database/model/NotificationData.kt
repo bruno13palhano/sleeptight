@@ -5,6 +5,17 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.bruno13palhano.model.Notification
 
+/**
+ * Notification as an Entity.
+ *
+ * An entity class to persist the Notifications in database.
+ * @property id the id to identify this Notification.
+ * @property title the of this Notification.
+ * @property description the description of this Notification entity.
+ * @property time the time in milliseconds when this Notification will start.
+ * @property date the date in milliseconds when this Notification will start.
+ * @property repeat defines if the Notification will be repeated every day.
+ */
 @Entity(tableName = "notification_table")
 internal data class NotificationData(
 
@@ -28,6 +39,10 @@ internal data class NotificationData(
     val repeat: Boolean
 )
 
+/**
+ * Transforms [NotificationData] into [Notification].
+ * @return [Notification].
+ */
 internal fun NotificationData.asNotification() = Notification(
     id = id,
     title = title,
@@ -37,6 +52,10 @@ internal fun NotificationData.asNotification() = Notification(
     repeat = repeat
 )
 
+/**
+ * Transforms [Notification] into [NotificationData].
+ * @return [NotificationData].
+ */
 internal fun Notification.asNotificationData() = NotificationData(
     id = id,
     title = title,

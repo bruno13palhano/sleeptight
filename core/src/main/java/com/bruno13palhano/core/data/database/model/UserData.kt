@@ -5,6 +5,21 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.bruno13palhano.model.User
 
+/**
+ * User as an Entity.
+ *
+ * An entity class to persist the User in database.
+ * @property id the id to identify this User account.
+ * @property username the username.
+ * @property email the User email.
+ * @property babyName the name of the baby related to this User account.
+ * @property babyUrlPhoto the Url of the User's profile picture.
+ * @property birthplace baby's place of birth.
+ * @property birthdate baby's date of birth in milliseconds.
+ * @property birthtime baby's time of birth in milliseconds.
+ * @property height baby's height at birth.
+ * @property weight baby's weight at birth.
+ */
 @Entity(tableName = "user_table")
 internal data class UserData(
 
@@ -40,6 +55,10 @@ internal data class UserData(
     val weight: Float
 )
 
+/**
+ * Transforms [UserData] into [User].
+ * @return [User].
+ */
 internal fun UserData.asUser() = User(
     id = id,
     username = username,
@@ -53,6 +72,10 @@ internal fun UserData.asUser() = User(
     weight = weight
 )
 
+/**
+ * Transforms [User] into [UserData].
+ * @return [UserData]
+ */
 internal fun User.asUserData() = UserData(
     id = id,
     username = username,
