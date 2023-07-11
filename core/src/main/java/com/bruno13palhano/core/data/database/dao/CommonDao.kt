@@ -25,13 +25,13 @@ interface CommonDao<T> {
     suspend fun insert(model: T): Long
 
     /**
-     * Updates the [model] in the database.
+     * Updates the [model] of type [T] in the database.
      */
     @Update
     suspend fun update(model: T)
 
     /**
-     * Deletes the [model] in the database.
+     * Deletes the [model] of type [T] in the database.
      */
     @Delete
     suspend fun delete(model: T)
