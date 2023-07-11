@@ -17,6 +17,12 @@ import com.bruno13palhano.model.Day
 import com.bruno13palhano.model.Month
 import okio.use
 
+/**
+ * Convert a list of time [hours:minutes] calculate the average time in decimal notation.
+ * @param hours a list of hours.
+ * @param minutes a list of minutes.
+ * @return the decimal time average.
+ */
 fun averageSleepTimeDecimal(hours: List<Int>, minutes: List<Int>): Float {
     var totalHours = hours.sum()
     var totalMinutes = 0
@@ -42,6 +48,11 @@ fun averageSleepTimeDecimal(hours: List<Int>, minutes: List<Int>): Float {
         .replace(",", ".").toFloat()
 }
 
+/**
+ * Get the hours from the [time].
+ * @param time the time in milliseconds.
+ * @return an integer with the hours.
+ */
 fun hourToInt(time: Long): Int {
     val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
     calendar.timeInMillis = time
@@ -49,6 +60,11 @@ fun hourToInt(time: Long): Int {
     return calendar[Calendar.HOUR_OF_DAY]
 }
 
+/**
+ * Get the minutes from the [time].
+ * @param time the time in milliseconds.
+ * @return an integer with the minutes.
+ */
 fun minuteToInt(time: Long): Int {
     val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
     calendar.timeInMillis = time
@@ -56,6 +72,11 @@ fun minuteToInt(time: Long): Int {
     return calendar[Calendar.MINUTE]
 }
 
+/**
+ * Gets the day from the [date].
+ * @param date the date in milliseconds.
+ * @return the [Day].
+ */
 fun whichDay(date: Long): Day {
     val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
     calendar.timeInMillis = date
@@ -85,6 +106,11 @@ fun whichDay(date: Long): Day {
     }
 }
 
+/**
+ * Gets the month from the [date].
+ * @param date the date in milliseconds.
+ * @return the [Month].
+ */
 fun whichMonth(date: Long): Month {
     val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
     calendar.timeInMillis = date
@@ -129,6 +155,11 @@ fun whichMonth(date: Long): Month {
     }
 }
 
+/**
+ * Checks if time is at night.
+ * @param startTime the start time in milliseconds.
+ * @return true if time is at night.
+ */
 fun isStartTimeAtNight(startTime: Long): Boolean {
     val calendar = Calendar.getInstance()
     calendar.timeInMillis = startTime
