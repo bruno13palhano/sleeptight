@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
  * Contract for common data manipulation. e.g [Nap], [BabyStatus], [Notification].
  *
  * An interface to decouple the treatment of common data, regardless of concrete implementation.
+ * @param T the model type.
  */
 interface CommonDataContract<T> {
     suspend fun insert(model: T): Long

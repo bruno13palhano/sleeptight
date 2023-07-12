@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
  * Contract for [User] data manipulation.
  *
  * An interface to decouple the treatment of [User] data, regardless of concrete implementation.
+ * @param T the user model type.
  */
 interface UserDataContract<T> {
     suspend fun insert(user: T)
