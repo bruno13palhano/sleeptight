@@ -16,7 +16,7 @@ import com.bruno13palhano.model.BabyStatus
  * @property weight the weight when this BabyStatus was measured.
  */
 @Entity(tableName = "baby_status_table")
-internal data class BabyStatusData(
+internal data class BabyStatusEntity(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -36,10 +36,10 @@ internal data class BabyStatusData(
 )
 
 /**
- * Transforms [BabyStatus] into [BabyStatusData].
- * @return [BabyStatusData].
+ * Transforms [BabyStatus] into [BabyStatusEntity].
+ * @return [BabyStatusEntity].
  */
-internal fun BabyStatus.asBabyStatusData() = BabyStatusData(
+internal fun BabyStatus.asBabyStatusEntity() = BabyStatusEntity(
     id = id,
     title = title,
     date = date,
@@ -48,10 +48,10 @@ internal fun BabyStatus.asBabyStatusData() = BabyStatusData(
 )
 
 /**
- * Transforms [BabyStatusData] into [BabyStatus].
+ * Transforms [BabyStatusEntity] into [BabyStatus].
  * @return [BabyStatus].
  */
-internal fun BabyStatusData.asBabyStatus() = BabyStatus(
+internal fun BabyStatusEntity.asBabyStatus() = BabyStatus(
     id = id,
     title = title,
     date = date,

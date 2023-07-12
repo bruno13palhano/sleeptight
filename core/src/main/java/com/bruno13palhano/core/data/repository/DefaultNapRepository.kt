@@ -2,7 +2,7 @@ package com.bruno13palhano.core.data.repository
 
 import com.bruno13palhano.core.data.database.dao.NapDao
 import com.bruno13palhano.core.data.database.model.asNap
-import com.bruno13palhano.core.data.database.model.asNapData
+import com.bruno13palhano.core.data.database.model.asNapEntity
 import com.bruno13palhano.core.data.di.ApplicationScope
 import com.bruno13palhano.model.Nap
 import kotlinx.coroutines.CoroutineScope
@@ -21,12 +21,12 @@ internal class DefaultNapRepository @Inject constructor(
     @ApplicationScope private val externalScope: CoroutineScope
 ) : NapRepository {
     override suspend fun insert(model: Nap): Long {
-        return napDao.insert(model.asNapData())
+        return napDao.insert(model.asNapEntity())
     }
 
     override val all: Flow<List<Nap>> = napDao.getAllStream()
         .map {
-            it.map { napData -> napData.asNap() }
+            it.map { napEntity -> napEntity.asNap() }
         }
 
     override fun getByIdStream(id: Long): Flow<Nap> {
@@ -43,7 +43,7 @@ internal class DefaultNapRepository @Inject constructor(
 
     override fun update(model: Nap) {
         externalScope.launch {
-            napDao.update(model.asNapData())
+            napDao.update(model.asNapEntity())
         }
     }
 

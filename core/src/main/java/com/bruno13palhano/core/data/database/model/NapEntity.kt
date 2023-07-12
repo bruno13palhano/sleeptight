@@ -18,7 +18,7 @@ import com.bruno13palhano.model.Nap
  * @property observation the observations about this Nap.
  */
 @Entity(tableName = "nap_table")
-internal data class NapData(
+internal data class NapEntity(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -44,10 +44,10 @@ internal data class NapData(
 )
 
 /**
- * Transforms [NapData] into [Nap].
+ * Transforms [NapEntity] into [Nap].
  * @return [Nap].
  */
-internal fun NapData.asNap() = Nap(
+internal fun NapEntity.asNap() = Nap(
     id = id,
     title = title,
     date = date,
@@ -58,10 +58,10 @@ internal fun NapData.asNap() = Nap(
 )
 
 /**
- * Transforms [Nap] into [NapData].
- * @return [NapData].
+ * Transforms [Nap] into [NapEntity].
+ * @return [NapEntity].
  */
-internal fun Nap.asNapData() = NapData(
+internal fun Nap.asNapEntity() = NapEntity(
     id = id,
     title = title,
     date = date,

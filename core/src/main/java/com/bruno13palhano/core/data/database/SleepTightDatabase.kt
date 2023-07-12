@@ -6,17 +6,17 @@ import com.bruno13palhano.core.data.database.dao.BabyStatusDao
 import com.bruno13palhano.core.data.database.dao.NapDao
 import com.bruno13palhano.core.data.database.dao.NotificationDao
 import com.bruno13palhano.core.data.database.dao.UserDao
-import com.bruno13palhano.core.data.database.model.BabyStatusData
-import com.bruno13palhano.core.data.database.model.NapData
-import com.bruno13palhano.core.data.database.model.NotificationData
-import com.bruno13palhano.core.data.database.model.UserData
+import com.bruno13palhano.core.data.database.model.BabyStatusEntity
+import com.bruno13palhano.core.data.database.model.NapEntity
+import com.bruno13palhano.core.data.database.model.NotificationEntity
+import com.bruno13palhano.core.data.database.model.UserEntity
 
 @Database(
     entities = [
-        NapData::class,
-        UserData::class,
-        BabyStatusData::class,
-        NotificationData::class
+        NapEntity::class,
+        UserEntity::class,
+        BabyStatusEntity::class,
+        NotificationEntity::class
     ],
     version = 1,
     exportSchema = false

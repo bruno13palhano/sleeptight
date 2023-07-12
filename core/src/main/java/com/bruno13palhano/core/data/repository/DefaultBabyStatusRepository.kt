@@ -2,7 +2,7 @@ package com.bruno13palhano.core.data.repository
 
 import com.bruno13palhano.core.data.database.dao.BabyStatusDao
 import com.bruno13palhano.core.data.database.model.asBabyStatus
-import com.bruno13palhano.core.data.database.model.asBabyStatusData
+import com.bruno13palhano.core.data.database.model.asBabyStatusEntity
 import com.bruno13palhano.core.data.di.ApplicationScope
 import com.bruno13palhano.model.BabyStatus
 import kotlinx.coroutines.CoroutineScope
@@ -19,12 +19,12 @@ internal class DefaultBabyStatusRepository @Inject constructor(
     @ApplicationScope private val externalScope: CoroutineScope
 ) : BabyStatusRepository {
     override suspend fun insert(model: BabyStatus): Long {
-        return babyStatusDao.insert(model.asBabyStatusData())
+        return babyStatusDao.insert(model.asBabyStatusEntity())
     }
 
     override val all: Flow<List<BabyStatus>> = babyStatusDao.getAllStream()
         .map {
-            it.map { babyStatusData -> babyStatusData.asBabyStatus() }
+            it.map { babyStatusEntity -> babyStatusEntity.asBabyStatus() }
         }
 
     override fun getByIdStream(id: Long): Flow<BabyStatus> {
@@ -35,7 +35,7 @@ internal class DefaultBabyStatusRepository @Inject constructor(
 
     override fun update(model: BabyStatus) {
         externalScope.launch {
-            babyStatusDao.update(model.asBabyStatusData())
+            babyStatusDao.update(model.asBabyStatusEntity())
         }
     }
 

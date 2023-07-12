@@ -17,7 +17,7 @@ import com.bruno13palhano.model.Notification
  * @property repeat defines if the Notification will be repeated every day.
  */
 @Entity(tableName = "notification_table")
-internal data class NotificationData(
+internal data class NotificationEntity(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -40,10 +40,10 @@ internal data class NotificationData(
 )
 
 /**
- * Transforms [NotificationData] into [Notification].
+ * Transforms [NotificationEntity] into [Notification].
  * @return [Notification].
  */
-internal fun NotificationData.asNotification() = Notification(
+internal fun NotificationEntity.asNotification() = Notification(
     id = id,
     title = title,
     description = description,
@@ -53,10 +53,10 @@ internal fun NotificationData.asNotification() = Notification(
 )
 
 /**
- * Transforms [Notification] into [NotificationData].
- * @return [NotificationData].
+ * Transforms [Notification] into [NotificationEntity].
+ * @return [NotificationEntity].
  */
-internal fun Notification.asNotificationData() = NotificationData(
+internal fun Notification.asNotificationEntity() = NotificationEntity(
     id = id,
     title = title,
     description = description,

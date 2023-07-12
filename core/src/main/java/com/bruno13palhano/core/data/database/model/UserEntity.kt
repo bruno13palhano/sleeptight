@@ -21,7 +21,7 @@ import com.bruno13palhano.model.User
  * @property weight baby's weight at birth.
  */
 @Entity(tableName = "user_table")
-internal data class UserData(
+internal data class UserEntity(
 
     @PrimaryKey
     @ColumnInfo(name = "id")
@@ -56,10 +56,10 @@ internal data class UserData(
 )
 
 /**
- * Transforms [UserData] into [User].
+ * Transforms [UserEntity] into [User].
  * @return [User].
  */
-internal fun UserData.asUser() = User(
+internal fun UserEntity.asUser() = User(
     id = id,
     username = username,
     email = email,
@@ -73,10 +73,10 @@ internal fun UserData.asUser() = User(
 )
 
 /**
- * Transforms [User] into [UserData].
- * @return [UserData]
+ * Transforms [User] into [UserEntity].
+ * @return [UserEntity]
  */
-internal fun User.asUserData() = UserData(
+internal fun User.asUserEntity() = UserEntity(
     id = id,
     username = username,
     email = email,

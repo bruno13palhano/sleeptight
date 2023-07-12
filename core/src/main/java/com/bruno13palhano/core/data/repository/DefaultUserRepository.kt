@@ -2,7 +2,7 @@ package com.bruno13palhano.core.data.repository
 
 import com.bruno13palhano.core.data.database.dao.UserDao
 import com.bruno13palhano.core.data.database.model.asUser
-import com.bruno13palhano.core.data.database.model.asUserData
+import com.bruno13palhano.core.data.database.model.asUserEntity
 import com.bruno13palhano.core.data.di.ApplicationScope
 import com.bruno13palhano.model.User
 import kotlinx.coroutines.CoroutineScope
@@ -20,7 +20,7 @@ internal class DefaultUserRepository @Inject constructor(
 ) : UserRepository {
     override fun insertUser(user: User) {
         externalScope.launch {
-            userDao.insert(user.asUserData())
+            userDao.insert(user.asUserEntity())
         }
     }
 
@@ -32,7 +32,7 @@ internal class DefaultUserRepository @Inject constructor(
 
     override fun updateUser(user: User) {
         externalScope.launch {
-            userDao.update(user.asUserData())
+            userDao.update(user.asUserEntity())
         }
     }
 

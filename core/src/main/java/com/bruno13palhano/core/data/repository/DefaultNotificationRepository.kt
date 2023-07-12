@@ -2,7 +2,7 @@ package com.bruno13palhano.core.data.repository
 
 import com.bruno13palhano.core.data.database.dao.NotificationDao
 import com.bruno13palhano.core.data.database.model.asNotification
-import com.bruno13palhano.core.data.database.model.asNotificationData
+import com.bruno13palhano.core.data.database.model.asNotificationEntity
 import com.bruno13palhano.core.data.di.ApplicationScope
 import com.bruno13palhano.model.Notification
 import kotlinx.coroutines.CoroutineScope
@@ -23,7 +23,7 @@ internal class DefaultNotificationRepository @Inject constructor(
 
     override val all: Flow<List<Notification>> = notificationDao.getAllNotificationsStream()
         .map {
-            it.map { notificationData -> notificationData.asNotification() }
+            it.map { notificationEntity -> notificationEntity.asNotification() }
         }
 
     override fun getByIdStream(id: Long): Flow<Notification> {
@@ -33,7 +33,7 @@ internal class DefaultNotificationRepository @Inject constructor(
     }
 
     override suspend fun insert(model: Notification): Long {
-        return notificationDao.insert(model.asNotificationData())
+        return notificationDao.insert(model.asNotificationEntity())
     }
 
     override fun deleteById(id: Long) {
@@ -44,7 +44,7 @@ internal class DefaultNotificationRepository @Inject constructor(
 
     override fun update(model: Notification) {
         externalScope.launch {
-            notificationDao.update(model.asNotificationData())
+            notificationDao.update(model.asNotificationEntity())
         }
     }
 
