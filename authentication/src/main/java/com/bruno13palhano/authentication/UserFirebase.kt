@@ -110,7 +110,7 @@ internal class UserFirebase @Inject constructor(
             val profilePhotoRef = storageRef.child("${it.email}/profile_image.jpg")
             val uploadTask = profilePhotoRef.putBytes(photo)
             uploadTask
-                .addOnSuccessListener { taskSnapshot ->
+                .addOnSuccessListener { _ ->
                     profilePhotoRef.downloadUrl.addOnSuccessListener { uri ->
                         val profileUpdates = userProfileChangeRequest {
                             photoUri = uri
