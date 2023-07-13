@@ -24,30 +24,38 @@ internal class DefaultNapRepository @Inject constructor(
         return napDao.insert(model.asNapEntity())
     }
 
-    override val all: Flow<List<Nap>> = napDao.getAllStream()
-        .map {
-            it.map { napEntity -> napEntity.asNap() }
-        }
+    override fun getAll(): Flow<List<Nap>> {
+        return napDao.getAll()
+            .map {
+                it.map { napEntity -> napEntity.asNap() }
+            }
+    }
 
-    override fun getByIdStream(id: Long): Flow<Nap> {
-        return napDao.getNapByIdStream(id)
+    override fun getById(id: Long): Flow<Nap> {
+        return napDao.getById(id)
             .map { it.asNap() }
             .catch { it.printStackTrace() }
     }
 
-    override fun deleteById(id: Long) {
+    override suspend fun deleteById(id: Long) {
         externalScope.launch {
-            napDao.deleteNapById(id)
+            napDao.deleteById(id)
         }
     }
 
-    override fun update(model: Nap) {
+    override suspend fun update(model: Nap) {
         externalScope.launch {
             napDao.update(model.asNapEntity())
         }
     }
 
-    override val last = napDao.getLastNapStream()
+    override suspend fun delete(model: Nap) {
+        externalScope.launch {
+            napDao.delete(model.asNapEntity())
+        }
+    }
+
+    override fun getLast() = napDao.getLast()
         .map { it.asNap() }
         .catch { it.printStackTrace() }
         .stateIn(

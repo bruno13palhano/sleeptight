@@ -21,13 +21,15 @@ internal class DefaultNotificationRepository @Inject constructor(
     @ApplicationScope private val externalScope: CoroutineScope
 ) : NotificationRepository {
 
-    override val all: Flow<List<Notification>> = notificationDao.getAllNotificationsStream()
-        .map {
-            it.map { notificationEntity -> notificationEntity.asNotification() }
-        }
+    override fun getAll(): Flow<List<Notification>> {
+        return notificationDao.getAll()
+            .map {
+                it.map { notificationEntity -> notificationEntity.asNotification() }
+            }
+    }
 
-    override fun getByIdStream(id: Long): Flow<Notification> {
-        return notificationDao.getNotificationByIdStream(id)
+    override fun getById(id: Long): Flow<Notification> {
+        return notificationDao.getById(id)
             .map { it.asNotification() }
             .catch { it.printStackTrace() }
     }
@@ -36,31 +38,39 @@ internal class DefaultNotificationRepository @Inject constructor(
         return notificationDao.insert(model.asNotificationEntity())
     }
 
-    override fun deleteById(id: Long) {
+    override suspend fun deleteById(id: Long) {
         externalScope.launch {
-            notificationDao.deleteNotificationById(id)
+            notificationDao.deleteById(id)
         }
     }
 
-    override fun update(model: Notification) {
+    override suspend fun update(model: Notification) {
         externalScope.launch {
             notificationDao.update(model.asNotificationEntity())
         }
     }
 
-    override val last: Flow<Notification> = notificationDao.getLastNotificationStream()
-        .map { it.asNotification() }
-        .catch { it.printStackTrace() }
-        .stateIn(
-            scope = externalScope,
-            started = WhileSubscribed(5_000),
-            initialValue = Notification(
-                id = 0L,
-                title = "",
-                description = "",
-                time = 0L,
-                date = 0L,
-                repeat = false
+    override suspend fun delete(model: Notification) {
+        externalScope.launch {
+            notificationDao.delete(model.asNotificationEntity())
+        }
+    }
+
+    override fun getLast(): Flow<Notification> {
+        return notificationDao.getLast()
+            .map { it.asNotification() }
+            .catch { it.printStackTrace() }
+            .stateIn(
+                scope = externalScope,
+                started = WhileSubscribed(5_000),
+                initialValue = Notification(
+                    id = 0L,
+                    title = "",
+                    description = "",
+                    time = 0L,
+                    date = 0L,
+                    repeat = false
+                )
             )
-        )
+    }
 }

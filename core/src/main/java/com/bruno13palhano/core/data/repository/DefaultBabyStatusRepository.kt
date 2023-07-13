@@ -22,41 +22,51 @@ internal class DefaultBabyStatusRepository @Inject constructor(
         return babyStatusDao.insert(model.asBabyStatusEntity())
     }
 
-    override val all: Flow<List<BabyStatus>> = babyStatusDao.getAllStream()
-        .map {
-            it.map { babyStatusEntity -> babyStatusEntity.asBabyStatus() }
-        }
+    override fun getAll(): Flow<List<BabyStatus>> {
+        return babyStatusDao.getAll()
+            .map {
+                it.map { babyStatusEntity -> babyStatusEntity.asBabyStatus() }
+            }
+    }
 
-    override fun getByIdStream(id: Long): Flow<BabyStatus> {
-        return babyStatusDao.getBabyStatusByIdStream(id)
+    override fun getById(id: Long): Flow<BabyStatus> {
+        return babyStatusDao.getById(id)
             .map { it.asBabyStatus() }
             .catch { it.printStackTrace() }
     }
 
-    override fun update(model: BabyStatus) {
+    override suspend fun update(model: BabyStatus) {
         externalScope.launch {
             babyStatusDao.update(model.asBabyStatusEntity())
         }
     }
 
-    override fun deleteById(id: Long) {
+    override suspend fun delete(model: BabyStatus) {
         externalScope.launch {
-            babyStatusDao.deleteBabyStatusById(id)
+            babyStatusDao.delete(model.asBabyStatusEntity())
         }
     }
 
-    override val last: Flow<BabyStatus> = babyStatusDao.getLastBabyStatusStream()
-        .map { it.asBabyStatus() }
-        .catch { it.printStackTrace() }
-        .stateIn(
-            scope = externalScope,
-            started = WhileSubscribed(5_000),
-            initialValue = BabyStatus(
-                id = 0L,
-                title = "",
-                date = 0L,
-                height = 0F,
-                weight = 0F
+    override suspend fun deleteById(id: Long) {
+        externalScope.launch {
+            babyStatusDao.deleteById(id)
+        }
+    }
+
+    override fun getLast(): Flow<BabyStatus> {
+        return babyStatusDao.getLast()
+            .map { it.asBabyStatus() }
+            .catch { it.printStackTrace() }
+            .stateIn(
+                scope = externalScope,
+                started = WhileSubscribed(5_000),
+                initialValue = BabyStatus(
+                    id = 0L,
+                    title = "",
+                    date = 0L,
+                    height = 0F,
+                    weight = 0F
+                )
             )
-        )
+    }
 }
