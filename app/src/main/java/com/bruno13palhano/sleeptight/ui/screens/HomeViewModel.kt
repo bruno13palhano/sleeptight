@@ -13,10 +13,6 @@ import com.bruno13palhano.core.data.di.DefaultBabyStatusRep
 import com.bruno13palhano.core.data.di.DefaultNapRep
 import com.bruno13palhano.core.data.di.DefaultNotificationRep
 import com.bruno13palhano.core.data.di.DefaultUserRep
-import com.bruno13palhano.core.data.repository.BabyStatusRepository
-import com.bruno13palhano.core.data.repository.NapRepository
-import com.bruno13palhano.core.data.repository.NotificationRepository
-import com.bruno13palhano.core.data.repository.UserRepository
 import com.bruno13palhano.model.BabyStatus
 import com.bruno13palhano.model.Nap
 import com.bruno13palhano.model.Notification

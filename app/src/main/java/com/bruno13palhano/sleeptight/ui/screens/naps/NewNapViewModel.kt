@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.di.DefaultNapRep
-import com.bruno13palhano.core.data.repository.NapRepository
 import com.bruno13palhano.model.Nap
 import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil

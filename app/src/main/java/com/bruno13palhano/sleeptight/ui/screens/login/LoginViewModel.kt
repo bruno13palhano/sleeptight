@@ -10,7 +10,6 @@ import com.bruno13palhano.authentication.DefaultUserFirebase
 import com.bruno13palhano.authentication.UserAuthentication
 import com.bruno13palhano.core.data.data.UserDataContract
 import com.bruno13palhano.core.data.di.DefaultUserRep
-import com.bruno13palhano.core.data.repository.UserRepository
 import com.bruno13palhano.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.di.DefaultBabyStatusRep
-import com.bruno13palhano.core.data.repository.BabyStatusRepository
 import com.bruno13palhano.model.BabyStatus
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import com.patrykandpatrick.vico.core.entry.FloatEntry

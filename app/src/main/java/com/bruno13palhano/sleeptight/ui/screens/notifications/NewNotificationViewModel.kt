@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.di.DefaultNotificationRep
-import com.bruno13palhano.core.data.repository.NotificationRepository
 import com.bruno13palhano.model.Notification
 import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil

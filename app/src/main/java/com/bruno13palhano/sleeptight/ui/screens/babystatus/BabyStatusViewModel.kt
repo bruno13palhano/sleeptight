@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.di.DefaultBabyStatusRep
-import com.bruno13palhano.core.data.repository.BabyStatusRepository
 import com.bruno13palhano.model.BabyStatus
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
