@@ -1,5 +1,6 @@
 package com.bruno13palhano.core.data.repository
 
+import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.database.dao.NotificationDao
 import com.bruno13palhano.core.data.database.model.asNotification
 import com.bruno13palhano.core.data.database.model.asNotificationEntity
@@ -19,7 +20,7 @@ import javax.inject.Singleton
 internal class DefaultNotificationRepository @Inject constructor(
     private val notificationDao: NotificationDao,
     @ApplicationScope private val externalScope: CoroutineScope
-) : NotificationRepository {
+) : CommonDataContract<Notification> {
 
     override fun getAll(): Flow<List<Notification>> {
         return notificationDao.getAll()

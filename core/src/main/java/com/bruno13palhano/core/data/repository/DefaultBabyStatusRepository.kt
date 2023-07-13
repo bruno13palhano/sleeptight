@@ -1,5 +1,6 @@
 package com.bruno13palhano.core.data.repository
 
+import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.database.dao.BabyStatusDao
 import com.bruno13palhano.core.data.database.model.asBabyStatus
 import com.bruno13palhano.core.data.database.model.asBabyStatusEntity
@@ -17,7 +18,7 @@ import javax.inject.Inject
 internal class DefaultBabyStatusRepository @Inject constructor(
     private val babyStatusDao: BabyStatusDao,
     @ApplicationScope private val externalScope: CoroutineScope
-) : BabyStatusRepository {
+) : CommonDataContract<BabyStatus> {
     override suspend fun insert(model: BabyStatus): Long {
         return babyStatusDao.insert(model.asBabyStatusEntity())
     }

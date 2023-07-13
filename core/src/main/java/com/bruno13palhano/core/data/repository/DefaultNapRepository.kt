@@ -1,5 +1,6 @@
 package com.bruno13palhano.core.data.repository
 
+import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.database.dao.NapDao
 import com.bruno13palhano.core.data.database.model.asNap
 import com.bruno13palhano.core.data.database.model.asNapEntity
@@ -19,7 +20,7 @@ import javax.inject.Singleton
 internal class DefaultNapRepository @Inject constructor(
     private val napDao: NapDao,
     @ApplicationScope private val externalScope: CoroutineScope
-) : NapRepository {
+) : CommonDataContract<Nap> {
     override suspend fun insert(model: Nap): Long {
         return napDao.insert(model.asNapEntity())
     }
