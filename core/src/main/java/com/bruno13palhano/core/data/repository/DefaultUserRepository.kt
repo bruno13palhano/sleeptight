@@ -1,5 +1,6 @@
 package com.bruno13palhano.core.data.repository
 
+import com.bruno13palhano.core.data.data.UserDataContract
 import com.bruno13palhano.core.data.database.dao.UserDao
 import com.bruno13palhano.core.data.database.model.asUser
 import com.bruno13palhano.core.data.database.model.asUserEntity
@@ -17,7 +18,7 @@ import javax.inject.Singleton
 internal class DefaultUserRepository @Inject constructor(
     private val userDao: UserDao,
     @ApplicationScope private val externalScope: CoroutineScope
-) : UserRepository {
+) : UserDataContract<User> {
     override suspend fun insert(user: User) {
         externalScope.launch {
             userDao.insert(user.asUserEntity())
