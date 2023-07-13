@@ -1,4 +1,4 @@
-package com.bruno13palhano.core.data.database.data
+package com.bruno13palhano.core.data.data
 
 import com.bruno13palhano.model.User
 import kotlinx.coroutines.flow.Flow

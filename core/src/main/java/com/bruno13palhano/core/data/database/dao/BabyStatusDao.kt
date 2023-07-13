@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.bruno13palhano.core.data.database.data.CommonDataContract
+import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.database.model.BabyStatusEntity
 import kotlinx.coroutines.flow.Flow
 
