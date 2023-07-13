@@ -16,15 +16,35 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+/**
+ * Annotation to inject [NapRepository].
+ *
+ * Injects the default [NapRepository] implementation.
+ */
 @Qualifier
 annotation class NapRep
 
+/**
+ * Annotation to inject [UserRepository].
+ *
+ * Injects the default [UserRepository] implementation.
+ */
 @Qualifier
 annotation class UserRep
 
+/**
+ * Annotation to inject [BabyStatusRepository].
+ *
+ * Injects the default [BabyStatusRepository] implementation.
+ */
 @Qualifier
 annotation class BabyStatusRep
 
+/**
+ * Annotation to inject [NotificationRepository].
+ *
+ * Injects the default [NotificationRepository] implementation.
+ */
 @Qualifier
 annotation class NotificationRep
 
