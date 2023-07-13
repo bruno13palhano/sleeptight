@@ -100,7 +100,7 @@ class NotificationViewModel @Inject constructor(
     fun deleteNotification(id: Long, onNotificationDeleted: () -> Unit) {
         viewModelScope.launch {
             notificationRepository.deleteById(id)
-            onNotificationDeleted()
         }
+        onNotificationDeleted()
     }
 }
