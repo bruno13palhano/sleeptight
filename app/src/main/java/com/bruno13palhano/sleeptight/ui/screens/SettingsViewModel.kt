@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.authentication.DefaultUserFirebase
 import com.bruno13palhano.authentication.UserAuthentication
+import com.bruno13palhano.core.data.data.UserDataContract
 import com.bruno13palhano.core.data.di.DefaultUserRep
 import com.bruno13palhano.core.data.repository.UserRepository
 import com.bruno13palhano.model.User
@@ -29,7 +30,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     @DefaultUserFirebase private val authentication: UserAuthentication,
-    @DefaultUserRep private val userRepository: UserRepository
+    @DefaultUserRep private val userRepository: UserDataContract<User>
 ) : ViewModel() {
 
     private lateinit var userInDB: User
@@ -113,7 +114,7 @@ class SettingsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            userRepository.getUserByIdStream(authentication.getCurrentUser().id).collect {
+            userRepository.getById(authentication.getCurrentUser().id).collect {
                 userInDB = it
                 username = it.username
                 babyName = it.babyName
@@ -216,31 +217,45 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun updateUserPhotoInDatabase(urlPhoto: String, id: String) {
-        userRepository.updateUserUrlPhoto(urlPhoto, id)
+        viewModelScope.launch {
+            userRepository.updateUrlPhoto(urlPhoto, id)
+        }
     }
 
     private fun updateUserBabyNameInDataBase(babyName: String, id: String) {
-        userRepository.updateUserBabyName(babyName, id)
+        viewModelScope.launch {
+            userRepository.updateBabyName(babyName, id)
+        }
     }
 
     private fun updateUserBirthplaceInDatabase(birthplace: String, id: String) {
-        userRepository.updateUserBirthplace(birthplace, id)
+        viewModelScope.launch {
+            userRepository.updateBirthplace(birthplace, id)
+        }
     }
 
     private fun updateUserBirthdateInDatabase(birthdate: Long, id: String) {
-        userRepository.updateUserBirthdate(birthdate, id)
+        viewModelScope.launch {
+            userRepository.updateBirthdate(birthdate, id)
+        }
     }
 
     private fun updateUserBirthtimeInDatabase(birthtime: Long, id: String) {
-        userRepository.updateUserBirthtime(birthtime, id)
+        viewModelScope.launch {
+            userRepository.updateBirthtime(birthtime, id)
+        }
     }
 
     private fun updateUserHeight(height: Float, id: String) {
-        userRepository.updateUserHeight(height, id)
+        viewModelScope.launch {
+            userRepository.updateHeight(height, id)
+        }
     }
 
     private fun updateUserWeight(weight: Float, id: String) {
-        userRepository.updateUserWeight(weight, id)
+        viewModelScope.launch {
+            userRepository.updateWeight(weight, id)
+        }
     }
 
     fun logout() {

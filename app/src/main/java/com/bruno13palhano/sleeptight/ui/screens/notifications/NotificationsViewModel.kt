@@ -2,8 +2,10 @@ package com.bruno13palhano.sleeptight.ui.screens.notifications
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.di.DefaultNotificationRep
 import com.bruno13palhano.core.data.repository.NotificationRepository
+import com.bruno13palhano.model.Notification
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.stateIn
@@ -12,10 +14,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotificationsViewModel @Inject constructor(
-    @DefaultNotificationRep private val notificationRepository: NotificationRepository
+    @DefaultNotificationRep private val notificationRepository: CommonDataContract<Notification>
 ) : ViewModel() {
 
-    val allNotifications = notificationRepository.all
+    val allNotifications = notificationRepository.getAll()
         .stateIn(
             scope = viewModelScope,
             started = WhileSubscribed(5_000),
@@ -23,7 +25,9 @@ class NotificationsViewModel @Inject constructor(
         )
 
     fun deleteNotification(notificationId: Long, onNotificationDeleted: () -> Unit) {
-        notificationRepository.deleteById(notificationId)
+        viewModelScope.launch {
+            notificationRepository.deleteById(notificationId)
+        }
         onNotificationDeleted()
     }
 }

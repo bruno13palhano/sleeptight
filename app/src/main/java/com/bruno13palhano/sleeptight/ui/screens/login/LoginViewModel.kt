@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.authentication.DefaultUserFirebase
 import com.bruno13palhano.authentication.UserAuthentication
+import com.bruno13palhano.core.data.data.UserDataContract
 import com.bruno13palhano.core.data.di.DefaultUserRep
 import com.bruno13palhano.core.data.repository.UserRepository
 import com.bruno13palhano.model.User
@@ -17,12 +18,13 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     @DefaultUserFirebase private val authentication: UserAuthentication,
-    @DefaultUserRep private val userRepository: UserRepository
+    @DefaultUserRep private val userRepository: UserDataContract<User>
 ) : ViewModel() {
     private val _loginStatus = MutableStateFlow<LoginStatus>(LoginStatus.Default)
     val loginStatus = _loginStatus.asStateFlow()
@@ -70,7 +72,9 @@ class LoginViewModel @Inject constructor(
         email.trim() != "" && password.trim() != ""
 
     private fun insertUserInDatabase(user: User) {
-        userRepository.insertUser(user)
+        viewModelScope.launch {
+            userRepository.insert(user)
+        }
     }
 
     private fun loading() {

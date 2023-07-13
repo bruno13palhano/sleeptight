@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.di.DefaultNotificationRep
 import com.bruno13palhano.core.data.repository.NotificationRepository
 import com.bruno13palhano.model.Notification
@@ -23,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewNotificationViewModel @Inject constructor(
-    @DefaultNotificationRep private val notificationRepository: NotificationRepository
+    @DefaultNotificationRep private val notificationRepository: CommonDataContract<Notification>
 ) : ViewModel() {
     var title by mutableStateOf("")
         private set

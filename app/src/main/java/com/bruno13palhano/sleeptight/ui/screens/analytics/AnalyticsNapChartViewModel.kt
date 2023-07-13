@@ -4,10 +4,12 @@ import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.di.DefaultNapRep
 import com.bruno13palhano.core.data.repository.NapRepository
 import com.bruno13palhano.model.Day
 import com.bruno13palhano.model.Month
+import com.bruno13palhano.model.Nap
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
@@ -19,11 +21,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AnalyticsNapChartViewModel @Inject constructor(
-    @DefaultNapRep private val napRepository: NapRepository,
+    @DefaultNapRep private val napRepository: CommonDataContract<Nap>,
     private val stringResourceProvider: StringResourceProvider
 ) : ViewModel() {
 
-    val allNapChartUi = napRepository.all
+    val allNapChartUi = napRepository.getAll()
         .map {
             val allSleepTime = mutableListOf<Float>()
             val allDate = mutableListOf<String>()
@@ -70,7 +72,7 @@ class AnalyticsNapChartViewModel @Inject constructor(
             .replace(",", ".").toFloat()
     }
 
-    val monthNapChartUi = napRepository.all
+    val monthNapChartUi = napRepository.getAll()
         .map {
             val januaryHours = mutableListOf<Int>()
             val januaryMinutes = mutableListOf<Int>()
@@ -176,7 +178,7 @@ class AnalyticsNapChartViewModel @Inject constructor(
             initialValue = ChartEntryModelProducer()
         )
 
-    val weekNapChartUi = napRepository.all
+    val weekNapChartUi = napRepository.getAll()
         .map {
             val sundayHours = mutableListOf<Int>()
             val sundayMinutes = mutableListOf<Int>()
@@ -276,7 +278,7 @@ class AnalyticsNapChartViewModel @Inject constructor(
     private var saturdayHoursDay = mutableListOf<Int>()
     private var saturdayMinutesDay = mutableListOf<Int>()
 
-    val shiftNapChartUi = napRepository.all
+    val shiftNapChartUi = napRepository.getAll()
         .map {
             it.forEach { nap->
                 when (whichDay(nap.date)) {

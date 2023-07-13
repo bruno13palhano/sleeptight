@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.di.DefaultBabyStatusRep
 import com.bruno13palhano.core.data.repository.BabyStatusRepository
 import com.bruno13palhano.model.BabyStatus
@@ -16,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BabyStatusViewModel @Inject constructor(
-    @DefaultBabyStatusRep private val babyStatusRepository: BabyStatusRepository
+    @DefaultBabyStatusRep private val babyStatusRepository: CommonDataContract<BabyStatus>
 ) : ViewModel() {
     var title by mutableStateOf("")
         private set
@@ -50,7 +51,7 @@ class BabyStatusViewModel @Inject constructor(
 
     fun getBabyStatus(id: Long) {
         viewModelScope.launch {
-            babyStatusRepository.getByIdStream(id).collect {
+            babyStatusRepository.getById(id).collect {
                 title = it.title
                 height = it.height.toString()
                 weight = it.weight.toString()

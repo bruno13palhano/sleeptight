@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.authentication.DefaultUserFirebase
 import com.bruno13palhano.authentication.UserAuthentication
+import com.bruno13palhano.core.data.data.UserDataContract
 import com.bruno13palhano.core.data.di.DefaultUserRep
 import com.bruno13palhano.core.data.repository.UserRepository
 import com.bruno13palhano.model.User
@@ -27,12 +28,13 @@ import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateAccountViewModel @Inject constructor(
     @DefaultUserFirebase private val authentication: UserAuthentication,
-    @DefaultUserRep private val userRepository: UserRepository
+    @DefaultUserRep private val userRepository: UserDataContract<User>
 ) : ViewModel() {
     private val _loginStatus = MutableStateFlow<LoginStatus>(LoginStatus.Default)
     val loginStatus = _loginStatus.asStateFlow()
@@ -154,20 +156,22 @@ class CreateAccountViewModel @Inject constructor(
                     updateUserUrlPhoto(
                         photo = photoByteArray,
                         onSuccess = { newPhotoUrl, userUid ->
-                            userRepository.insertUser(
-                                User(
-                                    id = userUid,
-                                    username = user.username,
-                                    email = user.email,
-                                    babyName = user.babyName,
-                                    babyUrlPhoto = newPhotoUrl,
-                                    birthplace = user.birthplace,
-                                    birthdate = user.birthdate,
-                                    birthtime = user.birthtime,
-                                    height = user.height,
-                                    weight = user.weight
+                            viewModelScope.launch {
+                                userRepository.insert(
+                                    User(
+                                        id = userUid,
+                                        username = user.username,
+                                        email = user.email,
+                                        babyName = user.babyName,
+                                        babyUrlPhoto = newPhotoUrl,
+                                        birthplace = user.birthplace,
+                                        birthdate = user.birthdate,
+                                        birthtime = user.birthtime,
+                                        height = user.height,
+                                        weight = user.weight
+                                    )
                                 )
-                            )
+                            }
                             _loginStatus.value = LoginStatus.Success
                             clearUserValues()
                         },

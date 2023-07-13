@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.authentication.DefaultUserFirebase
 import com.bruno13palhano.authentication.UserAuthentication
+import com.bruno13palhano.core.data.data.CommonDataContract
+import com.bruno13palhano.core.data.data.UserDataContract
 import com.bruno13palhano.core.data.di.DefaultBabyStatusRep
 import com.bruno13palhano.core.data.di.DefaultNapRep
 import com.bruno13palhano.core.data.di.DefaultNotificationRep
@@ -15,6 +17,10 @@ import com.bruno13palhano.core.data.repository.BabyStatusRepository
 import com.bruno13palhano.core.data.repository.NapRepository
 import com.bruno13palhano.core.data.repository.NotificationRepository
 import com.bruno13palhano.core.data.repository.UserRepository
+import com.bruno13palhano.model.BabyStatus
+import com.bruno13palhano.model.Nap
+import com.bruno13palhano.model.Notification
+import com.bruno13palhano.model.User
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -25,10 +31,10 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     @DefaultUserFirebase private val authentication: UserAuthentication,
-    @DefaultUserRep private val userRepository: UserRepository,
-    @DefaultBabyStatusRep private val babyStatusRepository: BabyStatusRepository,
-    @DefaultNapRep private val napRepository: NapRepository,
-    @DefaultNotificationRep private val notificationRepository: NotificationRepository
+    @DefaultUserRep private val userRepository: UserDataContract<User>,
+    @DefaultBabyStatusRep private val babyStatusRepository: CommonDataContract<BabyStatus>,
+    @DefaultNapRep private val napRepository: CommonDataContract<Nap>,
+    @DefaultNotificationRep private val notificationRepository: CommonDataContract<Notification>
 ) : ViewModel() {
     private val _babyName = MutableStateFlow("")
     val babyName = _babyName.asStateFlow()
@@ -122,28 +128,28 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            userRepository.getUserByIdStream(authentication.getCurrentUser().id).collect {
+            userRepository.getById(authentication.getCurrentUser().id).collect {
                 _babyName.value = it.babyName
                 _profileImage.value = it.babyUrlPhoto
             }
         }
 
         viewModelScope.launch {
-            babyStatusRepository.last.collect {
+            babyStatusRepository.getLast().collect {
                 _height.value = it.height
                 _weight.value = it.weight
             }
         }
 
         viewModelScope.launch {
-            notificationRepository.last.collect {
+            notificationRepository.getLast().collect {
                 _notificationTitle.value = it.title
                 _notificationDate.value = it.date
             }
         }
 
         viewModelScope.launch {
-            napRepository.last.collect {
+            napRepository.getLast().collect {
                 _napTitle.value = it.title
                 _napDate.value = it.date
                 _napSleepingTime.value = it.sleepingTime

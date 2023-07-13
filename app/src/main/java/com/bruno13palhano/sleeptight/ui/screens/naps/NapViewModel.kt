@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.di.DefaultNapRep
 import com.bruno13palhano.core.data.repository.NapRepository
 import com.bruno13palhano.model.Nap
@@ -21,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NapViewModel @Inject constructor(
-    @DefaultNapRep private val napRepository: NapRepository
+    @DefaultNapRep private val napRepository: CommonDataContract<Nap>
 ) : ViewModel() {
 
     var title by mutableStateOf("")
@@ -74,7 +75,7 @@ class NapViewModel @Inject constructor(
 
     fun getNap(id: Long) {
         viewModelScope.launch {
-            napRepository.getByIdStream(id).collect {
+            napRepository.getById(id).collect {
                 updateNapTitle(it.title)
                 updateNapDate(it.date)
                 updateNapStartTime(it.startTime)
@@ -98,11 +99,15 @@ class NapViewModel @Inject constructor(
             sleepingTime = CalendarUtil.getSleepTime(startTimeInMillis, endTimeInMillis),
             observation = observation
         )
-        napRepository.update(nap)
+        viewModelScope.launch {
+            napRepository.update(nap)
+        }
     }
 
     fun deleteNapById(id: Long) {
-        napRepository.deleteById(id)
+        viewModelScope.launch {
+            napRepository.deleteById(id)
+        }
     }
 
     private fun updateNapStartTime(startTime: Long) {
