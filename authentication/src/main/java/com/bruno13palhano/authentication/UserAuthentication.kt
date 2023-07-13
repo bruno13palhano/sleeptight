@@ -1,6 +1,5 @@
 package com.bruno13palhano.authentication
 
-import android.graphics.Bitmap
 import com.bruno13palhano.model.User
 
 interface UserAuthentication {

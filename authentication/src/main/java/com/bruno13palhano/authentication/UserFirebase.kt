@@ -1,12 +1,10 @@
 package com.bruno13palhano.authentication
 
-import android.graphics.Bitmap
 import com.bruno13palhano.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 import javax.inject.Singleton
 
