@@ -106,11 +106,6 @@ class SettingsViewModel @Inject constructor(
         this.photoByteArray = photoByteArray
     }
 
-    data class ActionDoneStateUi(
-        val isUserDataNotEmpty: Boolean = false,
-        val isEditable: Boolean = false
-    )
-
     init {
         viewModelScope.launch {
             userRepository.getById(authentication.getCurrentUser().id).collect {
