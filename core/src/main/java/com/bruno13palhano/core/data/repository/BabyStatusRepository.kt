@@ -4,20 +4,14 @@ import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.database.dao.BabyStatusDao
 import com.bruno13palhano.core.data.database.model.asBabyStatus
 import com.bruno13palhano.core.data.database.model.asBabyStatusEntity
-import com.bruno13palhano.core.data.di.ApplicationScope
 import com.bruno13palhano.model.BabyStatus
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class BabyStatusRepository @Inject constructor(
-    private val babyStatusDao: BabyStatusDao,
-    @ApplicationScope private val externalScope: CoroutineScope
+    private val babyStatusDao: BabyStatusDao
 ) : CommonDataContract<BabyStatus> {
     override suspend fun insert(model: BabyStatus): Long {
         return babyStatusDao.insert(model.asBabyStatusEntity())
@@ -37,37 +31,20 @@ internal class BabyStatusRepository @Inject constructor(
     }
 
     override suspend fun update(model: BabyStatus) {
-        externalScope.launch {
-            babyStatusDao.update(model.asBabyStatusEntity())
-        }
+        babyStatusDao.update(model.asBabyStatusEntity())
     }
 
     override suspend fun delete(model: BabyStatus) {
-        externalScope.launch {
-            babyStatusDao.delete(model.asBabyStatusEntity())
-        }
+        babyStatusDao.delete(model.asBabyStatusEntity())
     }
 
     override suspend fun deleteById(id: Long) {
-        externalScope.launch {
-            babyStatusDao.deleteById(id)
-        }
+        babyStatusDao.deleteById(id)
     }
 
     override fun getLast(): Flow<BabyStatus> {
         return babyStatusDao.getLast()
             .map { it.asBabyStatus() }
             .catch { it.printStackTrace() }
-            .stateIn(
-                scope = externalScope,
-                started = WhileSubscribed(5_000),
-                initialValue = BabyStatus(
-                    id = 0L,
-                    title = "",
-                    date = 0L,
-                    height = 0F,
-                    weight = 0F
-                )
-            )
     }
 }
