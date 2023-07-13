@@ -15,7 +15,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-internal class DefaultUserRepository @Inject constructor(
+internal class UserRepository @Inject constructor(
     private val userDao: UserDao,
     @ApplicationScope private val externalScope: CoroutineScope
 ) : UserDataContract<User> {

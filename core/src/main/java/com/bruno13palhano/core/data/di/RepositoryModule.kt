@@ -3,8 +3,8 @@ package com.bruno13palhano.core.data.di
 import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.data.UserDataContract
 import com.bruno13palhano.core.data.repository.*
-import com.bruno13palhano.core.data.repository.DefaultNapRepository
-import com.bruno13palhano.core.data.repository.DefaultUserRepository
+import com.bruno13palhano.core.data.repository.NapRepository
+import com.bruno13palhano.core.data.repository.UserRepository
 import com.bruno13palhano.model.BabyStatus
 import com.bruno13palhano.model.Nap
 import com.bruno13palhano.model.Notification
@@ -35,28 +35,24 @@ internal abstract class RepositoryModule {
     @DefaultNapRep
     @Singleton
     @Binds
-    abstract fun bindDefaultNapRepository(
-        repository: DefaultNapRepository
-    ): CommonDataContract<Nap>
+    abstract fun bindNapRepository(repository: NapRepository): CommonDataContract<Nap>
 
     @DefaultUserRep
     @Singleton
     @Binds
-    abstract fun bindDefaultUserRepository(
-        repository: DefaultUserRepository
-    ): UserDataContract<User>
+    abstract fun bindUserRepository(repository: UserRepository): UserDataContract<User>
 
     @DefaultBabyStatusRep
     @Singleton
     @Binds
-    abstract fun bindDefaultBabyStateRepository(
-        repository: DefaultBabyStatusRepository
+    abstract fun bindBabyStateRepository(
+        repository: BabyStatusRepository
     ): CommonDataContract<BabyStatus>
 
     @DefaultNotificationRep
     @Singleton
     @Binds
-    abstract fun bindDefaultNotificationRepository(
-        repository: DefaultNotificationRepository
+    abstract fun bindNotificationRepository(
+        repository: NotificationRepository
     ): CommonDataContract<Notification>
 }

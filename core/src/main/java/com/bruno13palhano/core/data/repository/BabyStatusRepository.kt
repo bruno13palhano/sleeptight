@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-internal class DefaultBabyStatusRepository @Inject constructor(
+internal class BabyStatusRepository @Inject constructor(
     private val babyStatusDao: BabyStatusDao,
     @ApplicationScope private val externalScope: CoroutineScope
 ) : CommonDataContract<BabyStatus> {

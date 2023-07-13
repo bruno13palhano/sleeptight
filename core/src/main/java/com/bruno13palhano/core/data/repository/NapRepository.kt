@@ -17,7 +17,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-internal class DefaultNapRepository @Inject constructor(
+internal class NapRepository @Inject constructor(
     private val napDao: NapDao,
     @ApplicationScope private val externalScope: CoroutineScope
 ) : CommonDataContract<Nap> {

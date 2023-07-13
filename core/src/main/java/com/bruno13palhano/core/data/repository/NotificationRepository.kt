@@ -17,7 +17,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-internal class DefaultNotificationRepository @Inject constructor(
+internal class NotificationRepository @Inject constructor(
     private val notificationDao: NotificationDao,
     @ApplicationScope private val externalScope: CoroutineScope
 ) : CommonDataContract<Notification> {
