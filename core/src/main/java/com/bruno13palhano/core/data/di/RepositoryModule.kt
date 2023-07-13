@@ -17,39 +17,39 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Qualifier
-annotation class DefaultNapRep
+annotation class NapRep
 
 @Qualifier
-annotation class DefaultUserRep
+annotation class UserRep
 
 @Qualifier
-annotation class DefaultBabyStatusRep
+annotation class BabyStatusRep
 
 @Qualifier
-annotation class DefaultNotificationRep
+annotation class NotificationRep
 
 @InstallIn(SingletonComponent::class)
 @Module
 internal abstract class RepositoryModule {
 
-    @DefaultNapRep
+    @NapRep
     @Singleton
     @Binds
     abstract fun bindNapRepository(repository: NapRepository): CommonDataContract<Nap>
 
-    @DefaultUserRep
+    @UserRep
     @Singleton
     @Binds
     abstract fun bindUserRepository(repository: UserRepository): UserDataContract<User>
 
-    @DefaultBabyStatusRep
+    @BabyStatusRep
     @Singleton
     @Binds
     abstract fun bindBabyStateRepository(
         repository: BabyStatusRepository
     ): CommonDataContract<BabyStatus>
 
-    @DefaultNotificationRep
+    @NotificationRep
     @Singleton
     @Binds
     abstract fun bindNotificationRepository(

@@ -3,7 +3,7 @@ package com.bruno13palhano.sleeptight.ui.screens.babystatus
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.data.CommonDataContract
-import com.bruno13palhano.core.data.di.DefaultBabyStatusRep
+import com.bruno13palhano.core.data.di.BabyStatusRep
 import com.bruno13palhano.model.BabyStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BabyStatusListViewModel @Inject constructor(
-    @DefaultBabyStatusRep private val babyStatusRepository: CommonDataContract<BabyStatus>
+    @BabyStatusRep private val babyStatusRepository: CommonDataContract<BabyStatus>
 ) : ViewModel() {
 
     val babyStatusList = babyStatusRepository.getAll()

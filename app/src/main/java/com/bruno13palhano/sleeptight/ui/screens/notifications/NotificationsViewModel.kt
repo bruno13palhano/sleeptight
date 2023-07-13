@@ -3,7 +3,7 @@ package com.bruno13palhano.sleeptight.ui.screens.notifications
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.data.CommonDataContract
-import com.bruno13palhano.core.data.di.DefaultNotificationRep
+import com.bruno13palhano.core.data.di.NotificationRep
 import com.bruno13palhano.model.Notification
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotificationsViewModel @Inject constructor(
-    @DefaultNotificationRep private val notificationRepository: CommonDataContract<Notification>
+    @NotificationRep private val notificationRepository: CommonDataContract<Notification>
 ) : ViewModel() {
 
     val allNotifications = notificationRepository.getAll()

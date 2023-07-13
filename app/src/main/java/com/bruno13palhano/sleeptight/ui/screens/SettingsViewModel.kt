@@ -12,7 +12,7 @@ import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.authentication.DefaultUserFirebase
 import com.bruno13palhano.authentication.UserAuthentication
 import com.bruno13palhano.core.data.data.UserDataContract
-import com.bruno13palhano.core.data.di.DefaultUserRep
+import com.bruno13palhano.core.data.di.UserRep
 import com.bruno13palhano.model.User
 import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
@@ -29,7 +29,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     @DefaultUserFirebase private val authentication: UserAuthentication,
-    @DefaultUserRep private val userRepository: UserDataContract<User>
+    @UserRep private val userRepository: UserDataContract<User>
 ) : ViewModel() {
 
     private lateinit var userInDB: User

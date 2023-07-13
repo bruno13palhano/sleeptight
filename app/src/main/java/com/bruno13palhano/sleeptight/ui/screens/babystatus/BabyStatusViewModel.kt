@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.data.CommonDataContract
-import com.bruno13palhano.core.data.di.DefaultBabyStatusRep
+import com.bruno13palhano.core.data.di.BabyStatusRep
 import com.bruno13palhano.model.BabyStatus
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BabyStatusViewModel @Inject constructor(
-    @DefaultBabyStatusRep private val babyStatusRepository: CommonDataContract<BabyStatus>
+    @BabyStatusRep private val babyStatusRepository: CommonDataContract<BabyStatus>
 ) : ViewModel() {
     var title by mutableStateOf("")
         private set

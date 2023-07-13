@@ -10,7 +10,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.data.CommonDataContract
-import com.bruno13palhano.core.data.di.DefaultNapRep
+import com.bruno13palhano.core.data.di.NapRep
 import com.bruno13palhano.model.Nap
 import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewNapViewModel @Inject constructor(
-    @DefaultNapRep private val napRepository: CommonDataContract<Nap>
+    @NapRep private val napRepository: CommonDataContract<Nap>
 ) : ViewModel() {
     var title by mutableStateOf("")
         private set

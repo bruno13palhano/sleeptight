@@ -9,10 +9,10 @@ import com.bruno13palhano.authentication.DefaultUserFirebase
 import com.bruno13palhano.authentication.UserAuthentication
 import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.data.UserDataContract
-import com.bruno13palhano.core.data.di.DefaultBabyStatusRep
-import com.bruno13palhano.core.data.di.DefaultNapRep
-import com.bruno13palhano.core.data.di.DefaultNotificationRep
-import com.bruno13palhano.core.data.di.DefaultUserRep
+import com.bruno13palhano.core.data.di.BabyStatusRep
+import com.bruno13palhano.core.data.di.NapRep
+import com.bruno13palhano.core.data.di.NotificationRep
+import com.bruno13palhano.core.data.di.UserRep
 import com.bruno13palhano.model.BabyStatus
 import com.bruno13palhano.model.Nap
 import com.bruno13palhano.model.Notification
@@ -27,10 +27,10 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     @DefaultUserFirebase private val authentication: UserAuthentication,
-    @DefaultUserRep private val userRepository: UserDataContract<User>,
-    @DefaultBabyStatusRep private val babyStatusRepository: CommonDataContract<BabyStatus>,
-    @DefaultNapRep private val napRepository: CommonDataContract<Nap>,
-    @DefaultNotificationRep private val notificationRepository: CommonDataContract<Notification>
+    @UserRep private val userRepository: UserDataContract<User>,
+    @BabyStatusRep private val babyStatusRepository: CommonDataContract<BabyStatus>,
+    @NapRep private val napRepository: CommonDataContract<Nap>,
+    @NotificationRep private val notificationRepository: CommonDataContract<Notification>
 ) : ViewModel() {
     private val _babyName = MutableStateFlow("")
     val babyName = _babyName.asStateFlow()

@@ -3,7 +3,7 @@ package com.bruno13palhano.sleeptight.ui.screens.analytics
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.data.CommonDataContract
-import com.bruno13palhano.core.data.di.DefaultBabyStatusRep
+import com.bruno13palhano.core.data.di.BabyStatusRep
 import com.bruno13palhano.model.BabyStatus
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import com.patrykandpatrick.vico.core.entry.FloatEntry
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AnalyticsBabyStatusChartViewModel @Inject constructor(
-    @DefaultBabyStatusRep babyStatusRepository: CommonDataContract<BabyStatus>
+    @BabyStatusRep babyStatusRepository: CommonDataContract<BabyStatus>
 ) : ViewModel() {
     val babyStatusChartUi = babyStatusRepository.getAll()
         .map {

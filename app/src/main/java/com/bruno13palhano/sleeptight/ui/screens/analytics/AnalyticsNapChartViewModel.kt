@@ -5,7 +5,7 @@ import android.icu.util.TimeZone
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.data.CommonDataContract
-import com.bruno13palhano.core.data.di.DefaultNapRep
+import com.bruno13palhano.core.data.di.NapRep
 import com.bruno13palhano.model.Day
 import com.bruno13palhano.model.Month
 import com.bruno13palhano.model.Nap
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AnalyticsNapChartViewModel @Inject constructor(
-    @DefaultNapRep private val napRepository: CommonDataContract<Nap>,
+    @NapRep private val napRepository: CommonDataContract<Nap>,
     private val stringResourceProvider: StringResourceProvider
 ) : ViewModel() {
 

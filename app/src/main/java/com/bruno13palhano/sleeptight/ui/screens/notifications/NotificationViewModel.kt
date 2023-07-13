@@ -9,7 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.data.CommonDataContract
-import com.bruno13palhano.core.data.di.DefaultNotificationRep
+import com.bruno13palhano.core.data.di.NotificationRep
 import com.bruno13palhano.model.Notification
 import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
-    @DefaultNotificationRep private val notificationRepository: CommonDataContract<Notification>
+    @NotificationRep private val notificationRepository: CommonDataContract<Notification>
 ) : ViewModel() {
 
     var title by mutableStateOf("")

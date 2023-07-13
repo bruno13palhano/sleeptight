@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.core.data.data.CommonDataContract
-import com.bruno13palhano.core.data.di.DefaultBabyStatusRep
+import com.bruno13palhano.core.data.di.BabyStatusRep
 import com.bruno13palhano.model.BabyStatus
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewBabyStatusViewModel @Inject constructor(
-    @DefaultBabyStatusRep private val babyStatusRepository: CommonDataContract<BabyStatus>
+    @BabyStatusRep private val babyStatusRepository: CommonDataContract<BabyStatus>
 ) : ViewModel() {
 
     var dateInMillis by mutableLongStateOf(MaterialDatePicker.todayInUtcMilliseconds())
