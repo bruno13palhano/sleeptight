@@ -175,7 +175,7 @@ fun ItemList(
             .fillMaxWidth()
             .padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 8.dp),
         onClick = onItemClick,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiary)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
     ) {
         Box(
             modifier = Modifier.fillMaxSize()
