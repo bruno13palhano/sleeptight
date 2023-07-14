@@ -1,7 +1,6 @@
 package com.bruno13palhano.sleeptight.ui.screens
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -15,8 +14,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.MultilineChart
-import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -68,7 +69,7 @@ fun AnalyticsContent(
                 AnalyticsCard(
                     analyticsItem = analyticsItem,
                     modifier = Modifier
-                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                        .padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
                         .weight(1F, true)
                 ) {
                     onItemClick(analyticsItem.route)
@@ -99,9 +100,11 @@ fun AnalyticsCard(
     modifier: Modifier,
     onItemClick: () -> Unit
 ) {
-    Card(
-        modifier = modifier,
+    ElevatedCard(
+        modifier = modifier
+            .fillMaxHeight(),
         shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
         onClick = onItemClick
     ) {
         Column(
@@ -111,7 +114,7 @@ fun AnalyticsCard(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
+            Icon(
                 modifier = Modifier
                     .size(128.dp),
                 imageVector = analyticsItem.imageVector,

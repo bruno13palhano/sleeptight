@@ -1,7 +1,6 @@
 package com.bruno13palhano.sleeptight.ui.screens
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -16,8 +15,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.InsertChartOutlined
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Snooze
-import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -101,10 +102,11 @@ fun ListsCard(
     modifier: Modifier,
     onClick: () -> Unit
 ) {
-    Card(
+    ElevatedCard(
         modifier = modifier
             .fillMaxHeight(),
         shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
         onClick = onClick
     ) {
         Row(
@@ -113,7 +115,7 @@ fun ListsCard(
                 .fillMaxHeight(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
+            Icon(
                 modifier = Modifier
                     .padding(16.dp)
                     .size(128.dp),
