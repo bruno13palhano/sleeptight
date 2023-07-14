@@ -287,7 +287,7 @@ fun MusicItemList(
             modifier = if (isCurrentMusic) {
                 Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.secondary)
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
             } else {
                 Modifier.fillMaxWidth()
             }
@@ -345,7 +345,7 @@ fun CurrentMediaCard(
                 .padding(start = 16.dp, top = 16.dp, bottom = 8.dp)
                 .size(64.dp)
                 .clip(CircleShape)
-                .border(2.dp, MaterialTheme.colorScheme.secondary, CircleShape),
+                .border(2.dp, MaterialTheme.colorScheme.secondaryContainer, CircleShape),
             painter = painterResource(id = R.drawable.logo_1),
             contentDescription = stringResource(id = R.string.baby_photo_label)
         )
