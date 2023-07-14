@@ -181,6 +181,7 @@
     <string name="current_baby_status_label">Current baby status</string>
     <string name="insert_hours_label">Insert the hours</string>
     <string name="insert_description_label">Insert description</string>
+    <string name="last_baby_status_label">Last baby measurements</string>
 
     <!--  Lists label  -->
     <string name="lists_label">Lists</string>
