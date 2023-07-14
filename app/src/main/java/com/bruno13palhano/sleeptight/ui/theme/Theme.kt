@@ -21,8 +21,8 @@ private val DarkColorScheme = darkColorScheme(
     tertiary = LightPurple,
     background = Black,
     surface = Black,
-    secondaryContainer = MiddleBlue,
-    primaryContainer = Blue,
+    secondaryContainer = LightPurple,
+    primaryContainer = DarkPurple,
     onPrimary = White,
     onSecondary = White,
     onTertiary = White,
@@ -68,7 +68,7 @@ fun SleepTightTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
+            window.statusBarColor = colorScheme.secondaryContainer.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
