@@ -315,7 +315,7 @@ fun SettingsContent(
                             .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
                             .size(128.dp)
                             .clip(CircleShape)
-                            .border(2.dp, MaterialTheme.colorScheme.secondary, CircleShape)
+                            .border(2.dp, MaterialTheme.colorScheme.secondaryContainer, CircleShape)
                             .clickable {
                                 if (isEditable) {
                                     onPhotoClick()
