@@ -33,105 +33,103 @@ class HomeViewModel @Inject constructor(
     @NotificationRep private val notificationRepository: CommonDataContract<Notification>
 ) : ViewModel() {
     private val _babyName = MutableStateFlow("")
-    val babyName = _babyName.asStateFlow()
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
-
+    private val _username = MutableStateFlow("")
     private val _profileImage = MutableStateFlow("")
-    val profileImage = _profileImage.asStateFlow()
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
 
+    private val _babyTitle = MutableStateFlow("")
+    private val _babyDateAtBirth = MutableStateFlow(0L)
+    private val _babyDate = MutableStateFlow(0L)
+    private val _heightAtBirth = MutableStateFlow(0F)
+    private val _weightAtBirth = MutableStateFlow(0F)
     private val _height = MutableStateFlow(0F)
-    val height = _height.asStateFlow()
-        .map { "$it cm" }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
-
     private val _weight = MutableStateFlow(0F)
-    val weight = _weight.asStateFlow()
-        .map { "$it kg" }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
 
     private val _notificationTitle = MutableStateFlow("")
-    val notificationTitle = _notificationTitle.asStateFlow()
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
-
     private val _notificationDate = MutableStateFlow(0L)
-    val notificationDate = _notificationDate.asStateFlow()
-        .map {
-            DateFormatUtil.format(it)
-        }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
 
     private val _napTitle = MutableStateFlow("")
-    val napTitle = _napTitle.asStateFlow()
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
-
     private val _napDate = MutableStateFlow(0L)
-    val napDate = _napDate.asStateFlow()
-        .map {
-            DateFormatUtil.format(it)
-        }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = "",
-            started = WhileSubscribed(5_000)
-        )
-
     private val _napSleepingTime = MutableStateFlow(0L)
-    val napSleepingTime = _napSleepingTime.asStateFlow()
-        .map {
-            val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-            calendar.timeInMillis = it
 
-            DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(calendar)
-        }
+    val babyInfoState = combine(_babyName, _username, _profileImage) { babyName, momName, profileImage ->
+        BabyInfoState(
+            babyName = babyName,
+            momName = momName,
+            profileImage = profileImage
+        )
+    }
         .stateIn(
             scope = viewModelScope,
-            initialValue = "",
+            initialValue = BabyInfoState(),
             started = WhileSubscribed(5_000)
         )
 
+    val babyStatusState = combine(
+        _babyTitle,
+        combine(_babyDate, _babyDateAtBirth) {date, dateAtBirth ->
+            if (date == 0L) dateAtBirth else date
+        },
+        combine(_height, _heightAtBirth) { height, heightAtBirth ->
+            if (height == 0F) heightAtBirth else height
+        },
+        combine(_weight, _weightAtBirth) { weight, weightAtBirth ->
+            if (weight == 0F) weightAtBirth else weight
+        }
+    ) { title, date, height, weight ->
+        BabyStatusState(
+            title = title,
+            date = DateFormatUtil.format(date),
+            height = "${height}cm",
+            weight = "${weight}kg"
+        )
+    }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = BabyStatusState(),
+            started = WhileSubscribed(5_000)
+        )
 
+    val notificationState = combine(_notificationTitle, _notificationDate) { title, date ->
+        NotificationState(
+            title = title,
+            date = DateFormatUtil.format(date),
+        )
+    }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = NotificationState(),
+            started = WhileSubscribed(5_000)
+        )
 
-    private fun isUserAuthenticated() = authentication.isUserAuthenticated()
+    val napState = combine(_napTitle, _napDate, _napSleepingTime) { title, date, sleepingTime ->
+        NapState(
+            title = title,
+            date = DateFormatUtil.format(date),
+            sleepingTime = convertSleepingTime(sleepingTime)
+        )
+    }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = NapState(),
+            started = WhileSubscribed(5_000)
+        )
 
     init {
         viewModelScope.launch {
             userRepository.getById(authentication.getCurrentUser().id).collect {
+                _username.value = it.username
                 _babyName.value = it.babyName
                 _profileImage.value = it.babyUrlPhoto
+                _babyDateAtBirth.value = it.birthdate
+                _heightAtBirth.value = it.height
+                _weightAtBirth.value = it.weight
             }
         }
 
         viewModelScope.launch {
             babyStatusRepository.getLast().collect {
+                _babyTitle.value = it.title
+                _babyDate.value = it.date
                 _height.value = it.height
                 _weight.value = it.weight
             }
@@ -169,9 +167,42 @@ class HomeViewModel @Inject constructor(
             initialValue = HomeState.Loading
         )
 
+    private fun convertSleepingTime(sleepingTime: Long): String {
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+        calendar.timeInMillis = sleepingTime
+
+        return DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(calendar)
+    }
+
+    private fun isUserAuthenticated() = authentication.isUserAuthenticated()
+
     sealed class HomeState {
         object Loading: HomeState()
         object LoggedIn: HomeState()
         object NotLoggedIn: HomeState()
     }
+
+    data class BabyInfoState(
+        val babyName: String = "",
+        val momName: String = "",
+        val profileImage: String = ""
+    )
+
+    data class BabyStatusState(
+        val title: String = "",
+        val date: String = "",
+        val height: String = "",
+        val weight: String = ""
+    )
+
+    data class NotificationState(
+        val title: String = "",
+        val date: String = ""
+    )
+
+    data class NapState(
+        val title: String = "",
+        val date: String = "",
+        val sleepingTime: String = ""
+    )
 }
