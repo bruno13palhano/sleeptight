@@ -215,4 +215,5 @@
     <string name="home_sleeping_time_label">Sleeping time:</string>
     <string name="home_last_status">Last Status</string>
     <string name="title_activity_main_compose">MainActivityCompose</string>
+    <string name="welcome_label">Welcome %s \u0026 %s</string>
 </resources>
