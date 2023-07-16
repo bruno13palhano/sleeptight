@@ -34,6 +34,21 @@ fun SleepTightNavGraph(
                         }
                         launchSingleTop = true
                     }
+                },
+                navigateToLastBabyStatus = {
+                    navController.navigate("${BabyStatusDestinations.BABY_STATUS_ROUTE}$it") {
+                        popUpTo(SleepTightDestinations.HOME_ROUTE)
+                    }
+                },
+                navigateToLastNap = {
+                    navController.navigate("${NapsDestination.NAP_ROUTE}$it") {
+                        popUpTo(SleepTightDestinations.HOME_ROUTE)
+                    }
+                },
+                navigateToLastNotification = {
+                    navController.navigate("${NotificationsDestinations.NOTIFICATION_ROUTE}$it") {
+                        popUpTo(SleepTightDestinations.HOME_ROUTE)
+                    }
                 }
             )
         }
