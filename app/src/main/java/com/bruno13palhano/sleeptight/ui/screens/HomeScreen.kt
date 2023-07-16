@@ -42,6 +42,9 @@ import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 @Composable
 fun HomeScreen(
     navigateToLogin: () -> Unit,
+    navigateToLastBabyStatus: (id: Long) -> Unit,
+    navigateToLastNap: (id: Long) -> Unit,
+    navigateToLastNotification: (id: Long) -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val homeState by homeViewModel.homeState.collectAsStateWithLifecycle()
@@ -59,14 +62,20 @@ fun HomeScreen(
                 babyName = babyInfoState.babyName,
                 profileImage = babyInfoState.profileImage,
                 momName = babyInfoState.momName,
+                babyId = babyStatusState.id,
                 babyDate = babyStatusState.date,
                 babyHeight = babyStatusState.height,
                 babyWeight = babyStatusState.weight,
+                notificationId = notificationState.id,
                 notificationTitle = notificationState.title,
                 notificationDate = notificationState.date,
+                napId = napState.id,
                 napTitle = napState.title,
                 napDate = napState.date,
-                napSleepingTime = napState.sleepingTime
+                napSleepingTime = napState.sleepingTime,
+                navigateToLastBabyStatus = navigateToLastBabyStatus,
+                navigateToLastNap = navigateToLastNap,
+                navigateToLastNotification = navigateToLastNotification
             )
         }
         HomeViewModel.HomeState.NotLoggedIn -> {
@@ -83,14 +92,20 @@ fun HomeContent(
     babyName: String,
     profileImage: String,
     momName: String,
+    babyId: Long,
     babyDate: String,
     babyHeight: String,
     babyWeight: String,
+    notificationId: Long,
     notificationTitle: String,
     notificationDate: String,
+    napId: Long,
     napTitle: String,
     napDate: String,
-    napSleepingTime: String
+    napSleepingTime: String,
+    navigateToLastBabyStatus: (id: Long) -> Unit,
+    navigateToLastNap: (id: Long) -> Unit,
+    navigateToLastNotification: (id: Long) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -160,7 +175,10 @@ fun HomeContent(
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer
                     ),
-                    onClick = {}
+                    onClick = {
+                        if (babyId != 0L)
+                            navigateToLastBabyStatus(babyId)
+                    }
                 ) {
                     Text(
                         modifier = Modifier
@@ -182,7 +200,9 @@ fun HomeContent(
                         colors = CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.secondaryContainer
                         ),
-                        onClick = {}
+                        onClick = {
+                            navigateToLastNap(napId)
+                        }
                     ) {
                         Text(
                             modifier = Modifier
@@ -205,7 +225,9 @@ fun HomeContent(
                         colors = CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.secondaryContainer
                         ),
-                        onClick = {}
+                        onClick = {
+                            navigateToLastNotification(notificationId)
+                        }
                     ) {
                         Text(
                             modifier = Modifier
@@ -226,7 +248,7 @@ fun HomeContent(
 @Preview(showBackground = true)
 @Composable
 fun HomePreview() {
-    SleepTightTheme() {
+    SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
@@ -235,14 +257,20 @@ fun HomePreview() {
                 babyName = "Baby",
                 profileImage = "",
                 momName = "Mom",
+                babyId = 0L,
                 babyDate = "11/07/2023",
                 babyHeight = "34.56cm",
                 babyWeight = "3.65kg",
+                notificationId = 0L,
                 notificationTitle = "Take a shower",
                 notificationDate = "14/07/2023",
+                napId = 0L,
                 napTitle = "Middle nap",
                 napDate = "13/07/2023",
-                napSleepingTime = "12:12"
+                napSleepingTime = "12:12",
+                navigateToLastBabyStatus = {},
+                navigateToLastNap = {},
+                navigateToLastNotification = {}
             )
         }
     }
