@@ -92,12 +92,6 @@
     <string name="hide_password_label">Hide password</string>
     <string name="show_password_label">Show password</string>
 
-    <!--  Chart colors  -->
-    <string name="chart_background_color">#d6d6d6</string>
-    <string name="chart_primary_color">#333533</string>
-    <string name="chart_bar_main_color">#79c5c8</string>
-    <string name="chart_bar_second_color">#786e82</string>
-
     <!--  Chart labels  -->
     <string name="month_chart_label">Nap Month Chart</string>
     <string name="week_chart_label">Nap Week Chart</string>
@@ -141,20 +135,6 @@
     <string name="october_label">October</string>
     <string name="november_label">November</string>
     <string name="december_label">December</string>
-
-    <!--  Colors of the month  -->
-    <string name="january_light_blue_label">#ADD8E6</string>
-    <string name="february_pink_label">#FFC0CB</string>
-    <string name="march_purple_label">#A020F0</string>
-    <string name="april_grass_green_label">#7CFC00</string>
-    <string name="may_lilac_label">#C8A2C8</string>
-    <string name="june_pearl_label">#E2DFD2</string>
-    <string name="july_yellow_label">#FFFF00</string>
-    <string name="august_orange_label">#FFA500</string>
-    <string name="september_bright_blue_label">#0096FF</string>
-    <string name="october_indigo_label">#4B0082</string>
-    <string name="november_gold_label">#FFD700</string>
-    <string name="december_dark_red_label">#8B0000</string>
 
     <!-- Media player labels -->
     <string name="shuffle_on_description">Enable shuffle mode</string>
