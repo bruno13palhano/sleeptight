@@ -216,4 +216,11 @@
     <string name="home_last_status">Last Status</string>
     <string name="title_activity_main_compose">MainActivityCompose</string>
     <string name="welcome_label">Welcome %s \u0026 %s</string>
+    <string name="home_last_measurements_label">
+        The last measurements were on %s, with a height of %s and a weight of %s.
+    </string>
+    <string name="home_last_nap_label">The last nap was on %s, with a sleep duration of %s.</string>
+    <string name="home_last_notification_label">
+        The last notification was on %s with this title: %s.
+    </string>
 </resources>
