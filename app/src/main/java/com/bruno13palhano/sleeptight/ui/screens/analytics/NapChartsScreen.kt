@@ -164,7 +164,7 @@ fun NapChartsContent(
                             ?.date
                             .orEmpty()
                     } catch (ignored: Exception) {
-                        ""
+                        "0"
                     }
                 }
 
