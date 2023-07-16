@@ -31,9 +31,6 @@ class NewBabyStatusViewModel @Inject constructor(
     var weight by mutableStateOf("")
         private set
 
-    val isTitleNotEmpty = title.trim() != ""
-    val heightAndWeightValue = height.trim() != "" && weight.trim() != ""
-
     fun updateTitle(title: String) {
         this.title = title
     }
@@ -52,14 +49,15 @@ class NewBabyStatusViewModel @Inject constructor(
     }
 
     fun insertBabyStatus() {
+        val babyStatus = BabyStatus(
+            id = 0L,
+            title = title,
+            date = dateInMillis,
+            height = stringToFloat(height),
+            weight = stringToFloat(weight)
+        )
+
         viewModelScope.launch {
-            val babyStatus = BabyStatus(
-                id = 0L,
-                title = title,
-                date = dateInMillis,
-                height = stringToFloat(height),
-                weight = stringToFloat(weight)
-            )
             babyStatusRepository.insert(babyStatus)
         }
         restoresValues()
