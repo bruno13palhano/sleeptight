@@ -9,7 +9,7 @@ import com.bruno13palhano.sleeptight.R
         SleepMusic(
             id = "fan_01",
             title = "Fan",
-            album = "SleepTight",
+            album = "Sounds to Sleep",
             artist = "SleepTight",
             genre = "White Noise",
             source = RawResourceDataSource.buildRawResourceUri(R.raw.fan),
@@ -18,7 +18,7 @@ import com.bruno13palhano.sleeptight.R
         SleepMusic(
             id = "heater_02",
             title = "Heater",
-            album = "SleepTight",
+            album = "Sounds to Sleep",
             artist = "SleepTight",
             genre = "White Noise",
             source = RawResourceDataSource.buildRawResourceUri(R.raw.heater),
@@ -27,7 +27,7 @@ import com.bruno13palhano.sleeptight.R
         SleepMusic(
             id = "ocean_03",
             title = "Ocean",
-            album = "SleepTight",
+            album = "Sounds to Sleep",
             artist = "SleepTight",
             genre = "White Noise",
             source = RawResourceDataSource.buildRawResourceUri(R.raw.white_noise),
@@ -36,7 +36,7 @@ import com.bruno13palhano.sleeptight.R
         SleepMusic(
             id = "rain_04",
             title = "Rain",
-            album = "SleepTight",
+            album = "Sounds to Sleep",
             artist = "SleepTight",
             genre = "White Noise",
             source = RawResourceDataSource.buildRawResourceUri(R.raw.rain),
@@ -45,7 +45,7 @@ import com.bruno13palhano.sleeptight.R
         SleepMusic(
             id = "water_05",
             title = "Water",
-            album = "SleepTight",
+            album = "Sounds to Sleep",
             artist = "SleepTight",
             genre = "White Noise",
             source = RawResourceDataSource.buildRawResourceUri(R.raw.water),
@@ -54,7 +54,7 @@ import com.bruno13palhano.sleeptight.R
         SleepMusic(
             id = "white_noise_06",
             title = "White Noise",
-            album = "SleepTight",
+            album = "Sounds to Sleep",
             artist = "SleepTight",
             genre = "White Noise",
             source = RawResourceDataSource.buildRawResourceUri(R.raw.white_noise),
@@ -63,7 +63,7 @@ import com.bruno13palhano.sleeptight.R
         SleepMusic(
             id = "lullaby_07",
             title = "Lullaby",
-            album = "SleepTight",
+            album = "Sounds to Sleep",
             artist = "SleepTight",
             genre = "White Noise",
             source = RawResourceDataSource.buildRawResourceUri(R.raw.lullaby),
