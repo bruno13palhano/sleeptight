@@ -23,13 +23,4 @@
         <item name="android:windowBackground">@drawable/background</item>
         <item name="android:navigationBarColor">@color/white</item>
     </style>
-
-    <style name="ImageViewRounded">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
-    </style>
-
-    <style name="Widget.App.RadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
-        <item name="buttonTint">@color/radio_button_tint</item>
-    </style>
 </resources>
