@@ -21,7 +21,6 @@ import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,55 +31,33 @@ class HomeViewModel @Inject constructor(
     @NapRep private val napRepository: CommonDataContract<Nap>,
     @NotificationRep private val notificationRepository: CommonDataContract<Notification>
 ) : ViewModel() {
-    private val _babyName = MutableStateFlow("")
-    private val _username = MutableStateFlow("")
-    private val _profileImage = MutableStateFlow("")
-
-    private val _babyTitle = MutableStateFlow("")
-    private val _babyDateAtBirth = MutableStateFlow(0L)
-    private val _babyDate = MutableStateFlow(0L)
-    private val _heightAtBirth = MutableStateFlow(0F)
-    private val _weightAtBirth = MutableStateFlow(0F)
-    private val _height = MutableStateFlow(0F)
-    private val _weight = MutableStateFlow(0F)
-
-    private val _notificationTitle = MutableStateFlow("")
-    private val _notificationDate = MutableStateFlow(0L)
-
-    private val _napTitle = MutableStateFlow("")
-    private val _napDate = MutableStateFlow(0L)
-    private val _napSleepingTime = MutableStateFlow(0L)
-
-    val babyInfoState = combine(_babyName, _username, _profileImage) { babyName, momName, profileImage ->
-        BabyInfoState(
-            babyName = babyName,
-            momName = momName,
-            profileImage = profileImage
-        )
-    }
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = BabyInfoState(),
-            started = WhileSubscribed(5_000)
-        )
+    val babyInfoState = userRepository.getById(authentication.getCurrentUser().id)
+        .map {
+            BabyInfoState(
+                babyName = it.babyName,
+                momName = it.username,
+                profileImage = it.babyUrlPhoto
+            )
+        }
+            .stateIn(
+                scope = viewModelScope,
+                initialValue = BabyInfoState(),
+                started = WhileSubscribed(5_000)
+            )
 
     val babyStatusState = combine(
-        _babyTitle,
-        combine(_babyDate, _babyDateAtBirth) {date, dateAtBirth ->
-            if (date == 0L) dateAtBirth else date
-        },
-        combine(_height, _heightAtBirth) { height, heightAtBirth ->
-            if (height == 0F) heightAtBirth else height
-        },
-        combine(_weight, _weightAtBirth) { weight, weightAtBirth ->
-            if (weight == 0F) weightAtBirth else weight
-        }
-    ) { title, date, height, weight ->
+        userRepository.getById(authentication.getCurrentUser().id),
+        babyStatusRepository.getLast()
+    ) { user, babyStatus ->
         BabyStatusState(
-            title = title,
-            date = DateFormatUtil.format(date),
-            height = "${height}cm",
-            weight = "${weight}kg"
+            title = babyStatus.title,
+            date = if (babyStatus.date == 0L) {
+                DateFormatUtil.format(user.birthdate)
+            } else {
+                   DateFormatUtil.format(babyStatus.date)
+            },
+            height = if (babyStatus.height == 0F) "${user.height}cm" else "${babyStatus.height}cm",
+            weight = if (babyStatus.weight == 0F) "${user.weight}kg" else "${babyStatus.weight}kg"
         )
     }
         .stateIn(
@@ -89,67 +66,33 @@ class HomeViewModel @Inject constructor(
             started = WhileSubscribed(5_000)
         )
 
-    val notificationState = combine(_notificationTitle, _notificationDate) { title, date ->
-        NotificationState(
-            title = title,
-            date = DateFormatUtil.format(date),
-        )
-    }
+    val notificationState = notificationRepository.getLast()
+        .map {
+            NotificationState(
+                title = it.title,
+                date = DateFormatUtil.format(it.date),
+            )
+
+        }
         .stateIn(
             scope = viewModelScope,
             initialValue = NotificationState(),
             started = WhileSubscribed(5_000)
         )
 
-    val napState = combine(_napTitle, _napDate, _napSleepingTime) { title, date, sleepingTime ->
-        NapState(
-            title = title,
-            date = DateFormatUtil.format(date),
-            sleepingTime = convertSleepingTime(sleepingTime)
-        )
-    }
+    val napState = napRepository.getLast()
+        .map {
+            NapState(
+                title = it.title,
+                date = DateFormatUtil.format(it.date),
+                sleepingTime = convertSleepingTime(it.sleepingTime)
+            )
+        }
         .stateIn(
             scope = viewModelScope,
             initialValue = NapState(),
             started = WhileSubscribed(5_000)
         )
-
-    init {
-        viewModelScope.launch {
-            userRepository.getById(authentication.getCurrentUser().id).collect {
-                _username.value = it.username
-                _babyName.value = it.babyName
-                _profileImage.value = it.babyUrlPhoto
-                _babyDateAtBirth.value = it.birthdate
-                _heightAtBirth.value = it.height
-                _weightAtBirth.value = it.weight
-            }
-        }
-
-        viewModelScope.launch {
-            babyStatusRepository.getLast().collect {
-                _babyTitle.value = it.title
-                _babyDate.value = it.date
-                _height.value = it.height
-                _weight.value = it.weight
-            }
-        }
-
-        viewModelScope.launch {
-            notificationRepository.getLast().collect {
-                _notificationTitle.value = it.title
-                _notificationDate.value = it.date
-            }
-        }
-
-        viewModelScope.launch {
-            napRepository.getLast().collect {
-                _napTitle.value = it.title
-                _napDate.value = it.date
-                _napSleepingTime.value = it.sleepingTime
-            }
-        }
-    }
 
     private val isLogged = isUserAuthenticated()
     val homeState = flow {
