@@ -50,7 +50,6 @@ class HomeViewModel @Inject constructor(
         babyStatusRepository.getLast()
     ) { user, babyStatus ->
         BabyStatusState(
-            title = babyStatus.title,
             date = if (babyStatus.date == 0L) {
                 DateFormatUtil.format(user.birthdate)
             } else {
@@ -132,7 +131,6 @@ class HomeViewModel @Inject constructor(
     )
 
     data class BabyStatusState(
-        val title: String = "",
         val date: String = "",
         val height: String = "",
         val weight: String = ""
