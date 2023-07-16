@@ -1,25 +1,21 @@
 package com.bruno13palhano.sleeptight.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Balance
-import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.SquareFoot
-import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -30,11 +26,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
@@ -61,7 +59,6 @@ fun HomeScreen(
                 babyName = babyInfoState.babyName,
                 profileImage = babyInfoState.profileImage,
                 momName = babyInfoState.momName,
-                babyTitle = babyStatusState.title,
                 babyDate = babyStatusState.date,
                 babyHeight = babyStatusState.height,
                 babyWeight = babyStatusState.weight,
@@ -86,7 +83,6 @@ fun HomeContent(
     babyName: String,
     profileImage: String,
     momName: String,
-    babyTitle:String,
     babyDate: String,
     babyHeight: String,
     babyWeight: String,
@@ -108,12 +104,11 @@ fun HomeContent(
         ) {
             ElevatedCard(
                 modifier = Modifier
-                    .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                    .padding(start = 16.dp, end = 16.dp),
                 shape = RoundedCornerShape(8.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer
-                ),
-                onClick = {}
+                )
             ) {
                 Box(
                     modifier = Modifier
@@ -122,104 +117,45 @@ fun HomeContent(
                     Image(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .padding(top = 56.dp)
                             .sizeIn(maxHeight = 368.dp, minHeight = 368.dp),
-                        painter = rememberAsyncImagePainter(profileImage),
+                        painter = painterResource(id = R.drawable.logo_1),
                         contentDescription = stringResource(id = R.string.baby_photo_label),
                         contentScale = ContentScale.Crop
                     )
 
                     Text(
                         modifier = Modifier
-                            .padding(16.dp),
+                            .fillMaxWidth(.75F)
+                            .padding(top = 24.dp, start = 16.dp, end = 16.dp),
                         text = stringResource(id = R.string.welcome_label, momName, babyName),
                         style = MaterialTheme.typography.titleLarge,
+                        fontStyle = FontStyle.Italic
+                    )
+
+                    Image(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .align(Alignment.TopEnd)
+                            .size(88.dp)
+                            .clip(CircleShape)
+                            .border(2.dp, MaterialTheme.colorScheme.secondaryContainer, CircleShape),
+                        contentScale = ContentScale.Crop,
+                        painter = rememberAsyncImagePainter(profileImage),
+                        contentDescription = stringResource(id = R.string.baby_photo_label)
                     )
                 }
             }
 
             ElevatedCard(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                shape = RoundedCornerShape(8.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer
-                ),
-                onClick ={}
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
             ) {
-                Text(
-                    modifier = Modifier
-                        .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                    text = stringResource(id = R.string.last_baby_status_label),
-                    style = MaterialTheme.typography.titleLarge
-                )
-
-                Text(
-                    modifier = Modifier
-                        .padding(start = 16.dp, end = 16.dp),
-                    text = babyTitle,
-                    style = MaterialTheme.typography.titleMedium
-                )
-
-                Row(
-                    modifier = Modifier
-                        .padding(start = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.CalendarMonth,
-                        contentDescription = stringResource(id = R.string.date_label)
-                    )
-                    Text(
-                        modifier = Modifier
-                            .padding(start = 4.dp, end = 16.dp),
-                        text = babyDate,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-
-                Row(
-                    modifier = Modifier
-                        .padding(start = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.SquareFoot,
-                        contentDescription = stringResource(id = R.string.date_label)
-                    )
-
-                    Text(
-                        modifier = Modifier
-                            .padding(start = 4.dp, end = 16.dp),
-                        text = babyHeight,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-
-                Row(
-                    modifier = Modifier
-                        .padding(start = 16.dp, bottom = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Balance,
-                        contentDescription = null
-                    )
-
-                    Text(
-                        modifier = Modifier
-                            .padding(start = 4.dp, end = 16.dp),
-                        text = babyWeight,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-            }
-
-            if (napTitle != "") {
                 ElevatedCard(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                        .padding(top = 8.dp, start = 8.dp, end = 8.dp),
                     shape = RoundedCornerShape(8.dp),
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer
@@ -228,94 +164,57 @@ fun HomeContent(
                 ) {
                     Text(
                         modifier = Modifier
-                            .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                        text = stringResource(id = R.string.last_nap_label),
-                        style = MaterialTheme.typography.titleLarge
-                    )
-
-                    Text(
-                        modifier = Modifier
-                            .padding(start = 16.dp, end = 16.dp),
-                        text = napTitle,
+                            .padding(16.dp),
+                        text = stringResource(
+                            id = R.string.home_last_measurements_label,
+                            babyDate, babyHeight, babyWeight
+                        ),
                         style = MaterialTheme.typography.titleMedium
                     )
+                }
 
-                    Row(
+                if (napTitle != "") {
+                    ElevatedCard(
                         modifier = Modifier
-                            .padding(start = 16.dp, bottom = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                            .fillMaxWidth()
+                            .padding(top = 8.dp, start = 8.dp, end = 8.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer
+                        ),
+                        onClick = {}
                     ) {
-                        Icon(
-                            imageVector = Icons.Filled.CalendarMonth,
-                            contentDescription = stringResource(id = R.string.date_label)
-                        )
-
                         Text(
                             modifier = Modifier
-                                .padding(start = 4.dp, end = 16.dp),
-                            text = napDate,
-                            style = MaterialTheme.typography.bodyLarge
-                        )
-                    }
-
-                    Row(
-                        modifier = Modifier
-                            .padding(start = 16.dp, bottom = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Timer,
-                            contentDescription = stringResource(id = R.string.sleeping_time_label)
-                        )
-                        Text(
-                            modifier = Modifier
-                                .padding(start = 4.dp, end = 16.dp),
-                            text = napSleepingTime,
-                            style = MaterialTheme.typography.bodyLarge
+                                .padding(16.dp),
+                            text = stringResource(
+                                id = R.string.home_last_nap_label,
+                                napDate, napSleepingTime
+                            ),
+                            style = MaterialTheme.typography.titleMedium
                         )
                     }
                 }
-            }
 
-            if (notificationTitle != "") {
-                ElevatedCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer
-                    ),
-                    onClick = {}
-                ) {
-                    Text(
+                if (notificationTitle != "") {
+                    ElevatedCard(
                         modifier = Modifier
-                            .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                        text = stringResource(id = R.string.last_notification_label),
-                        style = MaterialTheme.typography.titleLarge
-                    )
-
-                    Text(
-                        modifier = Modifier
-                            .padding(start = 16.dp, end = 16.dp),
-                        text = notificationTitle,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-
-                    Row(
-                        modifier = Modifier
-                            .padding(start = 16.dp, end = 16.dp, bottom = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                            .fillMaxWidth()
+                            .padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 8.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer
+                        ),
+                        onClick = {}
                     ) {
-                        Icon(
-                            imageVector = Icons.Filled.CalendarMonth,
-                            contentDescription = stringResource(id = R.string.date_label)
-                        )
                         Text(
                             modifier = Modifier
-                                .padding(start = 4.dp, end = 16.dp),
-                            text = notificationDate,
-                            style = MaterialTheme.typography.bodyLarge
+                                .padding(16.dp),
+                            text = stringResource(
+                                id = R.string.home_last_notification_label,
+                                notificationDate, notificationTitle
+                            ),
+                            style = MaterialTheme.typography.titleMedium
                         )
                     }
                 }
@@ -336,7 +235,6 @@ fun HomePreview() {
                 babyName = "Baby",
                 profileImage = "",
                 momName = "Mom",
-                babyTitle = "Baby Status Test",
                 babyDate = "11/07/2023",
                 babyHeight = "34.56cm",
                 babyWeight = "3.65kg",
