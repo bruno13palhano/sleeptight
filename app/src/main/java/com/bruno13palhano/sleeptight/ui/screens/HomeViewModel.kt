@@ -50,6 +50,7 @@ class HomeViewModel @Inject constructor(
         babyStatusRepository.getLast()
     ) { user, babyStatus ->
         BabyStatusState(
+            id = babyStatus.id,
             date = if (babyStatus.date == 0L) {
                 DateFormatUtil.format(user.birthdate)
             } else {
@@ -68,6 +69,7 @@ class HomeViewModel @Inject constructor(
     val notificationState = notificationRepository.getLast()
         .map {
             NotificationState(
+                id = it.id,
                 title = it.title,
                 date = DateFormatUtil.format(it.date),
             )
@@ -82,6 +84,7 @@ class HomeViewModel @Inject constructor(
     val napState = napRepository.getLast()
         .map {
             NapState(
+                id = it.id,
                 title = it.title,
                 date = DateFormatUtil.format(it.date),
                 sleepingTime = convertSleepingTime(it.sleepingTime)
@@ -131,17 +134,20 @@ class HomeViewModel @Inject constructor(
     )
 
     data class BabyStatusState(
+        val id: Long = 0L,
         val date: String = "",
         val height: String = "",
         val weight: String = ""
     )
 
     data class NotificationState(
+        val id: Long = 0L,
         val title: String = "",
         val date: String = ""
     )
 
     data class NapState(
+        val id: Long = 0L,
         val title: String = "",
         val date: String = "",
         val sleepingTime: String = ""
