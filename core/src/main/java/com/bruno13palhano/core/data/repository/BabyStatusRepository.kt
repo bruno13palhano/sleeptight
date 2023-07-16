@@ -45,6 +45,16 @@ internal class BabyStatusRepository @Inject constructor(
     override fun getLast(): Flow<BabyStatus> {
         return babyStatusDao.getLast()
             .map { it.asBabyStatus() }
-            .catch { it.printStackTrace() }
+            .catch {
+                emit(
+                    BabyStatus(
+                        id = 0L,
+                        title = "",
+                        date = 0L,
+                        height = 0F,
+                        weight = 0F
+                    )
+                )
+            }
     }
 }

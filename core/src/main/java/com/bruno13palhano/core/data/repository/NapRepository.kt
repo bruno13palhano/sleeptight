@@ -46,5 +46,17 @@ internal class NapRepository @Inject constructor(
 
     override fun getLast() = napDao.getLast()
         .map { it.asNap() }
-        .catch { it.printStackTrace() }
+        .catch {
+            emit(
+                Nap(
+                    id= 0L,
+                    title = "",
+                    date = 0L,
+                    startTime = 0L,
+                    endTime = 0L,
+                    sleepingTime = 0L,
+                    observation = ""
+                )
+            )
+        }
 }

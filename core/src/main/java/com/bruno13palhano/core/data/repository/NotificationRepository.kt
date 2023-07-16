@@ -48,6 +48,17 @@ internal class NotificationRepository @Inject constructor(
     override fun getLast(): Flow<Notification> {
         return notificationDao.getLast()
             .map { it.asNotification() }
-            .catch { it.printStackTrace() }
+            .catch {
+                emit(
+                    Notification(
+                        id = 0L,
+                        title = "",
+                        description = "",
+                        time = 0L,
+                        date = 0L,
+                        repeat = false
+                    )
+                )
+            }
     }
 }
