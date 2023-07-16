@@ -156,11 +156,17 @@ fun NapChartsContent(
         }
     ) {
         Column(modifier = Modifier.padding(it)) {
-            val axisValueFormatter = AxisValueFormatter<AxisPosition.Horizontal.Bottom> { value, chartValues ->
-                (chartValues.chartEntryModel.entries.first().getOrNull(value.toInt()) as? NapChartEntry)
-                    ?.date
-                    .orEmpty()
-            }
+            val axisValueFormatter =
+                AxisValueFormatter<AxisPosition.Horizontal.Bottom> { value, chartValues ->
+                    try {
+                        (chartValues.chartEntryModel.entries.first()
+                            .getOrNull(value.toInt()) as? NapChartEntry)
+                            ?.date
+                            .orEmpty()
+                    } catch (ignored: Exception) {
+                        ""
+                    }
+                }
 
             ProvideChartStyle(
                 chartStyle = m3ChartStyle(entityColors = listOf(
