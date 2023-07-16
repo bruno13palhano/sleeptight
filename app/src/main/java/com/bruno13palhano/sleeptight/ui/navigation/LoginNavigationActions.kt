@@ -3,9 +3,6 @@ package com.bruno13palhano.sleeptight.ui.navigation
 import androidx.navigation.NavController
 
 class LoginNavigationActions(navController: NavController) {
-    val navigateToLogin: () -> Unit = {
-        navController.navigate(LoginDestinations.LOGIN_ROUTE)
-    }
     val navigateFromLoginToHome: () -> Unit = {
         navController.navigate(SleepTightDestinations.HOME_ROUTE) {
             popUpTo(SleepTightDestinations.LOGIN_CREATE_ACCOUNT_ROUTE) {
