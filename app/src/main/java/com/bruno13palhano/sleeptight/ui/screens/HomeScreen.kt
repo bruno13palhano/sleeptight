@@ -1,6 +1,7 @@
 package com.bruno13palhano.sleeptight.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -154,6 +155,7 @@ fun HomeContent(
                             .align(Alignment.TopEnd)
                             .size(88.dp)
                             .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.onPrimary)
                             .border(2.dp, MaterialTheme.colorScheme.secondaryContainer, CircleShape),
                         contentScale = ContentScale.Crop,
                         painter = rememberAsyncImagePainter(profileImage),
