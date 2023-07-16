@@ -88,5 +88,14 @@ class NewNapViewModel @Inject constructor(
         viewModelScope.launch {
             napRepository.insert(nap)
         }
+        restoreValues()
+    }
+
+    private fun restoreValues() {
+        title = ""
+        dateInMillis = 0L
+        startTimeInMillis = 0L
+        endTimeInMillis = 0L
+        observations = ""
     }
 }
