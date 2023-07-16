@@ -29,8 +29,6 @@ class BabyStatusViewModel @Inject constructor(
     var weight by mutableStateOf("")
         private set
 
-    val isTitleNotEmpty = title.trim() != ""
-
     fun updateTitle(title: String) {
         this.title = title
     }
