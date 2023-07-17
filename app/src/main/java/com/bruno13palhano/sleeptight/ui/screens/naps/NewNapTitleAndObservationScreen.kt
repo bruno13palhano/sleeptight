@@ -30,7 +30,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewNapTitleAndObservationScreen(
     onNextButtonClick: () -> Unit,
@@ -39,6 +38,30 @@ fun NewNapTitleAndObservationScreen(
 ) {
     val focusManager = LocalFocusManager.current
 
+    NewNapTitleAndObservationContent(
+        title = newNapViewModel.title,
+        observations = newNapViewModel.observations,
+        onTitleChange = newNapViewModel::updateTitle,
+        onObservationsChange = newNapViewModel::updateObservations,
+        onTitleDone = { focusManager.moveFocus(FocusDirection.Next) },
+        onObservationsDone = { focusManager.clearFocus(force = true) },
+        onNavigationIconClick = onNavigationIconClick,
+        onNextButtonClick = onNextButtonClick
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NewNapTitleAndObservationContent(
+    title: String,
+    observations: String,
+    onTitleChange: (title: String) -> Unit,
+    onObservationsChange: (observations: String) -> Unit,
+    onTitleDone: () -> Unit,
+    onObservationsDone: () -> Unit,
+    onNavigationIconClick: () -> Unit,
+    onNextButtonClick: () -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -62,116 +85,71 @@ fun NewNapTitleAndObservationScreen(
             }
         }
     ) {
-        CommonFields(
-            modifier = Modifier.padding(it),
-            title = newNapViewModel.title,
-            observations = newNapViewModel.observations,
-            onTitleChange = newNapViewModel::updateTitle,
-            onObservationsChange = newNapViewModel::updateObservations,
-            onTitleDone = { focusManager.moveFocus(FocusDirection.Next) },
-            onObservationsDone = { focusManager.clearFocus() }
-        )
-    }
-}
-
-@Composable
-private fun CommonFields(
-    modifier: Modifier,
-    title: String,
-    observations: String,
-    onTitleChange: (title: String) -> Unit,
-    onObservationsChange: (observations: String) -> Unit,
-    onTitleDone: () -> Unit,
-    onObservationsDone: () -> Unit
-) {
-    Column(modifier = modifier) {
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-            value = title,
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Filled.Label,
-                    contentDescription = stringResource(id = R.string.title_label)
-                )
-            },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-            keyboardActions = KeyboardActions(onDone = {
-                this.defaultKeyboardAction(ImeAction.Done)
-                onTitleDone()
-            }),
-            onValueChange = { titleValue -> onTitleChange(titleValue) },
-            singleLine = true,
-            label = { Text(text = stringResource(id = R.string.title_label)) },
-            placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) }
-        )
-
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1F, true)
-                .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 88.dp),
-            value = observations,
-            leadingIcon = {
-                Row(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(top = 16.dp)
-                ) {
+        Column(modifier = Modifier.padding(it)) {
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                value = title,
+                leadingIcon = {
                     Icon(
-                        imageVector = Icons.Filled.Description,
-                        contentDescription = stringResource(id = R.string.description_label)
+                        imageVector = Icons.Filled.Label,
+                        contentDescription = stringResource(id = R.string.title_label)
                     )
-                }
-            },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-            keyboardActions = KeyboardActions(onDone = {
-                this.defaultKeyboardAction(ImeAction.Done)
-                onObservationsDone()
-            }),
-            onValueChange = { observationsValue -> onObservationsChange(observationsValue) },
-            label = { Text(text = stringResource(id = R.string.observation_label)) },
-            placeholder = { Text(text = stringResource(id = R.string.insert_observations_label)) }
-        )
+                },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = {
+                    this.defaultKeyboardAction(ImeAction.Done)
+                    onTitleDone()
+                }),
+                onValueChange = { titleValue -> onTitleChange(titleValue) },
+                singleLine = true,
+                label = { Text(text = stringResource(id = R.string.title_label)) },
+                placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) }
+            )
+
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1F, true)
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 88.dp),
+                value = observations,
+                leadingIcon = {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .padding(top = 16.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Description,
+                            contentDescription = stringResource(id = R.string.description_label)
+                        )
+                    }
+                },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = {
+                    this.defaultKeyboardAction(ImeAction.Done)
+                    onObservationsDone()
+                }),
+                onValueChange = { observationsValue -> onObservationsChange(observationsValue) },
+                label = { Text(text = stringResource(id = R.string.observation_label)) },
+                placeholder = { Text(text = stringResource(id = R.string.insert_observations_label)) }
+            )
+        }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun NewNapTitleAndObservationScreenPreview() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.title_and_observations_label)) },
-                navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
-                        )
-                    }
-                }
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Filled.NavigateNext,
-                    contentDescription = stringResource(id = R.string.next_label)
-                )
-            }
-        }
-    ) {
-        CommonFields(
-            modifier = Modifier.padding(it),
-            title = "",
-            observations = "",
-            onTitleChange = {},
-            onObservationsChange = {},
-            onTitleDone = {},
-            onObservationsDone = {}
-        )
-    }
+    NewNapTitleAndObservationContent(
+        title = "",
+        observations = "",
+        onTitleChange = {},
+        onObservationsChange = {},
+        onTitleDone = {},
+        onObservationsDone = {},
+        onNavigationIconClick = {},
+        onNextButtonClick = {}
+    )
 }
