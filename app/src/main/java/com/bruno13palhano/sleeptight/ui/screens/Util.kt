@@ -173,7 +173,7 @@ fun ItemList(
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 8.dp),
+            .padding(top = 8.dp, start = 8.dp, end = 8.dp),
         onClick = onItemClick,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
     ) {
