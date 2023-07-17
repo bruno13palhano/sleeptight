@@ -93,9 +93,12 @@ class NewNapViewModel @Inject constructor(
 
     private fun restoreValues() {
         title = ""
-        dateInMillis = 0L
-        startTimeInMillis = 0L
-        endTimeInMillis = 0L
+        dateInMillis = MaterialDatePicker.todayInUtcMilliseconds()
+        date = DateFormatUtil.format(dateInMillis)
+        startTimeInMillis = Calendar.getInstance().timeInMillis
+        startTime = DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(startTimeInMillis)
+        endTimeInMillis = Calendar.getInstance().timeInMillis
+        endTime = DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(endTimeInMillis)
         observations = ""
     }
 }
