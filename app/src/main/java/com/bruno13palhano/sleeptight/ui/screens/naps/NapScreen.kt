@@ -52,7 +52,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -74,15 +73,10 @@ fun NapScreen(
 
     val configuration = LocalConfiguration.current
     val focusManager = LocalFocusManager.current
-
-    var expanded by remember { mutableStateOf(false) }
-
     var showDatePickerDialog by remember { mutableStateOf(false) }
     var datePickerState = rememberDatePickerState()
-
     var showStartTimePicker by remember { mutableStateOf(false) }
     var startTimePickerState = rememberTimePickerState()
-
     var showEndTimePicker by remember { mutableStateOf(false) }
     var endTimePickerState = rememberTimePickerState()
 
@@ -179,6 +173,56 @@ fun NapScreen(
         }
     }
 
+    NapContent(
+        orientation = configuration.orientation,
+        title = napViewModel.title,
+        observation = napViewModel.observation,
+        date = napViewModel.date,
+        startTime = napViewModel.startTime,
+        endTime = napViewModel.endTime,
+        onTitleChange = napViewModel::updateNapTitle,
+        onObservationChange = napViewModel::updateNapObservation,
+        onTitleDone = { focusManager.clearFocus(force = true) },
+        onObservationDone = { focusManager.clearFocus(force = true) },
+        onDateClick = { showDatePickerDialog = true },
+        onStartTimeClick = { showStartTimePicker = true },
+        onEndTimeClick = { showEndTimePicker = true },
+        onDeleteItemClick = {
+            napViewModel.deleteNapById(napId)
+            navigateUp()
+        },
+        onShareItemClick = {},
+        onActionDone = {
+            napViewModel.updateNap(napId)
+            navigateUp()
+        },
+        navigateUp = navigateUp
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NapContent(
+    orientation: Int,
+    title: String,
+    observation: String,
+    date: String,
+    startTime: String,
+    endTime: String,
+    onTitleChange: (title: String) -> Unit,
+    onObservationChange: (observation: String) -> Unit,
+    onTitleDone: () -> Unit,
+    onObservationDone: () -> Unit,
+    onDateClick: () -> Unit,
+    onStartTimeClick: () -> Unit,
+    onEndTimeClick: () -> Unit,
+    onDeleteItemClick: () -> Unit,
+    onShareItemClick: () -> Unit,
+    onActionDone: () -> Unit,
+    navigateUp: () -> Unit,
+) {
+    var expanded by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -214,11 +258,10 @@ fun NapScreen(
                                     onClick = { index ->
                                         when (index) {
                                             CommonMenuItemIndex.DELETE_ITEM_INDEX -> {
-                                                napViewModel.deleteNapById(napId)
-                                                navigateUp()
+                                                onDeleteItemClick()
                                             }
                                             CommonMenuItemIndex.SHARE_ITEM_INDEX -> {
-
+                                                onShareItemClick()
                                             }
                                         }
                                     }
@@ -230,12 +273,9 @@ fun NapScreen(
             )
         },
         floatingActionButton = {
-            if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                 FloatingActionButton(
-                    onClick = {
-                        napViewModel.updateNap(id = napId)
-                        navigateUp()
-                    }
+                    onClick = onActionDone
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Done,
@@ -250,31 +290,103 @@ fun NapScreen(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
         ) {
-            CommonFields(
-                title = napViewModel.title,
-                date = napViewModel.date,
-                startTime = napViewModel.startTime,
-                endTime = napViewModel.endTime,
-                onTitleChange = napViewModel::updateNapTitle,
-                onTitleDone = { focusManager.clearFocus() },
-                onDateDone = {
-                    showDatePickerDialog = true
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                value = title,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.Label,
+                        contentDescription = stringResource(id = R.string.title_label)
+                    )
                 },
-                onStartTimeDone = {
-                    showStartTimePicker = true
-                },
-                onEndTimeDone = {
-                    showEndTimePicker = true
-                },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = {
+                    this.defaultKeyboardAction(ImeAction.Done)
+                    onTitleDone()
+                }),
+                onValueChange = { titleValue -> onTitleChange(titleValue) },
+                singleLine = true,
+                label = { Text(text = stringResource(id = R.string.title_label)) },
+                placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) }
             )
 
-            if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .onFocusChanged { focusState ->
+                        if (focusState.hasFocus)
+                            onDateClick()
+                    },
+                value = date,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.CalendarMonth,
+                        contentDescription = stringResource(id = R.string.date_label)
+                    )
+                },
+                onValueChange = {},
+                singleLine = true,
+                readOnly = true,
+                label = { Text(text = stringResource(id = R.string.date_label)) },
+                placeholder = { Text(text = stringResource(id = R.string.insert_date_label)) }
+            )
+
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .onFocusChanged { focusState ->
+                        if (focusState.hasFocus) {
+                            onStartTimeClick()
+                        }
+                    },
+                value = startTime,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.Timer,
+                        contentDescription = stringResource(id = R.string.start_time_label)
+                    )
+                },
+                onValueChange = {},
+                singleLine = true,
+                readOnly = true,
+                label = { Text(text = stringResource(id = R.string.start_time_label)) },
+                placeholder = { Text(text = stringResource(id = R.string.insert_start_time_label)) }
+            )
+
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .onFocusChanged { focusState ->
+                        if (focusState.hasFocus) {
+                            onEndTimeClick()
+                        }
+                    },
+                value = endTime,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.TimerOff,
+                        contentDescription = stringResource(id = R.string.end_time_label)
+                    )
+                },
+                onValueChange = {},
+                singleLine = true,
+                readOnly = true,
+                label = { Text(text = stringResource(id = R.string.end_time_label)) },
+                placeholder = { Text(text = stringResource(id = R.string.insert_end_time_label)) }
+            )
+
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                 OutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1F, true)
                         .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 88.dp),
-                    value = napViewModel.observation,
+                    value = observation,
                     leadingIcon = {
                         Row(
                             modifier = Modifier
@@ -290,9 +402,9 @@ fun NapScreen(
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(onDone = {
                         this.defaultKeyboardAction(ImeAction.Done)
-                        focusManager.clearFocus()
+                        onObservationDone()
                     }),
-                    onValueChange = napViewModel::updateNapObservation,
+                    onValueChange = { observationValue -> onObservationChange(observationValue) },
                     label = { Text(text = stringResource(id = R.string.observation_label)) },
                     placeholder = { Text(text = stringResource(id = R.string.insert_observations_label)) }
                 )
@@ -302,7 +414,7 @@ fun NapScreen(
                         .fillMaxWidth()
                         .sizeIn(minHeight = 200.dp)
                         .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                    value = napViewModel.observation,
+                    value = observation,
                     leadingIcon = {
                         Row(
                             modifier = Modifier
@@ -319,9 +431,9 @@ fun NapScreen(
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(onDone = {
                         this.defaultKeyboardAction(ImeAction.Done)
-                        focusManager.clearFocus()
+                        onObservationDone()
                     }),
-                    onValueChange = napViewModel::updateNapObservation,
+                    onValueChange = { observationValue -> onObservationChange(observationValue) },
                     label = { Text(text = stringResource(id = R.string.observation_label)) },
                     placeholder = { Text(text = stringResource(id = R.string.insert_observations_label)) }
                 )
@@ -330,7 +442,7 @@ fun NapScreen(
                     modifier = Modifier
                         .align(Alignment.End)
                         .padding(16.dp),
-                    onClick = navigateUp
+                    onClick = onActionDone
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Done,
@@ -342,185 +454,26 @@ fun NapScreen(
     }
 }
 
-@Composable
-private fun CommonFields(
-    title: String,
-    date: String,
-    startTime: String,
-    endTime: String,
-    onTitleChange: (title: String) -> Unit,
-    onTitleDone: () -> Unit,
-    onDateDone: () -> Unit,
-    onStartTimeDone: () -> Unit,
-    onEndTimeDone: () -> Unit,
-) {
-    OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-        value = title,
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Filled.Label,
-                contentDescription = stringResource(id = R.string.title_label)
-            )
-        },
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        keyboardActions = KeyboardActions(onDone = {
-            this.defaultKeyboardAction(ImeAction.Done)
-            onTitleDone()
-        }),
-        onValueChange = { titleValue -> onTitleChange(titleValue) },
-        singleLine = true,
-        label = { Text(text = stringResource(id = R.string.title_label)) },
-        placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) }
-    )
-
-    OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp, start = 16.dp, end = 16.dp)
-            .onFocusChanged {
-                if (it.hasFocus)
-                    onDateDone()
-            },
-        value = date,
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Filled.CalendarMonth,
-                contentDescription = stringResource(id = R.string.date_label)
-            )
-        },
-        onValueChange = {},
-        singleLine = true,
-        readOnly = true,
-        label = { Text(text = stringResource(id = R.string.date_label)) },
-        placeholder = { Text(text = stringResource(id = R.string.insert_date_label)) }
-    )
-
-    OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp, start = 16.dp, end = 16.dp)
-            .onFocusChanged {
-                if (it.hasFocus) {
-                    onStartTimeDone()
-                }
-            },
-        value = startTime,
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Filled.Timer,
-                contentDescription = stringResource(id = R.string.start_time_label)
-            )
-        },
-        onValueChange = {},
-        singleLine = true,
-        readOnly = true,
-        label = { Text(text = stringResource(id = R.string.start_time_label)) },
-        placeholder = { Text(text = stringResource(id = R.string.insert_start_time_label)) }
-    )
-
-    OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp, start = 16.dp, end = 16.dp)
-            .onFocusChanged {
-                if (it.hasFocus) {
-                    onEndTimeDone()
-                }
-            },
-        value = endTime,
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Filled.TimerOff,
-                contentDescription = stringResource(id = R.string.end_time_label)
-            )
-        },
-        onValueChange = {},
-        singleLine = true,
-        readOnly = true,
-        label = { Text(text = stringResource(id = R.string.end_time_label)) },
-        placeholder = { Text(text = stringResource(id = R.string.insert_end_time_label)) }
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun NapScreenPreview() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.nap_label)) },
-                navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(
-                        onClick = {}
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.MoreVert,
-                            contentDescription = stringResource(id = R.string.more_options_label)
-                        )
-                    }
-                },
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Filled.Done,
-                    contentDescription = stringResource(id = R.string.done_label)
-                )
-            }
-        }
-    ) {
-        Column(Modifier.padding(it)) {
-            CommonFields(
-                title = "",
-                date = "",
-                startTime = "",
-                endTime = "",
-                onTitleChange = {},
-                onTitleDone = {},
-                onDateDone = {},
-                onStartTimeDone = {},
-                onEndTimeDone = {},
-            )
-
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 88.dp),
-                value = TextFieldValue(""),
-                leadingIcon = {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .padding(top = 16.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Description,
-                            contentDescription = stringResource(id = R.string.description_label)
-                        )
-                    }
-                },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = {
-                    this.defaultKeyboardAction(ImeAction.Done)
-
-                }),
-                onValueChange = {},
-                label = { Text(text = stringResource(id = R.string.observation_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_observations_label)) }
-            )
-        }
-    }
+    NapContent(
+        orientation = 1,
+        title = "",
+        observation = "",
+        date = "",
+        startTime = "",
+        endTime = "",
+        onTitleChange = {},
+        onObservationChange = {},
+        onTitleDone = {},
+        onObservationDone = {},
+        onDateClick = {},
+        onStartTimeClick = {},
+        onEndTimeClick = {},
+        onDeleteItemClick = {},
+        onShareItemClick = {},
+        onActionDone = {},
+        navigateUp = {}
+    )
 }
