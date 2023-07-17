@@ -1,22 +1,21 @@
 package com.bruno13palhano.sleeptight.ui.screens.naps
 
 import android.content.res.Configuration
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DisplayMode
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -84,6 +83,22 @@ fun NewNapDateScreen(
         }
     }
 
+    NewNapDateContent(
+        date = newNapViewModel.date,
+        onDateClick = { dateValue -> showDatePickerDialog = dateValue },
+        onNavigationIconClick = onNavigationIconClick,
+        onNextButtonClick = onNextButtonClick
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NewNapDateContent(
+    date: String,
+    onDateClick: (show: Boolean) -> Unit,
+    onNavigationIconClick: () -> Unit,
+    onNextButtonClick: () -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -112,77 +127,41 @@ fun NewNapDateScreen(
                 .fillMaxSize()
                 .padding(it)
         ) {
-            Image(
+            ElevatedCard(
                 modifier = Modifier
-                    .size(200.dp)
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .clickable { showDatePickerDialog = true },
-                imageVector = Icons.Filled.Image,
-                contentDescription = stringResource(id = R.string.date_label)
-            )
+                    .sizeIn(maxWidth = 200.dp)
+                    .align(Alignment.CenterHorizontally),
+                onClick = { onDateClick(true) }
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .size(200.dp)
+                        .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
+                        .align(Alignment.CenterHorizontally),
+                    imageVector = Icons.Filled.CalendarMonth,
+                    contentDescription = stringResource(id = R.string.date_label)
+                )
 
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp),
-                text = newNapViewModel.date,
-                textAlign = TextAlign.Center,
-                fontSize = 22.sp
-            )
+                Text(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
+                    text = date,
+                    textAlign = TextAlign.Center,
+                    fontSize = 22.sp
+                )
+            }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun NewNapDateScreenPreview() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.date_label)) },
-                navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
-                        )
-                    }
-                }
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Filled.NavigateNext,
-                    contentDescription = stringResource(id = R.string.next_label)
-                )
-            }
-        }
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
-        ) {
-            Image(
-                modifier = Modifier
-                    .size(200.dp)
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
-                    .align(Alignment.CenterHorizontally),
-                imageVector = Icons.Filled.CalendarMonth,
-                contentDescription = stringResource(id = R.string.date_label)
-            )
-
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp),
-                text = stringResource(id = R.string.date_label),
-                textAlign = TextAlign.Center,
-                fontSize = 22.sp
-            )
-        }
-    }
+    NewNapDateContent(
+        date = "April 7, 2023",
+        onDateClick = {},
+        onNavigationIconClick = {},
+        onNextButtonClick = {}
+    )
 }
