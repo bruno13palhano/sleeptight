@@ -1,19 +1,18 @@
 package com.bruno13palhano.sleeptight.ui.screens.naps
 
 import android.content.res.Configuration
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.NavigateNext
+import androidx.compose.material.icons.filled.Timer
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -32,7 +31,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -78,6 +76,22 @@ fun NewNapStartTimeScreen(
         }
     }
 
+    NewNapStartTimeContent(
+        startTime = newNapViewModel.startTime,
+        onStartTimeClick = { show -> showStartTimePickerDialog = show },
+        onNavigationIconClick = onNavigationIconClick,
+        onNextButtonClick = onNextButtonClick
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NewNapStartTimeContent(
+    startTime: String,
+    onStartTimeClick: (show: Boolean) -> Unit,
+    onNavigationIconClick: () -> Unit,
+    onNextButtonClick: () -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -106,81 +120,45 @@ fun NewNapStartTimeScreen(
                 .fillMaxSize()
                 .padding(it)
         ) {
-            Image(
+            ElevatedCard(
                 modifier = Modifier
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
-                    .size(200.dp)
-                    .clip(CircleShape)
-                    .align(Alignment.CenterHorizontally)
-                    .border(2.dp, MaterialTheme.colorScheme.secondary, CircleShape)
-                    .clickable { showStartTimePickerDialog = true },
-                imageVector = Icons.Filled.Image,
-                contentDescription = stringResource(id = R.string.start_time_label)
-            )
+                    .padding(top = 16.dp)
+                    .sizeIn(maxWidth = 200.dp)
+                    .align(Alignment.CenterHorizontally),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer
+                ),
+                onClick = { onStartTimeClick(true) }
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .size(200.dp)
+                        .padding(8.dp)
+                        .align(Alignment.CenterHorizontally),
+                    imageVector = Icons.Filled.Timer,
+                    contentDescription = stringResource(id = R.string.start_time_label)
+                )
 
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp),
-                text = newNapViewModel.startTime,
-                textAlign = TextAlign.Center,
-                fontSize = 22.sp,
-            )
+                Text(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
+                    text = startTime,
+                    textAlign = TextAlign.Center,
+                    fontSize = 22.sp,
+                )
+            }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun NewNapStartTimeScreenPreview() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.start_time_label)) },
-                navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
-                        )
-                    }
-                }
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Filled.NavigateNext,
-                    contentDescription = stringResource(id = R.string.next_label)
-                )
-            }
-        }
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
-        ) {
-            Image(
-                modifier = Modifier
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
-                    .size(200.dp)
-                    .clip(CircleShape)
-                    .align(Alignment.CenterHorizontally)
-                    .border(2.dp, MaterialTheme.colorScheme.secondary, CircleShape),
-                imageVector = Icons.Filled.Image,
-                contentDescription = stringResource(id = R.string.start_time_label)
-            )
-
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp),
-                text = stringResource(id = R.string.start_time_label),
-                textAlign = TextAlign.Center,
-                fontSize = 22.sp,
-            )
-        }
-    }
+    NewNapStartTimeContent(
+        startTime = "12:00",
+        onStartTimeClick = {},
+        onNavigationIconClick = {},
+        onNextButtonClick = {}
+    )
 }
