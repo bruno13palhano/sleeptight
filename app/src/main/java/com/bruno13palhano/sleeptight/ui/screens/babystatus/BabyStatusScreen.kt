@@ -38,6 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
@@ -65,8 +66,6 @@ fun BabyStatusScreen(
 
     val configuration = LocalConfiguration.current
     val focusManager = LocalFocusManager.current
-
-    var expanded by remember { mutableStateOf(false) }
 
     var showDatePickerDialog by remember { mutableStateOf(false) }
     var datePickerState = rememberDatePickerState()
@@ -106,6 +105,51 @@ fun BabyStatusScreen(
         }
     }
 
+    BabyStatusContent(
+        orientation = configuration.orientation,
+        title = babyStatusViewModel.title,
+        date = babyStatusViewModel.date,
+        height = babyStatusViewModel.height,
+        weight = babyStatusViewModel.weight,
+        onTitleChange = babyStatusViewModel::updateTitle,
+        onHeightChange = babyStatusViewModel::updateHeight,
+        onWeightChange = babyStatusViewModel::updateWeight,
+        onTitleDone = { focusManager.moveFocus(FocusDirection.Next) },
+        onHeightDone = { focusManager.moveFocus(FocusDirection.Next) },
+        onWeightDone = { focusManager.clearFocus(force = true) },
+        onDateClick = { show ->  showDatePickerDialog = show},
+        onDeleteItemClick = { babyStatusViewModel.deleteBabyStatus(babyStatusId) },
+        onShareItemClick = {},
+        onDoneButtonClick = {
+            babyStatusViewModel.updateBabyStatus(babyStatusId)
+            navigateUp()
+        },
+        navigateUp = navigateUp
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BabyStatusContent(
+    orientation: Int,
+    title: String,
+    date: String,
+    height: String,
+    weight: String,
+    onTitleChange: (title: String) -> Unit,
+    onHeightChange: (height: String) -> Unit,
+    onWeightChange: (weight: String) -> Unit,
+    onTitleDone: () -> Unit,
+    onHeightDone: () -> Unit,
+    onWeightDone: () -> Unit,
+    onDateClick: (show: Boolean) -> Unit,
+    onDeleteItemClick: () -> Unit,
+    onShareItemClick: () -> Unit,
+    onDoneButtonClick: () -> Unit,
+    navigateUp: () -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -141,11 +185,10 @@ fun BabyStatusScreen(
                                     onClick = { index ->
                                         when (index) {
                                             CommonMenuItemIndex.DELETE_ITEM_INDEX -> {
-                                                babyStatusViewModel.deleteBabyStatus(babyStatusId)
-                                                navigateUp()
+                                                onDeleteItemClick()
                                             }
                                             CommonMenuItemIndex.SHARE_ITEM_INDEX -> {
-
+                                                onShareItemClick()
                                             }
                                         }
                                     }
@@ -157,12 +200,9 @@ fun BabyStatusScreen(
             )
         },
         floatingActionButton = {
-            if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                 FloatingActionButton(
-                    onClick = {
-                        babyStatusViewModel.updateBabyStatus(babyStatusId)
-                        navigateUp()
-                    }
+                    onClick = onDoneButtonClick
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Done,
@@ -177,21 +217,69 @@ fun BabyStatusScreen(
                 .padding(it)
                 .verticalScroll(rememberScrollState())
         ) {
-            CommonFields(
-                title = babyStatusViewModel.title,
-                date = babyStatusViewModel.date,
-                height = babyStatusViewModel.height,
-                weight = babyStatusViewModel.weight,
-                onDateClick = { showDatePickerDialog = true },
-                onTitleChange = babyStatusViewModel::updateTitle,
-                onHeightChange = babyStatusViewModel::updateHeight,
-                onWeightChange = babyStatusViewModel::updateWeight,
-                onTitleDone = { focusManager.clearFocus(force = true) },
-                onHeightDone = { focusManager.clearFocus(force = true) },
-                onWeightDone = { focusManager.clearFocus(force = true) }
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                value = title,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.Label,
+                        contentDescription = stringResource(id = R.string.title_label)
+                    )
+                },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = {
+                    this.defaultKeyboardAction(ImeAction.Done)
+                    onTitleDone()
+                }),
+                onValueChange = { titleValue -> onTitleChange(titleValue) },
+                singleLine = true,
+                label = { Text(text = stringResource(id = R.string.title_label)) },
+                placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) }
             )
 
-            if (configuration.orientation != Configuration.ORIENTATION_PORTRAIT) {
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .onFocusChanged { focusState ->
+                        if (focusState.hasFocus) {
+                            onDateClick(true)
+                        }
+                    },
+                value = date,
+                readOnly = true,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.CalendarMonth,
+                        contentDescription = stringResource(id = R.string.date_label)
+                    )
+                },
+                onValueChange = {},
+                singleLine = true,
+                label = { Text(text = stringResource(id = R.string.date_label)) }
+            )
+
+            HeightField(
+                height = height,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                onHeightChange = { heightValue -> onHeightChange(heightValue) },
+                onDone = onHeightDone
+            )
+
+            WeightField(
+                weight = weight,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                onWeightChange = { weightValue -> onWeightChange(weightValue) },
+                onDone = onWeightDone
+            )
+
+            if (orientation != Configuration.ORIENTATION_PORTRAIT) {
                 FloatingActionButton(
                     modifier = Modifier
                         .align(Alignment.End)
@@ -208,134 +296,25 @@ fun BabyStatusScreen(
     }
 }
 
-@Composable
-fun CommonFields(
-    title: String,
-    date: String,
-    height: String,
-    weight: String,
-    onDateClick: () -> Unit,
-    onTitleChange: (title: String) -> Unit,
-    onHeightChange: (height: String) -> Unit,
-    onWeightChange: (weight: String) -> Unit,
-    onTitleDone: () -> Unit,
-    onHeightDone: () -> Unit,
-    onWeightDone: () -> Unit
-) {
-    OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-        value = title,
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Filled.Label,
-                contentDescription = stringResource(id = R.string.title_label)
-            )
-        },
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        keyboardActions = KeyboardActions(onDone = {
-            this.defaultKeyboardAction(ImeAction.Done)
-            onTitleDone()
-        }),
-        onValueChange = { titleValue -> onTitleChange(titleValue) },
-        singleLine = true,
-        label = { Text(text = stringResource(id = R.string.title_label)) },
-        placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) }
-    )
-
-    OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp, start = 16.dp, end = 16.dp)
-            .onFocusChanged {
-                if (it.hasFocus) {
-                    onDateClick()
-                }
-            },
-        value = date,
-        readOnly = true,
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Filled.CalendarMonth,
-                contentDescription = stringResource(id = R.string.date_label)
-            )
-        },
-        onValueChange = {},
-        singleLine = true,
-        label = { Text(text = stringResource(id = R.string.date_label)) }
-    )
-
-    HeightField(
-        height = height,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-        onHeightChange = { heightValue -> onHeightChange(heightValue) },
-        onDone = onHeightDone
-    )
-
-    WeightField(
-        weight = weight,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-        onWeightChange = { weightValue -> onWeightChange(weightValue) },
-        onDone = onWeightDone
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun BabyStatusScreenPreview() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.baby_status_label)) },
-                navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(
-                        onClick = {}
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.MoreVert,
-                            contentDescription = stringResource(id = R.string.more_options_label)
-                        )
-                    }
-                }
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Filled.Done,
-                    contentDescription = stringResource(id = R.string.add_button)
-                )
-            }
-        }
-    ) {
-        Column(modifier = Modifier.padding(it)) {
-            CommonFields(
-                title = "",
-                date = "",
-                height = "",
-                weight = "",
-                onDateClick = {},
-                onTitleChange = {},
-                onHeightChange = {},
-                onWeightChange = {},
-                onTitleDone = {},
-                onHeightDone = {},
-                onWeightDone = {}
-            )
-        }
-    }
+    BabyStatusContent(
+        orientation = 1,
+        title = "",
+        date = "",
+        height = "",
+        weight = "",
+        onTitleChange = {},
+        onHeightChange = {},
+        onWeightChange = {},
+        onTitleDone = {},
+        onHeightDone = {},
+        onWeightDone = {},
+        onDateClick = {},
+        onDeleteItemClick = {},
+        onShareItemClick = {},
+        onDoneButtonClick = {},
+        navigateUp = {}
+    )
 }
