@@ -233,6 +233,11 @@ fun NotificationScreenContent(
     var expanded by remember { mutableStateOf(false) }
 
     Scaffold(
+        modifier = Modifier
+            .clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null
+        ) { onOutsideClick() },
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.notification_label)) },
@@ -297,10 +302,6 @@ fun NotificationScreenContent(
                 .padding(it)
                 .fillMaxHeight()
                 .verticalScroll(rememberScrollState())
-                .clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null
-                ) { onOutsideClick() }
         ) {
             OutlinedTextField(
                 modifier = Modifier
