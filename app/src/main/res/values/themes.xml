@@ -1,17 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Theme.SleepTight" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/light_blue</item>
-        <item name="colorPrimaryVariant">@color/gray_primary_nav</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/light_purple</item>
-        <item name="colorSecondaryVariant">@color/gray_secondary_nav</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <!-- Customize your theme here. -->
 
         <item name="android:windowBackground">@color/gray_secondary</item>
         <item name="android:navigationBarColor">@color/gray_secondary_nav</item>
