@@ -381,12 +381,11 @@ fun NotificationScreenContent(
                     .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // TODO: Fix repeat click and close keyboard when back button is clicked.
                 RadioButton(
                     selected = !repeat,
                     onClick = {
-                        if(!repeat) {
-                            onRepeatChange(true)
+                        if(repeat) {
+                            onRepeatChange(false)
                         }
                     }
                 )
@@ -397,8 +396,8 @@ fun NotificationScreenContent(
                 RadioButton(
                     selected = repeat,
                     onClick = {
-                        if (repeat) {
-                            onRepeatChange(false)
+                        if (!repeat) {
+                            onRepeatChange(true)
                         }
                     }
                 )
