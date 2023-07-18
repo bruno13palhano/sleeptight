@@ -9,9 +9,9 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="gray_primary">#FF393939</color>
-    <color name="gray_primary_nav">#151515</color>
+    <color name="gray_primary_nav">@color/gray_primary</color>
     <color name="gray_secondary">#FFd6d6d6</color>
-    <color name="gray_secondary_nav">#F1F1F1</color>
+    <color name="gray_secondary_nav">@color/gray_secondary</color>
 
     <color name="dark_purple">#FF4a4665</color>
     <color name="light_purple">#FF786e82</color>
