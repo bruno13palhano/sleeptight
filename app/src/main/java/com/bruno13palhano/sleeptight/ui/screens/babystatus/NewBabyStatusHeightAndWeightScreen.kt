@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
 import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewBabyStatusHeightAndWeightScreen(
     onDoneButtonClick: () -> Unit,
@@ -44,6 +43,35 @@ fun NewBabyStatusHeightAndWeightScreen(
     val pattern = remember { Regex("^\\d*\\$decimalSeparator?\\d*\$") }
     val focusManager = LocalFocusManager.current
 
+    NewBabyStatusHeightAndWeightContent(
+        pattern = pattern,
+        height = newBabyStatusViewModel.height,
+        weight = newBabyStatusViewModel.weight,
+        onHeightChange = newBabyStatusViewModel::updateHeight,
+        onWeightChange = newBabyStatusViewModel::updateWeight,
+        onHeightDone = { focusManager.moveFocus(FocusDirection.Next) },
+        onWeightDone = { focusManager.clearFocus(true) },
+        onDoneButtonClick = {
+            newBabyStatusViewModel.insertBabyStatus()
+            onDoneButtonClick()
+        },
+        onNavigationIconClick = onNavigationIconClick
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NewBabyStatusHeightAndWeightContent(
+    pattern: Regex,
+    height: String,
+    weight: String,
+    onHeightChange: (heightValue: String) -> Unit,
+    onWeightChange: (weightValue: String) -> Unit,
+    onHeightDone: () -> Unit,
+    onWeightDone: () -> Unit,
+    onDoneButtonClick: () -> Unit,
+    onNavigationIconClick: () -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -61,7 +89,6 @@ fun NewBabyStatusHeightAndWeightScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    newBabyStatusViewModel.insertBabyStatus()
                     onDoneButtonClick()
                 }
             ) {
@@ -77,7 +104,7 @@ fun NewBabyStatusHeightAndWeightScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                value = newBabyStatusViewModel.height,
+                value = height,
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.SquareFoot,
@@ -90,11 +117,11 @@ fun NewBabyStatusHeightAndWeightScreen(
                 ),
                 keyboardActions = KeyboardActions(onDone = {
                     this.defaultKeyboardAction(ImeAction.Done)
-                    focusManager.moveFocus(FocusDirection.Next)
+                    onHeightDone()
                 }),
                 onValueChange = { heightValue ->
                     if (heightValue.isEmpty() || heightValue.matches(pattern)) {
-                        newBabyStatusViewModel.updateHeight(heightValue)
+                        onHeightChange(heightValue)
                     }
                 },
                 singleLine = true,
@@ -106,7 +133,7 @@ fun NewBabyStatusHeightAndWeightScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                value = newBabyStatusViewModel.weight,
+                value = weight,
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Balance,
@@ -119,11 +146,11 @@ fun NewBabyStatusHeightAndWeightScreen(
                 ),
                 keyboardActions = KeyboardActions(onDone = {
                     this.defaultKeyboardAction(ImeAction.Done)
-                    focusManager.clearFocus()
+                    onWeightDone()
                 }),
                 onValueChange = { weightValue ->
                     if (weightValue.isEmpty() || weightValue.matches(pattern)) {
-                        newBabyStatusViewModel.updateWeight(weightValue)
+                        onWeightChange(weightValue)
                     }
                 },
                 singleLine = true,
@@ -134,67 +161,18 @@ fun NewBabyStatusHeightAndWeightScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun NewBabyStatusHeightAndWeightScreenPreview() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.baby_status_height_and_weight)) },
-                navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
-                        )
-                    }
-                }
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Filled.Done,
-                    contentDescription = stringResource(id = R.string.done_label)
-                )
-            }
-        }
-    ) {
-        Column(modifier = Modifier.padding(it)) {
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                value = "",
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.SquareFoot,
-                        contentDescription = stringResource(id = R.string.birth_height_label)
-                    )
-                },
-                onValueChange = {},
-                singleLine = true,
-                label = { Text(text = stringResource(id = R.string.birth_height_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_height_label)) }
-            )
-
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                value = "",
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.Balance,
-                        contentDescription = stringResource(id = R.string.birth_weight_label)
-                    )
-                },
-                onValueChange = {},
-                singleLine = true,
-                label = { Text(text = stringResource(id = R.string.birth_weight_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_weight_label)) }
-            )
-        }
-    }
+    NewBabyStatusHeightAndWeightContent(
+        pattern = Regex(""),
+        height = "",
+        weight = "",
+        onHeightChange = {},
+        onWeightChange = {},
+        onHeightDone = {},
+        onWeightDone = {},
+        onDoneButtonClick = {},
+        onNavigationIconClick = {}
+    )
 }
