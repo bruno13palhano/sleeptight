@@ -8,6 +8,8 @@ import android.content.Context.ALARM_SERVICE
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -53,11 +55,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -67,11 +71,12 @@ import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.screens.CommonMenu
 import com.bruno13palhano.sleeptight.ui.screens.CommonMenuItemIndex
 import com.bruno13palhano.sleeptight.ui.screens.TimePickerDialog
+import com.bruno13palhano.sleeptight.ui.screens.clearFocusOnKeyboardDismiss
 import com.bruno13palhano.sleeptight.ui.screens.notifications.receivers.NotificationReceiver
 
 private const val NOTIFICATION_ACTION_PREFIX = "com.bruno13palhano.sleeptight"
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun NotificationScreen(
     notificationId: Long,
@@ -86,6 +91,7 @@ fun NotificationScreen(
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
     val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
     var showDatePickerDialog by remember { mutableStateOf(false) }
     var datePickerState = rememberDatePickerState()
     var showTimePickerDialog by remember { mutableStateOf(false) }
@@ -169,6 +175,10 @@ fun NotificationScreen(
         onDescriptionDone = { focusManager.clearFocus(force = true) },
         onTimeClick = { showTimePickerDialog = true },
         onDateClick = { showDatePickerDialog = true },
+        onOutsideClick = {
+            keyboardController?.hide()
+            focusManager.clearFocus()
+        },
         onNavigationIconClick = onNavigationIconClick,
         onDoneButtonClick = {
             notificationViewModel.updateNotification(notificationId)
@@ -214,6 +224,7 @@ fun NotificationScreenContent(
     onDescriptionDone: () -> Unit,
     onTimeClick: () -> Unit,
     onDateClick: () -> Unit,
+    onOutsideClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
     onDoneButtonClick: () -> Unit,
     onDeleteItemClick: () -> Unit,
@@ -281,15 +292,21 @@ fun NotificationScreenContent(
             }
         }
     ) {
-        Column(modifier = Modifier
-            .padding(it)
-            .fillMaxHeight()
-            .verticalScroll(rememberScrollState())
+        Column(
+            modifier = Modifier
+                .padding(it)
+                .fillMaxHeight()
+                .verticalScroll(rememberScrollState())
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) { onOutsideClick() }
         ) {
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .clearFocusOnKeyboardDismiss(),
                 value = title,
                 leadingIcon = {
                     Icon(
@@ -364,6 +381,7 @@ fun NotificationScreenContent(
                     .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                // TODO: Fix repeat click and close keyboard when back button is clicked.
                 RadioButton(
                     selected = !repeat,
                     onClick = {
@@ -394,7 +412,8 @@ fun NotificationScreenContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1F, true)
-                        .padding(start = 16.dp, end = 16.dp, bottom = 88.dp),
+                        .padding(start = 16.dp, end = 16.dp, bottom = 88.dp)
+                        .clearFocusOnKeyboardDismiss(),
                     value = description,
                     onValueChange = { descriptionValue -> onDescriptionChange(descriptionValue) },
                     leadingIcon = {
@@ -422,7 +441,8 @@ fun NotificationScreenContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .sizeIn(minHeight = 200.dp)
-                        .padding(start = 16.dp, end = 16.dp),
+                        .padding(start = 16.dp, end = 16.dp)
+                        .clearFocusOnKeyboardDismiss(),
                     value = description,
                     onValueChange = { descriptionValue -> onDescriptionChange(descriptionValue) },
                     leadingIcon = {
@@ -480,6 +500,7 @@ fun NotificationScreenPreview() {
         onDescriptionDone = {},
         onTimeClick = {},
         onDateClick = {},
+        onOutsideClick = {},
         onNavigationIconClick = {},
         onDoneButtonClick = {},
         onDeleteItemClick = {},
