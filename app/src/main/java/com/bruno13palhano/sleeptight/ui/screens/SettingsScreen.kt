@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,6 +50,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
@@ -56,6 +58,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -72,7 +75,7 @@ import com.bruno13palhano.sleeptight.ui.screens.login.TimeField
 import com.bruno13palhano.sleeptight.ui.screens.login.WeightField
 import com.bruno13palhano.sleeptight.ui.util.getBytes
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SettingsScreen(
     navigateToLogin: () -> Unit,
@@ -82,7 +85,7 @@ fun SettingsScreen(
     val configuration = LocalConfiguration.current
     val focusManager = LocalFocusManager.current
     val isEditable by settingsViewModel.isEditable.collectAsStateWithLifecycle()
-
+    val keyboardController = LocalSoftwareKeyboardController.current
     var showDatePickerDialog by remember { mutableStateOf(false) }
     var datePickerState = rememberDatePickerState()
     var showTimePickerDialog by remember { mutableStateOf(false) }
@@ -184,6 +187,10 @@ fun SettingsScreen(
         onWeightDone = { focusManager.clearFocus(force = true) },
         onBirthtimeDone = { showTimePickerDialog = true },
         onBirthdateDone = { showDatePickerDialog = true },
+        onOutsideClick = {
+            keyboardController?.hide()
+            focusManager.clearFocus()
+        },
         onItemClick = { index ->
             when (index) {
                 SettingsMenuIndex.EDIT_ITEM_INDEX -> {
@@ -231,6 +238,7 @@ fun SettingsContent(
     onWeightDone: () -> Unit,
     onBirthtimeDone: () -> Unit,
     onBirthdateDone: () -> Unit,
+    onOutsideClick: () -> Unit,
     onItemClick: (index: Int) -> Unit,
     onActionButtonClick: () -> Unit
 ) {
@@ -242,6 +250,11 @@ fun SettingsContent(
     var expanded by remember { mutableStateOf(false) }
 
     Scaffold(
+        modifier = Modifier
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) { onOutsideClick() },
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.settings_label)) },
@@ -338,7 +351,8 @@ fun SettingsContent(
                 isEnabled = isEditable,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .clearFocusOnKeyboardDismiss(),
                 onBabyNameChange = { babyNameValue -> onBabyNameChange(babyNameValue) },
                 onDone = onBabyNameDone
             )
@@ -348,7 +362,8 @@ fun SettingsContent(
                 isEnabled = isEditable,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .clearFocusOnKeyboardDismiss(),
                 onBirthplaceChange = { birthplaceValue -> onBirthplaceChange(birthplaceValue) },
                 onDone = onBirthplaceDone
             )
@@ -358,7 +373,8 @@ fun SettingsContent(
                 isEnabled = isEditable,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .clearFocusOnKeyboardDismiss(),
                 onHeightChange = { heightValue -> onHeightChange(heightValue) },
                 onDone = onHeightDone
             )
@@ -368,7 +384,8 @@ fun SettingsContent(
                 isEnabled = isEditable,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .clearFocusOnKeyboardDismiss(),
                 onWeightChange = { weightValue -> onWeightChange(weightValue) },
                 onDone = onWeightDone
             )
@@ -450,6 +467,7 @@ fun SettingsScreenPreview() {
         onWeightDone = {},
         onBirthtimeDone = {},
         onBirthdateDone = {},
+        onOutsideClick = {},
         onItemClick = {},
         onActionButtonClick = {}
     )
