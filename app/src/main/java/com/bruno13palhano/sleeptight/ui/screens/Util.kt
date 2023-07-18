@@ -1,6 +1,9 @@
 package com.bruno13palhano.sleeptight.ui.screens
 
+import android.graphics.Rect
 import android.graphics.Typeface
+import android.view.View
+import android.view.ViewTreeObserver
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
@@ -29,11 +33,21 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -150,9 +164,17 @@ fun TimePickerDialog(
                 ) {
                     Spacer(modifier = Modifier.weight(1f))
                     TextButton(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer
+                        ),
                         onClick = onCancelButton
                     ) { Text(text = stringResource(id = R.string.cancel_label)) }
                     TextButton(
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer
+                        ),
                         onClick = onConfirmButton
                     ) { Text(text = stringResource(id = R.string.ok_label)) }
                 }
@@ -209,6 +231,52 @@ fun ItemList(
     }
 }
 
+fun View.isKeyboardOpen(): Boolean {
+    val rect = Rect()
+    getWindowVisibleDisplayFrame(rect);
+    val screenHeight = rootView.height
+    val keypadHeight = screenHeight - rect.bottom;
+    return keypadHeight > screenHeight * 0.15
+}
+
+@Composable
+fun rememberIsKeyboardOpen(): State<Boolean> {
+    val view = LocalView.current
+
+    return produceState(initialValue = view.isKeyboardOpen()) {
+        val viewTreeObserver = view.viewTreeObserver
+        val listener = ViewTreeObserver.OnGlobalLayoutListener { value = view.isKeyboardOpen() }
+        viewTreeObserver.addOnGlobalLayoutListener(listener)
+
+        awaitDispose { viewTreeObserver.removeOnGlobalLayoutListener(listener)  }
+    }
+}
+
+fun Modifier.clearFocusOnKeyboardDismiss(): Modifier = composed {
+    var isFocused by remember { mutableStateOf(false) }
+    var keyboardAppearedSinceLastFocused by remember { mutableStateOf(false) }
+
+    if (isFocused) {
+        val isKeyboardOpen by rememberIsKeyboardOpen()
+
+        val focusManager = LocalFocusManager.current
+        LaunchedEffect(isKeyboardOpen) {
+            if (isKeyboardOpen) {
+                keyboardAppearedSinceLastFocused = true
+            } else if (keyboardAppearedSinceLastFocused) {
+                focusManager.clearFocus()
+            }
+        }
+    }
+    onFocusEvent {
+        if (isFocused != it.isFocused) {
+            isFocused = it.isFocused
+            if (isFocused) {
+                keyboardAppearedSinceLastFocused = false
+            }
+        }
+    }
+}
 
 @Composable
 internal fun rememberMarker(): Marker {
