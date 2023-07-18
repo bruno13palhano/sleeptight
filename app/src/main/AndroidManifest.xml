@@ -19,11 +19,6 @@
         android:theme="@style/Theme.SleepTight"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivityCompose"
-            android:exported="false"
-            android:label="@string/title_activity_main_compose"
-            android:theme="@style/Theme.SleepTight" />
-        <activity
             android:name=".SplashScreenActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
