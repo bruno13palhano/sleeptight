@@ -1,5 +1,7 @@
 package com.bruno13palhano.sleeptight.ui.screens.login
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,13 +16,18 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
+import com.bruno13palhano.sleeptight.ui.screens.clearFocusOnKeyboardDismiss
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BabyNameAccountScreen(
     onNextButtonClick: () -> Unit,
@@ -28,12 +35,17 @@ fun BabyNameAccountScreen(
     createAccountViewModel: CreateAccountViewModel
 ) {
     val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     BabyNameAccountContent(
         babyName = createAccountViewModel.babyName,
         showButton = createAccountViewModel.isBabyNameNotEmpty(),
         onBabyNameChange = createAccountViewModel::updateBabyName,
-        onBabyNameDone = {focusManager.clearFocus(force = true)},
+        onBabyNameDone = { focusManager.clearFocus(force = true) },
+        onOutsideClick = {
+            keyboardController?.hide()
+            focusManager.clearFocus()
+        },
         onNavigationIconClick = onNavigationIconClick,
         onNextButtonClick = onNextButtonClick
     )
@@ -46,10 +58,16 @@ fun BabyNameAccountContent(
     showButton: Boolean,
     onBabyNameChange: (babyName: String) -> Unit,
     onBabyNameDone: () -> Unit,
+    onOutsideClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
     onNextButtonClick: () -> Unit
 ) {
     Scaffold(
+        modifier = Modifier
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) { onOutsideClick() },
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.baby_name_label)) },
@@ -79,7 +97,8 @@ fun BabyNameAccountContent(
                 babyName = babyName,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .clearFocusOnKeyboardDismiss(),
                 onBabyNameChange = onBabyNameChange,
                 onDone = onBabyNameDone
             )
@@ -95,6 +114,7 @@ fun BabyNameAccountScreenPreview() {
         showButton = false,
         onBabyNameChange = {},
         onBabyNameDone = {},
+        onOutsideClick = {},
         onNavigationIconClick = {},
         onNextButtonClick = {}
     )

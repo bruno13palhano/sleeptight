@@ -1,6 +1,8 @@
 package com.bruno13palhano.sleeptight.ui.screens.naps
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,10 +48,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -59,20 +63,22 @@ import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.screens.CommonMenu
 import com.bruno13palhano.sleeptight.ui.screens.CommonMenuItemIndex
 import com.bruno13palhano.sleeptight.ui.screens.TimePickerDialog
+import com.bruno13palhano.sleeptight.ui.screens.clearFocusOnKeyboardDismiss
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun NapScreen(
     napId: Long,
     navigateUp: () -> Unit,
     napViewModel: NapViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(key1 = null) {
+    LaunchedEffect(key1 = Unit) {
         napViewModel.getNap(napId)
     }
 
     val configuration = LocalConfiguration.current
     val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
     var showDatePickerDialog by remember { mutableStateOf(false) }
     var datePickerState = rememberDatePickerState()
     var showStartTimePicker by remember { mutableStateOf(false) }
@@ -187,6 +193,10 @@ fun NapScreen(
         onDateClick = { showDatePickerDialog = true },
         onStartTimeClick = { showStartTimePicker = true },
         onEndTimeClick = { showEndTimePicker = true },
+        onOutsideClick = {
+            keyboardController?.hide()
+            focusManager.clearFocus()
+        },
         onDeleteItemClick = {
             napViewModel.deleteNapById(napId)
             navigateUp()
@@ -216,6 +226,7 @@ fun NapContent(
     onDateClick: () -> Unit,
     onStartTimeClick: () -> Unit,
     onEndTimeClick: () -> Unit,
+    onOutsideClick: () -> Unit,
     onDeleteItemClick: () -> Unit,
     onShareItemClick: () -> Unit,
     onActionDone: () -> Unit,
@@ -224,6 +235,11 @@ fun NapContent(
     var expanded by remember { mutableStateOf(false) }
 
     Scaffold(
+        modifier = Modifier
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) { onOutsideClick() },
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.nap_label)) },
@@ -293,7 +309,8 @@ fun NapContent(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .clearFocusOnKeyboardDismiss(),
                 value = title,
                 leadingIcon = {
                     Icon(
@@ -385,7 +402,8 @@ fun NapContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1F, true)
-                        .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 88.dp),
+                        .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 88.dp)
+                        .clearFocusOnKeyboardDismiss(),
                     value = observation,
                     leadingIcon = {
                         Row(
@@ -413,7 +431,8 @@ fun NapContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .sizeIn(minHeight = 200.dp)
-                        .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                        .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                        .clearFocusOnKeyboardDismiss(),
                     value = observation,
                     leadingIcon = {
                         Row(
@@ -471,6 +490,7 @@ fun NapScreenPreview() {
         onDateClick = {},
         onStartTimeClick = {},
         onEndTimeClick = {},
+        onOutsideClick = {},
         onDeleteItemClick = {},
         onShareItemClick = {},
         onActionDone = {},

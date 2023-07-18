@@ -1,6 +1,8 @@
 package com.bruno13palhano.sleeptight.ui.screens.babystatus
 
 import android.icu.text.DecimalFormat
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,17 +23,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
+import com.bruno13palhano.sleeptight.ui.screens.clearFocusOnKeyboardDismiss
 import java.util.Locale
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun NewBabyStatusHeightAndWeightScreen(
     onDoneButtonClick: () -> Unit,
@@ -42,6 +48,7 @@ fun NewBabyStatusHeightAndWeightScreen(
     val decimalSeparator = decimalFormat.decimalFormatSymbols.decimalSeparator
     val pattern = remember { Regex("^\\d*\\$decimalSeparator?\\d*\$") }
     val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     NewBabyStatusHeightAndWeightContent(
         pattern = pattern,
@@ -51,6 +58,10 @@ fun NewBabyStatusHeightAndWeightScreen(
         onWeightChange = newBabyStatusViewModel::updateWeight,
         onHeightDone = { focusManager.moveFocus(FocusDirection.Next) },
         onWeightDone = { focusManager.clearFocus(true) },
+        onOutsideClick = {
+            keyboardController?.hide()
+            focusManager.clearFocus()
+        },
         onDoneButtonClick = {
             newBabyStatusViewModel.insertBabyStatus()
             onDoneButtonClick()
@@ -69,10 +80,16 @@ fun NewBabyStatusHeightAndWeightContent(
     onWeightChange: (weightValue: String) -> Unit,
     onHeightDone: () -> Unit,
     onWeightDone: () -> Unit,
+    onOutsideClick: () -> Unit,
     onDoneButtonClick: () -> Unit,
     onNavigationIconClick: () -> Unit
 ) {
     Scaffold(
+        modifier = Modifier
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) { onOutsideClick() },
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.baby_status_height_and_weight)) },
@@ -103,7 +120,8 @@ fun NewBabyStatusHeightAndWeightContent(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .clearFocusOnKeyboardDismiss(),
                 value = height,
                 leadingIcon = {
                     Icon(
@@ -132,7 +150,8 @@ fun NewBabyStatusHeightAndWeightContent(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .clearFocusOnKeyboardDismiss(),
                 value = weight,
                 leadingIcon = {
                     Icon(
@@ -172,6 +191,7 @@ fun NewBabyStatusHeightAndWeightScreenPreview() {
         onWeightChange = {},
         onHeightDone = {},
         onWeightDone = {},
+        onOutsideClick = {},
         onDoneButtonClick = {},
         onNavigationIconClick = {}
     )

@@ -1,6 +1,8 @@
 package com.bruno13palhano.sleeptight.ui.screens.babystatus
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,11 +39,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,10 +54,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.screens.CommonMenu
 import com.bruno13palhano.sleeptight.ui.screens.CommonMenuItemIndex
+import com.bruno13palhano.sleeptight.ui.screens.clearFocusOnKeyboardDismiss
 import com.bruno13palhano.sleeptight.ui.screens.login.HeightField
 import com.bruno13palhano.sleeptight.ui.screens.login.WeightField
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun BabyStatusScreen(
     babyStatusId: Long,
@@ -66,7 +71,7 @@ fun BabyStatusScreen(
 
     val configuration = LocalConfiguration.current
     val focusManager = LocalFocusManager.current
-
+    val keyboardController = LocalSoftwareKeyboardController.current
     var showDatePickerDialog by remember { mutableStateOf(false) }
     var datePickerState = rememberDatePickerState()
 
@@ -118,6 +123,10 @@ fun BabyStatusScreen(
         onHeightDone = { focusManager.moveFocus(FocusDirection.Next) },
         onWeightDone = { focusManager.clearFocus(force = true) },
         onDateClick = { show ->  showDatePickerDialog = show},
+        onOutsideClick = {
+            keyboardController?.hide()
+            focusManager.clearFocus()
+        },
         onDeleteItemClick = { babyStatusViewModel.deleteBabyStatus(babyStatusId) },
         onShareItemClick = {},
         onDoneButtonClick = {
@@ -143,6 +152,7 @@ fun BabyStatusContent(
     onHeightDone: () -> Unit,
     onWeightDone: () -> Unit,
     onDateClick: (show: Boolean) -> Unit,
+    onOutsideClick: () -> Unit,
     onDeleteItemClick: () -> Unit,
     onShareItemClick: () -> Unit,
     onDoneButtonClick: () -> Unit,
@@ -151,6 +161,11 @@ fun BabyStatusContent(
     var expanded by remember { mutableStateOf(false) }
 
     Scaffold(
+        modifier = Modifier
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) { onOutsideClick() },
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.baby_status_label)) },
@@ -220,7 +235,8 @@ fun BabyStatusContent(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .clearFocusOnKeyboardDismiss(),
                 value = title,
                 leadingIcon = {
                     Icon(
@@ -265,7 +281,8 @@ fun BabyStatusContent(
                 height = height,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .clearFocusOnKeyboardDismiss(),
                 onHeightChange = { heightValue -> onHeightChange(heightValue) },
                 onDone = onHeightDone
             )
@@ -274,7 +291,8 @@ fun BabyStatusContent(
                 weight = weight,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .clearFocusOnKeyboardDismiss(),
                 onWeightChange = { weightValue -> onWeightChange(weightValue) },
                 onDone = onWeightDone
             )
@@ -312,6 +330,7 @@ fun BabyStatusScreenPreview() {
         onHeightDone = {},
         onWeightDone = {},
         onDateClick = {},
+        onOutsideClick = {},
         onDeleteItemClick = {},
         onShareItemClick = {},
         onDoneButtonClick = {},

@@ -1,6 +1,8 @@
 package com.bruno13palhano.sleeptight.ui.screens.login
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -30,10 +32,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,8 +45,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.screens.CircularProgress
 import com.bruno13palhano.sleeptight.ui.screens.TimePickerDialog
+import com.bruno13palhano.sleeptight.ui.screens.clearFocusOnKeyboardDismiss
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun BabyBirthAccountScreen(
     onCreateAccountSuccess: () -> Unit,
@@ -51,6 +56,7 @@ fun BabyBirthAccountScreen(
 ) {
     val configuration = LocalConfiguration.current
     val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
     val loginStatus by createAccountViewModel.loginStatus.collectAsStateWithLifecycle()
 
     var showDatePickerDialog by remember { mutableStateOf(false) }
@@ -137,6 +143,10 @@ fun BabyBirthAccountScreen(
                 onBirthtimeDone = { showBirthtimePickerDialog = true },
                 onHeightDone = { focusManager.clearFocus(force = true) },
                 onWeightDone = { focusManager.clearFocus(force = true) },
+                onOutsideClick = {
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
+                },
                 onNavigationIconClick = onNavigationIconClick,
                 createUser = createAccountViewModel::insertUser
             )
@@ -165,10 +175,16 @@ private fun BabyBirthAccountContent(
     onBirthtimeDone: () -> Unit,
     onHeightDone: () -> Unit,
     onWeightDone: () -> Unit,
+    onOutsideClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
     createUser: () -> Unit,
 ) {
     Scaffold(
+        modifier = Modifier
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) { onOutsideClick() },
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.birth_information_label)) },
@@ -228,7 +244,8 @@ private fun BabyBirthAccountContent(
                 height = height,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .clearFocusOnKeyboardDismiss(),
                 onHeightChange = { heightValue -> onHeightChange(heightValue) },
                 onDone = onHeightDone
             )
@@ -237,7 +254,8 @@ private fun BabyBirthAccountContent(
                 weight = weight,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .clearFocusOnKeyboardDismiss(),
                 onWeightChange = { weightValue -> onWeightChange(weightValue) },
                 onDone = onWeightDone
             )
@@ -277,6 +295,7 @@ fun BabyBirthAccountScreenPreview() {
         onBirthtimeDone = {},
         onHeightDone = {},
         onWeightDone = {},
+        onOutsideClick = {},
         onNavigationIconClick = {},
         createUser = {}
     )
