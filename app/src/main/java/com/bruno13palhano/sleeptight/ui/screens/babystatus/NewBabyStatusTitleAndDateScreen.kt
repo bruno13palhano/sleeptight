@@ -88,6 +88,28 @@ fun NewBabyStatusTitleAndDateScreen(
         }
     }
 
+    NewBabyStatusTitleAndDateContent(
+        title = newBabyStatusViewModel.title,
+        date = newBabyStatusViewModel.date,
+        onTitleChange = newBabyStatusViewModel::updateTitle,
+        onTitleDone = { focusManager.moveFocus(FocusDirection.Next) },
+        onDateClick = { show -> showDatePickerDialog = show },
+        onNextButtonClick = onNextButtonClick,
+        onNavigationIconClick = onNavigationIconClick
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NewBabyStatusTitleAndDateContent(
+    title: String,
+    date: String,
+    onTitleChange: (title: String) -> Unit,
+    onTitleDone: () -> Unit,
+    onDateClick: (show: Boolean) -> Unit,
+    onNextButtonClick: () -> Unit,
+    onNavigationIconClick: () -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -120,7 +142,7 @@ fun NewBabyStatusTitleAndDateScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                value = newBabyStatusViewModel.title,
+                value = title,
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Label,
@@ -130,9 +152,9 @@ fun NewBabyStatusTitleAndDateScreen(
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(onDone = {
                     this.defaultKeyboardAction(ImeAction.Done)
-                    focusManager.moveFocus(FocusDirection.Next)
+                    onTitleDone()
                 }),
-                onValueChange = newBabyStatusViewModel::updateTitle,
+                onValueChange = { titleValue -> onTitleChange(titleValue) },
                 singleLine = true,
                 label = { Text(text = stringResource(id = R.string.title_label)) },
                 placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) }
@@ -144,10 +166,10 @@ fun NewBabyStatusTitleAndDateScreen(
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp)
                     .onFocusChanged { focusState ->
                         if (focusState.hasFocus) {
-                            showDatePickerDialog = true
+                            onDateClick(true)
                         }
                     },
-                value = newBabyStatusViewModel.date,
+                value = date,
                 readOnly = true,
                 leadingIcon = {
                     Icon(
@@ -164,71 +186,16 @@ fun NewBabyStatusTitleAndDateScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun NewBabyStatusTitleAndDateScreenPreview() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.baby_status_title_and_date))},
-                navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
-                        )
-                    }
-                }
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Filled.NavigateNext,
-                    contentDescription = stringResource(id = R.string.add_button)
-                )
-            }
-        }
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
-        ) {
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                value = "",
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.Label,
-                        contentDescription = stringResource(id = R.string.title_label)
-                    )
-                },
-                onValueChange = {},
-                singleLine = true,
-                label = { Text(text = stringResource(id = R.string.title_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) }
-            )
-
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                value = "",
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.CalendarMonth,
-                        contentDescription = stringResource(id = R.string.date_label)
-                    )
-                },
-                onValueChange = {},
-                singleLine = true,
-                label = { Text(text = stringResource(id = R.string.date_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_date_label)) }
-            )
-        }
-    }
+   NewBabyStatusTitleAndDateContent(
+       title = "",
+       date = "",
+       onTitleChange = {},
+       onTitleDone = {},
+       onDateClick = {},
+       onNextButtonClick = {},
+       onNavigationIconClick = {}
+   )
 }
