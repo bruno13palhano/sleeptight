@@ -8,12 +8,8 @@
     <color name="black">#CC000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="gray_primary">#FF393939</color>
-    <color name="gray_primary_nav">@color/gray_primary</color>
-    <color name="gray_secondary">#FFd6d6d6</color>
-    <color name="gray_secondary_nav">@color/gray_secondary</color>
-
-    <color name="dark_purple">#FF4a4665</color>
-    <color name="light_purple">#FF786e82</color>
-    <color name="light_blue">#FF79c5c8</color>
+    <color name="gray_primary">#FF1A1A1A</color>
+    <color name="gray_secondary">#FFE7E7E7</color>
+    <color name="nav_black">#FF0F0F0F</color>
+    <color name="nav_white">#FFFDFDFD</color>
 </resources>

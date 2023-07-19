@@ -1,10 +1,10 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Theme.SleepTight" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:statusBarColor">@android:color/transparent</item>
-
+        <item name="android:statusBarColor">@color/gray_primary</item>
         <item name="android:windowBackground">@color/gray_primary</item>
-        <item name="android:navigationBarColor">@color/gray_primary_nav</item>
-
+        <item name="android:windowLightStatusBar" tools:targetApi="27">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+        <item name="android:navigationBarColor">@color/nav_black</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
