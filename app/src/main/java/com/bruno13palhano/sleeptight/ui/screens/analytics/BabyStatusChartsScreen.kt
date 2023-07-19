@@ -143,7 +143,7 @@ fun BabyStatusChartsContent(
             ProvideChartStyle(
                 chartStyle = m3ChartStyle(
                     entityColors = listOf(
-                        MaterialTheme.colorScheme.tertiary,
+                        MaterialTheme.colorScheme.primary,
                         MaterialTheme.colorScheme.secondary
                     )
                 )
