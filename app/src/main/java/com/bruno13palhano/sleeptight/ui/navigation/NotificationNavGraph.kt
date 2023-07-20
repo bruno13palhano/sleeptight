@@ -27,8 +27,7 @@ fun NavGraphBuilder.notificationsNavGraph(navController: NavController) {
             backStackEntry.arguments?.getString("notificationId")?.let { notificationId ->
                 NotificationScreen(
                     notificationId = notificationId.toLong(),
-                    onDoneButtonClick = { navController.navigateUp()},
-                    onNavigationIconClick = { navController.navigateUp() }
+                    navigateUp = { navController.navigateUp()}
                 )
             }
         }

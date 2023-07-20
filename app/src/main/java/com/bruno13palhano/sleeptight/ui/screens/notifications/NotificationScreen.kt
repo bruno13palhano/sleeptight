@@ -80,8 +80,7 @@ private const val NOTIFICATION_ACTION_PREFIX = "com.bruno13palhano.sleeptight"
 @Composable
 fun NotificationScreen(
     notificationId: Long,
-    onDoneButtonClick: () -> Unit,
-    onNavigationIconClick: () -> Unit,
+    navigateUp: () -> Unit,
     notificationViewModel: NotificationViewModel = hiltViewModel()
 ) {
     LaunchedEffect(key1 = Unit) {
@@ -179,7 +178,7 @@ fun NotificationScreen(
             keyboardController?.hide()
             focusManager.clearFocus()
         },
-        onNavigationIconClick = onNavigationIconClick,
+        onNavigationIconClick = navigateUp,
         onDoneButtonClick = {
             notificationViewModel.updateNotification(notificationId)
             updateAlarm(
@@ -191,7 +190,7 @@ fun NotificationScreen(
                 repeat = notificationViewModel.repeat,
                 context = context
             )
-            onDoneButtonClick()
+            navigateUp()
         },
         onDeleteItemClick = {
             notificationViewModel.deleteNotification(notificationId) {
@@ -201,7 +200,7 @@ fun NotificationScreen(
                     description = notificationViewModel.description,
                     context = context
                 )
-                onNavigationIconClick()
+                navigateUp()
             }
         },
         onShareItemClick = {}
