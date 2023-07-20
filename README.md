@@ -1,6 +1,11 @@
 # SleepTight App
 
 ## Tracking Baby Development
+* Play white noise in the background.
+* Record the baby's measurements.
+* Record baby naps during the day.
+* Visualize baby information with charts.
+* Set reminders ang get notified.
 
 ## Dark Theme Samples
 <p align="center">
@@ -12,8 +17,13 @@
 
 ## Light Theme Samples
 <p align="center">
-  <img alt="Lists Screen Light" src="image/list_light.png" width="200"> <img alt="Player Screen Light" src="image/player_light.png" width="200"> <img alt="Analytics Screen Light" src="image/analytics_light.png" width="200">
+  <img alt="Login Screen Light" src="image/login_light.png" width="200"> <img alt="Create Account Screen Light" src="image/create_account_light.png" width="200"> <img alt="Nap Screen Light" src="image/nap_light.png" width="200">
 </p>
 <p align="center">
-  <img alt="Naps Screen Light" src="image/naps_light.png" width="200"> <img alt="DatePicker Light" src="image/date_picker_light.png" width="200"> <img alt="TimePicker Light" src="image/time_picker_light.png" width="200">
+  <img alt="Naps Screen Light" src="image/naps_light.png" width="200"> <img alt="DatePicker Light" src="image/date_picker_light.png" width="200"> <img alt="Notification Screen Light" src="image/notification_light.png" width="200">
+</p>
+
+## Play white noise in the background.
+<p align="center">
+  <img alt="Background Play Light" src="image/background_play_light.png" width="200">
 </p>
