@@ -20,6 +20,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -32,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.navigation.AnalyticsDestinations
+import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
 @Composable
 fun AnalyticsScreen(
@@ -87,10 +89,17 @@ fun AnalyticsScreenPreview() {
         AnalyticsItem.NapCharts
     )
 
-    AnalyticsContent(
-        onItemClick = {},
-        items = items
-    )
+    SleepTightTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            AnalyticsContent(
+                onItemClick = {},
+                items = items
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

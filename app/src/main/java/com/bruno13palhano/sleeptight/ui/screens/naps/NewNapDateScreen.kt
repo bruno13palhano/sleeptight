@@ -2,6 +2,7 @@ package com.bruno13palhano.sleeptight.ui.screens.naps
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,6 +23,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDatePickerState
@@ -39,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bruno13palhano.sleeptight.R
+import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -163,10 +166,17 @@ fun NewNapDateContent(
 @Preview(showBackground = true)
 @Composable
 fun NewNapDateScreenPreview() {
-    NewNapDateContent(
-        date = "April 7, 2023",
-        onDateClick = {},
-        onNavigationIconClick = {},
-        onNextButtonClick = {}
-    )
+    SleepTightTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            NewNapDateContent(
+                date = "April 7, 2023",
+                onDateClick = {},
+                onNavigationIconClick = {},
+                onNextButtonClick = {}
+            )
+        }
+    }
 }

@@ -22,8 +22,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDatePickerState
@@ -45,6 +47,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.screens.clearFocusOnKeyboardDismiss
+import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -205,14 +208,21 @@ fun NewBabyStatusTitleAndDateContent(
 @Preview(showBackground = true)
 @Composable
 fun NewBabyStatusTitleAndDateScreenPreview() {
-   NewBabyStatusTitleAndDateContent(
-       title = "",
-       date = "",
-       onTitleChange = {},
-       onTitleDone = {},
-       onDateClick = {},
-       onOutsideClick = {},
-       onNextButtonClick = {},
-       onNavigationIconClick = {}
-   )
+    SleepTightTheme() {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            NewBabyStatusTitleAndDateContent(
+                title = "",
+                date = "",
+                onTitleChange = {},
+                onTitleDone = {},
+                onDateClick = {},
+                onOutsideClick = {},
+                onNextButtonClick = {},
+                onNavigationIconClick = {}
+            )
+        }
+    }
 }

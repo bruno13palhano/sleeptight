@@ -39,9 +39,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimeInput
 import androidx.compose.material3.TimePicker
@@ -73,6 +75,7 @@ import com.bruno13palhano.sleeptight.ui.screens.CommonMenuItemIndex
 import com.bruno13palhano.sleeptight.ui.screens.TimePickerDialog
 import com.bruno13palhano.sleeptight.ui.screens.clearFocusOnKeyboardDismiss
 import com.bruno13palhano.sleeptight.ui.screens.notifications.receivers.NotificationReceiver
+import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
 private const val NOTIFICATION_ACTION_PREFIX = "com.bruno13palhano.sleeptight"
 
@@ -485,26 +488,33 @@ fun NotificationScreenContent(
 @Preview(showBackground = true)
 @Composable
 fun NotificationScreenPreview() {
-    NotificationScreenContent(
-        orientation = 1,
-        title = "",
-        time = "",
-        date = "",
-        repeat = false,
-        description = "",
-        onTitleChange = {},
-        onRepeatChange = {},
-        onDescriptionChange = {},
-        onTitleDone = {},
-        onDescriptionDone = {},
-        onTimeClick = {},
-        onDateClick = {},
-        onOutsideClick = {},
-        onNavigationIconClick = {},
-        onDoneButtonClick = {},
-        onDeleteItemClick = {},
-        onShareItemClick = {}
-    )
+    SleepTightTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            NotificationScreenContent(
+                orientation = 1,
+                title = "",
+                time = "",
+                date = "",
+                repeat = false,
+                description = "",
+                onTitleChange = {},
+                onRepeatChange = {},
+                onDescriptionChange = {},
+                onTitleDone = {},
+                onDescriptionDone = {},
+                onTimeClick = {},
+                onDateClick = {},
+                onOutsideClick = {},
+                onNavigationIconClick = {},
+                onDoneButtonClick = {},
+                onDeleteItemClick = {},
+                onShareItemClick = {}
+            )
+        }
+    }
 }
 
 fun updateAlarm(

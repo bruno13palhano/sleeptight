@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -19,7 +20,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimeInput
 import androidx.compose.material3.TimePicker
@@ -46,6 +49,7 @@ import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.screens.CircularProgress
 import com.bruno13palhano.sleeptight.ui.screens.TimePickerDialog
 import com.bruno13palhano.sleeptight.ui.screens.clearFocusOnKeyboardDismiss
+import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -282,21 +286,28 @@ private fun BabyBirthAccountContent(
 @Preview(showBackground = true)
 @Composable
 fun BabyBirthAccountScreenPreview() {
-    BabyBirthAccountContent(
-        birthdate = "",
-        birthtime = "",
-        height = "",
-        weight = "",
-        showButton = false,
-        configuration = LocalConfiguration.current,
-        onHeightChange = {},
-        onWeightChange = {},
-        onBirthdateDone = {},
-        onBirthtimeDone = {},
-        onHeightDone = {},
-        onWeightDone = {},
-        onOutsideClick = {},
-        onNavigationIconClick = {},
-        createUser = {}
-    )
+    SleepTightTheme() {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            BabyBirthAccountContent(
+                birthdate = "",
+                birthtime = "",
+                height = "",
+                weight = "",
+                showButton = false,
+                configuration = LocalConfiguration.current,
+                onHeightChange = {},
+                onWeightChange = {},
+                onBirthdateDone = {},
+                onBirthtimeDone = {},
+                onHeightDone = {},
+                onWeightDone = {},
+                onOutsideClick = {},
+                onNavigationIconClick = {},
+                createUser = {}
+            )
+        }
+    }
 }

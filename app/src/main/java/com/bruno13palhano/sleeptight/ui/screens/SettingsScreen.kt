@@ -73,6 +73,7 @@ import com.bruno13palhano.sleeptight.ui.screens.login.DateField
 import com.bruno13palhano.sleeptight.ui.screens.login.HeightField
 import com.bruno13palhano.sleeptight.ui.screens.login.TimeField
 import com.bruno13palhano.sleeptight.ui.screens.login.WeightField
+import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 import com.bruno13palhano.sleeptight.ui.util.getBytes
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
@@ -445,32 +446,39 @@ fun SettingsContent(
 @Preview(showBackground = true)
 @Composable
 fun SettingsScreenPreview() {
-    SettingsContent(
-        orientation = 1,
-        isEditable = false,
-        username = "",
-        babyName = "",
-        photoUri = Uri.EMPTY,
-        birthplace = "",
-        height = "",
-        weight = "",
-        birthtime = "",
-        birthdate = "",
-        onBabyNameChange = {},
-        onPhotoClick = {},
-        onBirthplaceChange = {},
-        onHeightChange = {},
-        onWeightChange = {},
-        onBabyNameDone = {},
-        onBirthplaceDone = {},
-        onHeightDone = {},
-        onWeightDone = {},
-        onBirthtimeDone = {},
-        onBirthdateDone = {},
-        onOutsideClick = {},
-        onItemClick = {},
-        onActionButtonClick = {}
-    )
+    SleepTightTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            SettingsContent(
+                orientation = 1,
+                isEditable = false,
+                username = "",
+                babyName = "",
+                photoUri = Uri.EMPTY,
+                birthplace = "",
+                height = "",
+                weight = "",
+                birthtime = "",
+                birthdate = "",
+                onBabyNameChange = {},
+                onPhotoClick = {},
+                onBirthplaceChange = {},
+                onHeightChange = {},
+                onWeightChange = {},
+                onBabyNameDone = {},
+                onBirthplaceDone = {},
+                onHeightDone = {},
+                onWeightDone = {},
+                onBirthtimeDone = {},
+                onBirthdateDone = {},
+                onOutsideClick = {},
+                onItemClick = {},
+                onActionButtonClick = {}
+            )
+        }
+    }
 }
 
 object SettingsMenuIndex {

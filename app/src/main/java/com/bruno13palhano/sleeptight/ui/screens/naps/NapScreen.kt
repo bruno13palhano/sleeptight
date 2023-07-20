@@ -33,8 +33,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimeInput
 import androidx.compose.material3.TimePicker
@@ -64,6 +66,7 @@ import com.bruno13palhano.sleeptight.ui.screens.CommonMenu
 import com.bruno13palhano.sleeptight.ui.screens.CommonMenuItemIndex
 import com.bruno13palhano.sleeptight.ui.screens.TimePickerDialog
 import com.bruno13palhano.sleeptight.ui.screens.clearFocusOnKeyboardDismiss
+import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -476,24 +479,31 @@ fun NapContent(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun NapScreenPreview() {
-    NapContent(
-        orientation = 1,
-        title = "",
-        observation = "",
-        date = "",
-        startTime = "",
-        endTime = "",
-        onTitleChange = {},
-        onObservationChange = {},
-        onTitleDone = {},
-        onObservationDone = {},
-        onDateClick = {},
-        onStartTimeClick = {},
-        onEndTimeClick = {},
-        onOutsideClick = {},
-        onDeleteItemClick = {},
-        onShareItemClick = {},
-        onActionDone = {},
-        navigateUp = {}
-    )
+    SleepTightTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            NapContent(
+                orientation = 1,
+                title = "",
+                observation = "",
+                date = "",
+                startTime = "",
+                endTime = "",
+                onTitleChange = {},
+                onObservationChange = {},
+                onTitleDone = {},
+                onObservationDone = {},
+                onDateClick = {},
+                onStartTimeClick = {},
+                onEndTimeClick = {},
+                onOutsideClick = {},
+                onDeleteItemClick = {},
+                onShareItemClick = {},
+                onActionDone = {},
+                navigateUp = {}
+            )
+        }
+    }
 }

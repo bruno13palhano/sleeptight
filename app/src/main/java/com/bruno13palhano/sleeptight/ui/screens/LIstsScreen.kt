@@ -21,6 +21,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -32,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.navigation.ListsDestinations
+import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
 @Composable
 fun ListsScreen(
@@ -89,10 +91,17 @@ fun ListsScreenPreview() {
         ListsItem.NotificationsList
     )
 
-    ListContent(
-        items = items,
-        onItemClick = {}
-    )
+    SleepTightTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            ListContent(
+                items = items,
+                onItemClick = {}
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

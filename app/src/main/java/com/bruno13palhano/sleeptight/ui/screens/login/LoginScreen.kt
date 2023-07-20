@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -11,7 +12,9 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -34,6 +37,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.screens.CircularProgress
 import com.bruno13palhano.sleeptight.ui.screens.clearFocusOnKeyboardDismiss
+import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -176,18 +180,25 @@ fun LoginContent(
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginContent(
-        onCreateAccountButtonClick = {},
-        showButton = false,
-        email = "",
-        password = "",
-        showPassword = false,
-        onEmailChange = {},
-        onPasswordChange = {},
-        onShowPasswordChange = {},
-        onEmailDone = {},
-        onPasswordDone = {},
-        onOutsideClick = {},
-        login = {}
-    )
+    SleepTightTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            LoginContent(
+                onCreateAccountButtonClick = {},
+                showButton = false,
+                email = "",
+                password = "",
+                showPassword = false,
+                onEmailChange = {},
+                onPasswordChange = {},
+                onShowPasswordChange = {},
+                onEmailDone = {},
+                onPasswordDone = {},
+                onOutsideClick = {},
+                login = {}
+            )
+        }
+    }
 }

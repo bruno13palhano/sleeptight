@@ -19,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimeInput
 import androidx.compose.material3.TimePicker
@@ -39,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.screens.TimePickerDialog
+import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -158,10 +160,17 @@ fun NewNapEndTimeContent(
 @Preview(showBackground = true)
 @Composable
 fun NewNapEndTimeScreenPreview() {
-    NewNapEndTimeContent(
-        endTime = "13:10",
-        onEndTimeClick = {},
-        onNavigationIconClick = {},
-        onDoneButtonClick = {}
-    )
+    SleepTightTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            NewNapEndTimeContent(
+                endTime = "13:10",
+                onEndTimeClick = {},
+                onNavigationIconClick = {},
+                onDoneButtonClick = {}
+            )
+        }
+    }
 }
