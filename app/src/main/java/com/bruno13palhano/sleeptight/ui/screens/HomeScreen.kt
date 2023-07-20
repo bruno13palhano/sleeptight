@@ -155,7 +155,7 @@ fun HomeContent(
                             .align(Alignment.TopEnd)
                             .size(88.dp)
                             .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.onPrimary)
+                            .background(MaterialTheme.colorScheme.onSecondary)
                             .border(2.dp, MaterialTheme.colorScheme.secondaryContainer, CircleShape),
                         contentScale = ContentScale.Crop,
                         painter = rememberAsyncImagePainter(profileImage),
@@ -167,16 +167,15 @@ fun HomeContent(
             ElevatedCard(
                 modifier = Modifier
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.inverseOnSurface
+                )
             ) {
                 ElevatedCard(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 8.dp, start = 8.dp, end = 8.dp),
+                        .padding(top = 4.dp, start = 4.dp, end = 4.dp),
                     shape = RoundedCornerShape(8.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer
-                    ),
                     onClick = {
                         if (babyId != 0L)
                             navigateToLastBabyStatus(babyId)
@@ -197,11 +196,8 @@ fun HomeContent(
                     ElevatedCard(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 8.dp, start = 8.dp, end = 8.dp),
+                            .padding(top = 4.dp, start = 4.dp, end = 4.dp),
                         shape = RoundedCornerShape(8.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer
-                        ),
                         onClick = {
                             navigateToLastNap(napId)
                         }
@@ -222,11 +218,8 @@ fun HomeContent(
                     ElevatedCard(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 8.dp),
+                            .padding(top = 4.dp, start = 4.dp, end = 4.dp, bottom = 4.dp),
                         shape = RoundedCornerShape(8.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer
-                        ),
                         onClick = {
                             navigateToLastNotification(notificationId)
                         }
