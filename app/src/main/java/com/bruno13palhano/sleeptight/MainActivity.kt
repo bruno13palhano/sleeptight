@@ -22,7 +22,6 @@ import androidx.navigation.compose.rememberNavController
 import com.bruno13palhano.sleeptight.ui.BottomNavigation
 import com.bruno13palhano.sleeptight.ui.navigation.HomeDestinations
 import com.bruno13palhano.sleeptight.ui.navigation.LoginDestinations
-import com.bruno13palhano.sleeptight.ui.navigation.SleepTightDestinations
 import com.bruno13palhano.sleeptight.ui.navigation.SleepTightNavGraph
 import com.bruno13palhano.sleeptight.ui.screens.CircularProgress
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
