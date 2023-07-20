@@ -20,6 +20,7 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bruno13palhano.sleeptight.ui.BottomNavigation
+import com.bruno13palhano.sleeptight.ui.navigation.HomeDestinations
 import com.bruno13palhano.sleeptight.ui.navigation.LoginDestinations
 import com.bruno13palhano.sleeptight.ui.navigation.SleepTightDestinations
 import com.bruno13palhano.sleeptight.ui.navigation.SleepTightNavGraph
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                         LoginDestinations.BABY_PHOTO_ROUTE -> false
                         LoginDestinations.BABY_BIRTHPLACE_ROUTE -> false
                         LoginDestinations.BABY_BIRTH_ACCOUNT_ROUTE -> false
-                        SleepTightDestinations.HOME_ROUTE -> {
+                        HomeDestinations.HOME_MAIN_ROUTE -> {
                             mainViewModel.isUserAuthenticated()
                         }
                         else -> true
