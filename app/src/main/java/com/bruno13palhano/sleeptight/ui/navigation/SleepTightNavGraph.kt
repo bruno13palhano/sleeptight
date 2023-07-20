@@ -25,33 +25,7 @@ fun SleepTightNavGraph(
 
         loginNavGraph(navController = navController, viewModelStoreOwner = viewModelStoreOwner)
 
-        composable(route = SleepTightDestinations.HOME_ROUTE) {
-            HomeScreen(
-                navigateToLogin = {
-                    navController.navigate(SleepTightDestinations.LOGIN_CREATE_ACCOUNT_ROUTE) {
-                        popUpTo(SleepTightDestinations.HOME_ROUTE) {
-                            inclusive = true
-                        }
-                        launchSingleTop = true
-                    }
-                },
-                navigateToLastBabyStatus = {
-                    navController.navigate("${BabyStatusDestinations.BABY_STATUS_ROUTE}$it") {
-                        popUpTo(SleepTightDestinations.HOME_ROUTE)
-                    }
-                },
-                navigateToLastNap = {
-                    navController.navigate("${NapsDestination.NAP_ROUTE}$it") {
-                        popUpTo(SleepTightDestinations.HOME_ROUTE)
-                    }
-                },
-                navigateToLastNotification = {
-                    navController.navigate("${NotificationsDestinations.NOTIFICATION_ROUTE}$it") {
-                        popUpTo(SleepTightDestinations.HOME_ROUTE)
-                    }
-                }
-            )
-        }
+        homeNavGraph(navController = navController)
 
         listsNavGraph(navController = navController, viewModelStoreOwner = viewModelStoreOwner)
 
