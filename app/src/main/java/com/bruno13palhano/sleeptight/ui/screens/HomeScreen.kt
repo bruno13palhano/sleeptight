@@ -1,5 +1,6 @@
 package com.bruno13palhano.sleeptight.ui.screens
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -120,7 +121,8 @@ fun HomeContent(
         ) {
             ElevatedCard(
                 modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp),
+                    .padding(start = 16.dp, end = 16.dp)
+                    .border(1.dp, MaterialTheme.colorScheme.inverseOnSurface, RoundedCornerShape(8.dp)),
                 shape = RoundedCornerShape(8.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer
@@ -156,7 +158,7 @@ fun HomeContent(
                             .size(88.dp)
                             .clip(CircleShape)
                             .background(MaterialTheme.colorScheme.onSecondary)
-                            .border(2.dp, MaterialTheme.colorScheme.secondaryContainer, CircleShape),
+                            .border(2.dp, MaterialTheme.colorScheme.inverseOnSurface, CircleShape),
                         contentScale = ContentScale.Crop,
                         painter = rememberAsyncImagePainter(profileImage),
                         contentDescription = stringResource(id = R.string.baby_photo_label)
@@ -241,6 +243,7 @@ fun HomeContent(
 }
 
 @Preview(showBackground = true)
+@Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun HomePreview() {
     SleepTightTheme {
