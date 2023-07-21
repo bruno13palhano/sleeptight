@@ -1,6 +1,7 @@
 package com.bruno13palhano.sleeptight.ui.screens
 
 import android.icu.text.DateFormat
+import android.icu.text.DecimalFormat
 import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -18,12 +19,15 @@ import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import com.bruno13palhano.sleeptight.ui.util.getHour
 import com.bruno13palhano.sleeptight.ui.util.getMinute
+import com.bruno13palhano.sleeptight.ui.util.measureWithLocalDecimal
+import com.bruno13palhano.sleeptight.ui.util.stringToFloat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -95,6 +99,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun updateWeight(weight: String) {
+        println("weight:$weight.")
         this.weight = weight
     }
 
@@ -120,8 +125,8 @@ class SettingsViewModel @Inject constructor(
                 birthtimeHour = getHour(it.birthtime)
                 birthtimeMinute = getMinute(it.birthtime)
                 birthtime = DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(it.birthtime)
-                height = it.height.toString()
-                weight = it.weight.toString()
+                height = measureWithLocalDecimal(it.height.toString())
+                weight = measureWithLocalDecimal(it.weight.toString())
             }
         }
     }
@@ -202,12 +207,6 @@ class SettingsViewModel @Inject constructor(
                 )
             }
         }
-    }
-
-    private fun stringToFloat(value: String): Float {
-        return try {
-            value.toFloat()
-        } catch (ignored: Exception) { 0F }
     }
 
     private fun updateUserPhotoInDatabase(urlPhoto: String, id: String) {
