@@ -10,6 +10,7 @@ import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.di.BabyStatusRep
 import com.bruno13palhano.model.BabyStatus
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
+import com.bruno13palhano.sleeptight.ui.util.stringToFloat
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -61,12 +62,6 @@ class NewBabyStatusViewModel @Inject constructor(
             babyStatusRepository.insert(babyStatus)
         }
         restoresValues()
-    }
-
-    private fun stringToFloat(value: String): Float {
-        return try {
-            value.toFloat()
-        } catch (ignored: Exception) { 0F }
     }
 
     private fun restoresValues() {
