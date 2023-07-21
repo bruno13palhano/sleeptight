@@ -1,6 +1,7 @@
 package com.bruno13palhano.sleeptight.ui.util
 
 import android.content.Context
+import android.icu.text.DecimalFormat
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
@@ -8,6 +9,7 @@ import android.net.Uri
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat.CLOCK_24H
 import java.io.IOException
+import java.util.Locale
 import kotlin.jvm.Throws
 
 object CalendarUtil {
@@ -61,4 +63,21 @@ fun getBytes(context: Context, uri: Uri): ByteArray? {
     return context.contentResolver.openInputStream(uri)?.use {
         it.buffered().readBytes()
     }
+}
+
+fun measureWithLocalDecimal(measure: String): String {
+    val decimalFormat = DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
+    val decimalSeparator = decimalFormat.decimalFormatSymbols.decimalSeparator
+    return if (decimalSeparator == ',') {
+        measure.replace(".", ",")
+    } else {
+        measure.replace(",", ".")
+    }
+}
+
+
+fun stringToFloat(value: String): Float {
+    return try {
+        value.replace(",", ".").toFloat()
+    } catch (ignored: Exception) { 0F }
 }
