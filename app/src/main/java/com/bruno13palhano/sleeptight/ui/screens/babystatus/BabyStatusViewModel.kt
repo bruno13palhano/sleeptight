@@ -10,6 +10,8 @@ import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.di.BabyStatusRep
 import com.bruno13palhano.model.BabyStatus
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
+import com.bruno13palhano.sleeptight.ui.util.measureWithLocalDecimal
+import com.bruno13palhano.sleeptight.ui.util.stringToFloat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -50,8 +52,8 @@ class BabyStatusViewModel @Inject constructor(
         viewModelScope.launch {
             babyStatusRepository.getById(id).collect {
                 title = it.title
-                height = it.height.toString()
-                weight = it.weight.toString()
+                height = measureWithLocalDecimal(it.height.toString())
+                weight = measureWithLocalDecimal(it.weight.toString())
                 updateDate(it.date)
             }
         }
@@ -73,14 +75,6 @@ class BabyStatusViewModel @Inject constructor(
                 weight = stringToFloat(weight)
             )
             babyStatusRepository.update(babyStatus)
-        }
-    }
-
-    private fun stringToFloat(value: String): Float {
-        return try {
-            value.toFloat()
-        } catch (ignored: Exception) {
-            0F
         }
     }
 }

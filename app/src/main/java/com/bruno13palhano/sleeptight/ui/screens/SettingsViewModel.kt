@@ -1,7 +1,6 @@
 package com.bruno13palhano.sleeptight.ui.screens
 
 import android.icu.text.DateFormat
-import android.icu.text.DecimalFormat
 import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -27,7 +26,6 @@ import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -99,7 +97,6 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun updateWeight(weight: String) {
-        println("weight:$weight.")
         this.weight = weight
     }
 

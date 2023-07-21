@@ -20,6 +20,7 @@ import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import com.bruno13palhano.sleeptight.ui.util.getHour
 import com.bruno13palhano.sleeptight.ui.util.getMinute
+import com.bruno13palhano.sleeptight.ui.util.stringToFloat
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -213,12 +214,6 @@ class CreateAccountViewModel @Inject constructor(
                 onFail()
             }
         )
-    }
-
-    private fun stringToFloat(value: String): Float {
-        return try {
-            value.toFloat()
-        } catch (ignored: Exception) { 0F }
     }
 
     private fun isUserDataNotEmpty(username: String, email: String, password: String): Boolean =
