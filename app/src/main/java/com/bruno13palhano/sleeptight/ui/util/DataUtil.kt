@@ -6,8 +6,6 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import android.net.Uri
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat.CLOCK_24H
 import java.io.IOException
 import java.util.Locale
 import kotlin.jvm.Throws
