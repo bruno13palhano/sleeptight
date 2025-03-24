@@ -16,7 +16,6 @@ import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import com.bruno13palhano.sleeptight.ui.util.getHour
 import com.bruno13palhano.sleeptight.ui.util.getMinute
-import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -40,7 +39,7 @@ class NewNotificationViewModel @Inject constructor(
     var time: String by mutableStateOf(DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE)
         .format(timeInMillis))
         private set
-    var dateInMillis by mutableLongStateOf(MaterialDatePicker.todayInUtcMilliseconds())
+    var dateInMillis by mutableLongStateOf(System.currentTimeMillis())
         private set
     var date by mutableStateOf(DateFormatUtil.format(dateInMillis))
         private set

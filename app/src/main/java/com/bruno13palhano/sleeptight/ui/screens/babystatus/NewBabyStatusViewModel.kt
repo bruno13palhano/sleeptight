@@ -11,7 +11,6 @@ import com.bruno13palhano.core.data.di.BabyStatusRep
 import com.bruno13palhano.model.BabyStatus
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import com.bruno13palhano.sleeptight.ui.util.stringToFloat
-import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,7 +20,7 @@ class NewBabyStatusViewModel @Inject constructor(
     @BabyStatusRep private val babyStatusRepository: CommonDataContract<BabyStatus>
 ) : ViewModel() {
 
-    var dateInMillis by mutableLongStateOf(MaterialDatePicker.todayInUtcMilliseconds())
+    var dateInMillis by mutableLongStateOf(System.currentTimeMillis())
         private set
     var date by mutableStateOf(DateFormatUtil.format(dateInMillis))
         private set
@@ -65,7 +64,7 @@ class NewBabyStatusViewModel @Inject constructor(
     }
 
     private fun restoresValues() {
-        dateInMillis = MaterialDatePicker.todayInUtcMilliseconds()
+        dateInMillis = System.currentTimeMillis()
         title = ""
         height = ""
         weight = ""

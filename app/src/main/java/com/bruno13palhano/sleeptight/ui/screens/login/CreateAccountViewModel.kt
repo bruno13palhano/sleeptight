@@ -21,7 +21,6 @@ import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import com.bruno13palhano.sleeptight.ui.util.getHour
 import com.bruno13palhano.sleeptight.ui.util.getMinute
 import com.bruno13palhano.sleeptight.ui.util.stringToFloat
-import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
@@ -54,7 +53,7 @@ class CreateAccountViewModel @Inject constructor(
         private set
     var birthplace by mutableStateOf("")
         private set
-    var birthdateInMillis by mutableLongStateOf(MaterialDatePicker.todayInUtcMilliseconds())
+    var birthdateInMillis by mutableLongStateOf(System.currentTimeMillis())
         private set
     var birthdate by mutableStateOf(DateFormatUtil.format(birthdateInMillis))
         private set
@@ -194,7 +193,7 @@ class CreateAccountViewModel @Inject constructor(
         photoUri = Uri.EMPTY
         photoByteArray = ByteArray(1024)
         birthplace = ""
-        birthtimeInMillis = MaterialDatePicker.todayInUtcMilliseconds()
+        birthtimeInMillis = System.currentTimeMillis()
         birthtimeInMillis = Calendar.getInstance().timeInMillis
         height = ""
         weight = ""
