@@ -47,14 +47,14 @@ import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 fun NewNapStartTimeScreen(
     onNextButtonClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
-    newNapViewModel: NewNapViewModel
+    newNapViewModel: NewNapViewModel,
 ) {
     val configuration = LocalConfiguration.current
     var showStartTimePickerDialog by remember { mutableStateOf(false) }
     val startTimePickerState = rememberTimePickerState(
         initialHour = newNapViewModel.startTimeHour,
         initialMinute = newNapViewModel.startTimeMinute,
-        is24Hour = true
+        is24Hour = true,
     )
 
     if (showStartTimePickerDialog) {
@@ -68,7 +68,7 @@ fun NewNapStartTimeScreen(
                     newNapViewModel.updateStartTime(it.hour, it.minute)
                 }
                 showStartTimePickerDialog = false
-            }
+            },
         ) {
             if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 TimePicker(state = startTimePickerState)
@@ -82,7 +82,7 @@ fun NewNapStartTimeScreen(
         startTime = newNapViewModel.startTime,
         onStartTimeClick = { show -> showStartTimePickerDialog = show },
         onNavigationIconClick = onNavigationIconClick,
-        onNextButtonClick = onNextButtonClick
+        onNextButtonClick = onNextButtonClick,
     )
 }
 
@@ -92,7 +92,7 @@ fun NewNapStartTimeContent(
     startTime: String,
     onStartTimeClick: (show: Boolean) -> Unit,
     onNavigationIconClick: () -> Unit,
-    onNextButtonClick: () -> Unit
+    onNextButtonClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -102,25 +102,25 @@ fun NewNapStartTimeContent(
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
+                            contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
-                }
+                },
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onNextButtonClick) {
                 Icon(
                     imageVector = Icons.Filled.NavigateNext,
-                    contentDescription = stringResource(id = R.string.next_label)
+                    contentDescription = stringResource(id = R.string.next_label),
                 )
             }
-        }
+        },
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(it),
         ) {
             ElevatedCard(
                 modifier = Modifier
@@ -128,9 +128,9 @@ fun NewNapStartTimeContent(
                     .sizeIn(maxWidth = 200.dp)
                     .align(Alignment.CenterHorizontally),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 ),
-                onClick = { onStartTimeClick(true) }
+                onClick = { onStartTimeClick(true) },
             ) {
                 Icon(
                     modifier = Modifier
@@ -138,7 +138,7 @@ fun NewNapStartTimeContent(
                         .padding(8.dp)
                         .align(Alignment.CenterHorizontally),
                     imageVector = Icons.Filled.Timer,
-                    contentDescription = stringResource(id = R.string.start_time_label)
+                    contentDescription = stringResource(id = R.string.start_time_label),
                 )
 
                 Text(
@@ -160,13 +160,13 @@ fun NewNapStartTimeScreenPreview() {
     SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             NewNapStartTimeContent(
                 startTime = "12:00",
                 onStartTimeClick = {},
                 onNavigationIconClick = {},
-                onNextButtonClick = {}
+                onNextButtonClick = {},
             )
         }
     }

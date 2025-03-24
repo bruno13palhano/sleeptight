@@ -11,7 +11,7 @@ import com.bruno13palhano.sleeptight.ui.screens.notifications.NotificationsScree
 fun NavGraphBuilder.notificationsNavGraph(navController: NavController) {
     navigation(
         startDestination = NotificationsDestinations.NOTIFICATIONS_ROUTE,
-        route = ListsDestinations.NOTIFICATIONS_LIST_ROUTE
+        route = ListsDestinations.NOTIFICATIONS_LIST_ROUTE,
     ) {
         val navActions = NotificationsNavigationActions(navController)
         composable(route = NotificationsDestinations.NOTIFICATIONS_ROUTE) {
@@ -20,21 +20,21 @@ fun NavGraphBuilder.notificationsNavGraph(navController: NavController) {
                     navActions.navigateFromNotificationsToNotification(notificationId)
                 },
                 onAddButtonClick = navActions.navigateFromNotificationsToNewNotification,
-                onNavigationIconClick = { navController.navigateUp() }
+                onNavigationIconClick = { navController.navigateUp() },
             )
         }
         composable(route = NotificationsDestinations.NOTIFICATION_WITH_ID_ROUTE) { backStackEntry ->
             backStackEntry.arguments?.getString("notificationId")?.let { notificationId ->
                 NotificationScreen(
                     notificationId = notificationId.toLong(),
-                    navigateUp = { navController.navigateUp()}
+                    navigateUp = { navController.navigateUp() },
                 )
             }
         }
         composable(route = NotificationsDestinations.NEW_NOTIFICATION_ROUTE) {
             NewNotificationScreen(
                 onDoneButtonClick = { navController.navigateUp() },
-                onNavigationIconClick = { navController.navigateUp() }
+                onNavigationIconClick = { navController.navigateUp() },
             )
         }
     }

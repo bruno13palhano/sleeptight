@@ -2,8 +2,9 @@ package com.bruno13palhano.core.data.di
 
 import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.data.UserDataContract
-import com.bruno13palhano.core.data.repository.*
+import com.bruno13palhano.core.data.repository.BabyStatusRepository
 import com.bruno13palhano.core.data.repository.NapRepository
+import com.bruno13palhano.core.data.repository.NotificationRepository
 import com.bruno13palhano.core.data.repository.UserRepository
 import com.bruno13palhano.model.BabyStatus
 import com.bruno13palhano.model.Nap
@@ -66,13 +67,13 @@ internal abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun bindBabyStateRepository(
-        repository: BabyStatusRepository
+        repository: BabyStatusRepository,
     ): CommonDataContract<BabyStatus>
 
     @NotificationRep
     @Singleton
     @Binds
     abstract fun bindNotificationRepository(
-        repository: NotificationRepository
+        repository: NotificationRepository,
     ): CommonDataContract<Notification>
 }

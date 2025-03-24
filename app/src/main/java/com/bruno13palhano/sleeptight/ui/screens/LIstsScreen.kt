@@ -36,44 +36,39 @@ import com.bruno13palhano.sleeptight.ui.navigation.ListsDestinations
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
 @Composable
-fun ListsScreen(
-    onItemClick: (route: String) -> Unit
-) {
+fun ListsScreen(onItemClick: (route: String) -> Unit) {
     val items = listOf(
         ListsItem.BabyStatusList,
         ListsItem.NapsList,
-        ListsItem.NotificationsList
+        ListsItem.NotificationsList,
     )
 
     ListContent(
         items = items,
-        onItemClick = onItemClick
+        onItemClick = onItemClick,
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListContent(
-    items: List<ListsItem>,
-    onItemClick: (route: String) -> Unit
-) {
+fun ListContent(items: List<ListsItem>, onItemClick: (route: String) -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(title = { Text(text = stringResource(id = R.string.lists_label)) })
-        }
+        },
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
         ) {
             items.forEach { listsItem ->
                 ListsCard(
                     listsItem = listsItem,
                     modifier = Modifier
                         .padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
-                        .weight(1F, true)
+                        .weight(1F, true),
                 ) {
                     onItemClick(listsItem.route)
                 }
@@ -88,17 +83,17 @@ fun ListsScreenPreview() {
     val items = listOf(
         ListsItem.BabyStatusList,
         ListsItem.NapsList,
-        ListsItem.NotificationsList
+        ListsItem.NotificationsList,
     )
 
     SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             ListContent(
                 items = items,
-                onItemClick = {}
+                onItemClick = {},
             )
         }
     }
@@ -106,42 +101,52 @@ fun ListsScreenPreview() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListsCard(
-    listsItem: ListsItem,
-    modifier: Modifier,
-    onClick: () -> Unit
-) {
+fun ListsCard(listsItem: ListsItem, modifier: Modifier, onClick: () -> Unit) {
     ElevatedCard(
         modifier = modifier
             .fillMaxHeight(),
         shape = RoundedCornerShape(8.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
-        onClick = onClick
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+        ),
+        onClick = onClick,
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
                 modifier = Modifier
                     .padding(16.dp)
                     .size(128.dp),
                 imageVector = listsItem.imageVector,
-                contentDescription = stringResource(id = listsItem.text)
+                contentDescription = stringResource(id = listsItem.text),
             )
 
             Text(
                 text = stringResource(id = listsItem.text),
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
             )
         }
     }
 }
 
 sealed class ListsItem(@StringRes val text: Int, val imageVector: ImageVector, val route: String) {
-    object BabyStatusList: ListsItem(R.string.all_baby_status_label, Icons.Filled.InsertChartOutlined, ListsDestinations.BABY_STATUS_LIST_ROUTE)
-    object NapsList: ListsItem(R.string.naps_label, Icons.Filled.Snooze, ListsDestinations.NAP_LIST_ROUTE)
-    object NotificationsList: ListsItem(R.string.notifications_label, Icons.Filled.Notifications, ListsDestinations.NOTIFICATIONS_LIST_ROUTE)
+    object BabyStatusList : ListsItem(
+        R.string.all_baby_status_label,
+        Icons.Filled.InsertChartOutlined,
+        ListsDestinations.BABY_STATUS_LIST_ROUTE,
+    )
+    object NapsList : ListsItem(
+        R.string.naps_label,
+        Icons.Filled.Snooze,
+        ListsDestinations.NAP_LIST_ROUTE,
+    )
+    object NotificationsList : ListsItem(
+        R.string.notifications_label,
+        Icons.Filled.Notifications,
+        ListsDestinations.NOTIFICATIONS_LIST_ROUTE,
+    )
 }

@@ -12,5 +12,5 @@ enum class Day {
     WEDNESDAY,
     THURSDAY,
     FRIDAY,
-    SATURDAY
+    SATURDAY,
 }

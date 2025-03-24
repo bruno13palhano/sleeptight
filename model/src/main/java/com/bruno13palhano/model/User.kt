@@ -26,5 +26,5 @@ data class User(
     val birthdate: Long = 0L,
     val birthtime: Long = 0L,
     val height: Float = 0F,
-    val weight: Float = 0F
+    val weight: Float = 0F,
 )

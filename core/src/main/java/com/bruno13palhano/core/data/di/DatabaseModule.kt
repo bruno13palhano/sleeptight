@@ -2,9 +2,9 @@ package com.bruno13palhano.core.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.bruno13palhano.core.data.database.dao.NapDao
 import com.bruno13palhano.core.data.database.SleepTightDatabase
 import com.bruno13palhano.core.data.database.dao.BabyStatusDao
+import com.bruno13palhano.core.data.database.dao.NapDao
 import com.bruno13palhano.core.data.database.dao.NotificationDao
 import com.bruno13palhano.core.data.database.dao.UserDao
 import dagger.Module
@@ -44,7 +44,7 @@ internal object DatabaseModule {
         return Room.databaseBuilder(
             appContext,
             SleepTightDatabase::class.java,
-            "sleep_tight_database"
+            "sleep_tight_database",
         )
             .fallbackToDestructiveMigration()
             .build()

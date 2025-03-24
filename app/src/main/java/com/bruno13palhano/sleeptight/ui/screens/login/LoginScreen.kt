@@ -44,7 +44,7 @@ import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
     onCreateAccountButtonClick: () -> Unit,
-    loginViewModel: LoginViewModel = hiltViewModel()
+    loginViewModel: LoginViewModel = hiltViewModel(),
 ) {
     val focusManager = LocalFocusManager.current
     var showPassword by remember { mutableStateOf(false) }
@@ -52,16 +52,20 @@ fun LoginScreen(
     val loginStatus by loginViewModel.loginStatus.collectAsStateWithLifecycle()
     val showButton by loginViewModel.isEmailAndPasswordNotEmpty.collectAsStateWithLifecycle()
 
-    when(loginStatus) {
+    when (loginStatus) {
         LoginViewModel.LoginStatus.Default -> {
             LoginContent(
                 onCreateAccountButtonClick = onCreateAccountButtonClick,
                 showButton = showButton,
-                email =  loginViewModel.email,
+                email = loginViewModel.email,
                 password = loginViewModel.password,
                 showPassword = showPassword,
                 onEmailChange = { emailValue -> loginViewModel.updateEmail(emailValue) },
-                onPasswordChange = { passwordValue -> loginViewModel.updatePassword(passwordValue) },
+                onPasswordChange = { passwordValue ->
+                    loginViewModel.updatePassword(
+                        passwordValue,
+                    )
+                },
                 onShowPasswordChange = { showPasswordValue -> showPassword = showPasswordValue },
                 onEmailDone = { focusManager.moveFocus(FocusDirection.Next) },
                 onPasswordDone = { focusManager.clearFocus(force = true) },
@@ -69,7 +73,7 @@ fun LoginScreen(
                     keyboardController?.hide()
                     focusManager.clearFocus()
                 },
-                login = { loginViewModel.login() }
+                login = { loginViewModel.login() },
             )
         }
         LoginViewModel.LoginStatus.Success -> {
@@ -82,11 +86,15 @@ fun LoginScreen(
             LoginContent(
                 onCreateAccountButtonClick = onCreateAccountButtonClick,
                 showButton = showButton,
-                email =  loginViewModel.email,
+                email = loginViewModel.email,
                 password = loginViewModel.password,
                 showPassword = showPassword,
                 onEmailChange = { emailValue -> loginViewModel.updateEmail(emailValue) },
-                onPasswordChange = { passwordValue -> loginViewModel.updatePassword(passwordValue) },
+                onPasswordChange = { passwordValue ->
+                    loginViewModel.updatePassword(
+                        passwordValue,
+                    )
+                },
                 onShowPasswordChange = { showPasswordValue -> showPassword = showPasswordValue },
                 onEmailDone = { focusManager.moveFocus(FocusDirection.Next) },
                 onPasswordDone = { focusManager.clearFocus(force = true) },
@@ -94,7 +102,7 @@ fun LoginScreen(
                     keyboardController?.hide()
                     focusManager.clearFocus()
                 },
-                login = { loginViewModel.login() }
+                login = { loginViewModel.login() },
             )
         }
     }
@@ -114,17 +122,17 @@ fun LoginContent(
     onEmailDone: () -> Unit,
     onPasswordDone: () -> Unit,
     onOutsideClick: () -> Unit,
-    login: () -> Unit
+    login: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = null
+                indication = null,
             ) { onOutsideClick() },
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(id = R.string.login_label)) }
+                title = { Text(text = stringResource(id = R.string.login_label)) },
             )
         },
         floatingActionButton = {
@@ -133,12 +141,12 @@ fun LoginContent(
                     FloatingActionButton(onClick = login) {
                         Icon(
                             imageVector = Icons.Filled.Done,
-                            contentDescription = stringResource(id = R.string.confirm_login_label)
+                            contentDescription = stringResource(id = R.string.confirm_login_label),
                         )
                     }
                 }
             }
-        }
+        },
     ) {
         Column(modifier = Modifier.padding(it)) {
             EmailField(
@@ -148,7 +156,7 @@ fun LoginContent(
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp)
                     .clearFocusOnKeyboardDismiss(),
                 onEmailChange = { emailValue -> onEmailChange(emailValue) },
-                onDone = onEmailDone
+                onDone = onEmailDone,
             )
 
             PasswordField(
@@ -162,14 +170,14 @@ fun LoginContent(
                 showPasswordCallback = { showPasswordValue ->
                     onShowPasswordChange(showPasswordValue)
                 },
-                onDone = onPasswordDone
+                onDone = onPasswordDone,
             )
 
             TextButton(
                 modifier = Modifier
                     .align(Alignment.End)
                     .padding(end = 8.dp),
-                onClick = onCreateAccountButtonClick
+                onClick = onCreateAccountButtonClick,
             ) {
                 Text(text = stringResource(id = R.string.create_account_label))
             }
@@ -183,7 +191,7 @@ fun LoginScreenPreview() {
     SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             LoginContent(
                 onCreateAccountButtonClick = {},
@@ -197,7 +205,7 @@ fun LoginScreenPreview() {
                 onEmailDone = {},
                 onPasswordDone = {},
                 onOutsideClick = {},
-                login = {}
+                login = {},
             )
         }
     }

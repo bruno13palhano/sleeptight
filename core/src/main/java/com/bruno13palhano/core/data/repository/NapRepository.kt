@@ -5,15 +5,15 @@ import com.bruno13palhano.core.data.database.dao.NapDao
 import com.bruno13palhano.core.data.database.model.asNap
 import com.bruno13palhano.core.data.database.model.asNapEntity
 import com.bruno13palhano.model.Nap
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 internal class NapRepository @Inject constructor(
-    private val napDao: NapDao
+    private val napDao: NapDao,
 ) : CommonDataContract<Nap> {
     override suspend fun insert(model: Nap): Long {
         return napDao.insert(model.asNapEntity())
@@ -49,14 +49,14 @@ internal class NapRepository @Inject constructor(
         .catch {
             emit(
                 Nap(
-                    id= 0L,
+                    id = 0L,
                     title = "",
                     date = 0L,
                     startTime = 0L,
                     endTime = 0L,
                     sleepingTime = 0L,
-                    observation = ""
-                )
+                    observation = "",
+                ),
             )
         }
 }

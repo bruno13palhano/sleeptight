@@ -32,7 +32,7 @@ internal data class BabyStatusEntity(
     val height: Float,
 
     @ColumnInfo(name = "weight")
-    val weight: Float
+    val weight: Float,
 )
 
 /**
@@ -44,7 +44,7 @@ internal fun BabyStatus.asBabyStatusEntity() = BabyStatusEntity(
     title = title,
     date = date,
     height = height,
-    weight = weight
+    weight = weight,
 )
 
 /**
@@ -56,5 +56,5 @@ internal fun BabyStatusEntity.asBabyStatus() = BabyStatus(
     title = title,
     date = date,
     height = height,
-    weight = weight
+    weight = weight,
 )

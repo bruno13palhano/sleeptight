@@ -22,25 +22,25 @@ import com.bruno13palhano.sleeptight.ui.util.getHour
 import com.bruno13palhano.sleeptight.ui.util.getMinute
 import com.bruno13palhano.sleeptight.ui.util.stringToFloat
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class CreateAccountViewModel @Inject constructor(
     @DefaultUserFirebase private val authentication: UserAuthentication,
-    @UserRep private val userRepository: UserDataContract<User>
+    @UserRep private val userRepository: UserDataContract<User>,
 ) : ViewModel() {
     private val _loginStatus = MutableStateFlow<LoginStatus>(LoginStatus.Default)
     val loginStatus = _loginStatus.asStateFlow()
         .stateIn(
             scope = viewModelScope,
             started = WhileSubscribed(5_000),
-            initialValue = LoginStatus.Default
+            initialValue = LoginStatus.Default,
         )
 
     var username by mutableStateOf("")
@@ -63,8 +63,10 @@ class CreateAccountViewModel @Inject constructor(
         private set
     var birthtimeMinute by mutableIntStateOf(getMinute(birthtimeInMillis))
         private set
-    var birthtime: String by mutableStateOf(DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE)
-        .format(birthtimeInMillis))
+    var birthtime: String by mutableStateOf(
+        DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE)
+            .format(birthtimeInMillis),
+    )
         private set
     var height by mutableStateOf("")
         private set
@@ -127,7 +129,7 @@ class CreateAccountViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = WhileSubscribed(5_000),
-            initialValue = false
+            initialValue = false,
         )
 
     fun isBabyNameNotEmpty() = babyName.trim() != ""
@@ -144,7 +146,7 @@ class CreateAccountViewModel @Inject constructor(
             birthdate = birthdateInMillis,
             birthtime = birthtimeInMillis,
             height = stringToFloat(height),
-            weight = stringToFloat(weight)
+            weight = stringToFloat(weight),
         )
 
         loading()
@@ -167,8 +169,8 @@ class CreateAccountViewModel @Inject constructor(
                                         birthdate = user.birthdate,
                                         birthtime = user.birthtime,
                                         height = user.height,
-                                        weight = user.weight
-                                    )
+                                        weight = user.weight,
+                                    ),
                                 )
                             }
                             _loginStatus.value = LoginStatus.Success
@@ -176,12 +178,12 @@ class CreateAccountViewModel @Inject constructor(
                         },
                         onFail = {
                             _loginStatus.value = LoginStatus.Default
-                        }
+                        },
                     )
                 },
                 onFail = {
                     _loginStatus.value = LoginStatus.Default
-                }
+                },
             )
         }
     }
@@ -202,7 +204,7 @@ class CreateAccountViewModel @Inject constructor(
     private fun updateUserUrlPhoto(
         photo: ByteArray,
         onSuccess: (newPhotoUrl: String, userUid: String) -> Unit,
-        onFail: () -> Unit
+        onFail: () -> Unit,
     ) {
         authentication.updateUserUrlPhoto(
             photo = photo,
@@ -211,7 +213,7 @@ class CreateAccountViewModel @Inject constructor(
             },
             onFail = {
                 onFail()
-            }
+            },
         )
     }
 
@@ -223,8 +225,8 @@ class CreateAccountViewModel @Inject constructor(
     }
 
     sealed class LoginStatus {
-        object Loading: LoginStatus()
-        object Success: LoginStatus()
-        object Default: LoginStatus()
+        object Loading : LoginStatus()
+        object Success : LoginStatus()
+        object Default : LoginStatus()
     }
 }

@@ -38,14 +38,18 @@ fun averageSleepTimeDecimal(hours: List<Int>, minutes: List<Int>): Float {
     val finalMinutes: String
     val currentMinutes = totalMinutes * 100 / 60
     finalMinutes = if (currentMinutes < 10) {
-        "0${currentMinutes}"
+        "0$currentMinutes"
     } else {
         currentMinutes.toString()
     }
 
     val durationDecimal = "$totalHours.$finalMinutes".toFloat()
-    return if (durationDecimal == 0.0F) 0.0F else String.format("%.2f", durationDecimal/hours.size)
-        .replace(",", ".").toFloat()
+    return if (durationDecimal == 0.0F) {
+        0.0F
+    } else {
+        String.format("%.2f", durationDecimal / hours.size)
+            .replace(",", ".").toFloat()
+    }
 }
 
 /**
@@ -182,26 +186,26 @@ fun chartScreenshot(view: View, height: Int, width: Int): Bitmap {
     return bitmap
 }
 
-fun shareChart(
-    context: Context,
-    chartName: String,
-    view: View,
-    height: Int,
-    width: Int
-) {
-    val shareChartImage = Intent.createChooser(Intent().apply {
-        action = Intent.ACTION_SEND
-        type = "image/*"
-        putExtra(Intent.EXTRA_STREAM, getImageUri(context, chartScreenshot(view, height, width), chartName))
-        putExtra(Intent.EXTRA_TITLE, chartName)
-    }, null)
+fun shareChart(context: Context, chartName: String, view: View, height: Int, width: Int) {
+    val shareChartImage = Intent.createChooser(
+        Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "image/*"
+            putExtra(
+                Intent.EXTRA_STREAM,
+                getImageUri(context, chartScreenshot(view, height, width), chartName),
+            )
+            putExtra(Intent.EXTRA_TITLE, chartName)
+        },
+        null,
+    )
     context.startActivity(shareChartImage)
 }
 
 fun getImageUri(context: Context, imageBitmap: Bitmap, filename: String): Uri {
     val fn = filename.replace(" ", "_")
     val contentValues = ContentValues().apply {
-        put(MediaStore.MediaColumns.DISPLAY_NAME, "${System.currentTimeMillis()}_${fn}.png")
+        put(MediaStore.MediaColumns.DISPLAY_NAME, "${System.currentTimeMillis()}_$fn.png")
         put(MediaStore.MediaColumns.MIME_TYPE, "image/*")
         put(MediaStore.MediaColumns.IS_PENDING, 0)
     }

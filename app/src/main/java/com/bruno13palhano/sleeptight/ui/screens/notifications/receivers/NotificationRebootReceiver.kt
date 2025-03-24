@@ -15,8 +15,11 @@ class NotificationRebootReceiver : BroadcastReceiver() {
 
             val notificationWork = OneTimeWorkRequestBuilder<NotificationWork>()
                 .build()
-            workManager.enqueueUniqueWork("restart notifications",
-                ExistingWorkPolicy.REPLACE, notificationWork)
+            workManager.enqueueUniqueWork(
+                "restart notifications",
+                ExistingWorkPolicy.REPLACE,
+                notificationWork,
+            )
         }
     }
 }

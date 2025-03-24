@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    @DefaultUserFirebase private val userAuthentication: UserAuthentication
+    @DefaultUserFirebase private val userAuthentication: UserAuthentication,
 ) : ViewModel() {
     fun isUserAuthenticated() = userAuthentication.isUserAuthenticated()
 }

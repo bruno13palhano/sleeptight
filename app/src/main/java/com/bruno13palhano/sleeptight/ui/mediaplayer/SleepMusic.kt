@@ -9,5 +9,5 @@ data class SleepMusic(
     val artist: String,
     val genre: String,
     val source: Uri?,
-    val image: Uri?
+    val image: Uri?,
 )

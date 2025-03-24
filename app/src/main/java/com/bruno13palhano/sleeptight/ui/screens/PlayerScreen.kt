@@ -73,9 +73,7 @@ private var mediaI: MediaItem? = null
 
 @Composable
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
-fun PlayerScreen(
-    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
-) {
+fun PlayerScreen(lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current) {
     val context = LocalContext.current
     var isVisible by remember { mutableStateOf(false) }
 
@@ -106,7 +104,7 @@ fun PlayerScreen(
 private fun initializeController(context: Context, launched: () -> Unit) {
     controllerFuture = MediaController.Builder(
         context,
-        SessionToken(context, ComponentName(context, PlaybackService::class.java))
+        SessionToken(context, ComponentName(context, PlaybackService::class.java)),
     )
         .buildAsync()
     controllerFuture.addListener({ setController(launched) }, MoreExecutors.directExecutor())
@@ -127,7 +125,7 @@ private fun setController(launched: () -> Unit) {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 mediaI = mediaItem
             }
-        }
+        },
     )
 }
 
@@ -142,13 +140,11 @@ private fun updateCurrentPlaylistUI() {
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 @Composable
-fun PlayerContent(
-    context: Context,
-) {
+fun PlayerContent(context: Context) {
     Scaffold(
         topBar = {
             TopAppBar(title = { Text(text = stringResource(id = R.string.player_label)) })
-        }
+        },
     ) { paddingValues ->
         var isPlaying by remember { mutableStateOf(false) }
         var currentMusicIndex by remember { mutableIntStateOf(0) }
@@ -171,10 +167,7 @@ fun PlayerContent(
                             factory = { playerView },
                             update = { player ->
                                 player.player?.addListener(object : Player.Listener {
-                                    override fun onEvents(
-                                        player: Player,
-                                        events: Player.Events
-                                    ) {
+                                    override fun onEvents(player: Player, events: Player.Events) {
                                         currentMusicIndex = player.currentMediaItemIndex
                                         title = player.mediaMetadata.title.toString()
                                         artist = player.mediaMetadata.artist.toString()
@@ -182,12 +175,12 @@ fun PlayerContent(
                                         isPlaying = player.isPlaying
                                     }
                                 })
-                            }
+                            },
                         )
                         CurrentMediaCard(
                             title = title,
                             artist = artist,
-                            album = album
+                            album = album,
                         )
                     }
                 }
@@ -214,7 +207,7 @@ fun PlayerContent(
                             currentMusicIndex = playerView.player?.currentMediaItemIndex ?: 0
                             true
                         }
-                    }
+                    },
                 )
             }
         }
@@ -263,7 +256,7 @@ fun playerView(context: Context): PlayerView {
 @Composable
 fun PlayerScreenPreview() {
     PlayerContent(
-        context = LocalContext.current
+        context = LocalContext.current,
     )
 }
 
@@ -276,7 +269,7 @@ fun MusicItemList(
     title: String,
     artist: String,
     onItemClick: (index: Int) -> Unit,
-    onPlayPauseClick: () -> Unit
+    onPlayPauseClick: () -> Unit,
 ) {
     ElevatedCard(
         modifier = Modifier
@@ -284,7 +277,7 @@ fun MusicItemList(
             .padding(horizontal = 2.dp, vertical = 1.dp)
             .border(1.dp, MaterialTheme.colorScheme.inverseOnSurface, RoundedCornerShape(8.dp)),
         shape = RoundedCornerShape(8.dp),
-        onClick = { onItemClick(index) }
+        onClick = { onItemClick(index) },
     ) {
         Box(
             modifier = if (isCurrentMusic) {
@@ -293,21 +286,21 @@ fun MusicItemList(
                     .background(MaterialTheme.colorScheme.secondaryContainer)
             } else {
                 Modifier.fillMaxWidth()
-            }
+            },
         ) {
             Column {
                 Text(
                     modifier = Modifier
                         .padding(start = 16.dp, end = 16.dp, top = 8.dp),
                     text = title,
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
                     modifier = Modifier
                         .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 8.dp),
                     text = artist,
                     fontFamily = FontFamily.Serif,
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodySmall,
                 )
             }
 
@@ -315,17 +308,17 @@ fun MusicItemList(
                 IconButton(
                     modifier = Modifier
                         .align(Alignment.CenterEnd),
-                    onClick = onPlayPauseClick
+                    onClick = onPlayPauseClick,
                 ) {
                     if (isPlaying) {
                         Icon(
                             imageVector = Icons.Filled.Pause,
-                            contentDescription = stringResource(id = R.string.player_label)
+                            contentDescription = stringResource(id = R.string.player_label),
                         )
                     } else {
                         Icon(
                             imageVector = Icons.Filled.PlayArrow,
-                            contentDescription = stringResource(id = R.string.player_label)
+                            contentDescription = stringResource(id = R.string.player_label),
                         )
                     }
                 }
@@ -335,13 +328,9 @@ fun MusicItemList(
 }
 
 @Composable
-fun CurrentMediaCard(
-    title: String,
-    artist: String,
-    album: String,
-) {
+fun CurrentMediaCard(title: String, artist: String, album: String) {
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     ) {
         Image(
             modifier = Modifier
@@ -350,22 +339,22 @@ fun CurrentMediaCard(
                 .clip(CircleShape)
                 .border(2.dp, MaterialTheme.colorScheme.secondaryContainer, CircleShape),
             painter = painterResource(id = R.drawable.logo_1),
-            contentDescription = stringResource(id = R.string.baby_photo_label)
+            contentDescription = stringResource(id = R.string.baby_photo_label),
         )
         Column(
-            modifier = Modifier.align(Alignment.CenterVertically)
+            modifier = Modifier.align(Alignment.CenterVertically),
         ) {
             Text(
                 modifier = Modifier
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp),
                 text = title,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
             )
             Text(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, bottom = 4.dp),
                 text = "$artist, $album",
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
     }

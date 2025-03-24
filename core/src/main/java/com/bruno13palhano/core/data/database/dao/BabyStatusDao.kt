@@ -66,7 +66,9 @@ internal interface BabyStatusDao : CommonDataContract<BabyStatusEntity> {
      * Gets the last [BabyStatusEntity] inserted into the database.
      * @return a [Flow] of [BabyStatusEntity].
      */
-    @Query("SELECT * FROM baby_status_table WHERE id = (SELECT max(id) FROM " +
-            "baby_status_table)")
+    @Query(
+        "SELECT * FROM baby_status_table WHERE id = (SELECT max(id) FROM " +
+            "baby_status_table)",
+    )
     override fun getLast(): Flow<BabyStatusEntity>
 }

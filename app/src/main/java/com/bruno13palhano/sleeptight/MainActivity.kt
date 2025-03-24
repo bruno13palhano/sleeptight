@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
             SleepTightTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background,
                 ) {
                     val navController = rememberNavController()
                     var showBottomBar by rememberSaveable { mutableStateOf(false) }
@@ -60,15 +60,16 @@ class MainActivity : ComponentActivity() {
                             if (navBackStackEntry == null) {
                                 CircularProgress()
                             } else {
-                                if (showBottomBar)
+                                if (showBottomBar) {
                                     BottomNavigation(navController = navController)
+                                }
                             }
-                        }
+                        },
                     ) { paddingValues ->
                         SleepTightNavGraph(
                             modifier = Modifier.padding(paddingValues),
                             navController = navController,
-                            viewModelStoreOwner = this
+                            viewModelStoreOwner = this,
                         )
                     }
                 }
@@ -84,12 +85,12 @@ fun SleetTightTest() {
     SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             Scaffold(
                 bottomBar = {
                     BottomNavigation(navController = navController)
-                }
+                },
             ) { paddingValues ->
                 LocalViewModelStoreOwner.current?.let {
                     SleepTightNavGraph(

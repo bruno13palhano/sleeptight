@@ -34,7 +34,7 @@ fun NotificationsScreen(
     onItemClick: (notificationId: Long) -> Unit,
     onAddButtonClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
-    notificationsViewModel: NotificationsViewModel = hiltViewModel()
+    notificationsViewModel: NotificationsViewModel = hiltViewModel(),
 ) {
     val notificationList by notificationsViewModel.allNotifications.collectAsStateWithLifecycle()
 
@@ -45,9 +45,8 @@ fun NotificationsScreen(
         onAddButtonClick = onAddButtonClick,
         onDeleteItemClick = { notificationId ->
             notificationsViewModel.deleteNotification(notificationId) {
-
             }
-        }
+        },
     )
 }
 
@@ -58,7 +57,7 @@ fun NotificationsContent(
     onItemClick: (id: Long) -> Unit,
     onDeleteItemClick: (id: Long) -> Unit,
     onNavigationIconClick: () -> Unit,
-    onAddButtonClick: () -> Unit
+    onAddButtonClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -68,22 +67,21 @@ fun NotificationsContent(
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
+                            contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
-                }
+                },
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onAddButtonClick) {
                 Icon(
                     imageVector = Icons.Filled.Add,
-                    contentDescription = stringResource(id = R.string.add_button)
+                    contentDescription = stringResource(id = R.string.add_button),
                 )
             }
-        }
+        },
     ) {
-
         LazyColumn(modifier = Modifier.padding(it)) {
             items(items = notificationList, key = { notification ->
                 notification.id
@@ -93,7 +91,7 @@ fun NotificationsContent(
                     title = notification.title,
                     date = DateFormatUtil.format(notification.date),
                     onItemClick = { onItemClick(notification.id) },
-                    onDeleteItemClick = { onDeleteItemClick(notification.id) }
+                    onDeleteItemClick = { onDeleteItemClick(notification.id) },
                 )
             }
         }
@@ -112,22 +110,22 @@ fun NotificationsScreenPreview() {
                 description = "",
                 time = 0L,
                 date = 0L,
-                repeat = false
-            )
+                repeat = false,
+            ),
         )
     }
 
     SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             NotificationsContent(
                 notificationList = notificationList,
                 onItemClick = {},
                 onNavigationIconClick = {},
                 onAddButtonClick = {},
-                onDeleteItemClick = {}
+                onDeleteItemClick = {},
             )
         }
     }

@@ -11,12 +11,12 @@ package com.bruno13palhano.model
  * @property sleepingTime the Nap duration in milliseconds.
  * @property observation the observations about this Nap.
  */
-data class Nap (
+data class Nap(
     val id: Long,
     val title: String,
     val date: Long,
     val startTime: Long,
     val endTime: Long,
     val sleepingTime: Long,
-    val observation: String
+    val observation: String,
 )

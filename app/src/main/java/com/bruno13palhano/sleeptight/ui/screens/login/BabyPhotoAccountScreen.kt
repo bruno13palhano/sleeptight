@@ -1,6 +1,5 @@
 package com.bruno13palhano.sleeptight.ui.screens.login
 
-import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -38,14 +37,12 @@ import coil.compose.rememberAsyncImagePainter
 import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 import com.bruno13palhano.sleeptight.ui.util.getBytes
-import java.io.IOException
-import kotlin.jvm.Throws
 
 @Composable
 fun BabyPhotoAccountScreen(
     onNextButtonClick: () -> Unit,
     onNavigationIconButton: () -> Unit,
-    createAccountViewModel: CreateAccountViewModel
+    createAccountViewModel: CreateAccountViewModel,
 ) {
     val context = LocalContext.current
 
@@ -63,7 +60,7 @@ fun BabyPhotoAccountScreen(
         photoUri = createAccountViewModel.photoUri,
         onPhotoClick = { galleryLauncher.launch("image/*") },
         onNavigationIconButton = onNavigationIconButton,
-        onNextButtonClick = onNextButtonClick
+        onNextButtonClick = onNextButtonClick,
     )
 }
 
@@ -73,7 +70,7 @@ fun BabyPhotoAccountContent(
     photoUri: Uri,
     onPhotoClick: () -> Unit,
     onNavigationIconButton: () -> Unit,
-    onNextButtonClick: () -> Unit
+    onNextButtonClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -83,25 +80,25 @@ fun BabyPhotoAccountContent(
                     IconButton(onClick = onNavigationIconButton) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
+                            contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
-                }
+                },
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onNextButtonClick) {
                 Icon(
                     imageVector = Icons.Filled.NavigateNext,
-                    contentDescription = stringResource(id = R.string.next_label)
+                    contentDescription = stringResource(id = R.string.next_label),
                 )
             }
-        }
+        },
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(it)
+                .padding(it),
         ) {
             Image(
                 modifier = Modifier
@@ -113,7 +110,7 @@ fun BabyPhotoAccountContent(
                     .clickable { onPhotoClick() },
                 contentScale = ContentScale.Crop,
                 painter = rememberAsyncImagePainter(photoUri),
-                contentDescription = stringResource(id = R.string.baby_photo_label)
+                contentDescription = stringResource(id = R.string.baby_photo_label),
             )
         }
     }
@@ -125,13 +122,13 @@ fun BabyPhotoAccountScreen() {
     SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             BabyPhotoAccountContent(
                 photoUri = Uri.EMPTY,
                 onPhotoClick = {},
                 onNavigationIconButton = {},
-                onNextButtonClick = {}
+                onNextButtonClick = {},
             )
         }
     }

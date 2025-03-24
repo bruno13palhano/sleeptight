@@ -84,11 +84,11 @@ fun CircularProgress() {
             .fillMaxWidth()
             .fillMaxHeight(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         CircularProgressIndicator(
             modifier = Modifier.padding(16.dp),
-            strokeWidth = 4.dp
+            strokeWidth = 4.dp,
         )
     }
 }
@@ -97,16 +97,16 @@ fun CircularProgress() {
 fun CommonMenu(
     expanded: Boolean,
     onDismissRequest: (expanded: Boolean) -> Unit,
-    onClick: (index: Int) -> Unit
+    onClick: (index: Int) -> Unit,
 ) {
     val commonMenuItems = arrayOf(
         stringResource(id = R.string.delete_nap_label),
-        stringResource(id = R.string.share_label)
+        stringResource(id = R.string.share_label),
     )
 
     DropdownMenu(
         expanded = expanded,
-        onDismissRequest = { onDismissRequest(false) }
+        onDismissRequest = { onDismissRequest(false) },
     ) {
         commonMenuItems.forEachIndexed { index, itemValue ->
             DropdownMenuItem(
@@ -114,7 +114,7 @@ fun CommonMenu(
                 onClick = {
                     onDismissRequest(false)
                     onClick(index)
-                }
+                },
             )
         }
     }
@@ -131,7 +131,7 @@ fun TimePickerDialog(
     Dialog(
         onDismissRequest = onCancelButton,
         properties = DialogProperties(
-            usePlatformDefaultWidth = false
+            usePlatformDefaultWidth = false,
         ),
     ) {
         Surface(
@@ -142,41 +142,41 @@ fun TimePickerDialog(
                 .height(IntrinsicSize.Min)
                 .background(
                     shape = MaterialTheme.shapes.extraLarge,
-                    color = MaterialTheme.colorScheme.surface
+                    color = MaterialTheme.colorScheme.surface,
                 ),
         ) {
             toggle()
             Column(
                 modifier = Modifier.padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 20.dp),
                     text = title,
-                    style = MaterialTheme.typography.labelMedium
+                    style = MaterialTheme.typography.labelMedium,
                 )
                 content()
                 Row(
                     modifier = Modifier
                         .height(40.dp)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
                 ) {
                     Spacer(modifier = Modifier.weight(1f))
                     TextButton(
                         modifier = Modifier
                             .padding(horizontal = 8.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
                         ),
-                        onClick = onCancelButton
+                        onClick = onCancelButton,
                     ) { Text(text = stringResource(id = R.string.cancel_label)) }
                     TextButton(
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
                         ),
-                        onClick = onConfirmButton
+                        onClick = onConfirmButton,
                     ) { Text(text = stringResource(id = R.string.ok_label)) }
                 }
             }
@@ -191,7 +191,7 @@ fun ItemList(
     title: String,
     date: String,
     onItemClick: () -> Unit,
-    onDeleteItemClick: (id: Long) -> Unit
+    onDeleteItemClick: (id: Long) -> Unit,
 ) {
     ElevatedCard(
         modifier = Modifier
@@ -201,31 +201,31 @@ fun ItemList(
         onClick = onItemClick,
     ) {
         Box(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             Column {
                 Text(
                     modifier = Modifier
                         .padding(start = 16.dp, end = 16.dp, top = 8.dp),
                     text = title,
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
                     modifier = Modifier
                         .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 8.dp),
                     text = date,
                     fontFamily = FontFamily.Serif,
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodySmall,
                 )
             }
             IconButton(
                 modifier = Modifier
                     .align(Alignment.CenterEnd),
-                onClick = { onDeleteItemClick(id) }
+                onClick = { onDeleteItemClick(id) },
             ) {
                 Icon(
                     imageVector = Icons.Filled.Delete,
-                    contentDescription = stringResource(id = R.string.delete_label)
+                    contentDescription = stringResource(id = R.string.delete_label),
                 )
             }
         }
@@ -249,7 +249,7 @@ fun rememberIsKeyboardOpen(): State<Boolean> {
         val listener = ViewTreeObserver.OnGlobalLayoutListener { value = view.isKeyboardOpen() }
         viewTreeObserver.addOnGlobalLayoutListener(listener)
 
-        awaitDispose { viewTreeObserver.removeOnGlobalLayoutListener(listener)  }
+        awaitDispose { viewTreeObserver.removeOnGlobalLayoutListener(listener) }
     }
 }
 
@@ -295,7 +295,8 @@ internal fun rememberMarker(): Marker {
         padding = labelPadding,
         typeface = Typeface.MONOSPACE,
     )
-    val indicatorInnerComponent = shapeComponent(Shapes.pillShape, MaterialTheme.colorScheme.surface)
+    val indicatorInnerComponent =
+        shapeComponent(Shapes.pillShape, MaterialTheme.colorScheme.surface)
     val indicatorCenterComponent = shapeComponent(Shapes.pillShape, Color.White)
     val indicatorOuterComponent = shapeComponent(Shapes.pillShape, Color.White)
     val indicator = overlayingComponent(
@@ -328,11 +329,11 @@ internal fun rememberMarker(): Marker {
             override fun getInsets(
                 context: MeasureContext,
                 outInsets: Insets,
-                segmentProperties: SegmentProperties
+                segmentProperties: SegmentProperties,
             ) = with(context) {
                 outInsets.top = label.getHeight(context) + labelBackgroundShape.tickSizeDp.pixels +
-                        LABEL_BACKGROUND_SHADOW_RADIUS.pixels * SHADOW_RADIUS_MULTIPLIER -
-                        LABEL_BACKGROUND_SHADOW_DY.pixels
+                    LABEL_BACKGROUND_SHADOW_RADIUS.pixels * SHADOW_RADIUS_MULTIPLIER -
+                    LABEL_BACKGROUND_SHADOW_DY.pixels
             }
         }
     }
@@ -356,4 +357,5 @@ private val labelPadding = dimensionsOf(labelHorizontalPaddingValue, labelVertic
 private val indicatorInnerAndCenterComponentPaddingValue = 5.dp
 private val indicatorCenterAndOuterComponentPaddingValue = 10.dp
 private val guidelineThickness = 2.dp
-private val guidelineShape = DashedShape(Shapes.pillShape, GUIDELINE_DASH_LENGTH_DP, GUIDELINE_GAP_LENGTH_DP)
+private val guidelineShape =
+    DashedShape(Shapes.pillShape, GUIDELINE_DASH_LENGTH_DP, GUIDELINE_GAP_LENGTH_DP)

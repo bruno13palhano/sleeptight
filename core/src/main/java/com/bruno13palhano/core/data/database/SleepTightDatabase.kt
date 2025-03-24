@@ -16,10 +16,10 @@ import com.bruno13palhano.core.data.database.model.UserEntity
         NapEntity::class,
         UserEntity::class,
         BabyStatusEntity::class,
-        NotificationEntity::class
+        NotificationEntity::class,
     ],
     version = 1,
-    exportSchema = false
+    exportSchema = false,
 )
 internal abstract class SleepTightDatabase : RoomDatabase() {
     abstract val napDao: NapDao

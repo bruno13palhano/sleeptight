@@ -9,17 +9,17 @@ import com.bruno13palhano.sleeptight.ui.screens.ListsScreen
 
 fun NavGraphBuilder.listsNavGraph(
     navController: NavController,
-    viewModelStoreOwner: ViewModelStoreOwner
+    viewModelStoreOwner: ViewModelStoreOwner,
 ) {
     navigation(
         startDestination = ListsDestinations.ALL_LISTS_ROUTE,
-        route = SleepTightDestinations.LISTS_ROUTE
+        route = SleepTightDestinations.LISTS_ROUTE,
     ) {
         composable(route = ListsDestinations.ALL_LISTS_ROUTE) {
             ListsScreen(
                 onItemClick = {
                     navController.navigate(it)
-                }
+                },
             )
         }
 

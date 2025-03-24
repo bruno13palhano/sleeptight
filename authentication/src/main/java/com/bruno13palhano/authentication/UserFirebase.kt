@@ -12,14 +12,10 @@ import javax.inject.Singleton
 internal class UserFirebase @Inject constructor(
     private val auth: FirebaseAuth,
     private val firebaseFirestore: FirebaseFirestore,
-    private val storage: FirebaseStorage
+    private val storage: FirebaseStorage,
 ) : UserAuthentication {
 
-    override fun createUser(
-        user: User,
-        onSuccess: (userUid: String) -> Unit,
-        onFail: () -> Unit
-    ) {
+    override fun createUser(user: User, onSuccess: (userUid: String) -> Unit, onFail: () -> Unit) {
         auth.createUserWithEmailAndPassword(user.email, user.password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -33,7 +29,12 @@ internal class UserFirebase @Inject constructor(
             }
     }
 
-    override fun login(email: String, password: String, onSuccess: (user: User) -> Unit, onFail: () -> Unit) {
+    override fun login(
+        email: String,
+        password: String,
+        onSuccess: (user: User) -> Unit,
+        onFail: () -> Unit,
+    ) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -42,8 +43,7 @@ internal class UserFirebase @Inject constructor(
                             onSuccess(user)
                         },
                         onFail = {
-
-                        }
+                        },
                     )
                 } else {
                     onFail()
@@ -64,14 +64,11 @@ internal class UserFirebase @Inject constructor(
             id = auth.currentUser?.uid ?: "",
             username = auth.currentUser?.displayName ?: "",
             email = auth.currentUser?.email ?: "",
-            babyUrlPhoto = auth.currentUser?.photoUrl.toString()
+            babyUrlPhoto = auth.currentUser?.photoUrl.toString(),
         )
     }
 
-    private fun getCurrentUser(
-        onSuccess: (user: User) -> Unit,
-        onFail: () -> Unit
-    ) {
+    private fun getCurrentUser(onSuccess: (user: User) -> Unit, onFail: () -> Unit) {
         val id = auth.currentUser?.uid ?: ""
         val username = auth.currentUser?.displayName ?: ""
         val email = auth.currentUser?.email ?: ""
@@ -90,7 +87,7 @@ internal class UserFirebase @Inject constructor(
                     birthdate = it["birthdate"] as Long,
                     birthtime = it["birthtime"] as Long,
                     height = (it["height"] as Double).toFloat(),
-                    weight = (it["weight"] as Double).toFloat()
+                    weight = (it["weight"] as Double).toFloat(),
                 )
                 onSuccess(currentUser)
             }
@@ -102,7 +99,7 @@ internal class UserFirebase @Inject constructor(
     override fun updateUserUrlPhoto(
         photo: ByteArray,
         onSuccess: (newPhotoUrl: String, userUid: String) -> Unit,
-        onFail: () -> Unit
+        onFail: () -> Unit,
     ) {
         val storageRef = storage.reference
 
@@ -133,7 +130,7 @@ internal class UserFirebase @Inject constructor(
     override fun updateUsername(
         username: String,
         onSuccess: (newUsername: String, userUid: String) -> Unit,
-        onFail: () -> Unit
+        onFail: () -> Unit,
     ) {
         val profileUpdates = userProfileChangeRequest {
             displayName = username
@@ -152,7 +149,7 @@ internal class UserFirebase @Inject constructor(
                             override fun onFail() {
                                 onFail()
                             }
-                        }
+                        },
                     )
                 } else {
                     onFail()
@@ -182,7 +179,7 @@ internal class UserFirebase @Inject constructor(
             "birthdate" to user.birthdate,
             "birthtime" to user.birthtime,
             "height" to user.height,
-            "weight" to user.weight
+            "weight" to user.weight,
         )
         firebaseFirestore.collection("users")
             .document(userUid)
@@ -192,7 +189,7 @@ internal class UserFirebase @Inject constructor(
     private fun updateUsernameInFirebaseFirestore(
         newUsername: String,
         userUid: String,
-        callback: FirebaseFirestoreCallback
+        callback: FirebaseFirestoreCallback,
     ) {
         val usernameRef = firebaseFirestore.collection("users").document(userUid)
         usernameRef.update("username", newUsername)
@@ -208,7 +205,7 @@ internal class UserFirebase @Inject constructor(
         babyName: String,
         userUid: String,
         onSuccess: () -> Unit,
-        onFail: () -> Unit
+        onFail: () -> Unit,
     ) {
         val userRef = firebaseFirestore.collection("users").document(userUid)
         userRef.update("babyName", babyName)
@@ -224,7 +221,7 @@ internal class UserFirebase @Inject constructor(
         birthplace: String,
         userUid: String,
         onSuccess: () -> Unit,
-        onFail: () -> Unit
+        onFail: () -> Unit,
     ) {
         val userRef = firebaseFirestore.collection("users").document(userUid)
         userRef.update("birthplace", birthplace)
@@ -240,7 +237,7 @@ internal class UserFirebase @Inject constructor(
         birthdate: Long,
         userUid: String,
         onSuccess: () -> Unit,
-        onFail: () -> Unit
+        onFail: () -> Unit,
     ) {
         val userRef = firebaseFirestore.collection("users").document(userUid)
         userRef.update("birthdate", birthdate)
@@ -256,7 +253,7 @@ internal class UserFirebase @Inject constructor(
         birthtime: Long,
         userUid: String,
         onSuccess: () -> Unit,
-        onFail: () -> Unit
+        onFail: () -> Unit,
     ) {
         val userRef = firebaseFirestore.collection("users").document(userUid)
         userRef.update("birthtime", birthtime)
@@ -272,7 +269,7 @@ internal class UserFirebase @Inject constructor(
         height: Float,
         userUid: String,
         onSuccess: () -> Unit,
-        onFail: () -> Unit
+        onFail: () -> Unit,
     ) {
         val userRef = firebaseFirestore.collection("users").document(userUid)
         userRef.update("height", height)
@@ -288,7 +285,7 @@ internal class UserFirebase @Inject constructor(
         weight: Float,
         userUid: String,
         onSuccess: () -> Unit,
-        onFail: () -> Unit
+        onFail: () -> Unit,
     ) {
         val userRef = firebaseFirestore.collection("users").document(userUid)
         userRef.update("weight", weight)

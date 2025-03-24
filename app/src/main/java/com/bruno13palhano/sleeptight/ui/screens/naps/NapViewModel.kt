@@ -16,12 +16,12 @@ import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import com.bruno13palhano.sleeptight.ui.util.getHour
 import com.bruno13palhano.sleeptight.ui.util.getMinute
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class NapViewModel @Inject constructor(
-    @NapRep private val napRepository: CommonDataContract<Nap>
+    @NapRep private val napRepository: CommonDataContract<Nap>,
 ) : ViewModel() {
 
     var title by mutableStateOf("")
@@ -96,7 +96,7 @@ class NapViewModel @Inject constructor(
             startTime = startTimeInMillis,
             endTime = endTimeInMillis,
             sleepingTime = CalendarUtil.getSleepTime(startTimeInMillis, endTimeInMillis),
-            observation = observation
+            observation = observation,
         )
         viewModelScope.launch {
             napRepository.update(nap)

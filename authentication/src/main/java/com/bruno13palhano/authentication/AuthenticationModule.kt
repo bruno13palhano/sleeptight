@@ -25,9 +25,7 @@ internal abstract class AuthenticationModule {
     @DefaultUserFirebase
     @Singleton
     @Binds
-    abstract fun bindDefaultUserFirebase(
-        authentication: UserFirebase
-    ): UserAuthentication
+    abstract fun bindDefaultUserFirebase(authentication: UserFirebase): UserAuthentication
 }
 
 @InstallIn(SingletonComponent::class)

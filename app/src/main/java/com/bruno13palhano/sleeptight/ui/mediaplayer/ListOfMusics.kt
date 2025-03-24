@@ -13,7 +13,7 @@ import com.bruno13palhano.sleeptight.R
             artist = "SleepTight",
             genre = "White Noise",
             source = RawResourceDataSource.buildRawResourceUri(R.raw.fan),
-            image = null
+            image = null,
         ),
         SleepMusic(
             id = "heater_02",
@@ -22,7 +22,7 @@ import com.bruno13palhano.sleeptight.R
             artist = "SleepTight",
             genre = "White Noise",
             source = RawResourceDataSource.buildRawResourceUri(R.raw.heater),
-            image = null
+            image = null,
         ),
         SleepMusic(
             id = "ocean_03",
@@ -31,7 +31,7 @@ import com.bruno13palhano.sleeptight.R
             artist = "SleepTight",
             genre = "White Noise",
             source = RawResourceDataSource.buildRawResourceUri(R.raw.white_noise),
-            image = null
+            image = null,
         ),
         SleepMusic(
             id = "rain_04",
@@ -40,7 +40,7 @@ import com.bruno13palhano.sleeptight.R
             artist = "SleepTight",
             genre = "White Noise",
             source = RawResourceDataSource.buildRawResourceUri(R.raw.rain),
-            image = null
+            image = null,
         ),
         SleepMusic(
             id = "water_05",
@@ -49,7 +49,7 @@ import com.bruno13palhano.sleeptight.R
             artist = "SleepTight",
             genre = "White Noise",
             source = RawResourceDataSource.buildRawResourceUri(R.raw.water),
-            image = null
+            image = null,
         ),
         SleepMusic(
             id = "white_noise_06",
@@ -58,7 +58,7 @@ import com.bruno13palhano.sleeptight.R
             artist = "SleepTight",
             genre = "White Noise",
             source = RawResourceDataSource.buildRawResourceUri(R.raw.white_noise),
-            image = null
+            image = null,
         ),
         SleepMusic(
             id = "lullaby_07",
@@ -67,7 +67,7 @@ import com.bruno13palhano.sleeptight.R
             artist = "SleepTight",
             genre = "White Noise",
             source = RawResourceDataSource.buildRawResourceUri(R.raw.lullaby),
-            image = null
-        )
+            image = null,
+        ),
     )
 }

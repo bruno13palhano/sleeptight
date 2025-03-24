@@ -48,7 +48,7 @@ import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 fun NewNapDateScreen(
     onNextButtonClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
-    newNapViewModel: NewNapViewModel
+    newNapViewModel: NewNapViewModel,
 ) {
     val configuration = LocalConfiguration.current
     var showDatePickerDialog by remember { mutableStateOf(false) }
@@ -66,23 +66,23 @@ fun NewNapDateScreen(
                             newNapViewModel.updateDate(it)
                         }
                         showDatePickerDialog = false
-                    }
+                    },
                 ) {
                     Text(text = stringResource(id = R.string.date_label))
                 }
-            }
+            },
         ) {
             datePickerState = rememberDatePickerState(
                 initialSelectedDateMillis = newNapViewModel.dateInMillis,
                 initialDisplayMode = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        DisplayMode.Picker
-                    } else {
-                        DisplayMode.Input
-                    }
+                    DisplayMode.Picker
+                } else {
+                    DisplayMode.Input
+                },
             )
             DatePicker(
                 state = datePickerState,
-                showModeToggle = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+                showModeToggle = configuration.orientation == Configuration.ORIENTATION_PORTRAIT,
             )
         }
     }
@@ -91,7 +91,7 @@ fun NewNapDateScreen(
         date = newNapViewModel.date,
         onDateClick = { dateValue -> showDatePickerDialog = dateValue },
         onNavigationIconClick = onNavigationIconClick,
-        onNextButtonClick = onNextButtonClick
+        onNextButtonClick = onNextButtonClick,
     )
 }
 
@@ -101,7 +101,7 @@ fun NewNapDateContent(
     date: String,
     onDateClick: (show: Boolean) -> Unit,
     onNavigationIconClick: () -> Unit,
-    onNextButtonClick: () -> Unit
+    onNextButtonClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -111,25 +111,25 @@ fun NewNapDateContent(
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
+                            contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
-                }
+                },
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onNextButtonClick) {
                 Icon(
                     imageVector = Icons.Filled.NavigateNext,
-                    contentDescription = stringResource(id = R.string.next_label)
+                    contentDescription = stringResource(id = R.string.next_label),
                 )
             }
-        }
+        },
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(it)
+                .padding(it),
         ) {
             ElevatedCard(
                 modifier = Modifier
@@ -137,9 +137,9 @@ fun NewNapDateContent(
                     .sizeIn(maxWidth = 200.dp)
                     .align(Alignment.CenterHorizontally),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 ),
-                onClick = { onDateClick(true) }
+                onClick = { onDateClick(true) },
             ) {
                 Icon(
                     modifier = Modifier
@@ -147,7 +147,7 @@ fun NewNapDateContent(
                         .padding(8.dp)
                         .align(Alignment.CenterHorizontally),
                     imageVector = Icons.Filled.CalendarMonth,
-                    contentDescription = stringResource(id = R.string.date_label)
+                    contentDescription = stringResource(id = R.string.date_label),
                 )
 
                 Text(
@@ -156,7 +156,7 @@ fun NewNapDateContent(
                         .fillMaxWidth(),
                     text = date,
                     textAlign = TextAlign.Center,
-                    fontSize = 22.sp
+                    fontSize = 22.sp,
                 )
             }
         }
@@ -169,13 +169,13 @@ fun NewNapDateScreenPreview() {
     SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             NewNapDateContent(
                 date = "April 7, 2023",
                 onDateClick = {},
                 onNavigationIconClick = {},
-                onNextButtonClick = {}
+                onNextButtonClick = {},
             )
         }
     }

@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.Flow
  * This interface is responsible for handling [UserEntity] access to the Room database.
  */
 @Dao
-internal interface UserDao: UserDataContract<UserEntity> {
+internal interface UserDao : UserDataContract<UserEntity> {
 
     /**
      * Inserts a [UserEntity] into the database.

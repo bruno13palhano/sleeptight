@@ -1,4 +1,4 @@
- package com.bruno13palhano.sleeptight.ui.screens.babystatus
+package com.bruno13palhano.sleeptight.ui.screens.babystatus
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -29,12 +29,12 @@ import com.bruno13palhano.sleeptight.ui.screens.ItemList
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 
- @Composable
+@Composable
 fun BabyStatusListScreen(
     onItemClick: (babyStatusId: Long) -> Unit,
     onAddButtonClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
-    babyStatusListViewModel: BabyStatusListViewModel = hiltViewModel()
+    babyStatusListViewModel: BabyStatusListViewModel = hiltViewModel(),
 ) {
     val babyStatusList by babyStatusListViewModel.babyStatusList.collectAsStateWithLifecycle()
 
@@ -45,9 +45,8 @@ fun BabyStatusListScreen(
         onAddButtonClick = onAddButtonClick,
         onDeleteItemClick = { babyStatusId ->
             babyStatusListViewModel.deleteBabyStatus(babyStatusId) {
-
             }
-        }
+        },
     )
 }
 
@@ -58,7 +57,7 @@ fun BabyStatusContent(
     onItemClick: (id: Long) -> Unit,
     onDeleteItemClick: (id: Long) -> Unit,
     onNavigationIconClick: () -> Unit,
-    onAddButtonClick: () -> Unit
+    onAddButtonClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -68,34 +67,34 @@ fun BabyStatusContent(
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
+                            contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
-                }
+                },
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onAddButtonClick) {
                 Icon(
                     imageVector = Icons.Filled.Add,
-                    contentDescription = stringResource(id = R.string.add_button)
+                    contentDescription = stringResource(id = R.string.add_button),
                 )
             }
-        }
+        },
     ) {
         LazyColumn(modifier = Modifier.padding(it)) {
             items(
                 items = babyStatusList,
                 key = { babyStatus ->
                     babyStatus.id
-                }
+                },
             ) { babyStatus ->
                 ItemList(
                     id = babyStatus.id,
                     title = babyStatus.title,
                     date = DateFormatUtil.format(babyStatus.date),
                     onItemClick = { onItemClick(babyStatus.id) },
-                    onDeleteItemClick = { onDeleteItemClick(babyStatus.id) }
+                    onDeleteItemClick = { onDeleteItemClick(babyStatus.id) },
                 )
             }
         }
@@ -113,22 +112,22 @@ fun BabyStatusListScreenPreview() {
                 title = "${stringResource(id = R.string.baby_status_label)} $i",
                 date = 0L,
                 height = 0F,
-                weight = 0F
-            )
+                weight = 0F,
+            ),
         )
     }
 
     SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             BabyStatusContent(
                 babyStatusList = babyStatusList,
                 onItemClick = {},
                 onNavigationIconClick = {},
                 onAddButtonClick = {},
-                onDeleteItemClick = {}
+                onDeleteItemClick = {},
             )
         }
     }

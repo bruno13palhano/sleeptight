@@ -6,21 +6,21 @@ import com.bruno13palhano.core.data.data.CommonDataContract
 import com.bruno13palhano.core.data.di.BabyStatusRep
 import com.bruno13palhano.model.BabyStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class BabyStatusListViewModel @Inject constructor(
-    @BabyStatusRep private val babyStatusRepository: CommonDataContract<BabyStatus>
+    @BabyStatusRep private val babyStatusRepository: CommonDataContract<BabyStatus>,
 ) : ViewModel() {
 
     val babyStatusList = babyStatusRepository.getAll()
         .stateIn(
             scope = viewModelScope,
             started = WhileSubscribed(5_000),
-            initialValue = emptyList()
+            initialValue = emptyList(),
         )
 
     fun deleteBabyStatus(babyStatusId: Long, onBabyStatusDeleted: () -> Unit) {

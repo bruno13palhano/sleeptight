@@ -47,14 +47,14 @@ import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 fun NewNapEndTimeScreen(
     onDoneButtonClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
-    newNapViewModel: NewNapViewModel
+    newNapViewModel: NewNapViewModel,
 ) {
     val configuration = LocalConfiguration.current
     var showEndTimePickerDialog by remember { mutableStateOf(false) }
     val endTimePickerState = rememberTimePickerState(
         initialHour = newNapViewModel.endTimeHour,
         initialMinute = newNapViewModel.endTimeMinute,
-        is24Hour = true
+        is24Hour = true,
     )
 
     if (showEndTimePickerDialog) {
@@ -68,7 +68,7 @@ fun NewNapEndTimeScreen(
                     newNapViewModel.updateEndTime(it.hour, it.minute)
                 }
                 showEndTimePickerDialog = false
-            }
+            },
         ) {
             if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 TimePicker(state = endTimePickerState)
@@ -85,7 +85,7 @@ fun NewNapEndTimeScreen(
         onDoneButtonClick = {
             newNapViewModel.insertNap()
             onDoneButtonClick()
-        }
+        },
     )
 }
 
@@ -95,7 +95,7 @@ fun NewNapEndTimeContent(
     endTime: String,
     onEndTimeClick: (show: Boolean) -> Unit,
     onNavigationIconClick: () -> Unit,
-    onDoneButtonClick: () -> Unit
+    onDoneButtonClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -105,25 +105,25 @@ fun NewNapEndTimeContent(
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
+                            contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
-                }
+                },
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onDoneButtonClick) {
                 Icon(
                     imageVector = Icons.Filled.Done,
-                    contentDescription = stringResource(id = R.string.done_label)
+                    contentDescription = stringResource(id = R.string.done_label),
                 )
             }
-        }
+        },
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(it),
         ) {
             ElevatedCard(
                 modifier = Modifier
@@ -131,9 +131,9 @@ fun NewNapEndTimeContent(
                     .sizeIn(maxWidth = 200.dp)
                     .align(Alignment.CenterHorizontally),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 ),
-                onClick = { onEndTimeClick(true) }
+                onClick = { onEndTimeClick(true) },
             ) {
                 Icon(
                     modifier = Modifier
@@ -141,7 +141,7 @@ fun NewNapEndTimeContent(
                         .padding(8.dp)
                         .align(Alignment.CenterHorizontally),
                     imageVector = Icons.Filled.TimerOff,
-                    contentDescription = stringResource(id = R.string.end_time_label)
+                    contentDescription = stringResource(id = R.string.end_time_label),
                 )
 
                 Text(
@@ -150,7 +150,7 @@ fun NewNapEndTimeContent(
                         .fillMaxWidth(),
                     text = endTime,
                     textAlign = TextAlign.Center,
-                    fontSize = 22.sp
+                    fontSize = 22.sp,
                 )
             }
         }
@@ -163,13 +163,13 @@ fun NewNapEndTimeScreenPreview() {
     SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             NewNapEndTimeContent(
                 endTime = "13:10",
                 onEndTimeClick = {},
                 onNavigationIconClick = {},
-                onDoneButtonClick = {}
+                onDoneButtonClick = {},
             )
         }
     }

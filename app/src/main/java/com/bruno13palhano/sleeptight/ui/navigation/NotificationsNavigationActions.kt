@@ -3,7 +3,9 @@ package com.bruno13palhano.sleeptight.ui.navigation
 import androidx.navigation.NavController
 
 class NotificationsNavigationActions(navController: NavController) {
-    val navigateFromNotificationsToNotification: (notificationId: Long) -> Unit = { notificationId ->
+    val navigateFromNotificationsToNotification: (
+        notificationId: Long,
+    ) -> Unit = { notificationId ->
         navController.navigate("${NotificationsDestinations.NOTIFICATION_ROUTE}$notificationId") {
             popUpTo(NotificationsDestinations.NOTIFICATIONS_ROUTE)
         }

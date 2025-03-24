@@ -16,7 +16,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class StringResourceProvider @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
 ) {
 
     /**

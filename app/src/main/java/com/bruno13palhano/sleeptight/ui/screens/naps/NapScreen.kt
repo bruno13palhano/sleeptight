@@ -70,11 +70,7 @@ import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun NapScreen(
-    napId: Long,
-    navigateUp: () -> Unit,
-    napViewModel: NapViewModel = hiltViewModel()
-) {
+fun NapScreen(napId: Long, navigateUp: () -> Unit, napViewModel: NapViewModel = hiltViewModel()) {
     LaunchedEffect(key1 = Unit) {
         napViewModel.getNap(napId)
     }
@@ -103,11 +99,11 @@ fun NapScreen(
                         }
                         showDatePickerDialog = false
                         focusManager.clearFocus(force = true)
-                    }
+                    },
                 ) {
                     Text(text = stringResource(id = R.string.date_label))
                 }
-            }
+            },
         ) {
             datePickerState = rememberDatePickerState(
                 initialSelectedDateMillis = napViewModel.dateInMillis,
@@ -115,11 +111,11 @@ fun NapScreen(
                     DisplayMode.Picker
                 } else {
                     DisplayMode.Input
-                }
+                },
             )
             DatePicker(
                 state = datePickerState,
-                showModeToggle = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+                showModeToggle = configuration.orientation == Configuration.ORIENTATION_PORTRAIT,
             )
         }
     }
@@ -130,19 +126,19 @@ fun NapScreen(
             onCancelButton = {
                 showStartTimePicker = false
                 focusManager.clearFocus(force = true)
-           },
+            },
             onConfirmButton = {
                 startTimePickerState.let {
                     napViewModel.updateStartTime(it.hour, it.minute)
                 }
                 showStartTimePicker = false
                 focusManager.clearFocus(force = true)
-            }
+            },
         ) {
             startTimePickerState = rememberTimePickerState(
                 initialHour = napViewModel.startTimeHour,
                 initialMinute = napViewModel.startTimeMinute,
-                is24Hour = true
+                is24Hour = true,
             )
 
             if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -166,12 +162,12 @@ fun NapScreen(
                 }
                 showEndTimePicker = false
                 focusManager.clearFocus(force = true)
-            }
+            },
         ) {
             endTimePickerState = rememberTimePickerState(
                 initialHour = napViewModel.endTimeHour,
                 initialMinute = napViewModel.endTimeMinute,
-                is24Hour = true
+                is24Hour = true,
             )
 
             if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -209,7 +205,7 @@ fun NapScreen(
             napViewModel.updateNap(napId)
             navigateUp()
         },
-        navigateUp = navigateUp
+        navigateUp = navigateUp,
     )
 }
 
@@ -241,7 +237,7 @@ fun NapContent(
         modifier = Modifier
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = null
+                indication = null,
             ) { onOutsideClick() },
         topBar = {
             TopAppBar(
@@ -250,24 +246,26 @@ fun NapContent(
                     IconButton(onClick = navigateUp) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
+                            contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
                 },
                 actions = {
                     IconButton(
-                        onClick = { expanded = true }
+                        onClick = { expanded = true },
                     ) {
                         Box(contentAlignment = Alignment.Center) {
                             Icon(
                                 imageVector = Icons.Filled.MoreVert,
-                                contentDescription = stringResource(id = R.string.more_options_label)
+                                contentDescription = stringResource(
+                                    id = R.string.more_options_label,
+                                ),
                             )
 
                             Column(
                                 modifier = Modifier.fillMaxSize(),
                                 verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
+                                horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
                                 CommonMenu(
                                     expanded = expanded,
@@ -283,7 +281,7 @@ fun NapContent(
                                                 onShareItemClick()
                                             }
                                         }
-                                    }
+                                    },
                                 )
                             }
                         }
@@ -294,20 +292,21 @@ fun NapContent(
         floatingActionButton = {
             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                 FloatingActionButton(
-                    onClick = onActionDone
+                    onClick = onActionDone,
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Done,
-                        contentDescription = stringResource(id = R.string.done_label)
+                        contentDescription = stringResource(id = R.string.done_label),
                     )
                 }
             }
-        }
+        },
     ) {
-        Column(modifier = Modifier
-            .padding(it)
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+        Column(
+            modifier = Modifier
+                .padding(it)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
         ) {
             OutlinedTextField(
                 modifier = Modifier
@@ -318,7 +317,7 @@ fun NapContent(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Label,
-                        contentDescription = stringResource(id = R.string.title_label)
+                        contentDescription = stringResource(id = R.string.title_label),
                     )
                 },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -329,7 +328,7 @@ fun NapContent(
                 onValueChange = { titleValue -> onTitleChange(titleValue) },
                 singleLine = true,
                 label = { Text(text = stringResource(id = R.string.title_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) }
+                placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) },
             )
 
             OutlinedTextField(
@@ -337,21 +336,22 @@ fun NapContent(
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp)
                     .onFocusChanged { focusState ->
-                        if (focusState.hasFocus)
+                        if (focusState.hasFocus) {
                             onDateClick()
+                        }
                     },
                 value = date,
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.CalendarMonth,
-                        contentDescription = stringResource(id = R.string.date_label)
+                        contentDescription = stringResource(id = R.string.date_label),
                     )
                 },
                 onValueChange = {},
                 singleLine = true,
                 readOnly = true,
                 label = { Text(text = stringResource(id = R.string.date_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_date_label)) }
+                placeholder = { Text(text = stringResource(id = R.string.insert_date_label)) },
             )
 
             OutlinedTextField(
@@ -367,14 +367,18 @@ fun NapContent(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Timer,
-                        contentDescription = stringResource(id = R.string.start_time_label)
+                        contentDescription = stringResource(id = R.string.start_time_label),
                     )
                 },
                 onValueChange = {},
                 singleLine = true,
                 readOnly = true,
                 label = { Text(text = stringResource(id = R.string.start_time_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_start_time_label)) }
+                placeholder = {
+                    Text(
+                        text = stringResource(id = R.string.insert_start_time_label),
+                    )
+                },
             )
 
             OutlinedTextField(
@@ -390,14 +394,14 @@ fun NapContent(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.TimerOff,
-                        contentDescription = stringResource(id = R.string.end_time_label)
+                        contentDescription = stringResource(id = R.string.end_time_label),
                     )
                 },
                 onValueChange = {},
                 singleLine = true,
                 readOnly = true,
                 label = { Text(text = stringResource(id = R.string.end_time_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_end_time_label)) }
+                placeholder = { Text(text = stringResource(id = R.string.insert_end_time_label)) },
             )
 
             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -412,11 +416,13 @@ fun NapContent(
                         Row(
                             modifier = Modifier
                                 .fillMaxHeight()
-                                .padding(top = 16.dp)
+                                .padding(top = 16.dp),
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.Description,
-                                contentDescription = stringResource(id = R.string.description_label)
+                                contentDescription = stringResource(
+                                    id = R.string.description_label,
+                                ),
                             )
                         }
                     },
@@ -427,7 +433,11 @@ fun NapContent(
                     }),
                     onValueChange = { observationValue -> onObservationChange(observationValue) },
                     label = { Text(text = stringResource(id = R.string.observation_label)) },
-                    placeholder = { Text(text = stringResource(id = R.string.insert_observations_label)) }
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.insert_observations_label),
+                        )
+                    },
                 )
             } else {
                 OutlinedTextField(
@@ -442,11 +452,13 @@ fun NapContent(
                             modifier = Modifier
                                 .fillMaxHeight()
                                 .sizeIn(minHeight = 200.dp)
-                                .padding(top = 16.dp)
+                                .padding(top = 16.dp),
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.Description,
-                                contentDescription = stringResource(id = R.string.description_label)
+                                contentDescription = stringResource(
+                                    id = R.string.description_label,
+                                ),
                             )
                         }
                     },
@@ -457,18 +469,22 @@ fun NapContent(
                     }),
                     onValueChange = { observationValue -> onObservationChange(observationValue) },
                     label = { Text(text = stringResource(id = R.string.observation_label)) },
-                    placeholder = { Text(text = stringResource(id = R.string.insert_observations_label)) }
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.insert_observations_label),
+                        )
+                    },
                 )
 
                 FloatingActionButton(
                     modifier = Modifier
                         .align(Alignment.End)
                         .padding(16.dp),
-                    onClick = onActionDone
+                    onClick = onActionDone,
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Done,
-                        contentDescription = stringResource(id = R.string.done_label)
+                        contentDescription = stringResource(id = R.string.done_label),
                     )
                 }
             }
@@ -482,7 +498,7 @@ fun NapScreenPreview() {
     SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             NapContent(
                 orientation = 1,
@@ -502,7 +518,7 @@ fun NapScreenPreview() {
                 onDeleteItemClick = {},
                 onShareItemClick = {},
                 onActionDone = {},
-                navigateUp = {}
+                navigateUp = {},
             )
         }
     }

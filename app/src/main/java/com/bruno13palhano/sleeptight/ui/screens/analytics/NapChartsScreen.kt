@@ -47,7 +47,7 @@ import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 @Composable
 fun NapChartsScreen(
     onNavigationIconClick: () -> Unit,
-    viewModel: AnalyticsNapChartViewModel = hiltViewModel()
+    viewModel: AnalyticsNapChartViewModel = hiltViewModel(),
 ) {
     val allNaps by viewModel.allNapChartUi.collectAsStateWithLifecycle()
     val monthChart by viewModel.monthNapChartUi.collectAsStateWithLifecycle()
@@ -103,7 +103,7 @@ fun NapChartsContent(
     menuItems: Array<String>,
     onExpandedChange: (expanded: Boolean) -> Unit,
     onMenuItemClick: (index: Int) -> Unit,
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -113,7 +113,7 @@ fun NapChartsContent(
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
+                            contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
                 },
@@ -121,22 +121,24 @@ fun NapChartsContent(
                     IconButton(
                         onClick = {
                             onExpandedChange(true)
-                        }
+                        },
                     ) {
                         Box(contentAlignment = Alignment.Center) {
                             Icon(
                                 imageVector = Icons.Filled.MoreVert,
-                                contentDescription = stringResource(id = R.string.more_options_label)
+                                contentDescription = stringResource(
+                                    id = R.string.more_options_label,
+                                ),
                             )
 
                             Column(
                                 modifier = Modifier.fillMaxSize(),
                                 verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
+                                horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
                                 DropdownMenu(
                                     expanded = expanded,
-                                    onDismissRequest = { onExpandedChange(false) }
+                                    onDismissRequest = { onExpandedChange(false) },
                                 ) {
                                     menuItems.forEachIndexed { index, itemValue ->
                                         DropdownMenuItem(
@@ -144,23 +146,25 @@ fun NapChartsContent(
                                             onClick = {
                                                 onMenuItemClick(index)
                                                 onExpandedChange(false)
-                                            }
+                                            },
                                         )
                                     }
                                 }
                             }
                         }
                     }
-                }
+                },
             )
-        }
+        },
     ) {
         Column(modifier = Modifier.padding(it)) {
             val axisValueFormatter =
                 AxisValueFormatter<AxisPosition.Horizontal.Bottom> { value, chartValues ->
                     try {
-                        (chartValues.chartEntryModel.entries.first()
-                            .getOrNull(value.toInt()) as? NapChartEntry)
+                        (
+                            chartValues.chartEntryModel.entries.first()
+                                .getOrNull(value.toInt()) as? NapChartEntry
+                            )
                             ?.date
                             .orEmpty()
                     } catch (ignored: Exception) {
@@ -169,10 +173,12 @@ fun NapChartsContent(
                 }
 
             ProvideChartStyle(
-                chartStyle = m3ChartStyle(entityColors = listOf(
-                    MaterialTheme.colorScheme.primary,
-                    MaterialTheme.colorScheme.secondary
-                ))
+                chartStyle = m3ChartStyle(
+                    entityColors = listOf(
+                        MaterialTheme.colorScheme.primary,
+                        MaterialTheme.colorScheme.secondary,
+                    ),
+                ),
             ) {
                 val marker = rememberMarker()
                 Chart(
@@ -189,7 +195,7 @@ fun NapChartsContent(
                         bottomAxis()
                     } else {
                         bottomAxis(guideline = null, valueFormatter = axisValueFormatter)
-                    }
+                    },
                 )
             }
         }
@@ -205,7 +211,7 @@ fun NapChartsScreenPreview() {
         menuItems = arrayOf(),
         onExpandedChange = {},
         onMenuItemClick = {},
-        onNavigationIconClick = {}
+        onNavigationIconClick = {},
     )
 }
 

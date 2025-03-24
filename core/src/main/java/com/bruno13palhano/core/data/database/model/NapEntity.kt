@@ -40,7 +40,7 @@ internal data class NapEntity(
     val endTime: Long,
 
     @ColumnInfo(name = "observation")
-    val observation: String
+    val observation: String,
 )
 
 /**
@@ -54,7 +54,7 @@ internal fun NapEntity.asNap() = Nap(
     startTime = startTime,
     endTime = endTime,
     sleepingTime = sleepingTime,
-    observation = observation
+    observation = observation,
 )
 
 /**
@@ -68,5 +68,5 @@ internal fun Nap.asNapEntity() = NapEntity(
     startTime = startTime,
     endTime = endTime,
     sleepingTime = sleepingTime,
-    observation = observation
+    observation = observation,
 )

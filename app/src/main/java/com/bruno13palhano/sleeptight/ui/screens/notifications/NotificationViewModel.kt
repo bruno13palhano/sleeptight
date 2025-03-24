@@ -16,12 +16,12 @@ import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import com.bruno13palhano.sleeptight.ui.util.getHour
 import com.bruno13palhano.sleeptight.ui.util.getMinute
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
-    @NotificationRep private val notificationRepository: CommonDataContract<Notification>
+    @NotificationRep private val notificationRepository: CommonDataContract<Notification>,
 ) : ViewModel() {
 
     var title by mutableStateOf("")
@@ -90,7 +90,7 @@ class NotificationViewModel @Inject constructor(
             description = description,
             repeat = repeat,
             time = timeInMillis,
-            date = dateInMillis
+            date = dateInMillis,
         )
         viewModelScope.launch {
             notificationRepository.update(notification)

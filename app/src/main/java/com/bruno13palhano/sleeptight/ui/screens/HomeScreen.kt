@@ -47,7 +47,7 @@ fun HomeScreen(
     navigateToLastBabyStatus: (id: Long) -> Unit,
     navigateToLastNap: (id: Long) -> Unit,
     navigateToLastNotification: (id: Long) -> Unit,
-    homeViewModel: HomeViewModel = hiltViewModel()
+    homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
     val homeState by homeViewModel.homeState.collectAsStateWithLifecycle()
     val babyInfoState by homeViewModel.babyInfoState.collectAsStateWithLifecycle()
@@ -77,7 +77,7 @@ fun HomeScreen(
                 napSleepingTime = napState.sleepingTime,
                 navigateToLastBabyStatus = navigateToLastBabyStatus,
                 navigateToLastNap = navigateToLastNap,
-                navigateToLastNotification = navigateToLastNotification
+                navigateToLastNotification = navigateToLastNotification,
             )
         }
         HomeViewModel.HomeState.NotLoggedIn -> {
@@ -107,30 +107,34 @@ fun HomeContent(
     napSleepingTime: String,
     navigateToLastBabyStatus: (id: Long) -> Unit,
     navigateToLastNap: (id: Long) -> Unit,
-    navigateToLastNotification: (id: Long) -> Unit
+    navigateToLastNotification: (id: Long) -> Unit,
 ) {
     Scaffold(
         topBar = {
             TopAppBar(title = { Text(text = stringResource(id = R.string.app_name)) })
-        }
+        },
     ) {
         Column(
             modifier = Modifier
                 .padding(it)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
         ) {
             ElevatedCard(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp)
-                    .border(1.dp, MaterialTheme.colorScheme.inverseOnSurface, RoundedCornerShape(8.dp)),
+                    .border(
+                        1.dp,
+                        MaterialTheme.colorScheme.inverseOnSurface,
+                        RoundedCornerShape(8.dp),
+                    ),
                 shape = RoundedCornerShape(8.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer
-                )
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                ),
             ) {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
                 ) {
                     Image(
                         modifier = Modifier
@@ -139,7 +143,7 @@ fun HomeContent(
                             .sizeIn(maxHeight = 368.dp, minHeight = 368.dp),
                         painter = painterResource(id = R.drawable.logo_1),
                         contentDescription = stringResource(id = R.string.baby_photo_label),
-                        contentScale = ContentScale.Crop
+                        contentScale = ContentScale.Crop,
                     )
 
                     Text(
@@ -148,7 +152,7 @@ fun HomeContent(
                             .padding(top = 24.dp, start = 16.dp, end = 16.dp),
                         text = stringResource(id = R.string.welcome_label, momName, babyName),
                         style = MaterialTheme.typography.titleLarge,
-                        fontStyle = FontStyle.Italic
+                        fontStyle = FontStyle.Italic,
                     )
 
                     Image(
@@ -161,7 +165,7 @@ fun HomeContent(
                             .border(2.dp, MaterialTheme.colorScheme.inverseOnSurface, CircleShape),
                         contentScale = ContentScale.Crop,
                         painter = rememberAsyncImagePainter(profileImage),
-                        contentDescription = stringResource(id = R.string.baby_photo_label)
+                        contentDescription = stringResource(id = R.string.baby_photo_label),
                     )
                 }
             }
@@ -170,8 +174,8 @@ fun HomeContent(
                 modifier = Modifier
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.inverseOnSurface
-                )
+                    containerColor = MaterialTheme.colorScheme.inverseOnSurface,
+                ),
             ) {
                 ElevatedCard(
                     modifier = Modifier
@@ -179,18 +183,21 @@ fun HomeContent(
                         .padding(top = 4.dp, start = 4.dp, end = 4.dp),
                     shape = RoundedCornerShape(8.dp),
                     onClick = {
-                        if (babyId != 0L)
+                        if (babyId != 0L) {
                             navigateToLastBabyStatus(babyId)
-                    }
+                        }
+                    },
                 ) {
                     Text(
                         modifier = Modifier
                             .padding(16.dp),
                         text = stringResource(
                             id = R.string.home_last_measurements_label,
-                            babyDate, babyHeight, babyWeight
+                            babyDate,
+                            babyHeight,
+                            babyWeight,
                         ),
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
                     )
                 }
 
@@ -202,16 +209,17 @@ fun HomeContent(
                         shape = RoundedCornerShape(8.dp),
                         onClick = {
                             navigateToLastNap(napId)
-                        }
+                        },
                     ) {
                         Text(
                             modifier = Modifier
                                 .padding(16.dp),
                             text = stringResource(
                                 id = R.string.home_last_nap_label,
-                                napDate, napSleepingTime
+                                napDate,
+                                napSleepingTime,
                             ),
-                            style = MaterialTheme.typography.titleMedium
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     }
                 }
@@ -224,16 +232,17 @@ fun HomeContent(
                         shape = RoundedCornerShape(8.dp),
                         onClick = {
                             navigateToLastNotification(notificationId)
-                        }
+                        },
                     ) {
                         Text(
                             modifier = Modifier
                                 .padding(16.dp),
                             text = stringResource(
                                 id = R.string.home_last_notification_label,
-                                notificationDate, notificationTitle
+                                notificationDate,
+                                notificationTitle,
                             ),
-                            style = MaterialTheme.typography.titleMedium
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     }
                 }
@@ -249,7 +258,7 @@ fun HomePreview() {
     SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             HomeContent(
                 babyName = "Baby",
@@ -268,7 +277,7 @@ fun HomePreview() {
                 napSleepingTime = "12:12",
                 navigateToLastBabyStatus = {},
                 navigateToLastNap = {},
-                navigateToLastNotification = {}
+                navigateToLastNotification = {},
             )
         }
     }

@@ -35,7 +35,7 @@ fun EmailField(
     email: String,
     modifier: Modifier,
     onEmailChange: (email: String) -> Unit,
-    onDone: () -> Unit
+    onDone: () -> Unit,
 ) {
     OutlinedTextField(
         modifier = modifier,
@@ -43,7 +43,7 @@ fun EmailField(
         leadingIcon = {
             Icon(
                 imageVector = Icons.Filled.Email,
-                contentDescription = stringResource(id = R.string.email_label)
+                contentDescription = stringResource(id = R.string.email_label),
             )
         },
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -56,7 +56,7 @@ fun EmailField(
         },
         singleLine = true,
         label = { Text(text = stringResource(id = R.string.email_label)) },
-        placeholder = { Text(text = stringResource(id = R.string.insert_email_label)) }
+        placeholder = { Text(text = stringResource(id = R.string.insert_email_label)) },
     )
 }
 
@@ -67,7 +67,7 @@ fun PasswordField(
     modifier: Modifier,
     onPasswordChange: (password: String) -> Unit,
     showPasswordCallback: (showPassword: Boolean) -> Unit,
-    onDone: () -> Unit
+    onDone: () -> Unit,
 ) {
     OutlinedTextField(
         modifier = modifier,
@@ -75,7 +75,7 @@ fun PasswordField(
         leadingIcon = {
             Icon(
                 imageVector = Icons.Filled.Key,
-                contentDescription = stringResource(id = R.string.password_label)
+                contentDescription = stringResource(id = R.string.password_label),
             )
         },
         trailingIcon = {
@@ -83,21 +83,21 @@ fun PasswordField(
                 IconButton(onClick = { showPasswordCallback(false) }) {
                     Icon(
                         imageVector = Icons.Filled.Visibility,
-                        contentDescription = stringResource(id = R.string.hide_password_label)
+                        contentDescription = stringResource(id = R.string.hide_password_label),
                     )
                 }
             } else {
                 IconButton(onClick = { showPasswordCallback(true) }) {
                     Icon(
                         imageVector = Icons.Filled.VisibilityOff,
-                        contentDescription = stringResource(id = R.string.show_password_label)
+                        contentDescription = stringResource(id = R.string.show_password_label),
                     )
                 }
             }
         },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,
-            imeAction = ImeAction.Done
+            imeAction = ImeAction.Done,
         ),
         keyboardActions = KeyboardActions(onDone = {
             this.defaultKeyboardAction(ImeAction.Done)
@@ -113,7 +113,7 @@ fun PasswordField(
         },
         singleLine = true,
         label = { Text(text = stringResource(id = R.string.password_label)) },
-        placeholder = { Text(text = stringResource(id = R.string.insert_password_label)) }
+        placeholder = { Text(text = stringResource(id = R.string.insert_password_label)) },
     )
 }
 
@@ -122,7 +122,7 @@ fun UsernameField(
     username: String,
     modifier: Modifier,
     onUsernameChange: (username: String) -> Unit,
-    onDone: () -> Unit
+    onDone: () -> Unit,
 ) {
     OutlinedTextField(
         modifier = modifier,
@@ -130,7 +130,7 @@ fun UsernameField(
         leadingIcon = {
             Icon(
                 imageVector = Icons.Filled.Label,
-                contentDescription = stringResource(id = R.string.username_label)
+                contentDescription = stringResource(id = R.string.username_label),
             )
         },
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -143,7 +143,7 @@ fun UsernameField(
         },
         singleLine = true,
         label = { Text(text = stringResource(id = R.string.username_label)) },
-        placeholder = { Text(text = stringResource(id = R.string.insert_username_label)) }
+        placeholder = { Text(text = stringResource(id = R.string.insert_username_label)) },
     )
 }
 
@@ -153,7 +153,7 @@ fun BabyNameField(
     isEnabled: Boolean = true,
     modifier: Modifier,
     onBabyNameChange: (babyName: String) -> Unit,
-    onDone: () -> Unit
+    onDone: () -> Unit,
 ) {
     OutlinedTextField(
         modifier = modifier,
@@ -161,7 +161,7 @@ fun BabyNameField(
         leadingIcon = {
             Icon(
                 imageVector = Icons.Filled.Label,
-                contentDescription = stringResource(id = R.string.baby_name_label)
+                contentDescription = stringResource(id = R.string.baby_name_label),
             )
         },
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -175,7 +175,7 @@ fun BabyNameField(
         singleLine = true,
         enabled = isEnabled,
         label = { Text(text = stringResource(id = R.string.baby_name_label)) },
-        placeholder = { Text(text = stringResource(id = R.string.insert_baby_name_label)) }
+        placeholder = { Text(text = stringResource(id = R.string.insert_baby_name_label)) },
     )
 }
 
@@ -185,7 +185,7 @@ fun BirthplaceField(
     isEnabled: Boolean = true,
     modifier: Modifier,
     onBirthplaceChange: (birthplace: String) -> Unit,
-    onDone: () -> Unit
+    onDone: () -> Unit,
 ) {
     OutlinedTextField(
         modifier = modifier,
@@ -193,7 +193,7 @@ fun BirthplaceField(
         leadingIcon = {
             Icon(
                 imageVector = Icons.Filled.LocationOn,
-                contentDescription = stringResource(id = R.string.birthplace_label)
+                contentDescription = stringResource(id = R.string.birthplace_label),
             )
         },
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -207,16 +207,12 @@ fun BirthplaceField(
         singleLine = true,
         enabled = isEnabled,
         label = { Text(text = stringResource(id = R.string.birthplace_label)) },
-        placeholder = { Text(text = stringResource(id = R.string.insert_birthplace_label)) }
+        placeholder = { Text(text = stringResource(id = R.string.insert_birthplace_label)) },
     )
 }
 
 @Composable
-fun DateField(
-    date: String,
-    modifier: Modifier,
-    isEnabled: Boolean = true
-) {
+fun DateField(date: String, modifier: Modifier, isEnabled: Boolean = true) {
     OutlinedTextField(
         modifier = modifier,
         value = date,
@@ -224,7 +220,7 @@ fun DateField(
         leadingIcon = {
             Icon(
                 imageVector = Icons.Filled.CalendarMonth,
-                contentDescription = stringResource(id = R.string.birth_date_label)
+                contentDescription = stringResource(id = R.string.birth_date_label),
             )
         },
         onValueChange = {},
@@ -233,18 +229,14 @@ fun DateField(
         label = {
             Text(
                 text = stringResource(id = R.string.birth_date_label),
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
         },
     )
 }
 
 @Composable
-fun TimeField(
-    time: String,
-    modifier: Modifier,
-    isEnabled: Boolean = true
-) {
+fun TimeField(time: String, modifier: Modifier, isEnabled: Boolean = true) {
     OutlinedTextField(
         modifier = modifier,
         value = time,
@@ -252,7 +244,7 @@ fun TimeField(
         leadingIcon = {
             Icon(
                 imageVector = Icons.Filled.Timer,
-                contentDescription = stringResource(id = R.string.birth_time_label)
+                contentDescription = stringResource(id = R.string.birth_time_label),
             )
         },
         onValueChange = {},
@@ -268,7 +260,7 @@ fun HeightField(
     isEnabled: Boolean = true,
     modifier: Modifier,
     onHeightChange: (height: String) -> Unit,
-    onDone: () -> Unit
+    onDone: () -> Unit,
 ) {
     val decimalFormat = DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
     val decimalSeparator = decimalFormat.decimalFormatSymbols.decimalSeparator
@@ -280,12 +272,12 @@ fun HeightField(
         leadingIcon = {
             Icon(
                 imageVector = Icons.Filled.SquareFoot,
-                contentDescription = stringResource(id = R.string.birth_height_label)
+                contentDescription = stringResource(id = R.string.birth_height_label),
             )
         },
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done,
-            keyboardType = KeyboardType.Decimal
+            keyboardType = KeyboardType.Decimal,
         ),
         keyboardActions = KeyboardActions(onDone = {
             this.defaultKeyboardAction(ImeAction.Done)
@@ -299,7 +291,7 @@ fun HeightField(
         singleLine = true,
         enabled = isEnabled,
         label = { Text(text = stringResource(id = R.string.birth_height_label)) },
-        placeholder = { Text(text = stringResource(id = R.string.insert_height_label)) }
+        placeholder = { Text(text = stringResource(id = R.string.insert_height_label)) },
     )
 }
 
@@ -309,7 +301,7 @@ fun WeightField(
     isEnabled: Boolean = true,
     modifier: Modifier,
     onWeightChange: (weight: String) -> Unit,
-    onDone: () -> Unit
+    onDone: () -> Unit,
 ) {
     val decimalFormat = DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
     val decimalSeparator = decimalFormat.decimalFormatSymbols.decimalSeparator
@@ -321,12 +313,12 @@ fun WeightField(
         leadingIcon = {
             Icon(
                 imageVector = Icons.Filled.Balance,
-                contentDescription = stringResource(id = R.string.birth_weight_label)
+                contentDescription = stringResource(id = R.string.birth_weight_label),
             )
         },
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done,
-            keyboardType = KeyboardType.Decimal
+            keyboardType = KeyboardType.Decimal,
         ),
         keyboardActions = KeyboardActions(onDone = {
             this.defaultKeyboardAction(ImeAction.Done)
@@ -340,6 +332,6 @@ fun WeightField(
         singleLine = true,
         enabled = isEnabled,
         label = { Text(text = stringResource(id = R.string.birth_weight_label)) },
-        placeholder = { Text(text = stringResource(id = R.string.insert_weight_label)) }
+        placeholder = { Text(text = stringResource(id = R.string.insert_weight_label)) },
     )
 }

@@ -14,7 +14,7 @@ private const val PRIMARY_CHANNEL_DESCRIPTION = "Notifies users"
 
 class AlarmNotification(
     private val notificationManager: NotificationManager,
-    private val alarmManager: AlarmManager
+    private val alarmManager: AlarmManager,
 ) {
 
     fun cancelNotification(notifyPendingIntent: PendingIntent, notificationId: Int) {
@@ -28,7 +28,7 @@ class AlarmNotification(
         notificationId: Int,
         time: Long,
         date: Long,
-        repeat: Boolean
+        repeat: Boolean,
     ) {
         notificationManager.cancel(notificationId)
         setAlarmManager(notifyPendingIntent, time, date, repeat)
@@ -38,7 +38,7 @@ class AlarmNotification(
         notifyPendingIntent: PendingIntent,
         time: Long,
         date: Long,
-        repeat: Boolean
+        repeat: Boolean,
     ) {
         val dateAndTime = getNotificationDateAndTime(time, date)
 
@@ -47,13 +47,13 @@ class AlarmNotification(
                 AlarmManager.RTC_WAKEUP,
                 dateAndTime,
                 AlarmManager.INTERVAL_DAY,
-                notifyPendingIntent
+                notifyPendingIntent,
             )
         } else {
             alarmManager.set(
                 AlarmManager.RTC_WAKEUP,
                 dateAndTime,
-                notifyPendingIntent
+                notifyPendingIntent,
             )
         }
 
@@ -80,7 +80,9 @@ class AlarmNotification(
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel = NotificationChannel(
-                PRIMARY_CHANNEL_ID, PRIMARY_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH
+                PRIMARY_CHANNEL_ID,
+                PRIMARY_CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_HIGH,
             )
 
             notificationChannel.enableLights(true)

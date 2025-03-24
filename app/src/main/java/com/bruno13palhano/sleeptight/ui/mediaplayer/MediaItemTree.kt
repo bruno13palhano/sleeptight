@@ -37,8 +37,8 @@ import com.google.common.collect.ImmutableList
         artist: String? = null,
         genre: String? = null,
         sourceUri: Uri? = null,
-        imageUri: Uri? = null
-    ) : MediaItem {
+        imageUri: Uri? = null,
+    ): MediaItem {
         val metadata = MediaMetadata.Builder()
             .setAlbumTitle(album)
             .setTitle(title)
@@ -65,11 +65,11 @@ import com.google.common.collect.ImmutableList
         treeNodes[ROOT_ID] = MediaItemNode(
             buildMediaItem(
                 title = "Root Folder",
-                mediaId =  ROOT_ID,
+                mediaId = ROOT_ID,
                 isPlayable = false,
                 isBrowsable = true,
-                mediaType = MediaMetadata.MEDIA_TYPE_FOLDER_MIXED
-            )
+                mediaType = MediaMetadata.MEDIA_TYPE_FOLDER_MIXED,
+            ),
         )
 
         treeNodes[ALL_ITEMS] = MediaItemNode(
@@ -78,8 +78,8 @@ import com.google.common.collect.ImmutableList
                 mediaId = ALL_ITEMS,
                 isPlayable = false,
                 isBrowsable = true,
-                mediaType = MediaMetadata.MEDIA_TYPE_MUSIC
-            )
+                mediaType = MediaMetadata.MEDIA_TYPE_MUSIC,
+            ),
         )
 
         treeNodes[ROOT_ID]!!.addChild(ALL_ITEMS)
@@ -105,8 +105,8 @@ import com.google.common.collect.ImmutableList
                     artist = sleepMusic.artist,
                     genre = sleepMusic.genre,
                     sourceUri = sleepMusic.source,
-                    imageUri = sleepMusic.image
-                )
+                    imageUri = sleepMusic.image,
+                ),
             )
             treeNodes[ALL_ITEMS]!!.addChild(allMusicsInTree)
         }

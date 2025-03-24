@@ -66,7 +66,9 @@ internal interface NotificationDao : CommonDataContract<NotificationEntity> {
      * Gets the last [NotificationEntity] inserted into the database.
      * @return a [Flow] of [NotificationEntity].
      */
-    @Query("SElECT * FROM notification_table WHERE id = (SELECT max(id) FROM " +
-            "notification_table)")
+    @Query(
+        "SElECT * FROM notification_table WHERE id = (SELECT max(id) FROM " +
+            "notification_table)",
+    )
     override fun getLast(): Flow<NotificationEntity>
 }

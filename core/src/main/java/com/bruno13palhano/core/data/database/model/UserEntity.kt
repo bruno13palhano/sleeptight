@@ -52,7 +52,7 @@ internal data class UserEntity(
     val height: Float,
 
     @ColumnInfo(name = "weight")
-    val weight: Float
+    val weight: Float,
 )
 
 /**
@@ -69,7 +69,7 @@ internal fun UserEntity.asUser() = User(
     birthdate = birthdate,
     birthtime = birthtime,
     height = height,
-    weight = weight
+    weight = weight,
 )
 
 /**
@@ -86,5 +86,5 @@ internal fun User.asUserEntity() = UserEntity(
     birthdate = birthdate,
     birthtime = birthtime,
     height = height,
-    weight = weight
+    weight = weight,
 )

@@ -9,12 +9,10 @@ import com.bruno13palhano.sleeptight.ui.screens.babystatus.BabyStatusScreen
 import com.bruno13palhano.sleeptight.ui.screens.naps.NapScreen
 import com.bruno13palhano.sleeptight.ui.screens.notifications.NotificationScreen
 
-fun NavGraphBuilder.homeNavGraph(
-    navController: NavController
-) {
+fun NavGraphBuilder.homeNavGraph(navController: NavController) {
     navigation(
         startDestination = HomeDestinations.HOME_MAIN_ROUTE,
-        route = SleepTightDestinations.HOME_ROUTE
+        route = SleepTightDestinations.HOME_ROUTE,
     ) {
         composable(route = HomeDestinations.HOME_MAIN_ROUTE) {
             HomeScreen(
@@ -40,14 +38,14 @@ fun NavGraphBuilder.homeNavGraph(
                     navController.navigate("${HomeDestinations.LAST_NOTIFICATION_ROUTE}$it") {
                         popUpTo(HomeDestinations.HOME_MAIN_ROUTE)
                     }
-                }
+                },
             )
         }
         composable(route = HomeDestinations.LAST_BABY_STATUS_ROUTE_WITH_ID) { backStackEntry ->
             backStackEntry.arguments?.getString("babyStatusId")?.let { babyStatusId ->
                 BabyStatusScreen(
                     babyStatusId = babyStatusId.toLong(),
-                    navigateUp = { navController.navigateUp() }
+                    navigateUp = { navController.navigateUp() },
                 )
             }
         }
@@ -55,7 +53,7 @@ fun NavGraphBuilder.homeNavGraph(
             backStackEntry.arguments?.getString("napId")?.let { napId ->
                 NapScreen(
                     napId = napId.toLong(),
-                    navigateUp = { navController.navigateUp() }
+                    navigateUp = { navController.navigateUp() },
                 )
             }
         }
@@ -63,7 +61,7 @@ fun NavGraphBuilder.homeNavGraph(
             backStackEntry.arguments?.getString("notificationId")?.let { notificationId ->
                 NotificationScreen(
                     notificationId = notificationId.toLong(),
-                    navigateUp = { navController.navigateUp() }
+                    navigateUp = { navController.navigateUp() },
                 )
             }
         }

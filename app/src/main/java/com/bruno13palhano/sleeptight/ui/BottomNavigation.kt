@@ -35,11 +35,11 @@ fun BottomMenu(navController: NavController) {
         Screen.Lists,
         Screen.Player,
         Screen.Analytics,
-        Screen.Settings
+        Screen.Settings,
     )
 
     NavigationBar(
-        containerColor = MaterialTheme.colorScheme.tertiary
+        containerColor = MaterialTheme.colorScheme.tertiary,
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
@@ -56,7 +56,7 @@ fun BottomMenu(navController: NavController) {
                         launchSingleTop = true
                         restoreState = true
                     }
-                }
+                },
             )
         }
     }
@@ -64,8 +64,24 @@ fun BottomMenu(navController: NavController) {
 
 sealed class Screen(val route: String, val icon: ImageVector, @StringRes val resourceId: Int) {
     object Home : Screen(SleepTightDestinations.HOME_ROUTE, Icons.Filled.Home, R.string.home_label)
-    object Lists : Screen(SleepTightDestinations.LISTS_ROUTE, Icons.Filled.List, R.string.lists_label)
-    object Player : Screen(SleepTightDestinations.PLAYER_ROUTE, Icons.Filled.MusicNote, R.string.player_label)
-    object Analytics : Screen(SleepTightDestinations.ANALYTICS_ROUTE, Icons.Filled.BarChart, R.string.analytics_label)
-    object Settings: Screen(SleepTightDestinations.SETTINGS_ROUTE, Icons.Filled.Settings, R.string.settings_label)
+    object Lists : Screen(
+        SleepTightDestinations.LISTS_ROUTE,
+        Icons.Filled.List,
+        R.string.lists_label,
+    )
+    object Player : Screen(
+        SleepTightDestinations.PLAYER_ROUTE,
+        Icons.Filled.MusicNote,
+        R.string.player_label,
+    )
+    object Analytics : Screen(
+        SleepTightDestinations.ANALYTICS_ROUTE,
+        Icons.Filled.BarChart,
+        R.string.analytics_label,
+    )
+    object Settings : Screen(
+        SleepTightDestinations.SETTINGS_ROUTE,
+        Icons.Filled.Settings,
+        R.string.settings_label,
+    )
 }

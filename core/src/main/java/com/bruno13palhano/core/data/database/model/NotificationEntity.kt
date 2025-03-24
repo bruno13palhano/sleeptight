@@ -36,7 +36,7 @@ internal data class NotificationEntity(
     val date: Long,
 
     @ColumnInfo(name = "repeat")
-    val repeat: Boolean
+    val repeat: Boolean,
 )
 
 /**
@@ -49,7 +49,7 @@ internal fun NotificationEntity.asNotification() = Notification(
     description = description,
     time = time,
     date = date,
-    repeat = repeat
+    repeat = repeat,
 )
 
 /**
@@ -62,5 +62,5 @@ internal fun Notification.asNotificationEntity() = NotificationEntity(
     description = description,
     time = time,
     date = date,
-    repeat = repeat
+    repeat = repeat,
 )

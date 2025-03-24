@@ -15,11 +15,11 @@ import com.bruno13palhano.sleeptight.ui.screens.naps.NewNapTitleAndObservationSc
 
 fun NavGraphBuilder.napsNavGraph(
     navController: NavController,
-    viewModelStoreOwner: ViewModelStoreOwner
+    viewModelStoreOwner: ViewModelStoreOwner,
 ) {
     navigation(
         startDestination = NapsDestination.NAPS_ROUTE,
-        route = ListsDestinations.NAP_LIST_ROUTE
+        route = ListsDestinations.NAP_LIST_ROUTE,
     ) {
         val navActions = NapsNavigationActions(navController)
 
@@ -27,14 +27,14 @@ fun NavGraphBuilder.napsNavGraph(
             NapsScreen(
                 onItemClick = { napId -> navActions.navigateFromNapsToNap(napId) },
                 onAddButtonClick = navActions.navigateFromNapsToNewNapTitleAndObservation,
-                onNavigationIconClick = { navController.navigateUp() }
+                onNavigationIconClick = { navController.navigateUp() },
             )
         }
         composable(route = NapsDestination.NAP_WITH_ID_ROUTE) { backStackEntry ->
             backStackEntry.arguments?.getString("napId")?.let { napId ->
                 NapScreen(
                     napId = napId.toLong(),
-                    navigateUp = { navController.navigateUp() }
+                    navigateUp = { navController.navigateUp() },
                 )
             }
         }
@@ -42,28 +42,28 @@ fun NavGraphBuilder.napsNavGraph(
             NewNapTitleAndObservationScreen(
                 onNextButtonClick = navActions.navigateFromNewNapTitleAndObservationToDate,
                 onNavigationIconClick = { navController.navigateUp() },
-                newNapViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner)
+                newNapViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
         composable(route = NapsDestination.NEW_NAP_DATE_ROUTE) {
             NewNapDateScreen(
                 onNextButtonClick = navActions.navigateFromNewNapDateToStartTime,
                 onNavigationIconClick = { navController.navigateUp() },
-                newNapViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner)
+                newNapViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
         composable(route = NapsDestination.NEW_NAP_START_TIME_ROUTE) {
             NewNapStartTimeScreen(
                 onNextButtonClick = navActions.navigateFromNewNapStartTimeToEndTime,
                 onNavigationIconClick = { navController.navigateUp() },
-                newNapViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner)
+                newNapViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
         composable(route = NapsDestination.NEW_NAP_END_TIME_ROUTE) {
             NewNapEndTimeScreen(
                 onDoneButtonClick = navActions.navigateFromNewNapEndTimeToNaps,
                 onNavigationIconClick = { navController.navigateUp() },
-                newNapViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner)
+                newNapViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
     }

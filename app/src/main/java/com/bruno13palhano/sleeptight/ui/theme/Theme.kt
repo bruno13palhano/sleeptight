@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 private val DarkColorScheme = darkColorScheme(
     primary = Blue,
     secondary = MiddleBlue,
-    tertiary =  Black,
+    tertiary = Black,
     background = Gray,
     surface = Gray,
     secondaryContainer = MiddleBlue,
@@ -37,14 +37,11 @@ private val LightColorScheme = lightColorScheme(
     onTertiary = Color.White,
     onBackground = Color(0xFF1C1B1F),
     onSurface = Color(0xFF1C1B1F),
-    */
+     */
 )
 
 @Composable
-fun SleepTightTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
-) {
+fun SleepTightTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colorScheme = when {
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
@@ -53,6 +50,6 @@ fun SleepTightTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
-        content = content
+        content = content,
     )
 }

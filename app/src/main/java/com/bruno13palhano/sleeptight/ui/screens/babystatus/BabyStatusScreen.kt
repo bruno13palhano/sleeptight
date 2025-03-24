@@ -66,7 +66,7 @@ import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 fun BabyStatusScreen(
     babyStatusId: Long,
     navigateUp: () -> Unit,
-    babyStatusViewModel: BabyStatusViewModel = hiltViewModel()
+    babyStatusViewModel: BabyStatusViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(key1 = null) {
         babyStatusViewModel.getBabyStatus(babyStatusId)
@@ -92,11 +92,11 @@ fun BabyStatusScreen(
                         }
                         showDatePickerDialog = false
                         focusManager.clearFocus(force = true)
-                    }
+                    },
                 ) {
                     Text(text = stringResource(id = R.string.date_label))
                 }
-            }
+            },
         ) {
             datePickerState = rememberDatePickerState(
                 initialSelectedDateMillis = babyStatusViewModel.dateInMillis,
@@ -104,11 +104,11 @@ fun BabyStatusScreen(
                     DisplayMode.Picker
                 } else {
                     DisplayMode.Input
-                }
+                },
             )
             DatePicker(
                 state = datePickerState,
-                showModeToggle = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+                showModeToggle = configuration.orientation == Configuration.ORIENTATION_PORTRAIT,
             )
         }
     }
@@ -125,7 +125,7 @@ fun BabyStatusScreen(
         onTitleDone = { focusManager.moveFocus(FocusDirection.Next) },
         onHeightDone = { focusManager.moveFocus(FocusDirection.Next) },
         onWeightDone = { focusManager.clearFocus(force = true) },
-        onDateClick = { show ->  showDatePickerDialog = show},
+        onDateClick = { show -> showDatePickerDialog = show },
         onOutsideClick = {
             keyboardController?.hide()
             focusManager.clearFocus()
@@ -136,7 +136,7 @@ fun BabyStatusScreen(
             babyStatusViewModel.updateBabyStatus(babyStatusId)
             navigateUp()
         },
-        navigateUp = navigateUp
+        navigateUp = navigateUp,
     )
 }
 
@@ -159,7 +159,7 @@ fun BabyStatusContent(
     onDeleteItemClick: () -> Unit,
     onShareItemClick: () -> Unit,
     onDoneButtonClick: () -> Unit,
-    navigateUp: () -> Unit
+    navigateUp: () -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -167,7 +167,7 @@ fun BabyStatusContent(
         modifier = Modifier
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = null
+                indication = null,
             ) { onOutsideClick() },
         topBar = {
             TopAppBar(
@@ -176,24 +176,26 @@ fun BabyStatusContent(
                     IconButton(onClick = navigateUp) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
+                            contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
                 },
                 actions = {
                     IconButton(
-                        onClick = { expanded = true }
+                        onClick = { expanded = true },
                     ) {
                         Box(contentAlignment = Alignment.Center) {
                             Icon(
                                 imageVector = Icons.Filled.MoreVert,
-                                contentDescription = stringResource(id = R.string.more_options_label)
+                                contentDescription = stringResource(
+                                    id = R.string.more_options_label,
+                                ),
                             )
 
                             Column(
                                 modifier = Modifier.fillMaxSize(),
                                 verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
+                                horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
                                 CommonMenu(
                                     expanded = expanded,
@@ -209,31 +211,31 @@ fun BabyStatusContent(
                                                 onShareItemClick()
                                             }
                                         }
-                                    }
+                                    },
                                 )
                             }
                         }
                     }
-                }
+                },
             )
         },
         floatingActionButton = {
             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                 FloatingActionButton(
-                    onClick = onDoneButtonClick
+                    onClick = onDoneButtonClick,
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Done,
-                        contentDescription = stringResource(id = R.string.add_button)
+                        contentDescription = stringResource(id = R.string.add_button),
                     )
                 }
             }
-        }
+        },
     ) {
         Column(
             modifier = Modifier
                 .padding(it)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
         ) {
             OutlinedTextField(
                 modifier = Modifier
@@ -244,7 +246,7 @@ fun BabyStatusContent(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Label,
-                        contentDescription = stringResource(id = R.string.title_label)
+                        contentDescription = stringResource(id = R.string.title_label),
                     )
                 },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -255,7 +257,7 @@ fun BabyStatusContent(
                 onValueChange = { titleValue -> onTitleChange(titleValue) },
                 singleLine = true,
                 label = { Text(text = stringResource(id = R.string.title_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) }
+                placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) },
             )
 
             OutlinedTextField(
@@ -272,12 +274,12 @@ fun BabyStatusContent(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.CalendarMonth,
-                        contentDescription = stringResource(id = R.string.date_label)
+                        contentDescription = stringResource(id = R.string.date_label),
                     )
                 },
                 onValueChange = {},
                 singleLine = true,
-                label = { Text(text = stringResource(id = R.string.date_label)) }
+                label = { Text(text = stringResource(id = R.string.date_label)) },
             )
 
             HeightField(
@@ -287,7 +289,7 @@ fun BabyStatusContent(
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp)
                     .clearFocusOnKeyboardDismiss(),
                 onHeightChange = { heightValue -> onHeightChange(heightValue) },
-                onDone = onHeightDone
+                onDone = onHeightDone,
             )
 
             WeightField(
@@ -297,7 +299,7 @@ fun BabyStatusContent(
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp)
                     .clearFocusOnKeyboardDismiss(),
                 onWeightChange = { weightValue -> onWeightChange(weightValue) },
-                onDone = onWeightDone
+                onDone = onWeightDone,
             )
 
             if (orientation != Configuration.ORIENTATION_PORTRAIT) {
@@ -305,11 +307,11 @@ fun BabyStatusContent(
                     modifier = Modifier
                         .align(Alignment.End)
                         .padding(16.dp),
-                    onClick = navigateUp
+                    onClick = navigateUp,
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Done,
-                        contentDescription = stringResource(id = R.string.add_button)
+                        contentDescription = stringResource(id = R.string.add_button),
                     )
                 }
             }
@@ -323,7 +325,7 @@ fun BabyStatusScreenPreview() {
     SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             BabyStatusContent(
                 orientation = 1,
@@ -342,7 +344,7 @@ fun BabyStatusScreenPreview() {
                 onDeleteItemClick = {},
                 onShareItemClick = {},
                 onDoneButtonClick = {},
-                navigateUp = {}
+                navigateUp = {},
             )
         }
     }

@@ -19,9 +19,8 @@ fun SleepTightNavGraph(
     NavHost(
         navController = navController,
         startDestination = startDestination,
-        modifier = modifier
+        modifier = modifier,
     ) {
-
         loginNavGraph(navController = navController, viewModelStoreOwner = viewModelStoreOwner)
 
         homeNavGraph(navController = navController)
@@ -42,7 +41,7 @@ fun SleepTightNavGraph(
                             inclusive = true
                         }
                     }
-                }
+                },
             )
         }
     }

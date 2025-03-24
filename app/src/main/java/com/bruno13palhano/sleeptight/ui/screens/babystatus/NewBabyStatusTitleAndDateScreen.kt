@@ -54,7 +54,7 @@ import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 fun NewBabyStatusTitleAndDateScreen(
     onNextButtonClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
-    newBabyStatusViewModel: NewBabyStatusViewModel
+    newBabyStatusViewModel: NewBabyStatusViewModel,
 ) {
     val configuration = LocalConfiguration.current
     val focusManager = LocalFocusManager.current
@@ -66,7 +66,7 @@ fun NewBabyStatusTitleAndDateScreen(
             DisplayMode.Picker
         } else {
             DisplayMode.Input
-        }
+        },
     )
 
     if (showDatePickerDialog) {
@@ -83,15 +83,15 @@ fun NewBabyStatusTitleAndDateScreen(
                         }
                         showDatePickerDialog = false
                         focusManager.clearFocus(force = true)
-                    }
+                    },
                 ) {
                     Text(text = stringResource(id = R.string.date_label))
                 }
-            }
+            },
         ) {
             DatePicker(
                 state = datePickerState,
-                showModeToggle = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+                showModeToggle = configuration.orientation == Configuration.ORIENTATION_PORTRAIT,
             )
         }
     }
@@ -107,7 +107,7 @@ fun NewBabyStatusTitleAndDateScreen(
             focusManager.clearFocus()
         },
         onNextButtonClick = onNextButtonClick,
-        onNavigationIconClick = onNavigationIconClick
+        onNavigationIconClick = onNavigationIconClick,
     )
 }
 
@@ -121,40 +121,40 @@ fun NewBabyStatusTitleAndDateContent(
     onDateClick: (show: Boolean) -> Unit,
     onOutsideClick: () -> Unit,
     onNextButtonClick: () -> Unit,
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = null
+                indication = null,
             ) { onOutsideClick() },
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(id = R.string.baby_status_title_and_date))},
+                title = { Text(text = stringResource(id = R.string.baby_status_title_and_date)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
+                            contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
-                }
+                },
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onNextButtonClick) {
                 Icon(
                     imageVector = Icons.Filled.NavigateNext,
-                    contentDescription = stringResource(id = R.string.add_button)
+                    contentDescription = stringResource(id = R.string.add_button),
                 )
             }
-        }
+        },
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(it),
         ) {
             OutlinedTextField(
                 modifier = Modifier
@@ -165,7 +165,7 @@ fun NewBabyStatusTitleAndDateContent(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Label,
-                        contentDescription = stringResource(id = R.string.title_label)
+                        contentDescription = stringResource(id = R.string.title_label),
                     )
                 },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -176,7 +176,7 @@ fun NewBabyStatusTitleAndDateContent(
                 onValueChange = { titleValue -> onTitleChange(titleValue) },
                 singleLine = true,
                 label = { Text(text = stringResource(id = R.string.title_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) }
+                placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) },
             )
 
             OutlinedTextField(
@@ -193,13 +193,13 @@ fun NewBabyStatusTitleAndDateContent(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.CalendarMonth,
-                        contentDescription = stringResource(id = R.string.date_label)
+                        contentDescription = stringResource(id = R.string.date_label),
                     )
                 },
                 onValueChange = {},
                 singleLine = true,
                 label = { Text(text = stringResource(id = R.string.date_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_date_label)) }
+                placeholder = { Text(text = stringResource(id = R.string.insert_date_label)) },
             )
         }
     }
@@ -208,10 +208,10 @@ fun NewBabyStatusTitleAndDateContent(
 @Preview(showBackground = true)
 @Composable
 fun NewBabyStatusTitleAndDateScreenPreview() {
-    SleepTightTheme() {
+    SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             NewBabyStatusTitleAndDateContent(
                 title = "",
@@ -221,7 +221,7 @@ fun NewBabyStatusTitleAndDateScreenPreview() {
                 onDateClick = {},
                 onOutsideClick = {},
                 onNextButtonClick = {},
-                onNavigationIconClick = {}
+                onNavigationIconClick = {},
             )
         }
     }

@@ -24,7 +24,7 @@ private const val NOTIFICATION_ACTION_PREFIX = "com.bruno13palhano.sleeptight"
 class NotificationWork @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted params: WorkerParameters,
-    @NotificationRep private val notificationRepository: CommonDataContract<Notification>
+    @NotificationRep private val notificationRepository: CommonDataContract<Notification>,
 ) : CoroutineWorker(context, params) {
 
     private lateinit var notificationManager: NotificationManager
@@ -50,19 +50,19 @@ class NotificationWork @AssistedInject constructor(
                         context,
                         notification.id.toInt(),
                         notifyIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
                     )
 
                     val alarmNotification = AlarmNotification(
                         notificationManager = notificationManager,
-                        alarmManager = alarmManager
+                        alarmManager = alarmManager,
                     )
 
                     alarmNotification.setAlarmManager(
                         notifyPendingIntent = notifyPendingIntent,
                         time = notification.time,
                         date = notification.date,
-                        repeat = true
+                        repeat = true,
                     )
                 }
             }

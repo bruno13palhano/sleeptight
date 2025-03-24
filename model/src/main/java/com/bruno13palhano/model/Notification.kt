@@ -16,5 +16,5 @@ data class Notification(
     val description: String,
     val time: Long,
     val date: Long,
-    val repeat: Boolean
+    val repeat: Boolean,
 )

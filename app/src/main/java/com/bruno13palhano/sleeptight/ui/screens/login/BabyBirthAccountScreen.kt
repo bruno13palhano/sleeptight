@@ -57,7 +57,7 @@ import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 fun BabyBirthAccountScreen(
     onCreateAccountSuccess: () -> Unit,
     onNavigationIconClick: () -> Unit,
-    createAccountViewModel: CreateAccountViewModel
+    createAccountViewModel: CreateAccountViewModel,
 ) {
     val configuration = LocalConfiguration.current
     val focusManager = LocalFocusManager.current
@@ -84,11 +84,11 @@ fun BabyBirthAccountScreen(
                         }
                         showDatePickerDialog = false
                         focusManager.clearFocus(force = true)
-                    }
+                    },
                 ) {
                     Text(text = stringResource(id = R.string.done_label))
                 }
-            }
+            },
         ) {
             datePickerState = rememberDatePickerState(
                 initialSelectedDateMillis = createAccountViewModel.birthdateInMillis,
@@ -96,11 +96,11 @@ fun BabyBirthAccountScreen(
                     DisplayMode.Picker
                 } else {
                     DisplayMode.Input
-                }
+                },
             )
             DatePicker(
                 state = datePickerState,
-                showModeToggle = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+                showModeToggle = configuration.orientation == Configuration.ORIENTATION_PORTRAIT,
             )
         }
     }
@@ -118,12 +118,12 @@ fun BabyBirthAccountScreen(
                 }
                 showBirthtimePickerDialog = false
                 focusManager.clearFocus(force = true)
-            }
+            },
         ) {
             birthtimePickerState = rememberTimePickerState(
                 initialHour = createAccountViewModel.birthtimeHour,
                 initialMinute = createAccountViewModel.birthtimeMinute,
-                is24Hour = true
+                is24Hour = true,
             )
             if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 TimePicker(state = birthtimePickerState)
@@ -153,7 +153,7 @@ fun BabyBirthAccountScreen(
                     focusManager.clearFocus()
                 },
                 onNavigationIconClick = onNavigationIconClick,
-                createUser = createAccountViewModel::insertUser
+                createUser = createAccountViewModel::insertUser,
             )
         }
         CreateAccountViewModel.LoginStatus.Loading -> {
@@ -190,7 +190,7 @@ private fun BabyBirthAccountContent(
         modifier = Modifier
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = null
+                indication = null,
             ) { onOutsideClick() },
         topBar = {
             TopAppBar(
@@ -199,10 +199,10 @@ private fun BabyBirthAccountContent(
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
+                            contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
-                }
+                },
             )
         },
         floatingActionButton = {
@@ -211,17 +211,17 @@ private fun BabyBirthAccountContent(
                     FloatingActionButton(onClick = createUser) {
                         Icon(
                             imageVector = Icons.Filled.Done,
-                            contentDescription = stringResource(id = R.string.done_label)
+                            contentDescription = stringResource(id = R.string.done_label),
                         )
                     }
                 }
             }
-        }
+        },
     ) {
         Column(
             modifier = Modifier
                 .padding(it)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
         ) {
             DateField(
                 modifier = Modifier
@@ -232,7 +232,7 @@ private fun BabyBirthAccountContent(
                             onBirthdateDone()
                         }
                     },
-                date = birthdate
+                date = birthdate,
             )
 
             TimeField(
@@ -244,7 +244,7 @@ private fun BabyBirthAccountContent(
                             onBirthtimeDone()
                         }
                     },
-                time = birthtime
+                time = birthtime,
             )
 
             HeightField(
@@ -254,7 +254,7 @@ private fun BabyBirthAccountContent(
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp)
                     .clearFocusOnKeyboardDismiss(),
                 onHeightChange = { heightValue -> onHeightChange(heightValue) },
-                onDone = onHeightDone
+                onDone = onHeightDone,
             )
 
             WeightField(
@@ -264,7 +264,7 @@ private fun BabyBirthAccountContent(
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp)
                     .clearFocusOnKeyboardDismiss(),
                 onWeightChange = { weightValue -> onWeightChange(weightValue) },
-                onDone = onWeightDone
+                onDone = onWeightDone,
             )
 
             if (configuration.orientation != Configuration.ORIENTATION_PORTRAIT) {
@@ -274,11 +274,11 @@ private fun BabyBirthAccountContent(
                     },
                     modifier = Modifier
                         .padding(16.dp)
-                        .align(Alignment.End)
+                        .align(Alignment.End),
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Done,
-                        contentDescription = stringResource(id = R.string.done_label)
+                        contentDescription = stringResource(id = R.string.done_label),
                     )
                 }
             }
@@ -289,10 +289,10 @@ private fun BabyBirthAccountContent(
 @Preview(showBackground = true)
 @Composable
 fun BabyBirthAccountScreenPreview() {
-    SleepTightTheme() {
+    SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             BabyBirthAccountContent(
                 birthdate = "",
@@ -309,7 +309,7 @@ fun BabyBirthAccountScreenPreview() {
                 onWeightDone = {},
                 onOutsideClick = {},
                 onNavigationIconClick = {},
-                createUser = {}
+                createUser = {},
             )
         }
     }

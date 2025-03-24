@@ -17,12 +17,12 @@ import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import com.bruno13palhano.sleeptight.ui.util.getHour
 import com.bruno13palhano.sleeptight.ui.util.getMinute
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class NewNapViewModel @Inject constructor(
-    @NapRep private val napRepository: CommonDataContract<Nap>
+    @NapRep private val napRepository: CommonDataContract<Nap>,
 ) : ViewModel() {
     var title by mutableStateOf("")
         private set
@@ -35,7 +35,9 @@ class NewNapViewModel @Inject constructor(
         private set
 
     private var startTimeInMillis by mutableLongStateOf(Calendar.getInstance().timeInMillis)
-    var startTime: String by mutableStateOf(DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(startTimeInMillis))
+    var startTime: String by mutableStateOf(
+        DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(startTimeInMillis),
+    )
         private set
     var startTimeHour by mutableIntStateOf(getHour(startTimeInMillis))
         private set
@@ -43,7 +45,9 @@ class NewNapViewModel @Inject constructor(
         private set
 
     private var endTimeInMillis by mutableLongStateOf(Calendar.getInstance().timeInMillis)
-    var endTime: String by mutableStateOf(DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(endTimeInMillis))
+    var endTime: String by mutableStateOf(
+        DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(endTimeInMillis),
+    )
         private set
     var endTimeHour by mutableIntStateOf(getHour(endTimeInMillis))
         private set
@@ -81,7 +85,7 @@ class NewNapViewModel @Inject constructor(
             startTime = startTimeInMillis,
             endTime = endTimeInMillis,
             sleepingTime = CalendarUtil.getSleepTime(startTimeInMillis, endTimeInMillis),
-            observation = observations
+            observation = observations,
         )
 
         viewModelScope.launch {

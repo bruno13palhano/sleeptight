@@ -5,15 +5,15 @@ import com.bruno13palhano.core.data.database.dao.UserDao
 import com.bruno13palhano.core.data.database.model.asUser
 import com.bruno13palhano.core.data.database.model.asUserEntity
 import com.bruno13palhano.model.User
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 internal class UserRepository @Inject constructor(
-    private val userDao: UserDao
+    private val userDao: UserDao,
 ) : UserDataContract<User> {
     override suspend fun insert(user: User) {
         userDao.insert(user.asUserEntity())

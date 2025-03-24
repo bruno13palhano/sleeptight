@@ -46,7 +46,7 @@ import java.util.Locale
 fun NewBabyStatusHeightAndWeightScreen(
     onDoneButtonClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
-    newBabyStatusViewModel: NewBabyStatusViewModel
+    newBabyStatusViewModel: NewBabyStatusViewModel,
 ) {
     val decimalFormat = DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
     val decimalSeparator = decimalFormat.decimalFormatSymbols.decimalSeparator
@@ -70,7 +70,7 @@ fun NewBabyStatusHeightAndWeightScreen(
             newBabyStatusViewModel.insertBabyStatus()
             onDoneButtonClick()
         },
-        onNavigationIconClick = onNavigationIconClick
+        onNavigationIconClick = onNavigationIconClick,
     )
 }
 
@@ -86,39 +86,43 @@ fun NewBabyStatusHeightAndWeightContent(
     onWeightDone: () -> Unit,
     onOutsideClick: () -> Unit,
     onDoneButtonClick: () -> Unit,
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = null
+                indication = null,
             ) { onOutsideClick() },
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(id = R.string.baby_status_height_and_weight)) },
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.baby_status_height_and_weight),
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
+                            contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
-                }
+                },
             )
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
                     onDoneButtonClick()
-                }
+                },
             ) {
                 Icon(
                     imageVector = Icons.Filled.Done,
-                    contentDescription = stringResource(id = R.string.done_label)
+                    contentDescription = stringResource(id = R.string.done_label),
                 )
             }
-        }
+        },
     ) {
         Column(modifier = Modifier.padding(it)) {
             OutlinedTextField(
@@ -130,12 +134,12 @@ fun NewBabyStatusHeightAndWeightContent(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.SquareFoot,
-                        contentDescription = stringResource(id = R.string.birth_height_label)
+                        contentDescription = stringResource(id = R.string.birth_height_label),
                     )
                 },
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Done,
-                    keyboardType = KeyboardType.Decimal
+                    keyboardType = KeyboardType.Decimal,
                 ),
                 keyboardActions = KeyboardActions(onDone = {
                     this.defaultKeyboardAction(ImeAction.Done)
@@ -148,7 +152,7 @@ fun NewBabyStatusHeightAndWeightContent(
                 },
                 singleLine = true,
                 label = { Text(text = stringResource(id = R.string.birth_height_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_height_label)) }
+                placeholder = { Text(text = stringResource(id = R.string.insert_height_label)) },
             )
 
             OutlinedTextField(
@@ -160,12 +164,12 @@ fun NewBabyStatusHeightAndWeightContent(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Balance,
-                        contentDescription = stringResource(id = R.string.birth_weight_label)
+                        contentDescription = stringResource(id = R.string.birth_weight_label),
                     )
                 },
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Done,
-                    keyboardType = KeyboardType.Decimal
+                    keyboardType = KeyboardType.Decimal,
                 ),
                 keyboardActions = KeyboardActions(onDone = {
                     this.defaultKeyboardAction(ImeAction.Done)
@@ -178,7 +182,7 @@ fun NewBabyStatusHeightAndWeightContent(
                 },
                 singleLine = true,
                 label = { Text(text = stringResource(id = R.string.birth_weight_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_weight_label)) }
+                placeholder = { Text(text = stringResource(id = R.string.insert_weight_label)) },
             )
         }
     }
@@ -187,10 +191,10 @@ fun NewBabyStatusHeightAndWeightContent(
 @Preview(showBackground = true)
 @Composable
 fun NewBabyStatusHeightAndWeightScreenPreview() {
-    SleepTightTheme() {
+    SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             NewBabyStatusHeightAndWeightContent(
                 pattern = Regex(""),
@@ -202,7 +206,7 @@ fun NewBabyStatusHeightAndWeightScreenPreview() {
                 onWeightDone = {},
                 onOutsideClick = {},
                 onDoneButtonClick = {},
-                onNavigationIconClick = {}
+                onNavigationIconClick = {},
             )
         }
     }

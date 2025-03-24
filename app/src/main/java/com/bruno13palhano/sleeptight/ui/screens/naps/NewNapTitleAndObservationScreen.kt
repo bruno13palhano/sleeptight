@@ -45,7 +45,7 @@ import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 fun NewNapTitleAndObservationScreen(
     onNextButtonClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
-    newNapViewModel: NewNapViewModel
+    newNapViewModel: NewNapViewModel,
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -62,7 +62,7 @@ fun NewNapTitleAndObservationScreen(
             focusManager.clearFocus()
         },
         onNavigationIconClick = onNavigationIconClick,
-        onNextButtonClick = onNextButtonClick
+        onNextButtonClick = onNextButtonClick,
     )
 }
 
@@ -77,13 +77,13 @@ fun NewNapTitleAndObservationContent(
     onObservationsDone: () -> Unit,
     onOutsideClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
-    onNextButtonClick: () -> Unit
+    onNextButtonClick: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = null
+                indication = null,
             ) { onOutsideClick() },
         topBar = {
             TopAppBar(
@@ -92,20 +92,20 @@ fun NewNapTitleAndObservationContent(
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
+                            contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
-                }
+                },
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onNextButtonClick) {
                 Icon(
                     imageVector = Icons.Filled.NavigateNext,
-                    contentDescription = stringResource(id = R.string.next_label)
+                    contentDescription = stringResource(id = R.string.next_label),
                 )
             }
-        }
+        },
     ) {
         Column(modifier = Modifier.padding(it)) {
             OutlinedTextField(
@@ -117,7 +117,7 @@ fun NewNapTitleAndObservationContent(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Label,
-                        contentDescription = stringResource(id = R.string.title_label)
+                        contentDescription = stringResource(id = R.string.title_label),
                     )
                 },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -128,7 +128,7 @@ fun NewNapTitleAndObservationContent(
                 onValueChange = { titleValue -> onTitleChange(titleValue) },
                 singleLine = true,
                 label = { Text(text = stringResource(id = R.string.title_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) }
+                placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) },
             )
 
             OutlinedTextField(
@@ -142,11 +142,11 @@ fun NewNapTitleAndObservationContent(
                     Row(
                         modifier = Modifier
                             .fillMaxHeight()
-                            .padding(top = 16.dp)
+                            .padding(top = 16.dp),
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Description,
-                            contentDescription = stringResource(id = R.string.description_label)
+                            contentDescription = stringResource(id = R.string.description_label),
                         )
                     }
                 },
@@ -157,7 +157,11 @@ fun NewNapTitleAndObservationContent(
                 }),
                 onValueChange = { observationsValue -> onObservationsChange(observationsValue) },
                 label = { Text(text = stringResource(id = R.string.observation_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_observations_label)) }
+                placeholder = {
+                    Text(
+                        text = stringResource(id = R.string.insert_observations_label),
+                    )
+                },
             )
         }
     }
@@ -169,7 +173,7 @@ fun NewNapTitleAndObservationScreenPreview() {
     SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             NewNapTitleAndObservationContent(
                 title = "",
@@ -180,7 +184,7 @@ fun NewNapTitleAndObservationScreenPreview() {
                 onObservationsDone = {},
                 onOutsideClick = {},
                 onNavigationIconClick = {},
-                onNextButtonClick = {}
+                onNextButtonClick = {},
             )
         }
     }

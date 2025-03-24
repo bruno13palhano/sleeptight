@@ -13,12 +13,12 @@ import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import com.bruno13palhano.sleeptight.ui.util.measureWithLocalDecimal
 import com.bruno13palhano.sleeptight.ui.util.stringToFloat
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class BabyStatusViewModel @Inject constructor(
-    @BabyStatusRep private val babyStatusRepository: CommonDataContract<BabyStatus>
+    @BabyStatusRep private val babyStatusRepository: CommonDataContract<BabyStatus>,
 ) : ViewModel() {
     var title by mutableStateOf("")
         private set
@@ -72,7 +72,7 @@ class BabyStatusViewModel @Inject constructor(
                 title = title,
                 date = dateInMillis,
                 height = stringToFloat(height),
-                weight = stringToFloat(weight)
+                weight = stringToFloat(weight),
             )
             babyStatusRepository.update(babyStatus)
         }

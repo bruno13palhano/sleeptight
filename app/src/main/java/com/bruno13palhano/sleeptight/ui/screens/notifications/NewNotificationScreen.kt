@@ -76,7 +76,7 @@ private const val NOTIFICATION_ACTION_PREFIX = "com.bruno13palhano.sleeptight"
 fun NewNotificationScreen(
     onDoneButtonClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
-    newNotificationViewModel: NewNotificationViewModel = hiltViewModel()
+    newNotificationViewModel: NewNotificationViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
@@ -101,11 +101,11 @@ fun NewNotificationScreen(
                         }
                         showDatePickerDialog = false
                         focusManager.clearFocus(force = true)
-                    }
+                    },
                 ) {
                     Text(text = stringResource(id = R.string.date_label))
                 }
-            }
+            },
         ) {
             datePickerState = rememberDatePickerState(
                 initialSelectedDateMillis = newNotificationViewModel.dateInMillis,
@@ -113,11 +113,11 @@ fun NewNotificationScreen(
                     DisplayMode.Picker
                 } else {
                     DisplayMode.Input
-                }
+                },
             )
             DatePicker(
                 state = datePickerState,
-                showModeToggle = isPortraitMode(configuration.orientation)
+                showModeToggle = isPortraitMode(configuration.orientation),
             )
         }
     }
@@ -135,12 +135,12 @@ fun NewNotificationScreen(
                 }
                 showTimePickerDialog = false
                 focusManager.clearFocus(force = true)
-            }
+            },
         ) {
             timePickerState = rememberTimePickerState(
                 initialHour = newNotificationViewModel.timeHour,
                 initialMinute = newNotificationViewModel.timeMinute,
-                is24Hour = true
+                is24Hour = true,
             )
 
             if (isPortraitMode(configuration.orientation)) {
@@ -183,7 +183,7 @@ fun NewNotificationScreen(
                 )
             }
             onDoneButtonClick()
-        }
+        },
     )
 }
 
@@ -205,13 +205,13 @@ fun NewNotificationContent(
     onDateClick: () -> Unit,
     onOutsideClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
-    onDoneButtonClick: () -> Unit
+    onDoneButtonClick: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = null
+                indication = null,
             ) { onOutsideClick() },
         topBar = {
             TopAppBar(
@@ -220,10 +220,10 @@ fun NewNotificationContent(
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
+                            contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
-                }
+                },
             )
         },
         floatingActionButton = {
@@ -231,17 +231,17 @@ fun NewNotificationContent(
                 FloatingActionButton(onClick = onDoneButtonClick) {
                     Icon(
                         imageVector = Icons.Filled.Done,
-                        contentDescription = stringResource(id = R.string.done_label)
+                        contentDescription = stringResource(id = R.string.done_label),
                     )
                 }
             }
-        }
+        },
     ) {
         Column(
             modifier = Modifier
                 .padding(it)
                 .fillMaxHeight()
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
         ) {
             OutlinedTextField(
                 modifier = Modifier
@@ -252,7 +252,7 @@ fun NewNotificationContent(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Label,
-                        contentDescription = stringResource(id = R.string.title_label)
+                        contentDescription = stringResource(id = R.string.title_label),
                     )
                 },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -263,7 +263,7 @@ fun NewNotificationContent(
                 singleLine = true,
                 onValueChange = { titleValue -> onTitleChange(titleValue) },
                 label = { Text(text = stringResource(id = R.string.title_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) }
+                placeholder = { Text(text = stringResource(id = R.string.insert_title_label)) },
             )
 
             OutlinedTextField(
@@ -279,13 +279,13 @@ fun NewNotificationContent(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Timer,
-                        contentDescription = stringResource(id = R.string.hour_label)
+                        contentDescription = stringResource(id = R.string.hour_label),
                     )
                 },
                 singleLine = true,
                 onValueChange = {},
                 label = { Text(text = stringResource(id = R.string.hour_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_hours_label)) }
+                placeholder = { Text(text = stringResource(id = R.string.insert_hours_label)) },
             )
 
             OutlinedTextField(
@@ -301,26 +301,26 @@ fun NewNotificationContent(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.CalendarMonth,
-                        contentDescription = stringResource(id = R.string.date_label)
+                        contentDescription = stringResource(id = R.string.date_label),
                     )
                 },
                 singleLine = true,
                 onValueChange = {},
                 label = { Text(text = stringResource(id = R.string.date_label)) },
-                placeholder = { Text(text = stringResource(id = R.string.insert_date_label)) }
+                placeholder = { Text(text = stringResource(id = R.string.insert_date_label)) },
             )
 
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp, start = 16.dp, end = 16.dp),
-                text = stringResource(id = R.string.repeat_label)
+                text = stringResource(id = R.string.repeat_label),
             )
 
             Row(
                 modifier = Modifier
                     .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 RadioButton(
                     selected = !repeat,
@@ -328,10 +328,10 @@ fun NewNotificationContent(
                         if (repeat) {
                             onRepeatChange(false)
                         }
-                    }
+                    },
                 )
                 Text(
-                    text = stringResource(id = R.string.off_label)
+                    text = stringResource(id = R.string.off_label),
                 )
 
                 RadioButton(
@@ -340,10 +340,10 @@ fun NewNotificationContent(
                         if (!repeat) {
                             onRepeatChange(true)
                         }
-                    }
+                    },
                 )
                 Text(
-                    text = stringResource(id = R.string.on_label)
+                    text = stringResource(id = R.string.on_label),
                 )
             }
 
@@ -360,11 +360,13 @@ fun NewNotificationContent(
                         Row(
                             modifier = Modifier
                                 .fillMaxHeight()
-                                .padding(top = 16.dp)
+                                .padding(top = 16.dp),
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.Description,
-                                contentDescription = stringResource(id = R.string.description_label)
+                                contentDescription = stringResource(
+                                    id = R.string.description_label,
+                                ),
                             )
                         }
                     },
@@ -374,7 +376,11 @@ fun NewNotificationContent(
                         onDescriptionDone()
                     }),
                     label = { Text(text = stringResource(id = R.string.description_label)) },
-                    placeholder = { Text(text = stringResource(id = R.string.insert_description_label)) }
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.insert_description_label),
+                        )
+                    },
                 )
             } else {
                 OutlinedTextField(
@@ -390,11 +396,13 @@ fun NewNotificationContent(
                             modifier = Modifier
                                 .fillMaxHeight()
                                 .sizeIn(minHeight = 200.dp)
-                                .padding(top = 16.dp)
+                                .padding(top = 16.dp),
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.Description,
-                                contentDescription = stringResource(id = R.string.description_label)
+                                contentDescription = stringResource(
+                                    id = R.string.description_label,
+                                ),
                             )
                         }
                     },
@@ -404,7 +412,11 @@ fun NewNotificationContent(
                         onDescriptionDone()
                     }),
                     label = { Text(text = stringResource(id = R.string.description_label)) },
-                    placeholder = { Text(text = stringResource(id = R.string.insert_description_label)) }
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.insert_description_label),
+                        )
+                    },
                 )
 
                 FloatingActionButton(
@@ -415,7 +427,7 @@ fun NewNotificationContent(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Done,
-                        contentDescription = stringResource(id = R.string.done_label)
+                        contentDescription = stringResource(id = R.string.done_label),
                     )
                 }
             }
@@ -429,7 +441,7 @@ fun NewNotificationScreenPreview() {
     SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             NewNotificationContent(
                 orientation = 1,
@@ -447,7 +459,7 @@ fun NewNotificationScreenPreview() {
                 onDateClick = {},
                 onOutsideClick = {},
                 onNavigationIconClick = {},
-                onDoneButtonClick = {}
+                onDoneButtonClick = {},
             )
         }
     }
@@ -462,7 +474,7 @@ private fun setAlarm(
     date: Long,
     repeat: Boolean,
     description: String,
-    context: Context
+    context: Context,
 ) {
     val notificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -470,7 +482,7 @@ private fun setAlarm(
 
     val notifyIntent = Intent(context, NotificationReceiver::class.java)
     notifyIntent.apply {
-        action = "$NOTIFICATION_ACTION_PREFIX.${id}"
+        action = "$NOTIFICATION_ACTION_PREFIX.$id"
         putExtra("id", id.toInt())
         putExtra("title", title)
         putExtra("description", description)
@@ -480,18 +492,18 @@ private fun setAlarm(
         context,
         id.toInt(),
         notifyIntent,
-        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
     )
 
     val alarmNotification = AlarmNotification(
         notificationManager = notificationManager,
-        alarmManager = alarmManager
+        alarmManager = alarmManager,
     )
 
     alarmNotification.setAlarmManager(
         notifyPendingIntent = notifyPendingIntent,
         time = time,
         date = date,
-        repeat = repeat
+        repeat = repeat,
     )
 }

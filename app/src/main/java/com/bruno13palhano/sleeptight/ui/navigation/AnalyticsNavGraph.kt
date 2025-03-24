@@ -11,7 +11,7 @@ import com.bruno13palhano.sleeptight.ui.screens.analytics.NapChartsScreen
 fun NavGraphBuilder.analyticsNavGraph(navController: NavController) {
     navigation(
         startDestination = AnalyticsDestinations.LIST_CHARTS,
-        route = SleepTightDestinations.ANALYTICS_ROUTE
+        route = SleepTightDestinations.ANALYTICS_ROUTE,
     ) {
         composable(route = AnalyticsDestinations.LIST_CHARTS) {
             AnalyticsScreen(
@@ -19,19 +19,19 @@ fun NavGraphBuilder.analyticsNavGraph(navController: NavController) {
                     navController.navigate(it) {
                         popUpTo(AnalyticsDestinations.LIST_CHARTS)
                     }
-                }
+                },
             )
         }
 
         composable(route = AnalyticsDestinations.BABY_STATUS_CHARTS_ROUTE) {
             BabyStatusChartsScreen(
-                onNavigationIconClick = { navController.navigateUp() }
+                onNavigationIconClick = { navController.navigateUp() },
             )
         }
 
         composable(route = AnalyticsDestinations.NAP_CHARTS_ROUTE) {
             NapChartsScreen(
-                onNavigationIconClick = { navController.navigateUp() }
+                onNavigationIconClick = { navController.navigateUp() },
             )
         }
     }

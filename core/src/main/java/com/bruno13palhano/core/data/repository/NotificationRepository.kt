@@ -5,15 +5,15 @@ import com.bruno13palhano.core.data.database.dao.NotificationDao
 import com.bruno13palhano.core.data.database.model.asNotification
 import com.bruno13palhano.core.data.database.model.asNotificationEntity
 import com.bruno13palhano.model.Notification
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 internal class NotificationRepository @Inject constructor(
-    private val notificationDao: NotificationDao
+    private val notificationDao: NotificationDao,
 ) : CommonDataContract<Notification> {
 
     override fun getAll(): Flow<List<Notification>> {
@@ -56,8 +56,8 @@ internal class NotificationRepository @Inject constructor(
                         description = "",
                         time = 0L,
                         date = 0L,
-                        repeat = false
-                    )
+                        repeat = false,
+                    ),
                 )
             }
     }

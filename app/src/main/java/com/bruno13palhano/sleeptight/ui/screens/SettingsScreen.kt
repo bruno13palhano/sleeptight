@@ -80,7 +80,7 @@ import com.bruno13palhano.sleeptight.ui.util.getBytes
 @Composable
 fun SettingsScreen(
     navigateToLogin: () -> Unit,
-    settingsViewModel: SettingsViewModel = hiltViewModel()
+    settingsViewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
@@ -116,11 +116,11 @@ fun SettingsScreen(
                         }
                         showDatePickerDialog = false
                         focusManager.clearFocus(force = true)
-                    }
+                    },
                 ) {
                     Text(text = stringResource(id = R.string.date_label))
                 }
-            }
+            },
         ) {
             datePickerState = rememberDatePickerState(
                 initialSelectedDateMillis = settingsViewModel.birthdateInMillis,
@@ -128,11 +128,11 @@ fun SettingsScreen(
                     DisplayMode.Picker
                 } else {
                     DisplayMode.Input
-                }
+                },
             )
             DatePicker(
                 state = datePickerState,
-                showModeToggle = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+                showModeToggle = configuration.orientation == Configuration.ORIENTATION_PORTRAIT,
             )
         }
     }
@@ -150,12 +150,12 @@ fun SettingsScreen(
                 }
                 showTimePickerDialog = false
                 focusManager.clearFocus(force = true)
-            }
+            },
         ) {
             timePickerState = rememberTimePickerState(
                 initialHour = settingsViewModel.birthtimeHour,
                 initialMinute = settingsViewModel.birthtimeMinute,
-                is24Hour = true
+                is24Hour = true,
             )
 
             if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -198,7 +198,6 @@ fun SettingsScreen(
                     settingsViewModel.activeEditable()
                 }
                 SettingsMenuIndex.SHARE_ITEM_INDEX -> {
-
                 }
                 SettingsMenuIndex.LOGOUT_ITEM_INDEX -> {
                     settingsViewModel.logout()
@@ -211,7 +210,7 @@ fun SettingsScreen(
             if (isEditable) {
                 settingsViewModel.updateUserValues()
             }
-        }
+        },
     )
 }
 
@@ -241,12 +240,12 @@ fun SettingsContent(
     onBirthdateDone: () -> Unit,
     onOutsideClick: () -> Unit,
     onItemClick: (index: Int) -> Unit,
-    onActionButtonClick: () -> Unit
+    onActionButtonClick: () -> Unit,
 ) {
     val menuItems = arrayOf(
         stringResource(id = R.string.edit_profile_label),
         stringResource(id = R.string.share_profile_label),
-        stringResource(id = R.string.logout_label)
+        stringResource(id = R.string.logout_label),
     )
     var expanded by remember { mutableStateOf(false) }
 
@@ -254,7 +253,7 @@ fun SettingsContent(
         modifier = Modifier
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = null
+                indication = null,
             ) { onOutsideClick() },
         topBar = {
             TopAppBar(
@@ -263,22 +262,24 @@ fun SettingsContent(
                     IconButton(
                         onClick = {
                             expanded = true
-                        }
+                        },
                     ) {
                         Box(contentAlignment = Alignment.Center) {
                             Icon(
                                 imageVector = Icons.Filled.MoreVert,
-                                contentDescription = stringResource(id = R.string.more_options_label)
+                                contentDescription = stringResource(
+                                    id = R.string.more_options_label,
+                                ),
                             )
 
                             Column(
                                 modifier = Modifier.fillMaxSize(),
                                 verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
+                                horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
                                 DropdownMenu(
                                     expanded = expanded,
-                                    onDismissRequest = { expanded = false }
+                                    onDismissRequest = { expanded = false },
                                 ) {
                                     menuItems.forEachIndexed { index, itemValue ->
                                         DropdownMenuItem(
@@ -293,7 +294,7 @@ fun SettingsContent(
                             }
                         }
                     }
-                }
+                },
             )
         },
         floatingActionButton = {
@@ -301,28 +302,29 @@ fun SettingsContent(
                 FloatingActionButton(onClick = onActionButtonClick) {
                     Icon(
                         imageVector = Icons.Filled.Done,
-                        contentDescription = stringResource(id = R.string.done_label)
+                        contentDescription = stringResource(id = R.string.done_label),
                     )
                 }
             }
-        }
+        },
     ) {
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(it)
-            .verticalScroll(rememberScrollState())
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+                .verticalScroll(rememberScrollState()),
         ) {
             Surface(
                 modifier = Modifier
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp),
                 color = MaterialTheme.colorScheme.inverseOnSurface,
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(8.dp),
             ) {
                 Row(
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Image(
                         modifier = Modifier
@@ -337,12 +339,12 @@ fun SettingsContent(
                             },
                         contentScale = ContentScale.Crop,
                         painter = rememberAsyncImagePainter(photoUri),
-                        contentDescription = stringResource(id = R.string.baby_photo_label)
+                        contentDescription = stringResource(id = R.string.baby_photo_label),
                     )
 
                     Text(
                         text = username,
-                        fontSize = 22.sp
+                        fontSize = 22.sp,
                     )
                 }
             }
@@ -355,7 +357,7 @@ fun SettingsContent(
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp)
                     .clearFocusOnKeyboardDismiss(),
                 onBabyNameChange = { babyNameValue -> onBabyNameChange(babyNameValue) },
-                onDone = onBabyNameDone
+                onDone = onBabyNameDone,
             )
 
             BirthplaceField(
@@ -366,7 +368,7 @@ fun SettingsContent(
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp)
                     .clearFocusOnKeyboardDismiss(),
                 onBirthplaceChange = { birthplaceValue -> onBirthplaceChange(birthplaceValue) },
-                onDone = onBirthplaceDone
+                onDone = onBirthplaceDone,
             )
 
             HeightField(
@@ -377,7 +379,7 @@ fun SettingsContent(
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp)
                     .clearFocusOnKeyboardDismiss(),
                 onHeightChange = { heightValue -> onHeightChange(heightValue) },
-                onDone = onHeightDone
+                onDone = onHeightDone,
             )
 
             WeightField(
@@ -388,12 +390,12 @@ fun SettingsContent(
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp)
                     .clearFocusOnKeyboardDismiss(),
                 onWeightChange = { weightValue -> onWeightChange(weightValue) },
-                onDone = onWeightDone
+                onDone = onWeightDone,
             )
 
             Row(
                 modifier = Modifier.sizeIn(maxHeight = 70.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 TimeField(
                     modifier = Modifier
@@ -405,7 +407,7 @@ fun SettingsContent(
                             }
                         },
                     time = birthtime,
-                    isEnabled = isEditable
+                    isEnabled = isEditable,
                 )
 
                 DateField(
@@ -418,7 +420,7 @@ fun SettingsContent(
                             }
                         },
                     date = birthdate,
-                    isEnabled = isEditable
+                    isEnabled = isEditable,
                 )
             }
 
@@ -428,11 +430,11 @@ fun SettingsContent(
                         modifier = Modifier
                             .align(Alignment.End)
                             .padding(16.dp),
-                        onClick = onActionButtonClick
+                        onClick = onActionButtonClick,
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Done,
-                            contentDescription = stringResource(id = R.string.done_label)
+                            contentDescription = stringResource(id = R.string.done_label),
                         )
                     }
                 } else {
@@ -449,7 +451,7 @@ fun SettingsScreenPreview() {
     SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             SettingsContent(
                 orientation = 1,
@@ -475,7 +477,7 @@ fun SettingsScreenPreview() {
                 onBirthdateDone = {},
                 onOutsideClick = {},
                 onItemClick = {},
-                onActionButtonClick = {}
+                onActionButtonClick = {},
             )
         }
     }

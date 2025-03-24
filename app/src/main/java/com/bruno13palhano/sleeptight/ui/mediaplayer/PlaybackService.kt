@@ -5,10 +5,10 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
-import android.content.Intent
-import android.os.Bundle
 import android.app.TaskStackBuilder
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -19,10 +19,10 @@ import androidx.media3.common.util.Util
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.*
 import com.bruno13palhano.sleeptight.MainActivity
-import com.google.common.collect.ImmutableList
-import com.google.common.util.concurrent.ListenableFuture
 import com.bruno13palhano.sleeptight.R
+import com.google.common.collect.ImmutableList
 import com.google.common.util.concurrent.Futures
+import com.google.common.util.concurrent.ListenableFuture
 
 @UnstableApi class PlaybackService : MediaLibraryService() {
     private val librarySessionCallback = CustomMediaLibrarySessionCallback()
@@ -48,11 +48,11 @@ import com.google.common.util.concurrent.Futures
         super.onCreate()
         customCommands = listOf(
             getShuffleCommandButton(
-                SessionCommand(CUSTOM_COMMAND_TOGGLE_SHUFFLE_MODE_ON, Bundle.EMPTY)
+                SessionCommand(CUSTOM_COMMAND_TOGGLE_SHUFFLE_MODE_ON, Bundle.EMPTY),
             ),
             getShuffleCommandButton(
-                SessionCommand(CUSTOM_COMMAND_TOGGLE_SHUFFLE_MODE_OFF, Bundle.EMPTY)
-            )
+                SessionCommand(CUSTOM_COMMAND_TOGGLE_SHUFFLE_MODE_OFF, Bundle.EMPTY),
+            ),
         )
         customLayout = ImmutableList.of(customCommands[0])
         initializeSessionAndPlayer()
@@ -79,7 +79,7 @@ import com.google.common.util.concurrent.Futures
     private inner class CustomMediaLibrarySessionCallback : MediaLibrarySession.Callback {
         override fun onConnect(
             session: MediaSession,
-            controller: MediaSession.ControllerInfo
+            controller: MediaSession.ControllerInfo,
         ): MediaSession.ConnectionResult {
             val connectionResult = super.onConnect(session, controller)
             val availableSessionCommands = connectionResult.availableSessionCommands.buildUpon()
@@ -89,7 +89,8 @@ import com.google.common.util.concurrent.Futures
             }
 
             return MediaSession.ConnectionResult.accept(
-                availableSessionCommands.build(),connectionResult.availablePlayerCommands
+                availableSessionCommands.build(),
+                connectionResult.availablePlayerCommands,
             )
         }
 
@@ -103,7 +104,7 @@ import com.google.common.util.concurrent.Futures
             session: MediaSession,
             controller: MediaSession.ControllerInfo,
             customCommand: SessionCommand,
-            args: Bundle
+            args: Bundle,
         ): ListenableFuture<SessionResult> {
             if (CUSTOM_COMMAND_TOGGLE_SHUFFLE_MODE_ON == customCommand.customAction) {
                 player.shuffleModeEnabled = true
@@ -121,19 +122,21 @@ import com.google.common.util.concurrent.Futures
         override fun onGetLibraryRoot(
             session: MediaLibrarySession,
             browser: MediaSession.ControllerInfo,
-            params: LibraryParams?
+            params: LibraryParams?,
         ): ListenableFuture<LibraryResult<MediaItem>> {
-            return Futures.immediateFuture(LibraryResult.ofItem(MediaItemTree.getRootItem(), params))
+            return Futures.immediateFuture(
+                LibraryResult.ofItem(MediaItemTree.getRootItem(), params),
+            )
         }
 
         override fun onGetItem(
             session: MediaLibrarySession,
             browser: MediaSession.ControllerInfo,
-            mediaId: String
+            mediaId: String,
         ): ListenableFuture<LibraryResult<MediaItem>> {
             val item = MediaItemTree.getItem(mediaId)
                 ?: return Futures.immediateFuture(
-                    LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE)
+                    LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE),
                 )
             return Futures.immediateFuture(LibraryResult.ofItem(item, null))
         }
@@ -142,11 +145,11 @@ import com.google.common.util.concurrent.Futures
             session: MediaLibrarySession,
             browser: MediaSession.ControllerInfo,
             parentId: String,
-            params: LibraryParams?
+            params: LibraryParams?,
         ): ListenableFuture<LibraryResult<Void>> {
             val children = MediaItemTree.getChildren(parentId)
                 ?: return Futures.immediateFuture(
-                    LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE)
+                    LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE),
                 )
             session.notifyChildrenChanged(browser, parentId, children.size, params)
             return Futures.immediateFuture(LibraryResult.ofVoid())
@@ -158,11 +161,11 @@ import com.google.common.util.concurrent.Futures
             parentId: String,
             page: Int,
             pageSize: Int,
-            params: LibraryParams?
+            params: LibraryParams?,
         ): ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> {
             val children = MediaItemTree.getChildren(parentId)
                 ?: return Futures.immediateFuture(
-                    LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE)
+                    LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE),
                 )
 
             return Futures.immediateFuture(LibraryResult.ofItemList(children, params))
@@ -171,13 +174,14 @@ import com.google.common.util.concurrent.Futures
         override fun onAddMediaItems(
             mediaSession: MediaSession,
             controller: MediaSession.ControllerInfo,
-            mediaItems: MutableList<MediaItem>
+            mediaItems: MutableList<MediaItem>,
         ): ListenableFuture<List<MediaItem>> {
             val updateMediaItems: List<MediaItem> = mediaItems.map { mediaItem ->
-                if (mediaItem.requestMetadata.searchQuery != null)
+                if (mediaItem.requestMetadata.searchQuery != null) {
                     getMediaItemFromSearchQuery(mediaItem.requestMetadata.searchQuery!!)
-                else MediaItemTree.getItem(mediaItem.mediaId) ?: mediaItem
-
+                } else {
+                    MediaItemTree.getItem(mediaItem.mediaId) ?: mediaItem
+                }
             }
             return Futures.immediateFuture(updateMediaItems)
         }
@@ -199,12 +203,17 @@ import com.google.common.util.concurrent.Futures
         return CommandButton.Builder()
             .setDisplayName(
                 getString(
-                    if (isOn) R.string.shuffle_on_description
-                    else R.string.shuffle_off_description
-                )
+                    if (isOn) {
+                        R.string.shuffle_on_description
+                    } else {
+                        R.string.shuffle_off_description
+                    },
+                ),
             )
             .setSessionCommand(sessionCommand)
-            .setIconResId(if (isOn) R.drawable.baseline_shuffle_24 else R.drawable.baseline_shuffle_on_24)
+            .setIconResId(
+                if (isOn) R.drawable.baseline_shuffle_24 else R.drawable.baseline_shuffle_on_24,
+            )
             .build()
     }
 
@@ -236,7 +245,6 @@ import com.google.common.util.concurrent.Futures
     }
 
     private fun ignoreFuture(customLayout: ListenableFuture<SessionResult>) {
-
     }
 
     @UnstableApi private inner class MediaSessionServiceListener : Listener {
@@ -255,13 +263,15 @@ import com.google.common.util.concurrent.Futures
                     .setSmallIcon(androidx.media3.session.R.drawable.media3_notification_small_icon)
                     .setContentTitle(getString(R.string.notification_content_title))
                     .setStyle(
-                        NotificationCompat.BigTextStyle().bigText(getString(R.string.notification_content_text))
+                        NotificationCompat.BigTextStyle().bigText(
+                            getString(R.string.notification_content_text),
+                        ),
                     )
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setAutoCancel(true)
             if (ActivityCompat.checkSelfPermission(
                     this@PlaybackService,
-                    Manifest.permission.POST_NOTIFICATIONS
+                    Manifest.permission.POST_NOTIFICATIONS,
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 // TODO: Consider calling
@@ -278,13 +288,14 @@ import com.google.common.util.concurrent.Futures
     }
 
     private fun ensureNotificationChannel(notificationManagerCompat: NotificationManagerCompat) {
-        if (Util.SDK_INT < 26 || notificationManagerCompat.getNotificationChannel(CHANNEL_ID) != null)
+        if (Util.SDK_INT < 26 || notificationManagerCompat.getNotificationChannel(CHANNEL_ID) != null) {
             return
+        }
 
         val channel = NotificationChannel(
             CHANNEL_ID,
             getString(R.string.notification_channel_name),
-            NotificationManager.IMPORTANCE_DEFAULT
+            NotificationManager.IMPORTANCE_DEFAULT,
         )
         notificationManagerCompat.createNotificationChannel(channel)
     }

@@ -34,7 +34,7 @@ fun NapsScreen(
     onItemClick: (napId: Long) -> Unit,
     onAddButtonClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
-    napsViewModel: NapsViewModel = hiltViewModel()
+    napsViewModel: NapsViewModel = hiltViewModel(),
 ) {
     val napList by napsViewModel.uiState.collectAsStateWithLifecycle()
 
@@ -45,9 +45,8 @@ fun NapsScreen(
         onAddButtonClick = onAddButtonClick,
         onDeleteItemClick = { napId ->
             napsViewModel.deleteNap(napId) {
-
             }
-        }
+        },
     )
 }
 
@@ -58,7 +57,7 @@ fun NapsContent(
     onItemClick: (id: Long) -> Unit,
     onDeleteItemClick: (id: Long) -> Unit,
     onNavigationIconClick: () -> Unit,
-    onAddButtonClick: () -> Unit
+    onAddButtonClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -68,32 +67,32 @@ fun NapsContent(
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
+                            contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
-                }
+                },
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onAddButtonClick) {
                 Icon(
                     imageVector = Icons.Filled.Add,
-                    contentDescription = stringResource(id = R.string.add_button)
+                    contentDescription = stringResource(id = R.string.add_button),
                 )
             }
-        }
+        },
     ) {
         LazyColumn(modifier = Modifier.padding(it)) {
             items(
                 items = napList,
-                key = { nap -> nap.id }
+                key = { nap -> nap.id },
             ) { nap ->
                 ItemList(
                     id = nap.id,
                     title = nap.title,
                     date = DateFormatUtil.format(nap.date),
                     onItemClick = { onItemClick(nap.id) },
-                    onDeleteItemClick = { onDeleteItemClick(nap.id) }
+                    onDeleteItemClick = { onDeleteItemClick(nap.id) },
                 )
             }
         }
@@ -113,21 +112,21 @@ fun NapsScreenPreview() {
                 startTime = 0L,
                 endTime = 0L,
                 sleepingTime = 0L,
-                observation = ""
-            )
+                observation = "",
+            ),
         )
     }
     SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             NapsContent(
                 napList = napList,
                 onItemClick = {},
                 onNavigationIconClick = {},
                 onAddButtonClick = {},
-                onDeleteItemClick = {}
+                onDeleteItemClick = {},
             )
         }
     }

@@ -2,7 +2,7 @@ package com.bruno13palhano.sleeptight.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val DarkPurple = Color(0xFF4a4665 )
+val DarkPurple = Color(0xFF4a4665)
 val Pink80 = Color(0xFFEFB8C8)
 val LightPurple = Color(0xFF625b71)
 val MiddleBlue = Color(0xFF00AFFA)

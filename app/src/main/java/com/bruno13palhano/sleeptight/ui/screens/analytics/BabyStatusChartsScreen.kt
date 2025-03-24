@@ -45,14 +45,13 @@ import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 @Composable
 fun BabyStatusChartsScreen(
     viewModel: AnalyticsBabyStatusChartViewModel = hiltViewModel(),
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
 ) {
-
     val babyStatusChart by viewModel.babyStatusChartUi.collectAsStateWithLifecycle()
 
     var expanded by remember { mutableStateOf(false) }
     val menuItems = arrayOf(
-        stringResource(id = R.string.baby_status_chart_label)
+        stringResource(id = R.string.baby_status_chart_label),
     )
 
     var chartEntry by remember { mutableStateOf(ChartEntryModelProducer()) }
@@ -75,7 +74,7 @@ fun BabyStatusChartsScreen(
                 else -> {}
             }
         },
-        onNavigationIconClick = onNavigationIconClick
+        onNavigationIconClick = onNavigationIconClick,
     )
 }
 
@@ -87,7 +86,7 @@ fun BabyStatusChartsContent(
     menuItems: Array<String>,
     onExpandedChange: (expanded: Boolean) -> Unit,
     onMenuItemClick: (index: Int) -> Unit,
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -97,7 +96,7 @@ fun BabyStatusChartsContent(
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
+                            contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
                 },
@@ -105,22 +104,24 @@ fun BabyStatusChartsContent(
                     IconButton(
                         onClick = {
                             onExpandedChange(true)
-                        }
+                        },
                     ) {
                         Box(contentAlignment = Alignment.Center) {
                             Icon(
                                 imageVector = Icons.Filled.MoreVert,
-                                contentDescription = stringResource(id = R.string.more_options_label)
+                                contentDescription = stringResource(
+                                    id = R.string.more_options_label,
+                                ),
                             )
 
                             Column(
                                 modifier = Modifier.fillMaxSize(),
                                 verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
+                                horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
                                 DropdownMenu(
                                     expanded = expanded,
-                                    onDismissRequest = { onExpandedChange(false) }
+                                    onDismissRequest = { onExpandedChange(false) },
                                 ) {
                                     menuItems.forEachIndexed { index, itemValue ->
                                         DropdownMenuItem(
@@ -128,25 +129,25 @@ fun BabyStatusChartsContent(
                                             onClick = {
                                                 onMenuItemClick(index)
                                                 onExpandedChange(false)
-                                            }
+                                            },
                                         )
                                     }
                                 }
                             }
                         }
                     }
-                }
+                },
             )
-        }
+        },
     ) {
         Column(modifier = Modifier.padding(it)) {
             ProvideChartStyle(
                 chartStyle = m3ChartStyle(
                     entityColors = listOf(
                         MaterialTheme.colorScheme.primary,
-                        MaterialTheme.colorScheme.secondary
-                    )
-                )
+                        MaterialTheme.colorScheme.secondary,
+                    ),
+                ),
             ) {
                 val marker = rememberMarker()
                 Chart(
@@ -159,7 +160,7 @@ fun BabyStatusChartsContent(
                     startAxis = startAxis(),
                     marker = marker,
                     fadingEdges = rememberFadingEdges(),
-                    bottomAxis = bottomAxis()
+                    bottomAxis = bottomAxis(),
                 )
             }
         }
@@ -175,7 +176,7 @@ fun BabyStatusChartsScreenPreview() {
         menuItems = arrayOf(),
         onExpandedChange = {},
         onMenuItemClick = {},
-        onNavigationIconClick = {}
+        onNavigationIconClick = {},
     )
 }
 

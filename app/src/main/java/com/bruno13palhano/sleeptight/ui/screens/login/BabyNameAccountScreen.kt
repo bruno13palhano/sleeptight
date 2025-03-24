@@ -36,7 +36,7 @@ import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 fun BabyNameAccountScreen(
     onNextButtonClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
-    createAccountViewModel: CreateAccountViewModel
+    createAccountViewModel: CreateAccountViewModel,
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -51,7 +51,7 @@ fun BabyNameAccountScreen(
             focusManager.clearFocus()
         },
         onNavigationIconClick = onNavigationIconClick,
-        onNextButtonClick = onNextButtonClick
+        onNextButtonClick = onNextButtonClick,
     )
 }
 
@@ -64,13 +64,13 @@ fun BabyNameAccountContent(
     onBabyNameDone: () -> Unit,
     onOutsideClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
-    onNextButtonClick: () -> Unit
+    onNextButtonClick: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = null
+                indication = null,
             ) { onOutsideClick() },
         topBar = {
             TopAppBar(
@@ -79,10 +79,10 @@ fun BabyNameAccountContent(
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.up_button_label)
+                            contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
-                }
+                },
             )
         },
         floatingActionButton = {
@@ -90,11 +90,11 @@ fun BabyNameAccountContent(
                 FloatingActionButton(onClick = onNextButtonClick) {
                     Icon(
                         imageVector = Icons.Filled.NavigateNext,
-                        contentDescription = stringResource(id = R.string.next_label)
+                        contentDescription = stringResource(id = R.string.next_label),
                     )
                 }
             }
-        }
+        },
     ) {
         Column(modifier = Modifier.padding(it)) {
             BabyNameField(
@@ -104,7 +104,7 @@ fun BabyNameAccountContent(
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp)
                     .clearFocusOnKeyboardDismiss(),
                 onBabyNameChange = onBabyNameChange,
-                onDone = onBabyNameDone
+                onDone = onBabyNameDone,
             )
         }
     }
@@ -116,7 +116,7 @@ fun BabyNameAccountScreenPreview() {
     SleepTightTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             BabyNameAccountContent(
                 babyName = "",
@@ -125,7 +125,7 @@ fun BabyNameAccountScreenPreview() {
                 onBabyNameDone = {},
                 onOutsideClick = {},
                 onNavigationIconClick = {},
-                onNextButtonClick = {}
+                onNextButtonClick = {},
             )
         }
     }

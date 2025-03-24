@@ -5,13 +5,13 @@ import com.bruno13palhano.core.data.database.dao.BabyStatusDao
 import com.bruno13palhano.core.data.database.model.asBabyStatus
 import com.bruno13palhano.core.data.database.model.asBabyStatusEntity
 import com.bruno13palhano.model.BabyStatus
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 internal class BabyStatusRepository @Inject constructor(
-    private val babyStatusDao: BabyStatusDao
+    private val babyStatusDao: BabyStatusDao,
 ) : CommonDataContract<BabyStatus> {
     override suspend fun insert(model: BabyStatus): Long {
         return babyStatusDao.insert(model.asBabyStatusEntity())
@@ -52,8 +52,8 @@ internal class BabyStatusRepository @Inject constructor(
                         title = "",
                         date = 0L,
                         height = 0F,
-                        weight = 0F
-                    )
+                        weight = 0F,
+                    ),
                 )
             }
     }
