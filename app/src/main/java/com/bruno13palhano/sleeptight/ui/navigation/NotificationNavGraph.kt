@@ -13,13 +13,18 @@ fun NavGraphBuilder.notificationsNavGraph(navController: NavController) {
         startDestination = NotificationsDestinations.NOTIFICATIONS_ROUTE,
         route = ListsDestinations.NOTIFICATIONS_LIST_ROUTE,
     ) {
-        val navActions = NotificationsNavigationActions(navController)
         composable(route = NotificationsDestinations.NOTIFICATIONS_ROUTE) {
             NotificationsScreen(
                 onItemClick = { notificationId ->
-                    navActions.navigateFromNotificationsToNotification(notificationId)
+                    navController.navigate("${NotificationsDestinations.NOTIFICATION_ROUTE}$notificationId") {
+                        popUpTo(route = NotificationsDestinations.NOTIFICATIONS_ROUTE)
+                    }
                 },
-                onAddButtonClick = navActions.navigateFromNotificationsToNewNotification,
+                onAddButtonClick = {
+                    navController.navigate(route = NotificationsDestinations.NEW_NOTIFICATION_ROUTE) {
+                        popUpTo(route = NotificationsDestinations.NOTIFICATIONS_ROUTE)
+                    }
+                },
                 onNavigationIconClick = { navController.navigateUp() },
             )
         }
@@ -38,4 +43,11 @@ fun NavGraphBuilder.notificationsNavGraph(navController: NavController) {
             )
         }
     }
+}
+
+object NotificationsDestinations {
+    const val NOTIFICATIONS_ROUTE = "notifications"
+    const val NOTIFICATION_ROUTE = "notification/"
+    const val NOTIFICATION_WITH_ID_ROUTE = "$NOTIFICATION_ROUTE{notificationId}"
+    const val NEW_NOTIFICATION_ROUTE = "new_notification"
 }

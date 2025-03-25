@@ -21,47 +21,89 @@ fun NavGraphBuilder.loginNavGraph(
         startDestination = LoginDestinations.LOGIN_ROUTE,
         route = SleepTightDestinations.LOGIN_CREATE_ACCOUNT_ROUTE,
     ) {
-        val navActions = LoginNavigationActions(navController)
         composable(route = LoginDestinations.LOGIN_ROUTE) {
             LoginScreen(
-                onLoginSuccess = navActions.navigateFromLoginToHome,
-                onCreateAccountButtonClick = navActions.navigateFromLoginToCreateAccount,
+                onLoginSuccess = {
+                    navController.navigate(route = SleepTightDestinations.HOME_ROUTE) {
+                        popUpTo(route = SleepTightDestinations.LOGIN_CREATE_ACCOUNT_ROUTE) {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                    }
+                },
+                onCreateAccountButtonClick = {
+                    navController.navigate(route = LoginDestinations.CREATE_ACCOUNT_ROUTE) {
+                        popUpTo(route = LoginDestinations.LOGIN_ROUTE)
+                    }
+                },
             )
         }
         composable(route = LoginDestinations.CREATE_ACCOUNT_ROUTE) {
             CreateAccountScreen(
-                onNextButtonClick = navActions.navigateFromCreateAccountToBabyPhoto,
+                onNextButtonClick = {
+                    navController.navigate(route = LoginDestinations.BABY_PHOTO_ROUTE) {
+                        popUpTo(route = LoginDestinations.CREATE_ACCOUNT_ROUTE)
+                    }
+                },
                 onNavigationIconClick = { navController.navigateUp() },
                 createAccountViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
         composable(route = LoginDestinations.BABY_PHOTO_ROUTE) {
             BabyPhotoAccountScreen(
-                onNextButtonClick = navActions.navigateFromBabyPhotoToBabyName,
+                onNextButtonClick = {
+                    navController.navigate(route = LoginDestinations.BABY_NAME_ROUTE) {
+                        popUpTo(route = LoginDestinations.BABY_PHOTO_ROUTE)
+                    }
+                },
                 onNavigationIconButton = { navController.navigateUp() },
                 createAccountViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
         composable(route = LoginDestinations.BABY_NAME_ROUTE) {
             BabyNameAccountScreen(
-                onNextButtonClick = navActions.navigateFromBabyNameToBirthplace,
+                onNextButtonClick = {
+                    navController.navigate(route = LoginDestinations.BABY_BIRTHPLACE_ROUTE) {
+                        popUpTo(route = LoginDestinations.BABY_NAME_ROUTE)
+                    }
+                },
                 onNavigationIconClick = { navController.navigateUp() },
                 createAccountViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
         composable(route = LoginDestinations.BABY_BIRTHPLACE_ROUTE) {
             BabyBirthplaceAccountScreen(
-                onNextButtonClick = navActions.navigateFromBirthplaceToBirthAccount,
+                onNextButtonClick = {
+                    navController.navigate(route = LoginDestinations.BABY_BIRTH_ACCOUNT_ROUTE) {
+                        popUpTo(route = LoginDestinations.BABY_BIRTHPLACE_ROUTE)
+                    }
+                },
                 onNavigationIconClick = { navController.navigateUp() },
                 createAccountViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
         composable(route = LoginDestinations.BABY_BIRTH_ACCOUNT_ROUTE) {
             BabyBirthAccountScreen(
-                onCreateAccountSuccess = navActions.navigateFromBirthAccountToHome,
+                onCreateAccountSuccess = {
+                    navController.navigate(route = SleepTightDestinations.HOME_ROUTE) {
+                        popUpTo(route = LoginDestinations.LOGIN_ROUTE) {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                    }
+                },
                 onNavigationIconClick = { navController.navigateUp() },
                 createAccountViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
     }
+}
+
+object LoginDestinations {
+    const val LOGIN_ROUTE = "login"
+    const val CREATE_ACCOUNT_ROUTE = "create_account"
+    const val BABY_PHOTO_ROUTE = "baby_photo"
+    const val BABY_NAME_ROUTE = "baby_name"
+    const val BABY_BIRTHPLACE_ROUTE = "baby_birthplace"
+    const val BABY_BIRTH_ACCOUNT_ROUTE = "baby_birth_account"
 }

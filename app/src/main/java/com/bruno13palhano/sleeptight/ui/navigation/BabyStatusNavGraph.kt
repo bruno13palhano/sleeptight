@@ -19,13 +19,22 @@ fun NavGraphBuilder.babyStatusNavGraph(
         startDestination = BabyStatusDestinations.ALL_BABY_STATUS_ROUTE,
         route = ListsDestinations.BABY_STATUS_LIST_ROUTE,
     ) {
-        val navActions = BabyStatusNavigationActions(navController)
         composable(route = BabyStatusDestinations.ALL_BABY_STATUS_ROUTE) {
             BabyStatusListScreen(
                 onItemClick = { babyStatusId ->
-                    navActions.navigateFromAllToBabyStatus(babyStatusId)
+                    navController.navigate(
+                        route = "${BabyStatusDestinations.BABY_STATUS_ROUTE}$babyStatusId",
+                    ) {
+                        popUpTo(route = BabyStatusDestinations.ALL_BABY_STATUS_ROUTE)
+                    }
                 },
-                onAddButtonClick = navActions.navigateFromAllToNewBabyStatusTitleAndDate,
+                onAddButtonClick = {
+                    navController.navigate(
+                        route = BabyStatusDestinations.NEW_BABY_STATUS_TITLE_AND_DATE_ROUTE,
+                    ) {
+                        popUpTo(route = BabyStatusDestinations.ALL_BABY_STATUS_ROUTE)
+                    }
+                },
                 onNavigationIconClick = { navController.navigateUp() },
             )
         }
@@ -39,17 +48,37 @@ fun NavGraphBuilder.babyStatusNavGraph(
         }
         composable(route = BabyStatusDestinations.NEW_BABY_STATUS_TITLE_AND_DATE_ROUTE) {
             NewBabyStatusTitleAndDateScreen(
-                onNextButtonClick = navActions.navigateFromNewBabyStatusTitleAndDateToHeightAndWeight,
+                onNextButtonClick = {
+                    navController.navigate(
+                        route = BabyStatusDestinations.NEW_BABY_STATUS_HEIGHT_AND_WEIGHT_ROUTE,
+                    ) {
+                        popUpTo(route = BabyStatusDestinations.NEW_BABY_STATUS_TITLE_AND_DATE_ROUTE)
+                    }
+                },
                 onNavigationIconClick = { navController.navigateUp() },
                 newBabyStatusViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
         composable(route = BabyStatusDestinations.NEW_BABY_STATUS_HEIGHT_AND_WEIGHT_ROUTE) {
             NewBabyStatusHeightAndWeightScreen(
-                onDoneButtonClick = navActions.navigateFromNewBabyHeightAndWeightToAll,
+                onDoneButtonClick = {
+                    navController.navigate(route = BabyStatusDestinations.ALL_BABY_STATUS_ROUTE) {
+                        popUpTo(route = BabyStatusDestinations.ALL_BABY_STATUS_ROUTE) {
+                            inclusive = true
+                        }
+                    }
+                },
                 onNavigationIconClick = { navController.navigateUp() },
                 newBabyStatusViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
     }
+}
+
+object BabyStatusDestinations {
+    const val ALL_BABY_STATUS_ROUTE = "all_baby_status"
+    const val BABY_STATUS_ROUTE = "baby_status/"
+    const val BABY_STATUS_WITH_ID_ROUTE = "$BABY_STATUS_ROUTE{babyStatusId}"
+    const val NEW_BABY_STATUS_TITLE_AND_DATE_ROUTE = "new_baby_status_title_and_date"
+    const val NEW_BABY_STATUS_HEIGHT_AND_WEIGHT_ROUTE = "new_baby_status_height_and_weight"
 }
