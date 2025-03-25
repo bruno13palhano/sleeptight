@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.bruno13palhano.sleeptight.ui.screens.PlayerScreen
 import com.bruno13palhano.sleeptight.ui.screens.SettingsScreen
+import kotlinx.serialization.Serializable
 
 @Composable
 fun SleepTightNavGraph(
@@ -27,9 +28,7 @@ fun SleepTightNavGraph(
 
         listsNavGraph(navController = navController, viewModelStoreOwner = viewModelStoreOwner)
 
-        composable(route = SleepTightDestinations.PLAYER_ROUTE) {
-            PlayerScreen()
-        }
+        composable<MainRoutes.Player> { PlayerScreen() }
 
         analyticsNavGraph(navController)
 
@@ -54,4 +53,24 @@ object SleepTightDestinations {
     const val ANALYTICS_ROUTE = "analytics"
     const val SETTINGS_ROUTE = "settings"
     const val LOGIN_CREATE_ACCOUNT_ROUTE = "login_create_account"
+}
+
+internal sealed interface MainRoutes {
+    @Serializable
+    data object MainHome : MainRoutes
+
+    @Serializable
+    data object Lists : MainRoutes
+
+    @Serializable
+    data object Player : MainRoutes
+
+    @Serializable
+    data object Analytics : MainRoutes
+
+    @Serializable
+    data object Settings : MainRoutes
+
+    @Serializable
+    data object MainLogin : MainRoutes
 }

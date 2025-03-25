@@ -6,84 +6,80 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.bruno13palhano.sleeptight.ui.screens.naps.NapScreen
 import com.bruno13palhano.sleeptight.ui.screens.naps.NapsScreen
 import com.bruno13palhano.sleeptight.ui.screens.naps.NewNapDateScreen
 import com.bruno13palhano.sleeptight.ui.screens.naps.NewNapEndTimeScreen
 import com.bruno13palhano.sleeptight.ui.screens.naps.NewNapStartTimeScreen
 import com.bruno13palhano.sleeptight.ui.screens.naps.NewNapTitleAndObservationScreen
+import kotlinx.serialization.Serializable
 
 fun NavGraphBuilder.napsNavGraph(
     navController: NavController,
     viewModelStoreOwner: ViewModelStoreOwner,
 ) {
-    navigation(
-        startDestination = NapsDestination.NAPS_ROUTE,
-        route = ListsDestinations.NAP_LIST_ROUTE,
-    ) {
-        composable(route = NapsDestination.NAPS_ROUTE) {
+    navigation<ListsRoutes.NapList>(startDestination = NapRoutes.Naps) {
+        composable<NapRoutes.Naps> {
             NapsScreen(
                 onItemClick = {
-                    navController.navigate(route = "${NapsDestination.NAP_ROUTE}$it") {
-                        popUpTo(route = NapsDestination.NAPS_ROUTE)
+                    navController.navigate(route = NapRoutes.Nap(id = it)) {
+                        popUpTo(route = NapRoutes.Naps)
                     }
                 },
                 onAddButtonClick = {
-                    navController.navigate(
-                        route = NapsDestination.NEW_NAP_TITLE_AND_OBSERVATION_ROUTE,
-                    ) {
-                        popUpTo(route = NapsDestination.NAPS_ROUTE)
+                    navController.navigate(route = NapRoutes.NewNapTitleAndObservation) {
+                        popUpTo(route = NapRoutes.Naps)
                     }
                 },
                 onNavigationIconClick = { navController.navigateUp() },
             )
         }
-        composable(route = NapsDestination.NAP_WITH_ID_ROUTE) { backStackEntry ->
-            backStackEntry.arguments?.getString("napId")?.let { napId ->
-                NapScreen(
-                    napId = napId.toLong(),
-                    navigateUp = { navController.navigateUp() },
-                )
-            }
+        composable<NapRoutes.Nap> {
+            val id = it.toRoute<NapRoutes.Nap>().id
+            NapScreen(
+                napId = id,
+                navigateUp = { navController.navigateUp() },
+            )
         }
-        composable(route = NapsDestination.NEW_NAP_TITLE_AND_OBSERVATION_ROUTE) {
+        composable<NapRoutes.NewNapTitleAndObservation> {
             NewNapTitleAndObservationScreen(
                 onNextButtonClick = {
-                    navController.navigate(route = NapsDestination.NEW_NAP_DATE_ROUTE) {
-                        popUpTo(route = NapsDestination.NEW_NAP_TITLE_AND_OBSERVATION_ROUTE)
+                    navController.navigate(route = NapRoutes.NewNapDate) {
+                        popUpTo(route = NapRoutes.NewNapTitleAndObservation)
                     }
                 },
                 onNavigationIconClick = { navController.navigateUp() },
                 newNapViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
-        composable(route = NapsDestination.NEW_NAP_DATE_ROUTE) {
+        composable<NapRoutes.NewNapDate> {
             NewNapDateScreen(
                 onNextButtonClick = {
-                    navController.navigate(route = NapsDestination.NEW_NAP_START_TIME_ROUTE) {
-                        popUpTo(route = NapsDestination.NEW_NAP_DATE_ROUTE)
+                    navController.navigate(route = NapRoutes.NewNapStartTime) {
+                        popUpTo(route = NapRoutes.NewNapDate)
                     }
                 },
                 onNavigationIconClick = { navController.navigateUp() },
                 newNapViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
-        composable(route = NapsDestination.NEW_NAP_START_TIME_ROUTE) {
+        composable<NapRoutes.NewNapStartTime> {
             NewNapStartTimeScreen(
                 onNextButtonClick = {
-                    navController.navigate(route = NapsDestination.NEW_NAP_END_TIME_ROUTE) {
-                        popUpTo(route = NapsDestination.NEW_NAP_START_TIME_ROUTE)
+                    navController.navigate(route = NapRoutes.NewNapEndTime) {
+                        popUpTo(route = NapRoutes.NewNapStartTime)
                     }
                 },
                 onNavigationIconClick = { navController.navigateUp() },
                 newNapViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
-        composable(route = NapsDestination.NEW_NAP_END_TIME_ROUTE) {
+        composable<NapRoutes.NewNapEndTime> {
             NewNapEndTimeScreen(
                 onDoneButtonClick = {
-                    navController.navigate(route = NapsDestination.NAPS_ROUTE) {
-                        popUpTo(route = NapsDestination.NAPS_ROUTE) {
+                    navController.navigate(route = NapRoutes.Naps) {
+                        popUpTo(route = NapRoutes.Naps) {
                             inclusive = true
                         }
                     }
@@ -95,12 +91,22 @@ fun NavGraphBuilder.napsNavGraph(
     }
 }
 
-object NapsDestination {
-    const val NAPS_ROUTE = "naps"
-    const val NAP_ROUTE = "nap/"
-    const val NAP_WITH_ID_ROUTE = "$NAP_ROUTE{napId}"
-    const val NEW_NAP_TITLE_AND_OBSERVATION_ROUTE = "new_nap_title_and_observation"
-    const val NEW_NAP_DATE_ROUTE = "new_nap_date"
-    const val NEW_NAP_START_TIME_ROUTE = "new_nap_start_time"
-    const val NEW_NAP_END_TIME_ROUTE = "new_nap_end_time"
+internal sealed interface NapRoutes {
+    @Serializable
+    data object Naps : NapRoutes
+
+    @Serializable
+    data class Nap(val id: Long) : NapRoutes
+
+    @Serializable
+    data object NewNapTitleAndObservation : NapRoutes
+
+    @Serializable
+    data object NewNapDate : NapRoutes
+
+    @Serializable
+    data object NewNapStartTime : NapRoutes
+
+    @Serializable
+    data object NewNapEndTime : NapRoutes
 }

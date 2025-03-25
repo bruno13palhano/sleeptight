@@ -4,39 +4,37 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.bruno13palhano.sleeptight.ui.screens.notifications.NewNotificationScreen
 import com.bruno13palhano.sleeptight.ui.screens.notifications.NotificationScreen
 import com.bruno13palhano.sleeptight.ui.screens.notifications.NotificationsScreen
+import kotlinx.serialization.Serializable
 
 fun NavGraphBuilder.notificationsNavGraph(navController: NavController) {
-    navigation(
-        startDestination = NotificationsDestinations.NOTIFICATIONS_ROUTE,
-        route = ListsDestinations.NOTIFICATIONS_LIST_ROUTE,
-    ) {
-        composable(route = NotificationsDestinations.NOTIFICATIONS_ROUTE) {
+    navigation<ListsRoutes.NotificationsList>(startDestination = NotificationRoutes.Notifications) {
+        composable<NotificationRoutes.Notifications> {
             NotificationsScreen(
-                onItemClick = { notificationId ->
-                    navController.navigate("${NotificationsDestinations.NOTIFICATION_ROUTE}$notificationId") {
-                        popUpTo(route = NotificationsDestinations.NOTIFICATIONS_ROUTE)
+                onItemClick = { id ->
+                    navController.navigate(route = NotificationRoutes.Notification(id = id)) {
+                        popUpTo(route = NotificationRoutes.Notifications)
                     }
                 },
                 onAddButtonClick = {
-                    navController.navigate(route = NotificationsDestinations.NEW_NOTIFICATION_ROUTE) {
-                        popUpTo(route = NotificationsDestinations.NOTIFICATIONS_ROUTE)
+                    navController.navigate(route = NotificationRoutes.NewNotification) {
+                        popUpTo(route = NotificationRoutes.Notifications)
                     }
                 },
                 onNavigationIconClick = { navController.navigateUp() },
             )
         }
-        composable(route = NotificationsDestinations.NOTIFICATION_WITH_ID_ROUTE) { backStackEntry ->
-            backStackEntry.arguments?.getString("notificationId")?.let { notificationId ->
-                NotificationScreen(
-                    notificationId = notificationId.toLong(),
-                    navigateUp = { navController.navigateUp() },
-                )
-            }
+        composable<NotificationRoutes.Notification> {
+            val id = it.toRoute<NotificationRoutes.Notification>().id
+            NotificationScreen(
+                notificationId = id,
+                navigateUp = { navController.navigateUp() },
+            )
         }
-        composable(route = NotificationsDestinations.NEW_NOTIFICATION_ROUTE) {
+        composable<NotificationRoutes.NewNotification> {
             NewNotificationScreen(
                 onDoneButtonClick = { navController.navigateUp() },
                 onNavigationIconClick = { navController.navigateUp() },
@@ -45,9 +43,13 @@ fun NavGraphBuilder.notificationsNavGraph(navController: NavController) {
     }
 }
 
-object NotificationsDestinations {
-    const val NOTIFICATIONS_ROUTE = "notifications"
-    const val NOTIFICATION_ROUTE = "notification/"
-    const val NOTIFICATION_WITH_ID_ROUTE = "$NOTIFICATION_ROUTE{notificationId}"
-    const val NEW_NOTIFICATION_ROUTE = "new_notification"
+internal sealed interface NotificationRoutes {
+    @Serializable
+    data object Notifications : NotificationRoutes
+
+    @Serializable
+    data class Notification(val id: Long) : NotificationRoutes
+
+    @Serializable
+    data object NewNotification : NotificationRoutes
 }

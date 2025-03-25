@@ -12,81 +12,79 @@ import com.bruno13palhano.sleeptight.ui.screens.login.BabyNameAccountScreen
 import com.bruno13palhano.sleeptight.ui.screens.login.BabyPhotoAccountScreen
 import com.bruno13palhano.sleeptight.ui.screens.login.CreateAccountScreen
 import com.bruno13palhano.sleeptight.ui.screens.login.LoginScreen
+import kotlinx.serialization.Serializable
 
 fun NavGraphBuilder.loginNavGraph(
     navController: NavController,
     viewModelStoreOwner: ViewModelStoreOwner,
 ) {
-    navigation(
-        startDestination = LoginDestinations.LOGIN_ROUTE,
-        route = SleepTightDestinations.LOGIN_CREATE_ACCOUNT_ROUTE,
-    ) {
-        composable(route = LoginDestinations.LOGIN_ROUTE) {
+    navigation<MainRoutes.MainLogin>(startDestination = LoginRoutes.Login) {
+        composable<LoginRoutes.Login> {
             LoginScreen(
                 onLoginSuccess = {
-                    navController.navigate(route = SleepTightDestinations.HOME_ROUTE) {
-                        popUpTo(route = SleepTightDestinations.LOGIN_CREATE_ACCOUNT_ROUTE) {
+                    navController.navigate(route = MainRoutes.MainHome) {
+                        popUpTo(route = MainRoutes.MainLogin) {
                             inclusive = true
                         }
                         launchSingleTop = true
                     }
                 },
                 onCreateAccountButtonClick = {
-                    navController.navigate(route = LoginDestinations.CREATE_ACCOUNT_ROUTE) {
-                        popUpTo(route = LoginDestinations.LOGIN_ROUTE)
+                    navController.navigate(route = LoginRoutes.CreateAccount) {
+                        popUpTo(route = LoginRoutes.Login)
                     }
                 },
             )
         }
-        composable(route = LoginDestinations.CREATE_ACCOUNT_ROUTE) {
+        composable<LoginRoutes.CreateAccount> {
             CreateAccountScreen(
                 onNextButtonClick = {
-                    navController.navigate(route = LoginDestinations.BABY_PHOTO_ROUTE) {
-                        popUpTo(route = LoginDestinations.CREATE_ACCOUNT_ROUTE)
+                    navController.navigate(route = LoginRoutes.BabyPhoto) {
+                        popUpTo(route = LoginRoutes.CreateAccount)
                     }
                 },
                 onNavigationIconClick = { navController.navigateUp() },
                 createAccountViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
-        composable(route = LoginDestinations.BABY_PHOTO_ROUTE) {
+        composable<LoginRoutes.BabyPhoto> {
             BabyPhotoAccountScreen(
                 onNextButtonClick = {
-                    navController.navigate(route = LoginDestinations.BABY_NAME_ROUTE) {
-                        popUpTo(route = LoginDestinations.BABY_PHOTO_ROUTE)
+                    navController.navigate(route = LoginRoutes.BabyName) {
+                        popUpTo(route = LoginRoutes.BabyPhoto)
                     }
                 },
                 onNavigationIconButton = { navController.navigateUp() },
                 createAccountViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
-        composable(route = LoginDestinations.BABY_NAME_ROUTE) {
+        composable<LoginRoutes.BabyName> {
             BabyNameAccountScreen(
                 onNextButtonClick = {
-                    navController.navigate(route = LoginDestinations.BABY_BIRTHPLACE_ROUTE) {
-                        popUpTo(route = LoginDestinations.BABY_NAME_ROUTE)
+                    navController.navigate(route = LoginRoutes.BabyBirthplace) {
+                        popUpTo(route = LoginRoutes.BabyName)
                     }
                 },
                 onNavigationIconClick = { navController.navigateUp() },
                 createAccountViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
-        composable(route = LoginDestinations.BABY_BIRTHPLACE_ROUTE) {
+        composable<LoginRoutes.BabyBirthplace> {
             BabyBirthplaceAccountScreen(
                 onNextButtonClick = {
-                    navController.navigate(route = LoginDestinations.BABY_BIRTH_ACCOUNT_ROUTE) {
-                        popUpTo(route = LoginDestinations.BABY_BIRTHPLACE_ROUTE)
+                    navController.navigate(route = LoginRoutes.BabyBirthAccount) {
+                        popUpTo(route = LoginRoutes.BabyBirthplace)
                     }
                 },
                 onNavigationIconClick = { navController.navigateUp() },
                 createAccountViewModel = hiltViewModel(viewModelStoreOwner = viewModelStoreOwner),
             )
         }
-        composable(route = LoginDestinations.BABY_BIRTH_ACCOUNT_ROUTE) {
+        composable<LoginRoutes.BabyBirthAccount> {
             BabyBirthAccountScreen(
                 onCreateAccountSuccess = {
-                    navController.navigate(route = SleepTightDestinations.HOME_ROUTE) {
-                        popUpTo(route = LoginDestinations.LOGIN_ROUTE) {
+                    navController.navigate(route = MainRoutes.MainHome) {
+                        popUpTo(route = LoginRoutes.Login) {
                             inclusive = true
                         }
                         launchSingleTop = true
@@ -99,11 +97,22 @@ fun NavGraphBuilder.loginNavGraph(
     }
 }
 
-object LoginDestinations {
-    const val LOGIN_ROUTE = "login"
-    const val CREATE_ACCOUNT_ROUTE = "create_account"
-    const val BABY_PHOTO_ROUTE = "baby_photo"
-    const val BABY_NAME_ROUTE = "baby_name"
-    const val BABY_BIRTHPLACE_ROUTE = "baby_birthplace"
-    const val BABY_BIRTH_ACCOUNT_ROUTE = "baby_birth_account"
+internal sealed interface LoginRoutes {
+    @Serializable
+    data object Login : LoginRoutes
+
+    @Serializable
+    data object CreateAccount : LoginRoutes
+
+    @Serializable
+    data object BabyPhoto : LoginRoutes
+
+    @Serializable
+    data object BabyName : LoginRoutes
+
+    @Serializable
+    data object BabyBirthplace : LoginRoutes
+
+    @Serializable
+    data object BabyBirthAccount : LoginRoutes
 }

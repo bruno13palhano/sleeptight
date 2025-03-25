@@ -19,7 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.bruno13palhano.sleeptight.ui.BottomNavigation
+import com.bruno13palhano.sleeptight.ui.navigation.BottomNavigation
 import com.bruno13palhano.sleeptight.ui.navigation.HomeDestinations
 import com.bruno13palhano.sleeptight.ui.navigation.LoginDestinations
 import com.bruno13palhano.sleeptight.ui.navigation.SleepTightNavGraph
@@ -42,18 +42,18 @@ class MainActivity : ComponentActivity() {
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     val mainViewModel: MainViewModel = hiltViewModel()
 
-                    showBottomBar = when (navBackStackEntry?.destination?.route) {
-                        LoginDestinations.LOGIN_ROUTE -> false
-                        LoginDestinations.CREATE_ACCOUNT_ROUTE -> false
-                        LoginDestinations.BABY_NAME_ROUTE -> false
-                        LoginDestinations.BABY_PHOTO_ROUTE -> false
-                        LoginDestinations.BABY_BIRTHPLACE_ROUTE -> false
-                        LoginDestinations.BABY_BIRTH_ACCOUNT_ROUTE -> false
-                        HomeDestinations.HOME_MAIN_ROUTE -> {
-                            mainViewModel.isUserAuthenticated()
-                        }
-                        else -> true
-                    }
+//                    showBottomBar = when (navBackStackEntry?.destination?.route) {
+//                        LoginDestinations.LOGIN_ROUTE -> false
+//                        LoginDestinations.CREATE_ACCOUNT_ROUTE -> false
+//                        LoginDestinations.BABY_NAME_ROUTE -> false
+//                        LoginDestinations.BABY_PHOTO_ROUTE -> false
+//                        LoginDestinations.BABY_BIRTHPLACE_ROUTE -> false
+//                        LoginDestinations.BABY_BIRTH_ACCOUNT_ROUTE -> false
+//                        HomeDestinations.HOME_MAIN_ROUTE -> {
+//                            mainViewModel.isUserAuthenticated()
+//                        }
+//                        else -> true
+//                    }
 
                     Scaffold(
                         bottomBar = {

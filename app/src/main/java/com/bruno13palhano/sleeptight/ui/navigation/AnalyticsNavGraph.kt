@@ -7,6 +7,7 @@ import androidx.navigation.navigation
 import com.bruno13palhano.sleeptight.ui.screens.AnalyticsScreen
 import com.bruno13palhano.sleeptight.ui.screens.analytics.BabyStatusChartsScreen
 import com.bruno13palhano.sleeptight.ui.screens.analytics.NapChartsScreen
+import kotlinx.serialization.Serializable
 
 fun NavGraphBuilder.analyticsNavGraph(navController: NavController) {
     navigation(
@@ -41,4 +42,15 @@ object AnalyticsDestinations {
     const val LIST_CHARTS = "list_charts"
     const val BABY_STATUS_CHARTS_ROUTE = "baby_status_charts"
     const val NAP_CHARTS_ROUTE = "nap_charts"
+}
+
+internal sealed interface AnalyticsRoutes {
+    @Serializable
+    data object ListCharts : AnalyticsRoutes
+
+    @Serializable
+    data object BabyStatusCharts : AnalyticsRoutes
+
+    @Serializable
+    data object NapCharts : AnalyticsRoutes
 }

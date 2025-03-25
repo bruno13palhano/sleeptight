@@ -8,6 +8,7 @@ import com.bruno13palhano.sleeptight.ui.screens.HomeScreen
 import com.bruno13palhano.sleeptight.ui.screens.babystatus.BabyStatusScreen
 import com.bruno13palhano.sleeptight.ui.screens.naps.NapScreen
 import com.bruno13palhano.sleeptight.ui.screens.notifications.NotificationScreen
+import kotlinx.serialization.Serializable
 
 fun NavGraphBuilder.homeNavGraph(navController: NavController) {
     navigation(
@@ -76,4 +77,18 @@ object HomeDestinations {
     const val LAST_BABY_STATUS_ROUTE_WITH_ID = "home_last_baby_status/{babyStatusId}"
     const val LAST_NAP_ROUTE_WITH_ID = "home_last_nap/{napId}"
     const val LAST_NOTIFICATION_ROUTE_WITH_ID = "home_last_notification/{notificationId}"
+}
+
+internal sealed interface HomeRoutes {
+    @Serializable
+    data object Home : HomeRoutes
+
+    @Serializable
+    data class LastBabyStatus(val id: Long) : HomeRoutes
+
+    @Serializable
+    data class LastNap(val id: Long) : HomeRoutes
+
+    @Serializable
+    data class LastNotification(val id: Long) : HomeRoutes
 }
