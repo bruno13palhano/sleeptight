@@ -318,10 +318,14 @@ internal fun rememberMarker(): Marker {
             init {
                 indicatorSizeDp = INDICATOR_SIZE_DP
                 onApplyEntryColor = { entryColor ->
-                    indicatorOuterComponent.color = entryColor.copyColor(INDICATOR_OUTER_COMPONENT_ALPHA)
+                    indicatorOuterComponent.color =
+                        entryColor.copyColor(INDICATOR_OUTER_COMPONENT_ALPHA)
                     with(indicatorCenterComponent) {
                         color = entryColor
-                        setShadow(radius = INDICATOR_CENTER_COMPONENT_SHADOW_RADIUS, color = entryColor)
+                        setShadow(
+                            radius = INDICATOR_CENTER_COMPONENT_SHADOW_RADIUS,
+                            color = entryColor,
+                        )
                     }
                 }
             }
