@@ -1,10 +1,14 @@
 package com.bruno13palhano.sleeptight.ui.mediaplayer
 
+import android.content.ContentResolver
+import android.net.Uri
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.datasource.RawResourceDataSource
 import com.bruno13palhano.sleeptight.R
 
 @UnstableApi object ListOfMusics {
+    private val builder = Uri.Builder()
+        .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+
     val sleepMusics = listOf(
         SleepMusic(
             id = "fan_01",
@@ -12,7 +16,7 @@ import com.bruno13palhano.sleeptight.R
             album = "Sounds to Sleep",
             artist = "SleepTight",
             genre = "White Noise",
-            source = RawResourceDataSource.buildRawResourceUri(R.raw.fan),
+            source = builder.path(R.raw.fan.toString()).build(),
             image = null,
         ),
         SleepMusic(
@@ -21,7 +25,7 @@ import com.bruno13palhano.sleeptight.R
             album = "Sounds to Sleep",
             artist = "SleepTight",
             genre = "White Noise",
-            source = RawResourceDataSource.buildRawResourceUri(R.raw.heater),
+            source = builder.path(R.raw.heater.toString()).build(),
             image = null,
         ),
         SleepMusic(
@@ -30,7 +34,7 @@ import com.bruno13palhano.sleeptight.R
             album = "Sounds to Sleep",
             artist = "SleepTight",
             genre = "White Noise",
-            source = RawResourceDataSource.buildRawResourceUri(R.raw.white_noise),
+            source = builder.path(R.raw.white_noise.toString()).build(),
             image = null,
         ),
         SleepMusic(
@@ -39,7 +43,7 @@ import com.bruno13palhano.sleeptight.R
             album = "Sounds to Sleep",
             artist = "SleepTight",
             genre = "White Noise",
-            source = RawResourceDataSource.buildRawResourceUri(R.raw.rain),
+            source = builder.path(R.raw.rain.toString()).build(),
             image = null,
         ),
         SleepMusic(
@@ -48,7 +52,7 @@ import com.bruno13palhano.sleeptight.R
             album = "Sounds to Sleep",
             artist = "SleepTight",
             genre = "White Noise",
-            source = RawResourceDataSource.buildRawResourceUri(R.raw.water),
+            source = builder.path(R.raw.water.toString()).build(),
             image = null,
         ),
         SleepMusic(
@@ -57,7 +61,7 @@ import com.bruno13palhano.sleeptight.R
             album = "Sounds to Sleep",
             artist = "SleepTight",
             genre = "White Noise",
-            source = RawResourceDataSource.buildRawResourceUri(R.raw.white_noise),
+            source = builder.path(R.raw.white_noise.toString()).build(),
             image = null,
         ),
         SleepMusic(
@@ -66,7 +70,7 @@ import com.bruno13palhano.sleeptight.R
             album = "Sounds to Sleep",
             artist = "SleepTight",
             genre = "White Noise",
-            source = RawResourceDataSource.buildRawResourceUri(R.raw.lullaby),
+            source = builder.path(R.raw.lullaby.toString()).build(),
             image = null,
         ),
     )
