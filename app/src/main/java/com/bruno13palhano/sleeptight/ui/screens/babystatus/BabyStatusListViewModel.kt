@@ -2,8 +2,8 @@ package com.bruno13palhano.sleeptight.ui.screens.babystatus
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bruno13palhano.core.data.data.CommonDataContract
-import com.bruno13palhano.core.data.di.BabyStatusRep
+import com.bruno13palhano.core.CommonDataContract
+import com.bruno13palhano.core.di.BabyStatusRep
 import com.bruno13palhano.model.BabyStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

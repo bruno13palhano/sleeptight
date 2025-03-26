@@ -1,4 +1,4 @@
-package com.bruno13palhano.core.data.data
+package com.bruno13palhano.core
 
 import com.bruno13palhano.model.BabyStatus
 import com.bruno13palhano.model.Nap

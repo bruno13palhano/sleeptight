@@ -1,9 +1,9 @@
-package com.bruno13palhano.core.data.repository
+package com.bruno13palhano.core.repository
 
-import com.bruno13palhano.core.data.data.UserDataContract
-import com.bruno13palhano.core.data.database.dao.UserDao
-import com.bruno13palhano.core.data.database.model.asUser
-import com.bruno13palhano.core.data.database.model.asUserEntity
+import com.bruno13palhano.core.UserDataContract
+import com.bruno13palhano.core.database.dao.UserDao
+import com.bruno13palhano.core.database.model.asUser
+import com.bruno13palhano.core.database.model.asUserEntity
 import com.bruno13palhano.model.User
 import javax.inject.Inject
 import javax.inject.Singleton

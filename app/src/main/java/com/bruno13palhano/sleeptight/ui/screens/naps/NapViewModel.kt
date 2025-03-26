@@ -8,8 +8,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bruno13palhano.core.data.data.CommonDataContract
-import com.bruno13palhano.core.data.di.NapRep
+import com.bruno13palhano.core.CommonDataContract
+import com.bruno13palhano.core.di.NapRep
 import com.bruno13palhano.model.Nap
 import com.bruno13palhano.sleeptight.ui.util.CalendarUtil
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil

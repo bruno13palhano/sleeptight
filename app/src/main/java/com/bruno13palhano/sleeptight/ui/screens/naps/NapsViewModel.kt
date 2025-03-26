@@ -2,8 +2,8 @@ package com.bruno13palhano.sleeptight.ui.screens.naps
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bruno13palhano.core.data.data.CommonDataContract
-import com.bruno13palhano.core.data.di.NapRep
+import com.bruno13palhano.core.CommonDataContract
+import com.bruno13palhano.core.di.NapRep
 import com.bruno13palhano.model.Nap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

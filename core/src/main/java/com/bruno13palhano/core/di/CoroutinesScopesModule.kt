@@ -1,4 +1,4 @@
-package com.bruno13palhano.core.data.di
+package com.bruno13palhano.core.di
 
 import dagger.Module
 import dagger.Provides

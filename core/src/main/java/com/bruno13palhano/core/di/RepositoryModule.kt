@@ -1,11 +1,11 @@
-package com.bruno13palhano.core.data.di
+package com.bruno13palhano.core.di
 
-import com.bruno13palhano.core.data.data.CommonDataContract
-import com.bruno13palhano.core.data.data.UserDataContract
-import com.bruno13palhano.core.data.repository.BabyStatusRepository
-import com.bruno13palhano.core.data.repository.NapRepository
-import com.bruno13palhano.core.data.repository.NotificationRepository
-import com.bruno13palhano.core.data.repository.UserRepository
+import com.bruno13palhano.core.CommonDataContract
+import com.bruno13palhano.core.UserDataContract
+import com.bruno13palhano.core.repository.BabyStatusRepository
+import com.bruno13palhano.core.repository.NapRepository
+import com.bruno13palhano.core.repository.NotificationRepository
+import com.bruno13palhano.core.repository.UserRepository
 import com.bruno13palhano.model.BabyStatus
 import com.bruno13palhano.model.Nap
 import com.bruno13palhano.model.Notification

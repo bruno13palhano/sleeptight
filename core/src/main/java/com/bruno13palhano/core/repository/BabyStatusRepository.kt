@@ -1,9 +1,9 @@
-package com.bruno13palhano.core.data.repository
+package com.bruno13palhano.core.repository
 
-import com.bruno13palhano.core.data.data.CommonDataContract
-import com.bruno13palhano.core.data.database.dao.BabyStatusDao
-import com.bruno13palhano.core.data.database.model.asBabyStatus
-import com.bruno13palhano.core.data.database.model.asBabyStatusEntity
+import com.bruno13palhano.core.CommonDataContract
+import com.bruno13palhano.core.database.dao.BabyStatusDao
+import com.bruno13palhano.core.database.model.asBabyStatus
+import com.bruno13palhano.core.database.model.asBabyStatusEntity
 import com.bruno13palhano.model.BabyStatus
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow

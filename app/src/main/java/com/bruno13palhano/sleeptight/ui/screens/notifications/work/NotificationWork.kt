@@ -10,8 +10,8 @@ import android.content.Intent
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.bruno13palhano.core.data.data.CommonDataContract
-import com.bruno13palhano.core.data.di.NotificationRep
+import com.bruno13palhano.core.CommonDataContract
+import com.bruno13palhano.core.di.NotificationRep
 import com.bruno13palhano.model.Notification
 import com.bruno13palhano.sleeptight.ui.screens.notifications.AlarmNotification
 import com.bruno13palhano.sleeptight.ui.screens.notifications.receivers.NotificationReceiver

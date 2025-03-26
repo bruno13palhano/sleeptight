@@ -1,9 +1,9 @@
-package com.bruno13palhano.core.data.repository
+package com.bruno13palhano.core.repository
 
-import com.bruno13palhano.core.data.data.CommonDataContract
-import com.bruno13palhano.core.data.database.dao.NotificationDao
-import com.bruno13palhano.core.data.database.model.asNotification
-import com.bruno13palhano.core.data.database.model.asNotificationEntity
+import com.bruno13palhano.core.CommonDataContract
+import com.bruno13palhano.core.database.dao.NotificationDao
+import com.bruno13palhano.core.database.model.asNotification
+import com.bruno13palhano.core.database.model.asNotificationEntity
 import com.bruno13palhano.model.Notification
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -1,9 +1,9 @@
-package com.bruno13palhano.core.data.repository
+package com.bruno13palhano.core.repository
 
-import com.bruno13palhano.core.data.data.CommonDataContract
-import com.bruno13palhano.core.data.database.dao.NapDao
-import com.bruno13palhano.core.data.database.model.asNap
-import com.bruno13palhano.core.data.database.model.asNapEntity
+import com.bruno13palhano.core.CommonDataContract
+import com.bruno13palhano.core.database.dao.NapDao
+import com.bruno13palhano.core.database.model.asNap
+import com.bruno13palhano.core.database.model.asNapEntity
 import com.bruno13palhano.model.Nap
 import javax.inject.Inject
 import javax.inject.Singleton

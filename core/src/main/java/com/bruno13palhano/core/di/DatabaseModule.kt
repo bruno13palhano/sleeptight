@@ -1,12 +1,12 @@
-package com.bruno13palhano.core.data.di
+package com.bruno13palhano.core.di
 
 import android.content.Context
 import androidx.room.Room
-import com.bruno13palhano.core.data.database.SleepTightDatabase
-import com.bruno13palhano.core.data.database.dao.BabyStatusDao
-import com.bruno13palhano.core.data.database.dao.NapDao
-import com.bruno13palhano.core.data.database.dao.NotificationDao
-import com.bruno13palhano.core.data.database.dao.UserDao
+import com.bruno13palhano.core.database.SleepTightDatabase
+import com.bruno13palhano.core.database.dao.BabyStatusDao
+import com.bruno13palhano.core.database.dao.NapDao
+import com.bruno13palhano.core.database.dao.NotificationDao
+import com.bruno13palhano.core.database.dao.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
