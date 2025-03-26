@@ -64,7 +64,9 @@ class NapViewModel @Inject constructor(
 
     fun updateStartTime(hour: Int, minute: Int) {
         startTimeInMillis = CalendarUtil.timeToMilliseconds(hour, minute)
-        startTime = DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(startTimeInMillis)
+        startTime = DateFormat
+            .getPatternInstance(DateFormat.HOUR24_MINUTE)
+            .format(startTimeInMillis)
     }
 
     fun updateEndTime(hour: Int, minute: Int) {

@@ -112,7 +112,9 @@ class CreateAccountViewModel @Inject constructor(
 
     fun updateTime(hour: Int, minute: Int) {
         birthtimeInMillis = CalendarUtil.timeToMilliseconds(hour, minute)
-        this.birthtime = DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(birthtimeInMillis)
+        this.birthtime = DateFormat
+            .getPatternInstance(DateFormat.HOUR24_MINUTE)
+            .format(birthtimeInMillis)
     }
 
     fun updateHeight(height: String) {

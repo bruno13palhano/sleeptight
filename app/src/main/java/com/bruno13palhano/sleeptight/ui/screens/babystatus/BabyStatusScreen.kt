@@ -100,7 +100,8 @@ fun BabyStatusScreen(
         ) {
             datePickerState = rememberDatePickerState(
                 initialSelectedDateMillis = babyStatusViewModel.dateInMillis,
-                initialDisplayMode = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                initialDisplayMode =
+                if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                     DisplayMode.Picker
                 } else {
                     DisplayMode.Input

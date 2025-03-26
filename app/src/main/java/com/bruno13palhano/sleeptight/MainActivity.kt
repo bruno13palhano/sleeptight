@@ -20,8 +20,6 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bruno13palhano.sleeptight.ui.navigation.BottomNavigation
-import com.bruno13palhano.sleeptight.ui.navigation.HomeDestinations
-import com.bruno13palhano.sleeptight.ui.navigation.LoginDestinations
 import com.bruno13palhano.sleeptight.ui.navigation.SleepTightNavGraph
 import com.bruno13palhano.sleeptight.ui.screens.CircularProgress
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme

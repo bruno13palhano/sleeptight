@@ -135,7 +135,11 @@ fun AnalyticsCard(analyticsItem: AnalyticsItem, modifier: Modifier, onItemClick:
     }
 }
 
-sealed class AnalyticsItem(@StringRes val text: Int, val imageVector: ImageVector, val route: String) {
+sealed class AnalyticsItem(
+    @StringRes val text: Int,
+    val imageVector: ImageVector,
+    val route: String,
+) {
     object BabyStatusCharts : AnalyticsItem(
         R.string.all_baby_status_label,
         Icons.Filled.MultilineChart,

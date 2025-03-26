@@ -17,7 +17,12 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.common.util.Util
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.session.*
+import androidx.media3.session.CommandButton
+import androidx.media3.session.LibraryResult
+import androidx.media3.session.MediaLibraryService
+import androidx.media3.session.MediaSession
+import androidx.media3.session.SessionCommand
+import androidx.media3.session.SessionResult
 import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
 import com.google.common.collect.ImmutableList
@@ -287,8 +292,8 @@ import com.google.common.util.concurrent.ListenableFuture
         }
     }
 
-    private fun ensureNotificationChannel(notificationManagerCompat: NotificationManagerCompat) {
-        if (Util.SDK_INT < 26 || notificationManagerCompat.getNotificationChannel(CHANNEL_ID) != null) {
+    private fun ensureNotificationChannel(notificationManager: NotificationManagerCompat) {
+        if (Util.SDK_INT < 26 || notificationManager.getNotificationChannel(CHANNEL_ID) != null) {
             return
         }
 
@@ -297,6 +302,6 @@ import com.google.common.util.concurrent.ListenableFuture
             getString(R.string.notification_channel_name),
             NotificationManager.IMPORTANCE_DEFAULT,
         )
-        notificationManagerCompat.createNotificationChannel(channel)
+        notificationManager.createNotificationChannel(channel)
     }
 }

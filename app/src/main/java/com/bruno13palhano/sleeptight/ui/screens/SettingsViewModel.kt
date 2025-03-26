@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.authentication.DefaultUserFirebase
@@ -89,7 +90,9 @@ class SettingsViewModel @Inject constructor(
 
     fun updateBirthtime(hour: Int, minute: Int) {
         birthtimeInMillis = CalendarUtil.timeToMilliseconds(hour, minute)
-        birthtime = DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(birthtimeInMillis)
+        birthtime = DateFormat
+            .getPatternInstance(DateFormat.HOUR24_MINUTE)
+            .format(birthtimeInMillis)
     }
 
     fun updateHeight(height: String) {
@@ -114,14 +117,16 @@ class SettingsViewModel @Inject constructor(
                 userInDB = it
                 username = it.username
                 babyName = it.babyName
-                photoUri = Uri.parse(it.babyUrlPhoto)
+                photoUri = it.babyUrlPhoto.toUri()
                 birthplace = it.birthplace
                 birthdateInMillis = it.birthdate
                 birthdate = DateFormatUtil.format(it.birthdate)
                 birthtimeInMillis = it.birthtime
                 birthtimeHour = getHour(it.birthtime)
                 birthtimeMinute = getMinute(it.birthtime)
-                birthtime = DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(it.birthtime)
+                birthtime = DateFormat
+                    .getPatternInstance(DateFormat.HOUR24_MINUTE)
+                    .format(it.birthtime)
                 height = measureWithLocalDecimal(it.height.toString())
                 weight = measureWithLocalDecimal(it.weight.toString())
             }

@@ -78,12 +78,12 @@ internal fun <T> NavDestination.isRouteSelected(screen: Screen<T>): Boolean {
 internal sealed class Screen<T>(
     val route: T,
     val icon: ImageVector,
-    @StringRes val resourceId: Int
+    @StringRes val resourceId: Int,
 ) {
     data object Home : Screen<HomeRoutes>(
         route = HomeRoutes.Home,
         icon = Icons.Filled.Home,
-        resourceId = R.string.home_label
+        resourceId = R.string.home_label,
     )
     object Lists : Screen<ListsRoutes>(
         route = ListsRoutes.AllLists,
@@ -96,9 +96,9 @@ internal sealed class Screen<T>(
         resourceId = R.string.player_label,
     )
     object Analytics : Screen<AnalyticsRoutes>(
-        route =  AnalyticsRoutes.ListCharts,
+        route = AnalyticsRoutes.ListCharts,
         icon = Icons.Filled.BarChart,
-        resourceId= R.string.analytics_label,
+        resourceId = R.string.analytics_label,
     )
     object Settings : Screen<MainRoutes>(
         route = MainRoutes.Settings,

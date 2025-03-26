@@ -69,12 +69,16 @@ class NewNapViewModel @Inject constructor(
 
     fun updateStartTime(hour: Int, minute: Int) {
         startTimeInMillis = CalendarUtil.timeToMilliseconds(hour, minute)
-        this.startTime = DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(startTimeInMillis)
+        this.startTime = DateFormat
+            .getPatternInstance(DateFormat.HOUR24_MINUTE)
+            .format(startTimeInMillis)
     }
 
     fun updateEndTime(hour: Int, minute: Int) {
         endTimeInMillis = CalendarUtil.timeToMilliseconds(hour, minute)
-        this.endTime = DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(endTimeInMillis)
+        this.endTime = DateFormat
+            .getPatternInstance(DateFormat.HOUR24_MINUTE)
+            .format(endTimeInMillis)
     }
 
     fun insertNap() {
@@ -99,7 +103,9 @@ class NewNapViewModel @Inject constructor(
         dateInMillis = System.currentTimeMillis()
         date = DateFormatUtil.format(dateInMillis)
         startTimeInMillis = Calendar.getInstance().timeInMillis
-        startTime = DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(startTimeInMillis)
+        startTime = DateFormat
+            .getPatternInstance(DateFormat.HOUR24_MINUTE)
+            .format(startTimeInMillis)
         endTimeInMillis = Calendar.getInstance().timeInMillis
         endTime = DateFormat.getPatternInstance(DateFormat.HOUR24_MINUTE).format(endTimeInMillis)
         observations = ""
