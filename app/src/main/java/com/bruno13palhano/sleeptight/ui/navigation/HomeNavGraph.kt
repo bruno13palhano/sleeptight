@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.bruno13palhano.sleeptight.ui.screens.HomeScreen
 import com.bruno13palhano.sleeptight.ui.screens.babystatus.BabyStatusScreen
 import com.bruno13palhano.sleeptight.ui.screens.naps.NapScreen
@@ -11,72 +12,56 @@ import com.bruno13palhano.sleeptight.ui.screens.notifications.NotificationScreen
 import kotlinx.serialization.Serializable
 
 fun NavGraphBuilder.homeNavGraph(navController: NavController) {
-    navigation(
-        startDestination = HomeDestinations.HOME_MAIN_ROUTE,
-        route = SleepTightDestinations.HOME_ROUTE,
-    ) {
-        composable(route = HomeDestinations.HOME_MAIN_ROUTE) {
+    navigation<MainRoutes.MainHome>(startDestination = HomeRoutes.Home) {
+        composable<HomeRoutes.Home> {
             HomeScreen(
                 navigateToLogin = {
-                    navController.navigate(SleepTightDestinations.LOGIN_CREATE_ACCOUNT_ROUTE) {
-                        popUpTo(HomeDestinations.HOME_MAIN_ROUTE) {
+                    navController.navigate(route = MainRoutes.MainLogin) {
+                        popUpTo(route = HomeRoutes.Home) {
                             inclusive = true
                         }
                         launchSingleTop = true
                     }
                 },
-                navigateToLastBabyStatus = {
-                    navController.navigate("${HomeDestinations.LAST_BABY_STATUS_ROUTE}$it") {
-                        popUpTo(HomeDestinations.HOME_MAIN_ROUTE)
+                navigateToLastBabyStatus = { id ->
+                    navController.navigate(route = HomeRoutes.LastBabyStatus(id = id)) {
+                        popUpTo(route = HomeRoutes.Home)
                     }
                 },
-                navigateToLastNap = {
-                    navController.navigate("${HomeDestinations.LAST_NAP_ROUTE}$it") {
-                        popUpTo(HomeDestinations.HOME_MAIN_ROUTE)
+                navigateToLastNap = { id ->
+                    navController.navigate(route = HomeRoutes.LastNap(id = id)) {
+                        popUpTo(route = HomeRoutes.Home)
                     }
                 },
-                navigateToLastNotification = {
-                    navController.navigate("${HomeDestinations.LAST_NOTIFICATION_ROUTE}$it") {
-                        popUpTo(HomeDestinations.HOME_MAIN_ROUTE)
+                navigateToLastNotification = { id ->
+                    navController.navigate(route = HomeRoutes.LastNotification(id = id)) {
+                        popUpTo(route = HomeRoutes.Home)
                     }
                 },
             )
         }
-        composable(route = HomeDestinations.LAST_BABY_STATUS_ROUTE_WITH_ID) { backStackEntry ->
-            backStackEntry.arguments?.getString("babyStatusId")?.let { babyStatusId ->
-                BabyStatusScreen(
-                    babyStatusId = babyStatusId.toLong(),
-                    navigateUp = { navController.navigateUp() },
-                )
-            }
+        composable<HomeRoutes.LastBabyStatus> {
+            val id = it.toRoute<HomeRoutes.LastBabyStatus>().id
+            BabyStatusScreen(
+                babyStatusId = id,
+                navigateUp = { navController.navigateUp() },
+            )
         }
-        composable(route = HomeDestinations.LAST_NAP_ROUTE_WITH_ID) { backStackEntry ->
-            backStackEntry.arguments?.getString("napId")?.let { napId ->
-                NapScreen(
-                    napId = napId.toLong(),
-                    navigateUp = { navController.navigateUp() },
-                )
-            }
+        composable<HomeRoutes.LastNap> {
+            val id = it.toRoute<HomeRoutes.LastNap>().id
+            NapScreen(
+                napId = id,
+                navigateUp = { navController.navigateUp() },
+            )
         }
-        composable(route = HomeDestinations.LAST_NOTIFICATION_ROUTE_WITH_ID) { backStackEntry ->
-            backStackEntry.arguments?.getString("notificationId")?.let { notificationId ->
-                NotificationScreen(
-                    notificationId = notificationId.toLong(),
-                    navigateUp = { navController.navigateUp() },
-                )
-            }
+        composable<HomeRoutes.LastNotification> {
+            val id = it.toRoute<HomeRoutes.LastNotification>().id
+            NotificationScreen(
+                notificationId = id,
+                navigateUp = { navController.navigateUp() },
+            )
         }
     }
-}
-
-object HomeDestinations {
-    const val HOME_MAIN_ROUTE = "home_main"
-    const val LAST_BABY_STATUS_ROUTE = "home_last_baby_status/"
-    const val LAST_NAP_ROUTE = "home_last_nap/"
-    const val LAST_NOTIFICATION_ROUTE = "home_last_notification/"
-    const val LAST_BABY_STATUS_ROUTE_WITH_ID = "home_last_baby_status/{babyStatusId}"
-    const val LAST_NAP_ROUTE_WITH_ID = "home_last_nap/{napId}"
-    const val LAST_NOTIFICATION_ROUTE_WITH_ID = "home_last_notification/{notificationId}"
 }
 
 internal sealed interface HomeRoutes {

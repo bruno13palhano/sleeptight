@@ -27,13 +27,6 @@ fun NavGraphBuilder.listsNavGraph(
     }
 }
 
-object ListsDestinations {
-    const val ALL_LISTS_ROUTE = "all_lists"
-    const val BABY_STATUS_LIST_ROUTE = "lists_to_baby_status"
-    const val NAP_LIST_ROUTE = "lists_to_naps"
-    const val NOTIFICATIONS_LIST_ROUTE = "lists_to_notifications"
-}
-
 internal sealed interface ListsRoutes {
     @Serializable
     data object AllLists : ListsRoutes

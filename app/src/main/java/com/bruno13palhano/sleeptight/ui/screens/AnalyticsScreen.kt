@@ -12,8 +12,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.MultilineChart
 import androidx.compose.material.icons.filled.BarChart
-import androidx.compose.material.icons.filled.MultilineChart
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,11 +32,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
-import com.bruno13palhano.sleeptight.ui.navigation.AnalyticsDestinations
+import com.bruno13palhano.sleeptight.ui.navigation.AnalyticsRoutes
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
 @Composable
-fun AnalyticsScreen(onItemClick: (route: String) -> Unit) {
+internal fun AnalyticsScreen(onItemClick: (route: AnalyticsRoutes) -> Unit) {
     val items = listOf(
         AnalyticsItem.BabyStatusCharts,
         AnalyticsItem.NapCharts,
@@ -50,7 +50,10 @@ fun AnalyticsScreen(onItemClick: (route: String) -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AnalyticsContent(onItemClick: (route: String) -> Unit, items: List<AnalyticsItem>) {
+private fun AnalyticsContent(
+    onItemClick: (route: AnalyticsRoutes) -> Unit,
+    items: List<AnalyticsItem>,
+) {
     Scaffold(
         topBar = {
             TopAppBar(title = { Text(text = stringResource(id = R.string.analytics_label)) })
@@ -97,9 +100,12 @@ fun AnalyticsScreenPreview() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AnalyticsCard(analyticsItem: AnalyticsItem, modifier: Modifier, onItemClick: () -> Unit) {
+private fun AnalyticsCard(
+    analyticsItem: AnalyticsItem,
+    modifier: Modifier,
+    onItemClick: () -> Unit,
+) {
     ElevatedCard(
         modifier = modifier
             .fillMaxHeight(),
@@ -135,19 +141,19 @@ fun AnalyticsCard(analyticsItem: AnalyticsItem, modifier: Modifier, onItemClick:
     }
 }
 
-sealed class AnalyticsItem(
+internal sealed class AnalyticsItem(
     @StringRes val text: Int,
     val imageVector: ImageVector,
-    val route: String,
+    val route: AnalyticsRoutes,
 ) {
-    object BabyStatusCharts : AnalyticsItem(
-        R.string.all_baby_status_label,
-        Icons.Filled.MultilineChart,
-        AnalyticsDestinations.BABY_STATUS_CHARTS_ROUTE,
+    data object BabyStatusCharts : AnalyticsItem(
+        text = R.string.all_baby_status_label,
+        imageVector = Icons.AutoMirrored.Filled.MultilineChart,
+        route = AnalyticsRoutes.BabyStatusCharts,
     )
-    object NapCharts : AnalyticsItem(
-        R.string.all_naps_chart_label,
-        Icons.Filled.BarChart,
-        AnalyticsDestinations.NAP_CHARTS_ROUTE,
+    data object NapCharts : AnalyticsItem(
+        text = R.string.all_naps_chart_label,
+        imageVector = Icons.Filled.BarChart,
+        route = AnalyticsRoutes.NapCharts,
     )
 }

@@ -10,38 +10,29 @@ import com.bruno13palhano.sleeptight.ui.screens.analytics.NapChartsScreen
 import kotlinx.serialization.Serializable
 
 fun NavGraphBuilder.analyticsNavGraph(navController: NavController) {
-    navigation(
-        startDestination = AnalyticsDestinations.LIST_CHARTS,
-        route = SleepTightDestinations.ANALYTICS_ROUTE,
-    ) {
-        composable(route = AnalyticsDestinations.LIST_CHARTS) {
+    navigation<MainRoutes.Analytics>(startDestination = AnalyticsRoutes.ListCharts) {
+        composable<AnalyticsRoutes.ListCharts> {
             AnalyticsScreen(
                 onItemClick = {
                     navController.navigate(it) {
-                        popUpTo(AnalyticsDestinations.LIST_CHARTS)
+                        popUpTo(route = AnalyticsRoutes.ListCharts)
                     }
                 },
             )
         }
 
-        composable(route = AnalyticsDestinations.BABY_STATUS_CHARTS_ROUTE) {
+        composable<AnalyticsRoutes.BabyStatusCharts> {
             BabyStatusChartsScreen(
                 onNavigationIconClick = { navController.navigateUp() },
             )
         }
 
-        composable(route = AnalyticsDestinations.NAP_CHARTS_ROUTE) {
+        composable<AnalyticsRoutes.NapCharts> {
             NapChartsScreen(
                 onNavigationIconClick = { navController.navigateUp() },
             )
         }
     }
-}
-
-object AnalyticsDestinations {
-    const val LIST_CHARTS = "list_charts"
-    const val BABY_STATUS_CHARTS_ROUTE = "baby_status_charts"
-    const val NAP_CHARTS_ROUTE = "nap_charts"
 }
 
 internal sealed interface AnalyticsRoutes {

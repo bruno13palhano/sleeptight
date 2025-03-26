@@ -11,10 +11,10 @@ import com.bruno13palhano.sleeptight.ui.screens.SettingsScreen
 import kotlinx.serialization.Serializable
 
 @Composable
-fun SleepTightNavGraph(
+internal fun SleepTightNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: String = SleepTightDestinations.HOME_ROUTE,
+    startDestination: MainRoutes = MainRoutes.MainHome,
     viewModelStoreOwner: ViewModelStoreOwner,
 ) {
     NavHost(
@@ -32,11 +32,11 @@ fun SleepTightNavGraph(
 
         analyticsNavGraph(navController)
 
-        composable(route = SleepTightDestinations.SETTINGS_ROUTE) {
+        composable<MainRoutes.Settings> {
             SettingsScreen(
                 navigateToLogin = {
-                    navController.navigate(SleepTightDestinations.LOGIN_CREATE_ACCOUNT_ROUTE) {
-                        popUpTo(SleepTightDestinations.SETTINGS_ROUTE) {
+                    navController.navigate(route = MainRoutes.MainLogin) {
+                        popUpTo(route = MainRoutes.Settings) {
                             inclusive = true
                         }
                     }
@@ -44,15 +44,6 @@ fun SleepTightNavGraph(
             )
         }
     }
-}
-
-object SleepTightDestinations {
-    const val HOME_ROUTE = "home"
-    const val LISTS_ROUTE = "lists"
-    const val PLAYER_ROUTE = "player"
-    const val ANALYTICS_ROUTE = "analytics"
-    const val SETTINGS_ROUTE = "settings"
-    const val LOGIN_CREATE_ACCOUNT_ROUTE = "login_create_account"
 }
 
 internal sealed interface MainRoutes {

@@ -32,11 +32,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bruno13palhano.sleeptight.R
-import com.bruno13palhano.sleeptight.ui.navigation.ListsDestinations
+import com.bruno13palhano.sleeptight.ui.navigation.ListsRoutes
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
 @Composable
-fun ListsScreen(onItemClick: (route: String) -> Unit) {
+internal fun ListsScreen(onItemClick: (route: ListsRoutes) -> Unit) {
     val items = listOf(
         ListsItem.BabyStatusList,
         ListsItem.NapsList,
@@ -51,7 +51,7 @@ fun ListsScreen(onItemClick: (route: String) -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListContent(items: List<ListsItem>, onItemClick: (route: String) -> Unit) {
+private fun ListContent(items: List<ListsItem>, onItemClick: (route: ListsRoutes) -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(title = { Text(text = stringResource(id = R.string.lists_label)) })
@@ -99,9 +99,8 @@ fun ListsScreenPreview() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListsCard(listsItem: ListsItem, modifier: Modifier, onClick: () -> Unit) {
+private fun ListsCard(listsItem: ListsItem, modifier: Modifier, onClick: () -> Unit) {
     ElevatedCard(
         modifier = modifier
             .fillMaxHeight(),
@@ -133,20 +132,24 @@ fun ListsCard(listsItem: ListsItem, modifier: Modifier, onClick: () -> Unit) {
     }
 }
 
-sealed class ListsItem(@StringRes val text: Int, val imageVector: ImageVector, val route: String) {
-    object BabyStatusList : ListsItem(
-        R.string.all_baby_status_label,
-        Icons.Filled.InsertChartOutlined,
-        ListsDestinations.BABY_STATUS_LIST_ROUTE,
+internal sealed class ListsItem(
+    @StringRes val text: Int,
+    val imageVector: ImageVector,
+    val route: ListsRoutes,
+) {
+    data object BabyStatusList : ListsItem(
+        text = R.string.all_baby_status_label,
+        imageVector = Icons.Filled.InsertChartOutlined,
+        route = ListsRoutes.BabyStatusList,
     )
-    object NapsList : ListsItem(
-        R.string.naps_label,
-        Icons.Filled.Snooze,
-        ListsDestinations.NAP_LIST_ROUTE,
+    data object NapsList : ListsItem(
+        text = R.string.naps_label,
+        imageVector = Icons.Filled.Snooze,
+        route = ListsRoutes.NapList,
     )
-    object NotificationsList : ListsItem(
-        R.string.notifications_label,
-        Icons.Filled.Notifications,
-        ListsDestinations.NOTIFICATIONS_LIST_ROUTE,
+    data object NotificationsList : ListsItem(
+        text = R.string.notifications_label,
+        imageVector = Icons.Filled.Notifications,
+        route = ListsRoutes.NotificationsList,
     )
 }
