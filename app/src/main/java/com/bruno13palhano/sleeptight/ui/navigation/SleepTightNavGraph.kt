@@ -14,23 +14,27 @@ import kotlinx.serialization.Serializable
 internal fun SleepTightNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: MainRoutes = MainRoutes.MainHome,
+    showBottomMenu: (show: Boolean) -> Unit,
     viewModelStoreOwner: ViewModelStoreOwner,
 ) {
     NavHost(
         navController = navController,
-        startDestination = startDestination,
+        startDestination = MainRoutes.MainHome,
         modifier = modifier,
     ) {
-        loginNavGraph(navController = navController, viewModelStoreOwner = viewModelStoreOwner)
+        loginNavGraph(
+            navController = navController,
+            showBottomMenu = showBottomMenu,
+            viewModelStoreOwner = viewModelStoreOwner,
+        )
 
-        homeNavGraph(navController = navController)
+        homeNavGraph(navController = navController, showBottomMenu = showBottomMenu)
 
         listsNavGraph(navController = navController, viewModelStoreOwner = viewModelStoreOwner)
 
         composable<MainRoutes.Player> { PlayerScreen() }
 
-        analyticsNavGraph(navController)
+        analyticsNavGraph(navController = navController)
 
         composable<MainRoutes.Settings> {
             SettingsScreen(

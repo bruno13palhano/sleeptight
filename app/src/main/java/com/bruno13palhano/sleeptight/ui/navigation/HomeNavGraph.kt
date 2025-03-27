@@ -11,9 +11,13 @@ import com.bruno13palhano.sleeptight.ui.screens.naps.NapScreen
 import com.bruno13palhano.sleeptight.ui.screens.notifications.NotificationScreen
 import kotlinx.serialization.Serializable
 
-fun NavGraphBuilder.homeNavGraph(navController: NavController) {
+fun NavGraphBuilder.homeNavGraph(
+    navController: NavController,
+    showBottomMenu: (show: Boolean) -> Unit,
+) {
     navigation<MainRoutes.MainHome>(startDestination = HomeRoutes.Home) {
         composable<HomeRoutes.Home> {
+            showBottomMenu(true)
             HomeScreen(
                 navigateToLogin = {
                     navController.navigate(route = MainRoutes.MainLogin) {

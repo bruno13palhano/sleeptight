@@ -16,10 +16,12 @@ import kotlinx.serialization.Serializable
 
 fun NavGraphBuilder.loginNavGraph(
     navController: NavController,
+    showBottomMenu: (show: Boolean) -> Unit,
     viewModelStoreOwner: ViewModelStoreOwner,
 ) {
     navigation<MainRoutes.MainLogin>(startDestination = LoginRoutes.Login) {
         composable<LoginRoutes.Login> {
+            showBottomMenu(false)
             LoginScreen(
                 onLoginSuccess = {
                     navController.navigate(route = MainRoutes.MainHome) {
@@ -37,6 +39,7 @@ fun NavGraphBuilder.loginNavGraph(
             )
         }
         composable<LoginRoutes.CreateAccount> {
+            showBottomMenu(false)
             CreateAccountScreen(
                 onNextButtonClick = {
                     navController.navigate(route = LoginRoutes.BabyPhoto) {
