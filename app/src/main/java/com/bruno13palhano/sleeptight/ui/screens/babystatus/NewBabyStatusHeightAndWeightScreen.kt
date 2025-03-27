@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Balance
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.SquareFoot
@@ -26,7 +26,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
@@ -41,7 +40,6 @@ import com.bruno13palhano.sleeptight.ui.screens.clearFocusOnKeyboardDismiss
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 import java.util.Locale
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun NewBabyStatusHeightAndWeightScreen(
     onDoneButtonClick: () -> Unit,
@@ -104,7 +102,7 @@ fun NewBabyStatusHeightAndWeightContent(
                 navigationIcon = {
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }

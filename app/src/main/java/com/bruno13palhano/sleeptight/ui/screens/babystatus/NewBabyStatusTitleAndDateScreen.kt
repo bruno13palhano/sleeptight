@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Label
+import androidx.compose.material.icons.automirrored.filled.NavigateNext
 import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.Label
-import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -34,7 +34,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
@@ -49,7 +48,7 @@ import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.screens.clearFocusOnKeyboardDismiss
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewBabyStatusTitleAndDateScreen(
     onNextButtonClick: () -> Unit,
@@ -135,7 +134,7 @@ fun NewBabyStatusTitleAndDateContent(
                 navigationIcon = {
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
@@ -145,7 +144,7 @@ fun NewBabyStatusTitleAndDateContent(
         floatingActionButton = {
             FloatingActionButton(onClick = onNextButtonClick) {
                 Icon(
-                    imageVector = Icons.Filled.NavigateNext,
+                    imageVector = Icons.AutoMirrored.Filled.NavigateNext,
                     contentDescription = stringResource(id = R.string.add_button),
                 )
             }
@@ -164,7 +163,7 @@ fun NewBabyStatusTitleAndDateContent(
                 value = title,
                 leadingIcon = {
                     Icon(
-                        imageVector = Icons.Filled.Label,
+                        imageVector = Icons.AutoMirrored.Filled.Label,
                         contentDescription = stringResource(id = R.string.title_label),
                     )
                 },

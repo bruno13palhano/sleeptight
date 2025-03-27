@@ -13,8 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.NavigateNext
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.NavigateNext
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -79,7 +79,7 @@ fun BabyPhotoAccountContent(
                 navigationIcon = {
                     IconButton(onClick = onNavigationIconButton) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
@@ -89,7 +89,7 @@ fun BabyPhotoAccountContent(
         floatingActionButton = {
             FloatingActionButton(onClick = onNextButtonClick) {
                 Icon(
-                    imageVector = Icons.Filled.NavigateNext,
+                    imageVector = Icons.AutoMirrored.Filled.NavigateNext,
                     contentDescription = stringResource(id = R.string.next_label),
                 )
             }

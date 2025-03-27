@@ -22,6 +22,7 @@ import androidx.media3.session.LibraryResult
 import androidx.media3.session.MediaLibraryService
 import androidx.media3.session.MediaSession
 import androidx.media3.session.SessionCommand
+import androidx.media3.session.SessionError
 import androidx.media3.session.SessionResult
 import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
@@ -141,7 +142,7 @@ import com.google.common.util.concurrent.ListenableFuture
         ): ListenableFuture<LibraryResult<MediaItem>> {
             val item = MediaItemTree.getItem(mediaId)
                 ?: return Futures.immediateFuture(
-                    LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE),
+                    LibraryResult.ofError(SessionError.ERROR_BAD_VALUE),
                 )
             return Futures.immediateFuture(LibraryResult.ofItem(item, null))
         }
@@ -154,7 +155,7 @@ import com.google.common.util.concurrent.ListenableFuture
         ): ListenableFuture<LibraryResult<Void>> {
             val children = MediaItemTree.getChildren(parentId)
                 ?: return Futures.immediateFuture(
-                    LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE),
+                    LibraryResult.ofError(SessionError.ERROR_BAD_VALUE),
                 )
             session.notifyChildrenChanged(browser, parentId, children.size, params)
             return Futures.immediateFuture(LibraryResult.ofVoid())
@@ -170,7 +171,7 @@ import com.google.common.util.concurrent.ListenableFuture
         ): ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> {
             val children = MediaItemTree.getChildren(parentId)
                 ?: return Futures.immediateFuture(
-                    LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE),
+                    LibraryResult.ofError(SessionError.ERROR_BAD_VALUE),
                 )
 
             return Futures.immediateFuture(LibraryResult.ofItemList(children, params))
@@ -205,20 +206,17 @@ import com.google.common.util.concurrent.ListenableFuture
 
     private fun getShuffleCommandButton(sessionCommand: SessionCommand): CommandButton {
         val isOn = sessionCommand.customAction == CUSTOM_COMMAND_TOGGLE_SHUFFLE_MODE_ON
-        return CommandButton.Builder()
-            .setDisplayName(
-                getString(
-                    if (isOn) {
-                        R.string.shuffle_on_description
-                    } else {
-                        R.string.shuffle_off_description
-                    },
-                ),
-            )
+        val descriptionId = if (isOn) {
+            R.string.shuffle_on_description
+        } else {
+            R.string.shuffle_off_description
+        }
+        val description = getString(descriptionId)
+        val icon = if (isOn) CommandButton.ICON_SHUFFLE_OFF else CommandButton.ICON_SHUFFLE_ON
+
+        return CommandButton.Builder(icon)
+            .setDisplayName(description)
             .setSessionCommand(sessionCommand)
-            .setIconResId(
-                if (isOn) R.drawable.baseline_shuffle_24 else R.drawable.baseline_shuffle_on_24,
-            )
             .build()
     }
 

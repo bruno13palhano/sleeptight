@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.NavigateNext
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.NavigateNext
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -23,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
@@ -36,7 +35,6 @@ import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.screens.clearFocusOnKeyboardDismiss
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CreateAccountScreen(
     onNextButtonClick: () -> Unit,
@@ -101,7 +99,7 @@ fun CreateAccountContent(
                 navigationIcon = {
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
@@ -112,7 +110,7 @@ fun CreateAccountContent(
             if (showButton) {
                 FloatingActionButton(onClick = onNextButtonClick) {
                     Icon(
-                        imageVector = Icons.Filled.NavigateNext,
+                        imageVector = Icons.AutoMirrored.Filled.NavigateNext,
                         contentDescription = stringResource(id = R.string.next_label),
                     )
                 }

@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.NavigateNext
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.NavigateNext
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -101,7 +101,7 @@ fun NewNapStartTimeContent(
                 navigationIcon = {
                     IconButton(onClick = onNavigationIconClick) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
@@ -111,7 +111,7 @@ fun NewNapStartTimeContent(
         floatingActionButton = {
             FloatingActionButton(onClick = onNextButtonClick) {
                 Icon(
-                    imageVector = Icons.Filled.NavigateNext,
+                    imageVector = Icons.AutoMirrored.Filled.NavigateNext,
                     contentDescription = stringResource(id = R.string.next_label),
                 )
             }

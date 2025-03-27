@@ -50,7 +50,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
@@ -76,7 +75,7 @@ import com.bruno13palhano.sleeptight.ui.screens.login.WeightField
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 import com.bruno13palhano.sleeptight.ui.util.getBytes
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     navigateToLogin: () -> Unit,

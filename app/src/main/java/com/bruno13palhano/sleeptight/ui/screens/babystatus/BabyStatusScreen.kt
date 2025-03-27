@@ -14,10 +14,10 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Label
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.Label
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
@@ -41,7 +41,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
@@ -61,7 +60,7 @@ import com.bruno13palhano.sleeptight.ui.screens.login.HeightField
 import com.bruno13palhano.sleeptight.ui.screens.login.WeightField
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BabyStatusScreen(
     babyStatusId: Long,
@@ -176,7 +175,7 @@ fun BabyStatusContent(
                 navigationIcon = {
                     IconButton(onClick = navigateUp) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(id = R.string.up_button_label),
                         )
                     }
@@ -246,7 +245,7 @@ fun BabyStatusContent(
                 value = title,
                 leadingIcon = {
                     Icon(
-                        imageVector = Icons.Filled.Label,
+                        imageVector = Icons.AutoMirrored.Filled.Label,
                         contentDescription = stringResource(id = R.string.title_label),
                     )
                 },
