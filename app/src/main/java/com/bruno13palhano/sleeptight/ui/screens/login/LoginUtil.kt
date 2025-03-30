@@ -4,11 +4,11 @@ import android.icu.text.DecimalFormat
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Label
 import androidx.compose.material.icons.filled.Balance
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Key
-import androidx.compose.material.icons.filled.Label
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.SquareFoot
 import androidx.compose.material.icons.filled.Timer
@@ -129,7 +129,7 @@ fun UsernameField(
         value = username,
         leadingIcon = {
             Icon(
-                imageVector = Icons.Filled.Label,
+                imageVector = Icons.AutoMirrored.Filled.Label,
                 contentDescription = stringResource(id = R.string.username_label),
             )
         },
@@ -160,7 +160,7 @@ fun BabyNameField(
         value = babyName,
         leadingIcon = {
             Icon(
-                imageVector = Icons.Filled.Label,
+                imageVector = Icons.AutoMirrored.Filled.Label,
                 contentDescription = stringResource(id = R.string.baby_name_label),
             )
         },
@@ -264,7 +264,7 @@ fun HeightField(
 ) {
     val decimalFormat = DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
     val decimalSeparator = decimalFormat.decimalFormatSymbols.decimalSeparator
-    val pattern = remember { Regex("^\\d*\\$decimalSeparator?\\d*\$") }
+    val pattern = remember { Regex("^\\d*\\$decimalSeparator?\\d*$") }
 
     OutlinedTextField(
         modifier = modifier,
@@ -305,7 +305,7 @@ fun WeightField(
 ) {
     val decimalFormat = DecimalFormat.getInstance(Locale.getDefault()) as DecimalFormat
     val decimalSeparator = decimalFormat.decimalFormatSymbols.decimalSeparator
-    val pattern = remember { Regex("^\\d*\\$decimalSeparator?\\d*\$") }
+    val pattern = remember { Regex("^\\d*\\$decimalSeparator?\\d*$") }
 
     OutlinedTextField(
         modifier = modifier,
