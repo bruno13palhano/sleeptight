@@ -181,6 +181,7 @@
     <string name="hour_label">Hour</string>
     <string name="last_notification_label">Last notification</string>
     <string name="last_notification_date_label">Last notification date</string>
+    <string name="unknown_label">Unknown</string>
 
     <!--  Common labels  -->
     <string name="add_button">Add button</string>
