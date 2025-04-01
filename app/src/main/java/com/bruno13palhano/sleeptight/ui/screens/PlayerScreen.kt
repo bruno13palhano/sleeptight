@@ -6,7 +6,9 @@ import android.content.Context.BIND_AUTO_CREATE
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -46,6 +48,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -72,6 +75,8 @@ import com.bruno13palhano.sleeptight.R
 import com.bruno13palhano.sleeptight.ui.mediaplayer.PlaybackService
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 private var controllerFuture: ListenableFuture<MediaController>? = null
 private var playbackService by mutableStateOf<PlaybackService.PlaybackBinder?>(null)
@@ -122,6 +127,8 @@ private fun startService(context: Context) {
 fun PlayerContent() {
     val context = LocalContext.current
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+    val mainHandler by remember { mutableStateOf(Handler(Looper.getMainLooper())) }
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -131,52 +138,68 @@ fun PlayerContent() {
         var isPlaying by remember { mutableStateOf(false) }
         var currentMusicIndex by remember { mutableIntStateOf(0) }
         val controller = remember { mutableStateOf<MediaController?>(null) }
-        val subItemMediaLst = remember { mutableStateListOf<MediaItem>() }
+        val mediaItemList = remember { mutableStateListOf<MediaItem>() }
         var currentMediaItem by remember { mutableStateOf<MediaItem?>(null) }
 
         DisposableEffect(key1 = lifecycleOwner) {
             val observer = LifecycleEventObserver { _, event ->
-                if (event == Lifecycle.Event.ON_CREATE) {
-                    startService(context = context)
-                } else if (event == Lifecycle.Event.ON_START) {
-                    startService(context = context)
-
-                    setController(
-                        context = context,
-                        controller = controller,
-                        onPlaying = { isPlaying = it },
-                        onCurrentMediaIndex = { currentMusicIndex = it },
-                        onCurrentMedia = { currentMediaItem = it },
-                        onMediaItems = {
-                            subItemMediaLst.clear()
-                            subItemMediaLst.addAll(it)
-                        },
-                    )
-                } else if (event == Lifecycle.Event.ON_STOP) {
-                    releaseController(context)
+                when (event) {
+                    Lifecycle.Event.ON_CREATE -> {
+                        scope.launch(Dispatchers.IO) {
+                            startService(context = context)
+                        }
+                    }
+                    Lifecycle.Event.ON_START -> {
+                        scope.launch(Dispatchers.IO) {
+                            setController(
+                                context = context,
+                                controller = controller,
+                                onPlaying = { isPlaying = it },
+                                onCurrentMediaIndex = { currentMusicIndex = it },
+                                onCurrentMedia = { currentMediaItem = it },
+                                onMediaItems = {
+                                    mainHandler.post {
+                                        mediaItemList.clear()
+                                        mediaItemList.addAll(it)
+                                    }
+                                    if (mediaItemList.isNotEmpty() && currentMediaItem == null) {
+                                        currentMediaItem = mediaItemList[0]
+                                    }
+                                },
+                            )
+                        }
+                    }
+                    Lifecycle.Event.ON_STOP -> {
+                        mainHandler.post {
+                            releaseController(context)
+                        }
+                    }
+                    else -> {}
                 }
             }
-
             lifecycleOwner.lifecycle.addObserver(observer)
-
-            onDispose {
-                lifecycleOwner.lifecycle.removeObserver(observer)
-            }
+            onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
         }
 
         LaunchedEffect(playbackService) {
-            setController(
-                context = context,
-                controller = controller,
-                onPlaying = { isPlaying = it },
-                onCurrentMediaIndex = { currentMusicIndex = it },
-                onCurrentMedia = { currentMediaItem = it },
-                onMediaItems = {
-                    subItemMediaLst.clear()
-                    subItemMediaLst.addAll(it)
-                    currentMediaItem = subItemMediaLst[0]
-                },
-            )
+            if (playbackService != null) {
+                setController(
+                    context = context,
+                    controller = controller,
+                    onPlaying = { isPlaying = it },
+                    onCurrentMediaIndex = { currentMusicIndex = it },
+                    onCurrentMedia = { currentMediaItem = it },
+                    onMediaItems = {
+                        mainHandler.post {
+                            mediaItemList.clear()
+                            mediaItemList.addAll(it)
+                            if (mediaItemList.isNotEmpty()) {
+                                currentMediaItem = mediaItemList[0]
+                            }
+                        }
+                    },
+                )
+            }
         }
 
         DisposableEffect(controller.value) {
@@ -188,6 +211,7 @@ fun PlayerContent() {
 
                     override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                         currentMusicIndex = it.currentMediaItemIndex
+                        currentMediaItem = mediaItem
                     }
                 }.also { listener -> it.addListener(listener) }
             }
@@ -204,18 +228,18 @@ fun PlayerContent() {
             stickyHeader {
                 Surface {
                     Column {
+                        AndroidView(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .sizeIn(maxHeight = 300.dp),
+                            factory = { playerView },
+                            update = { player ->
+                                player.player = controller.value
+                                player.showController()
+                                player.useController = true
+                            },
+                        )
                         currentMediaItem?.let {
-                            AndroidView(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .sizeIn(maxHeight = 300.dp),
-                                factory = { playerView },
-                                update = { player ->
-                                    player.player = controller.value
-                                    player.showController()
-                                    player.useController = true
-                                },
-                            )
                             CurrentMediaCard(
                                 title = currentMediaItem?.mediaMetadata?.title.toString(),
                                 artist = currentMediaItem?.mediaMetadata?.artist.toString(),
@@ -225,7 +249,10 @@ fun PlayerContent() {
                     }
                 }
             }
-            itemsIndexed(items = subItemMediaLst) { index, mediaItem ->
+            itemsIndexed(
+                items = mediaItemList,
+                key = { _, item -> item.mediaId },
+            ) { index, mediaItem ->
                 MusicItemList(
                     index = index,
                     isPlaying = isPlaying,
@@ -275,6 +302,8 @@ private fun setController(
     onCurrentMedia: (currentMedia: MediaItem?) -> Unit,
     onMediaItems: (mediaItems: List<MediaItem>) -> Unit,
 ) {
+    startService(context = context)
+
     playbackService?.getMediaSession()?.let { session ->
         controllerFuture = MediaController.Builder(context, session.token)
             .buildAsync()
