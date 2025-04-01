@@ -11,7 +11,9 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Binder
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.media3.common.AudioAttributes
@@ -21,6 +23,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
 import androidx.media3.ui.PlayerNotificationManager
 import com.bruno13palhano.sleeptight.MainActivity
+import com.bruno13palhano.sleeptight.R
 
 @UnstableApi
 class PlaybackService : Service() {
@@ -28,6 +31,7 @@ class PlaybackService : Service() {
     private lateinit var player: ExoPlayer
     private var notificationManager: PlayerNotificationManager? = null
     private val binder = PlaybackBinder()
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     inner class PlaybackBinder : Binder() {
         fun getMediaSession(): MediaSession? = mediaSession
@@ -36,6 +40,14 @@ class PlaybackService : Service() {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
+
+        mainHandler.post {
+            initializePlayerAndSession()
+            setupNotificationManager()
+        }
+    }
+
+    private fun initializePlayerAndSession() {
         player = ExoPlayer.Builder(this)
             .setAudioAttributes(AudioAttributes.DEFAULT, true)
             .build()
@@ -43,21 +55,10 @@ class PlaybackService : Service() {
 
         MediaItemTree.initialize()
         val allMusics = MediaItemTree.getChildren("[allItems]")
-
         allMusics?.let {
             player.addMediaItems(it)
+            player.prepare()
         }
-        player.prepare()
-
-        player.addListener(object : Player.Listener {
-            override fun onIsPlayingChanged(isPlaying: Boolean) {
-                if (isPlaying && notificationManager == null) {
-                    setupNotificationManager()
-                }
-            }
-        })
-
-        setupNotificationManager()
     }
 
     private fun setupNotificationManager() {
@@ -67,61 +68,8 @@ class PlaybackService : Service() {
                 NOTIFICATION_ID,
                 CHANNEL_ID,
             )
-                .setMediaDescriptionAdapter(object :
-                    PlayerNotificationManager.MediaDescriptionAdapter {
-                    override fun getCurrentContentTitle(player: Player): CharSequence {
-                        return player.currentMediaItem?.mediaMetadata?.title.toString()
-                    }
-
-                    override fun createCurrentContentIntent(player: Player): PendingIntent? {
-                        val intent = Intent(this@PlaybackService, MainActivity::class.java)
-                        return PendingIntent.getActivity(
-                            this@PlaybackService,
-                            0,
-                            intent,
-                            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-                        )
-                    }
-
-                    override fun getCurrentContentText(player: Player): CharSequence? {
-                        return player.currentMediaItem?.mediaMetadata?.title ?: "Unknown"
-                    }
-
-                    override fun getCurrentLargeIcon(
-                        player: Player,
-                        callback: PlayerNotificationManager.BitmapCallback,
-                    ): Bitmap? {
-                        return null
-                    }
-                })
-                .setNotificationListener(object : PlayerNotificationManager.NotificationListener {
-                    override fun onNotificationCancelled(
-                        notificationId: Int,
-                        dismissedByUser: Boolean,
-                    ) {
-                        stopForeground(STOP_FOREGROUND_DETACH)
-                        notificationManager?.setPlayer(null)
-                        notificationManager = null
-                    }
-
-                    override fun onNotificationPosted(
-                        notificationId: Int,
-                        notification: Notification,
-                        ongoing: Boolean,
-                    ) {
-                        if (ongoing) {
-                            startForeground(notificationId, notification)
-                        } else if (ActivityCompat.checkSelfPermission(
-                                this@PlaybackService,
-                                Manifest.permission.POST_NOTIFICATIONS,
-                            ) == PackageManager.PERMISSION_GRANTED
-                        ) {
-                            stopForeground(STOP_FOREGROUND_DETACH)
-                            NotificationManagerCompat.from(this@PlaybackService)
-                                .notify(notificationId, notification)
-                        }
-                    }
-                })
+                .setMediaDescriptionAdapter(mediaDescription)
+                .setNotificationListener(notificationListener)
                 .build()
 
             notificationManager?.setPlayer(player)
@@ -140,8 +88,7 @@ class PlaybackService : Service() {
                 NotificationManager.IMPORTANCE_LOW,
             )
             channel.setShowBadge(false)
-            val manager = getSystemService(NotificationManager::class.java)
-            manager.createNotificationChannel(channel)
+            getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
         }
     }
 
@@ -154,14 +101,73 @@ class PlaybackService : Service() {
     }
 
     override fun onDestroy() {
-        mediaSession?.run {
-            player.release()
-            release()
-            mediaSession = null
+        mainHandler.post {
+            mediaSession?.run {
+                player.release()
+                release()
+                mediaSession = null
+            }
+            notificationManager?.setPlayer(null)
+            notificationManager = null
         }
-        notificationManager?.setPlayer(null)
-        notificationManager = null
+        stopForeground(STOP_FOREGROUND_REMOVE)
         super.onDestroy()
+    }
+
+    private val mediaDescription = object : PlayerNotificationManager.MediaDescriptionAdapter {
+        override fun createCurrentContentIntent(player: Player): PendingIntent? {
+            val intent = Intent(this@PlaybackService, MainActivity::class.java)
+            return PendingIntent.getActivity(
+                this@PlaybackService,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
+        }
+
+        override fun getCurrentContentTitle(player: Player): CharSequence {
+            return player.currentMediaItem?.mediaMetadata?.title
+                ?: getString(R.string.unknown_label)
+        }
+
+        override fun getCurrentContentText(player: Player): CharSequence? {
+            return player.currentMediaItem?.mediaMetadata?.title
+                ?: getString(R.string.unknown_label)
+        }
+
+        override fun getCurrentLargeIcon(
+            player: Player,
+            callback: PlayerNotificationManager.BitmapCallback,
+        ): Bitmap? {
+            return null
+        }
+    }
+
+    private val notificationListener = object : PlayerNotificationManager.NotificationListener {
+        override fun onNotificationCancelled(notificationId: Int, dismissedByUser: Boolean) {
+            stopForeground(STOP_FOREGROUND_REMOVE)
+            stopSelf()
+            notificationManager?.setPlayer(null)
+            notificationManager = null
+        }
+
+        override fun onNotificationPosted(
+            notificationId: Int,
+            notification: Notification,
+            ongoing: Boolean,
+        ) {
+            if (ongoing) {
+                startForeground(notificationId, notification)
+            } else if (ActivityCompat.checkSelfPermission(
+                    this@PlaybackService,
+                    Manifest.permission.POST_NOTIFICATIONS,
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                stopForeground(STOP_FOREGROUND_DETACH)
+                NotificationManagerCompat.from(this@PlaybackService)
+                    .notify(notificationId, notification)
+            }
+        }
     }
 
     companion object {
