@@ -17,6 +17,7 @@ import android.os.Looper
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.media3.common.AudioAttributes
+import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
@@ -24,6 +25,7 @@ import androidx.media3.session.MediaSession
 import androidx.media3.ui.PlayerNotificationManager
 import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
+import com.bruno13palhano.sleeptight.dependencies.DependenciesApplication
 
 @UnstableApi
 class PlaybackService : Service() {
@@ -41,22 +43,40 @@ class PlaybackService : Service() {
         super.onCreate()
         createNotificationChannel()
 
+        val tempIntent = Intent(this, MainActivity::class.java)
+        val tempPendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            tempIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val tempNotification = Notification.Builder(this, CHANNEL_ID)
+                .setContentTitle("SleepTight Playback")
+                .setContentText("Initializing playback service...")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentIntent(tempPendingIntent)
+                .build()
+
+            startForeground(NOTIFICATION_ID, tempNotification)
+        }
+
+        val mediaItems = (application as DependenciesApplication).getPreloadedMediaItems()
+
         mainHandler.post {
-            initializePlayerAndSession()
+            initializePlayerAndSession(mediaItems = mediaItems)
             setupNotificationManager()
         }
     }
 
-    private fun initializePlayerAndSession() {
+    private fun initializePlayerAndSession(mediaItems: List<MediaItem>) {
         player = ExoPlayer.Builder(this)
             .setAudioAttributes(AudioAttributes.DEFAULT, true)
             .build()
         mediaSession = MediaSession.Builder(this, player).build()
 
-        MediaItemTree.initialize()
-        val allMusics = MediaItemTree.getChildren("[allItems]")
-        allMusics?.let {
-            player.addMediaItems(it)
+        if (mediaItems.isNotEmpty()) {
+            player.addMediaItems(mediaItems)
             player.prepare()
         }
     }

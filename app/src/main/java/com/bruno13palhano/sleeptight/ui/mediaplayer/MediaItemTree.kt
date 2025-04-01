@@ -14,10 +14,6 @@ import com.google.common.collect.ImmutableList
     private const val ROOT_ID = "[rootId]"
     private const val ALL_ITEMS = "[allItems]"
 
-    init {
-        initialize()
-    }
-
     private class MediaItemNode(val item: MediaItem) {
         private val children: MutableList<MediaItem> = ArrayList()
 
