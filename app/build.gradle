@@ -91,4 +91,5 @@ dependencies {
     implementation(libs.media3session)
     implementation(libs.vico)
     implementation(libs.firebase.appcheck.playintegrity)
+    implementation(libs.kotlinx.coroutines.guava)
 }
