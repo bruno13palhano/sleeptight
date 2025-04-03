@@ -16,6 +16,7 @@ import android.os.IBinder
 import android.os.Looper
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.net.toUri
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
@@ -136,7 +137,11 @@ class PlaybackService : Service() {
 
     private val mediaDescription = object : PlayerNotificationManager.MediaDescriptionAdapter {
         override fun createCurrentContentIntent(player: Player): PendingIntent? {
-            val intent = Intent(this@PlaybackService, MainActivity::class.java)
+            val intent = Intent(this@PlaybackService, MainActivity::class.java).apply {
+                action = Intent.ACTION_VIEW
+                data = "sleeptight://main/player".toUri()
+                setPackage(`package`.toString())
+            }
             return PendingIntent.getActivity(
                 this@PlaybackService,
                 0,

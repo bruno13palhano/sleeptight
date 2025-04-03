@@ -28,6 +28,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="sleeptight" android:host="main" android:pathPrefix="/player" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"

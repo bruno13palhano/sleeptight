@@ -1,11 +1,13 @@
 package com.bruno13palhano.sleeptight.ui.navigation
 
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import com.bruno13palhano.sleeptight.ui.screens.PlayerScreen
 import com.bruno13palhano.sleeptight.ui.screens.SettingsScreen
 import kotlinx.serialization.Serializable
@@ -32,7 +34,17 @@ internal fun SleepTightNavGraph(
 
         listsNavGraph(navController = navController, viewModelStoreOwner = viewModelStoreOwner)
 
-        composable<MainRoutes.Player> { PlayerScreen() }
+        composable<MainRoutes.Player>(
+            deepLinks = listOf(
+                navDeepLink {
+                    uriPattern = "sleeptight://main/player"
+                    action = Intent.ACTION_VIEW
+                },
+            ),
+        ) {
+            showBottomMenu(true)
+            PlayerScreen()
+        }
 
         analyticsNavGraph(navController = navController)
 
