@@ -39,7 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bruno13palhano.sleeptight.R
-import com.bruno13palhano.sleeptight.ui.screens.TimePickerDialog
+import com.bruno13palhano.sleeptight.ui.screens.shared.TimePickerDialog
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

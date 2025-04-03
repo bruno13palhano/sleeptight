@@ -5,7 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.bruno13palhano.sleeptight.ui.screens.ListsScreen
+import com.bruno13palhano.sleeptight.ui.screens.lists.ListsScreen
 import kotlinx.serialization.Serializable
 
 fun NavGraphBuilder.listsNavGraph(

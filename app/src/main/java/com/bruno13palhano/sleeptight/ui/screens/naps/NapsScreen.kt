@@ -25,7 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bruno13palhano.model.Nap
 import com.bruno13palhano.sleeptight.R
-import com.bruno13palhano.sleeptight.ui.screens.ItemList
+import com.bruno13palhano.sleeptight.ui.screens.shared.ItemList
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 

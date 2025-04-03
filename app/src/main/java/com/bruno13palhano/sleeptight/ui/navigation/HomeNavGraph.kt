@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
-import com.bruno13palhano.sleeptight.ui.screens.HomeScreen
+import com.bruno13palhano.sleeptight.ui.screens.home.HomeScreen
 import com.bruno13palhano.sleeptight.ui.screens.babystatus.BabyStatusScreen
 import com.bruno13palhano.sleeptight.ui.screens.naps.NapScreen
 import com.bruno13palhano.sleeptight.ui.screens.notifications.NotificationScreen

@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.screens
+package com.bruno13palhano.sleeptight.ui.screens.player
 
 import android.content.ComponentName
 import android.content.Context
@@ -18,13 +18,13 @@ import com.bruno13palhano.sleeptight.ui.mediaplayer.PlaybackService
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.guava.await
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 @UnstableApi
 @HiltViewModel

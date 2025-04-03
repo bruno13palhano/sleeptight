@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.screens
+package com.bruno13palhano.sleeptight.ui.screens.settings
 
 import android.content.res.Configuration
 import android.net.Uri
@@ -66,6 +66,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.bruno13palhano.sleeptight.R
+import com.bruno13palhano.sleeptight.ui.screens.shared.TimePickerDialog
+import com.bruno13palhano.sleeptight.ui.screens.shared.clearFocusOnKeyboardDismiss
 import com.bruno13palhano.sleeptight.ui.screens.login.BabyNameField
 import com.bruno13palhano.sleeptight.ui.screens.login.BirthplaceField
 import com.bruno13palhano.sleeptight.ui.screens.login.DateField

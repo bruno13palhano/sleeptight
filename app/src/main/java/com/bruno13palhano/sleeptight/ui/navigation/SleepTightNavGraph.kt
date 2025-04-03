@@ -8,8 +8,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
-import com.bruno13palhano.sleeptight.ui.screens.PlayerScreen
-import com.bruno13palhano.sleeptight.ui.screens.SettingsScreen
+import com.bruno13palhano.sleeptight.ui.screens.player.PlayerScreen
+import com.bruno13palhano.sleeptight.ui.screens.settings.SettingsScreen
 import kotlinx.serialization.Serializable
 
 @Composable

@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.screens
+package com.bruno13palhano.sleeptight.ui.screens.shared
 
 import android.graphics.Rect
 import android.graphics.Typeface

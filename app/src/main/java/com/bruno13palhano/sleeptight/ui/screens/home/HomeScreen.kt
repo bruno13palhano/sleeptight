@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.screens
+package com.bruno13palhano.sleeptight.ui.screens.home
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
@@ -39,6 +39,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.bruno13palhano.sleeptight.R
+import com.bruno13palhano.sleeptight.ui.screens.shared.CircularProgress
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
 @Composable

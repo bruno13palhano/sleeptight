@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.screens
+package com.bruno13palhano.sleeptight.ui.screens.home
 
 import android.icu.text.DateFormat
 import android.icu.util.Calendar
@@ -19,12 +19,12 @@ import com.bruno13palhano.model.Notification
 import com.bruno13palhano.model.User
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -45,7 +45,7 @@ class HomeViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             initialValue = BabyInfoState(),
-            started = WhileSubscribed(5_000),
+            started = SharingStarted.Companion.WhileSubscribed(5_000),
         )
 
     val babyStatusState = combine(
@@ -66,7 +66,7 @@ class HomeViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             initialValue = BabyStatusState(),
-            started = WhileSubscribed(5_000),
+            started = SharingStarted.Companion.WhileSubscribed(5_000),
         )
 
     val notificationState = notificationRepository.getLast()
@@ -80,7 +80,7 @@ class HomeViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             initialValue = NotificationState(),
-            started = WhileSubscribed(5_000),
+            started = SharingStarted.Companion.WhileSubscribed(5_000),
         )
 
     val napState = napRepository.getLast()
@@ -95,7 +95,7 @@ class HomeViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             initialValue = NapState(),
-            started = WhileSubscribed(5_000),
+            started = SharingStarted.Companion.WhileSubscribed(5_000),
         )
 
     private val isLogged = isUserAuthenticated()
@@ -110,7 +110,7 @@ class HomeViewModel @Inject constructor(
     }
         .stateIn(
             scope = viewModelScope,
-            started = WhileSubscribed(5_000),
+            started = SharingStarted.Companion.WhileSubscribed(5_000),
             initialValue = HomeState.Loading,
         )
 

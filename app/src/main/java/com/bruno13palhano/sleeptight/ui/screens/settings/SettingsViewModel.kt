@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.screens
+package com.bruno13palhano.sleeptight.ui.screens.settings
 
 import android.icu.text.DateFormat
 import android.net.Uri

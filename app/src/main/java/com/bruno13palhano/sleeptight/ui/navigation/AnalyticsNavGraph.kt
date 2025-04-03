@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.bruno13palhano.sleeptight.ui.screens.AnalyticsScreen
+import com.bruno13palhano.sleeptight.ui.screens.analytics.AnalyticsScreen
 import com.bruno13palhano.sleeptight.ui.screens.analytics.BabyStatusChartsScreen
 import com.bruno13palhano.sleeptight.ui.screens.analytics.NapChartsScreen
 import kotlinx.serialization.Serializable

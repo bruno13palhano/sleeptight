@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.screens
+package com.bruno13palhano.sleeptight.ui.screens.player
 
 import android.content.Context
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT

@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.screens
+package com.bruno13palhano.sleeptight.ui.screens.lists
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column

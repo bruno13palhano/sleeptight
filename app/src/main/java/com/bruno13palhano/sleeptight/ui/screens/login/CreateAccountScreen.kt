@@ -32,7 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bruno13palhano.sleeptight.R
-import com.bruno13palhano.sleeptight.ui.screens.clearFocusOnKeyboardDismiss
+import com.bruno13palhano.sleeptight.ui.screens.shared.clearFocusOnKeyboardDismiss
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 
 @Composable

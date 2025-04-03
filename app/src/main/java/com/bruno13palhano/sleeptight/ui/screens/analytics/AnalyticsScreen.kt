@@ -1,4 +1,4 @@
-package com.bruno13palhano.sleeptight.ui.screens
+package com.bruno13palhano.sleeptight.ui.screens.analytics
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
