@@ -59,6 +59,7 @@ fun BottomMenu(navController: NavController) {
                     navController.navigate(screen.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
+                            inclusive = false
                         }
                         launchSingleTop = true
                         restoreState = true
@@ -70,8 +71,40 @@ fun BottomMenu(navController: NavController) {
 }
 
 internal fun <T> NavDestination.isRouteSelected(screen: Screen<T>): Boolean {
-    return this.hierarchy.any {
-        it.route?.split(".")?.lastOrNull() == screen.route.toString()
+    val graphPrefixes = mapOf(
+        Screen.Home to MainRoutes.MainHome::class.qualifiedName,
+        Screen.Lists to MainRoutes.Lists::class.qualifiedName,
+        Screen.Player to MainRoutes.Player::class.qualifiedName,
+        Screen.Analytics to MainRoutes.Analytics::class.qualifiedName,
+        Screen.Settings to MainRoutes.Settings::class.qualifiedName,
+    )
+
+    val listsNestedPrefixes = listOf(
+        ListsRoutes::class.qualifiedName,
+        NapRoutes::class.qualifiedName,
+        BabyStatusRoutes::class.qualifiedName,
+        NotificationRoutes::class.qualifiedName,
+    )
+
+    return hierarchy.any { dest ->
+        val destRoute = dest.route
+        when (screen) {
+            is Screen.Home -> destRoute == HomeRoutes.Home::class.qualifiedName
+            is Screen.Lists -> {
+                val prefix = graphPrefixes[screen]
+                destRoute == prefix ||
+                    listsNestedPrefixes.any { nestedPrefix ->
+                        destRoute?.startsWith(nestedPrefix ?: "") == true
+                    }
+            }
+            is Screen.Player -> destRoute == MainRoutes.Player::class.qualifiedName
+            is Screen.Analytics -> {
+                val prefix = graphPrefixes[screen]
+                destRoute == prefix ||
+                    destRoute?.startsWith(AnalyticsRoutes::class.qualifiedName ?: "") == true
+            }
+            is Screen.Settings -> destRoute == MainRoutes.Settings::class.qualifiedName
+        }
     }
 }
 
