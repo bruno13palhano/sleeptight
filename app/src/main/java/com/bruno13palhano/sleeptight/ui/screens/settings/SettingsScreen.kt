@@ -66,14 +66,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.bruno13palhano.sleeptight.R
-import com.bruno13palhano.sleeptight.ui.screens.shared.TimePickerDialog
-import com.bruno13palhano.sleeptight.ui.screens.shared.clearFocusOnKeyboardDismiss
 import com.bruno13palhano.sleeptight.ui.screens.login.BabyNameField
 import com.bruno13palhano.sleeptight.ui.screens.login.BirthplaceField
 import com.bruno13palhano.sleeptight.ui.screens.login.DateField
 import com.bruno13palhano.sleeptight.ui.screens.login.HeightField
 import com.bruno13palhano.sleeptight.ui.screens.login.TimeField
 import com.bruno13palhano.sleeptight.ui.screens.login.WeightField
+import com.bruno13palhano.sleeptight.ui.screens.shared.TimePickerDialog
+import com.bruno13palhano.sleeptight.ui.screens.shared.clearFocusOnKeyboardDismiss
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 import com.bruno13palhano.sleeptight.ui.util.getBytes
 
