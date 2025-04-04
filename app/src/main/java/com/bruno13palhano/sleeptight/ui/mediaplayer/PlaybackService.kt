@@ -140,7 +140,7 @@ class PlaybackService : Service() {
             val intent = Intent(this@PlaybackService, MainActivity::class.java).apply {
                 action = Intent.ACTION_VIEW
                 data = "sleeptight://main/player".toUri()
-                setPackage(`package`.toString())
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
             return PendingIntent.getActivity(
                 this@PlaybackService,
