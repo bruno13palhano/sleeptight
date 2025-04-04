@@ -20,9 +20,9 @@
         android:theme="@style/Theme.SleepTight"
         tools:targetApi="31">
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/Theme.AppSplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,9 +35,6 @@
                 <data android:scheme="sleeptight" android:host="main" android:pathPrefix="/player" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
 
         <service
             android:name=".ui.mediaplayer.PlaybackService"
