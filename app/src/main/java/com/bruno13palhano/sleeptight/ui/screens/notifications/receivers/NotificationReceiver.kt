@@ -7,8 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.app.NotificationCompat
+import com.bruno13palhano.sleeptight.MainActivity
 import com.bruno13palhano.sleeptight.R
-import com.bruno13palhano.sleeptight.SplashScreenActivity
 
 private const val PRIMARY_CHANNEL_ID = "primary_notification_channel"
 
@@ -27,7 +27,7 @@ class NotificationReceiver : BroadcastReceiver() {
         val title = extras?.getString("title") ?: ""
         val description = extras?.getString("description") ?: ""
 
-        val contentIntent = Intent(context, SplashScreenActivity::class.java)
+        val contentIntent = Intent(context, MainActivity::class.java)
         val contentPendingIntent = PendingIntent.getActivity(
             context,
             notificationId,
