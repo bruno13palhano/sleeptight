@@ -81,24 +81,18 @@ class PlayerViewModel @Inject constructor(
 
     private suspend fun setController() {
         playbackService?.getMediaSession()?.let { session ->
-            val mediaController = withContext(Dispatchers.IO) {
-                controllerFuture = MediaController.Builder(appContext, session.token).buildAsync()
-                controllerFuture?.await()
+            val mediaControllerFuture = withContext(Dispatchers.IO) {
+                MediaController.Builder(appContext, session.token).buildAsync()
             }
+            val mediaController = mediaControllerFuture.await()
 
             withContext(Dispatchers.Main) {
+                controllerFuture?.let { MediaController.releaseFuture(it) }
+                controllerFuture = mediaControllerFuture
                 _controller.value = mediaController
+                syncStateWithController(mediaController = mediaController)
 
-                val mediaItems = getMediaItems(controller = mediaController)
-                _mediaItemList.value = mediaItems
-                if (mediaItems.isNotEmpty() && _currentMediaItem.value == null) {
-                    _currentMediaItem.value = mediaItems[0]
-                }
-
-                mediaController?.isPlaying?.let { _isPlaying.value = it }
-                mediaController?.currentMediaItemIndex?.let { _currentMusicIndex.value = it }
-
-                mediaController?.addListener(
+                mediaController.addListener(
                     object : Player.Listener {
                         override fun onIsPlayingChanged(isPlayingNow: Boolean) {
                             _isPlaying.value = isPlayingNow
@@ -111,6 +105,15 @@ class PlayerViewModel @Inject constructor(
                     },
                 )
             }
+        }
+    }
+
+    private fun syncStateWithController(mediaController: MediaController?) {
+        mediaController?.let {
+            _isPlaying.value = it.isPlaying
+            _currentMusicIndex.value = it.currentMediaItemIndex
+            _currentMediaItem.value = it.currentMediaItem
+            _mediaItemList.value = getMediaItems(controller = it)
         }
     }
 
@@ -128,17 +131,18 @@ class PlayerViewModel @Inject constructor(
 
     fun syncController() {
         viewModelScope.launch(Dispatchers.IO) {
-            if (_controller.value == null && isBound && playbackService != null) {
-                setController()
-            } else {
-                withContext(Dispatchers.Main) {
-                    _controller.value?.let { mediaController ->
-                        _isPlaying.value = mediaController.isPlaying
-                        _currentMusicIndex.value = mediaController.currentMediaItemIndex
-                        _currentMediaItem.value = mediaController.currentMediaItem
-                        _mediaItemList.value = getMediaItems(controller = mediaController)
+            if (isBound && playbackService != null) {
+                if (_controller.value == null) {
+                    setController()
+                } else {
+                    withContext(Dispatchers.Main) {
+                        _controller.value?.let { mediaController ->
+                            syncStateWithController(mediaController = mediaController)
+                        }
                     }
                 }
+            } else {
+                startService()
             }
         }
     }
@@ -148,6 +152,10 @@ class PlayerViewModel @Inject constructor(
             mainHandler.post {
                 controllerFuture?.let { MediaController.releaseFuture(it) }
                 _controller.value = null
+                if (isBound) {
+                    appContext.unbindService(serviceConnection)
+                    isBound = false
+                }
             }
         }
     }
