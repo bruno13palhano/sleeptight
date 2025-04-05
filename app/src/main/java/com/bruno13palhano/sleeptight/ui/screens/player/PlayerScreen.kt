@@ -93,6 +93,8 @@ fun PlayerContent(viewModel: PlayerViewModel = hiltViewModel()) {
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
+    LaunchedEffect(Unit) { viewModel.syncController() }
+
     Scaffold(
         topBar = {
             TopAppBar(title = { Text(text = stringResource(id = R.string.player_label)) })
