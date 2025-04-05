@@ -92,4 +92,5 @@ dependencies {
     implementation(libs.vico)
     implementation(libs.firebase.appcheck.playintegrity)
     implementation(libs.kotlinx.coroutines.guava)
+    implementation(libs.androidx.core.splashscreen)
 }
