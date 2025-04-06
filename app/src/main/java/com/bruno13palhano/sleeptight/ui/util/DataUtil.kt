@@ -76,7 +76,7 @@ fun measureWithLocalDecimal(measure: String): String {
 fun stringToFloat(value: String): Float {
     return try {
         value.replace(",", ".").toFloat()
-    } catch (ignored: Exception) {
+    } catch (_: Exception) {
         0F
     }
 }
