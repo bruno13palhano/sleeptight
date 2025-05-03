@@ -50,6 +50,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.media3.common.MediaItem
 import androidx.media3.common.util.RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL
 import androidx.media3.common.util.RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE
 import androidx.media3.common.util.UnstableApi
@@ -57,35 +58,52 @@ import androidx.media3.session.MediaController
 import androidx.media3.ui.PlayerView
 import com.bruno13palhano.sleeptight.R
 
-@Composable
-fun PlayerScreen() {
-    PlayerContent()
-}
-
 @androidx.annotation.OptIn(UnstableApi::class)
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun PlayerContent(viewModel: PlayerViewModel = hiltViewModel()) {
-    val context = LocalContext.current
-    val lifecycleOwner = LocalLifecycleOwner.current
+fun PlayerScreen(viewModel: PlayerViewModel = hiltViewModel()) {
     val isPlaying by viewModel.isPlaying.collectAsState()
     val currentMusicIndex by viewModel.currentMusicIndex.collectAsState()
     val mediaItemList by viewModel.mediaItemList.collectAsState()
     val currentMediaItem by viewModel.currentMediaItem.collectAsState()
     val controller by viewModel.controller.collectAsState()
 
+    PlayerContent(
+        isPlaying = isPlaying,
+        currentMusicIndex = currentMusicIndex,
+        mediaItemList = mediaItemList,
+        currentMediaItem = currentMediaItem,
+        controller = controller,
+        onStartService = viewModel::startService,
+        onSyncController = viewModel::syncController,
+        onReleaseController = viewModel::releaseController,
+    )
+}
+
+@androidx.annotation.OptIn(UnstableApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@Composable
+fun PlayerContent(
+    isPlaying: Boolean,
+    currentMusicIndex: Int,
+    mediaItemList: List<MediaItem>,
+    currentMediaItem: MediaItem?,
+    controller: MediaController?,
+    onStartService: () -> Unit,
+    onSyncController: () -> Unit,
+    onReleaseController: () -> Unit,
+) {
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             when (event) {
-                Lifecycle.Event.ON_CREATE -> {
-                    viewModel.startService()
-                }
-                Lifecycle.Event.ON_RESUME -> {
-                    viewModel.syncController()
-                }
-                Lifecycle.Event.ON_STOP -> {
-                    viewModel.releaseController()
-                }
+                Lifecycle.Event.ON_CREATE -> onStartService
+
+                Lifecycle.Event.ON_RESUME -> onSyncController
+
+                Lifecycle.Event.ON_STOP -> onReleaseController
+
                 else -> {}
             }
         }
@@ -93,7 +111,7 @@ fun PlayerContent(viewModel: PlayerViewModel = hiltViewModel()) {
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
-    LaunchedEffect(Unit) { viewModel.syncController() }
+    LaunchedEffect(Unit) { onSyncController() }
 
     Scaffold(
         topBar = {
@@ -186,7 +204,16 @@ fun playerView(context: Context, controller: MediaController?): PlayerView {
 @Preview(showBackground = true)
 @Composable
 fun PlayerScreenPreview() {
-    PlayerContent()
+    PlayerContent(
+        isPlaying = false,
+        currentMusicIndex = 0,
+        mediaItemList = emptyList(),
+        currentMediaItem = null,
+        controller = null,
+        onStartService = {},
+        onSyncController = {},
+        onReleaseController = {},
+    )
 }
 
 @Composable
