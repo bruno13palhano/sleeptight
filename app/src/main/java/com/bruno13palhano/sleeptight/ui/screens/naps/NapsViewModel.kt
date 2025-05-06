@@ -2,9 +2,8 @@ package com.bruno13palhano.sleeptight.ui.screens.naps
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bruno13palhano.core.CommonDataContract
 import com.bruno13palhano.core.di.NapRep
-import com.bruno13palhano.model.Nap
+import com.bruno13palhano.core.repository.NapRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
@@ -13,7 +12,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class NapsViewModel @Inject constructor(
-    @NapRep private val napRepository: CommonDataContract<Nap>,
+    @NapRep private val napRepository: NapRepository,
 ) : ViewModel() {
 
     val uiState = napRepository.getAll()

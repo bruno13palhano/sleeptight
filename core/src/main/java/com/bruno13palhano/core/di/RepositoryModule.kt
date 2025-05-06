@@ -1,15 +1,13 @@
 package com.bruno13palhano.core.di
 
-import com.bruno13palhano.core.CommonDataContract
-import com.bruno13palhano.core.UserDataContract
 import com.bruno13palhano.core.repository.BabyStatusRepository
+import com.bruno13palhano.core.repository.BabyStatusRepositoryImpl
 import com.bruno13palhano.core.repository.NapRepository
+import com.bruno13palhano.core.repository.NapRepositoryImpl
 import com.bruno13palhano.core.repository.NotificationRepository
+import com.bruno13palhano.core.repository.NotificationRepositoryImpl
 import com.bruno13palhano.core.repository.UserRepository
-import com.bruno13palhano.model.BabyStatus
-import com.bruno13palhano.model.Nap
-import com.bruno13palhano.model.Notification
-import com.bruno13palhano.model.User
+import com.bruno13palhano.core.repository.UserRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,33 +16,33 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 /**
- * Annotation to inject [NapRepository].
+ * Annotation to inject [NapRepositoryImpl].
  *
- * Injects the default [NapRepository] implementation.
+ * Injects the default [NapRepositoryImpl] implementation.
  */
 @Qualifier
 annotation class NapRep
 
 /**
- * Annotation to inject [UserRepository].
+ * Annotation to inject [UserRepositoryImpl].
  *
- * Injects the default [UserRepository] implementation.
+ * Injects the default [UserRepositoryImpl] implementation.
  */
 @Qualifier
 annotation class UserRep
 
 /**
- * Annotation to inject [BabyStatusRepository].
+ * Annotation to inject [BabyStatusRepositoryImpl].
  *
- * Injects the default [BabyStatusRepository] implementation.
+ * Injects the default [BabyStatusRepositoryImpl] implementation.
  */
 @Qualifier
 annotation class BabyStatusRep
 
 /**
- * Annotation to inject [NotificationRepository].
+ * Annotation to inject [NotificationRepositoryImpl].
  *
- * Injects the default [NotificationRepository] implementation.
+ * Injects the default [NotificationRepositoryImpl] implementation.
  */
 @Qualifier
 annotation class NotificationRep
@@ -56,24 +54,24 @@ internal abstract class RepositoryModule {
     @NapRep
     @Singleton
     @Binds
-    abstract fun bindNapRepository(repository: NapRepository): CommonDataContract<Nap>
+    abstract fun bindNapRepository(repository: NapRepositoryImpl): NapRepository
 
     @UserRep
     @Singleton
     @Binds
-    abstract fun bindUserRepository(repository: UserRepository): UserDataContract<User>
+    abstract fun bindUserRepository(repository: UserRepositoryImpl): UserRepository
 
     @BabyStatusRep
     @Singleton
     @Binds
     abstract fun bindBabyStateRepository(
-        repository: BabyStatusRepository,
-    ): CommonDataContract<BabyStatus>
+        repository: BabyStatusRepositoryImpl,
+    ): BabyStatusRepository
 
     @NotificationRep
     @Singleton
     @Binds
     abstract fun bindNotificationRepository(
-        repository: NotificationRepository,
-    ): CommonDataContract<Notification>
+        repository: NotificationRepositoryImpl,
+    ): NotificationRepository
 }

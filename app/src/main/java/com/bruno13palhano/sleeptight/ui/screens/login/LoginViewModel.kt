@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.authentication.DefaultUserFirebase
 import com.bruno13palhano.authentication.UserAuthentication
-import com.bruno13palhano.core.UserDataContract
 import com.bruno13palhano.core.di.UserRep
+import com.bruno13palhano.core.repository.UserRepository
 import com.bruno13palhano.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     @DefaultUserFirebase private val authentication: UserAuthentication,
-    @UserRep private val userRepository: UserDataContract<User>,
+    @UserRep private val userRepository: UserRepository,
 ) : ViewModel() {
     private val _loginStatus = MutableStateFlow<LoginStatus>(LoginStatus.Default)
     val loginStatus = _loginStatus.asStateFlow()

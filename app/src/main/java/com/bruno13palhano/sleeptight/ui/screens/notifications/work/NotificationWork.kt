@@ -10,9 +10,8 @@ import android.content.Intent
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.bruno13palhano.core.CommonDataContract
 import com.bruno13palhano.core.di.NotificationRep
-import com.bruno13palhano.model.Notification
+import com.bruno13palhano.core.repository.NotificationRepository
 import com.bruno13palhano.sleeptight.ui.screens.notifications.AlarmNotification
 import com.bruno13palhano.sleeptight.ui.screens.notifications.receivers.NotificationReceiver
 import dagger.assisted.Assisted
@@ -24,7 +23,7 @@ private const val NOTIFICATION_ACTION_PREFIX = "com.bruno13palhano.sleeptight"
 class NotificationWork @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted params: WorkerParameters,
-    @NotificationRep private val notificationRepository: CommonDataContract<Notification>,
+    @NotificationRep private val notificationRepository: NotificationRepository,
 ) : CoroutineWorker(context, params) {
 
     private lateinit var notificationManager: NotificationManager

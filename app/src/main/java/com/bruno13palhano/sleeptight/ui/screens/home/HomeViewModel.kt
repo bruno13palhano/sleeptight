@@ -7,16 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bruno13palhano.authentication.DefaultUserFirebase
 import com.bruno13palhano.authentication.UserAuthentication
-import com.bruno13palhano.core.CommonDataContract
-import com.bruno13palhano.core.UserDataContract
 import com.bruno13palhano.core.di.BabyStatusRep
 import com.bruno13palhano.core.di.NapRep
 import com.bruno13palhano.core.di.NotificationRep
 import com.bruno13palhano.core.di.UserRep
-import com.bruno13palhano.model.BabyStatus
-import com.bruno13palhano.model.Nap
-import com.bruno13palhano.model.Notification
-import com.bruno13palhano.model.User
+import com.bruno13palhano.core.repository.BabyStatusRepository
+import com.bruno13palhano.core.repository.NapRepository
+import com.bruno13palhano.core.repository.NotificationRepository
+import com.bruno13palhano.core.repository.UserRepository
 import com.bruno13palhano.sleeptight.ui.util.DateFormatUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -29,10 +27,10 @@ import kotlinx.coroutines.flow.stateIn
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     @DefaultUserFirebase private val authentication: UserAuthentication,
-    @UserRep private val userRepository: UserDataContract<User>,
-    @BabyStatusRep private val babyStatusRepository: CommonDataContract<BabyStatus>,
-    @NapRep private val napRepository: CommonDataContract<Nap>,
-    @NotificationRep private val notificationRepository: CommonDataContract<Notification>,
+    @UserRep private val userRepository: UserRepository,
+    @BabyStatusRep private val babyStatusRepository: BabyStatusRepository,
+    @NapRep private val napRepository: NapRepository,
+    @NotificationRep private val notificationRepository: NotificationRepository,
 ) : ViewModel() {
     val babyInfoState = userRepository.getById(authentication.getCurrentUser().id)
         .map {
