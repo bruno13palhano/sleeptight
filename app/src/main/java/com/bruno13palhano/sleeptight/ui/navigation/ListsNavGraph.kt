@@ -11,6 +11,7 @@ import kotlinx.serialization.Serializable
 fun NavGraphBuilder.listsNavGraph(
     navController: NavController,
     viewModelStoreOwner: ViewModelStoreOwner,
+    showBottomMenu: (show: Boolean) -> Unit,
 ) {
     navigation<MainRoutes.Lists>(startDestination = ListsRoutes.AllLists) {
         composable<ListsRoutes.AllLists> {
@@ -23,7 +24,7 @@ fun NavGraphBuilder.listsNavGraph(
 
         babyStatusNavGraph(navController = navController, viewModelStoreOwner = viewModelStoreOwner)
         napsNavGraph(navController = navController, viewModelStoreOwner = viewModelStoreOwner)
-        notificationsNavGraph(navController = navController)
+        notificationsNavGraph(navController = navController, showBottomMenu = showBottomMenu)
     }
 }
 

@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.app.NotificationCompat
-import com.bruno13palhano.sleeptight.MainActivity
+import androidx.core.net.toUri
 import com.bruno13palhano.sleeptight.R
 
 private const val PRIMARY_CHANNEL_ID = "primary_notification_channel"
@@ -27,11 +27,15 @@ class NotificationReceiver : BroadcastReceiver() {
         val title = extras?.getString("title") ?: ""
         val description = extras?.getString("description") ?: ""
 
-        val contentIntent = Intent(context, MainActivity::class.java)
+        val baseUrl = "sleeptight://notifications/notification"
+        val deepLinkIntent = Intent(Intent.ACTION_VIEW).apply {
+            data = "$baseUrl/$notificationId".toUri()
+            setPackage(context.packageName)
+        }
         val contentPendingIntent = PendingIntent.getActivity(
             context,
             notificationId,
-            contentIntent,
+            deepLinkIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE,
         )
 

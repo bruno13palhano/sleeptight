@@ -32,7 +32,11 @@ internal fun SleepTightNavGraph(
 
         homeNavGraph(navController = navController, showBottomMenu = showBottomMenu)
 
-        listsNavGraph(navController = navController, viewModelStoreOwner = viewModelStoreOwner)
+        listsNavGraph(
+            navController = navController,
+            viewModelStoreOwner = viewModelStoreOwner,
+            showBottomMenu = showBottomMenu,
+        )
 
         composable<MainRoutes.Player>(
             deepLinks = listOf(
