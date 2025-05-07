@@ -25,7 +25,7 @@ internal interface BabyStatusDao {
     fun getAll(): Flow<List<BabyStatusEntity>>
 
     @Query("SELECT * FROM baby_status_table WHERE id = :id")
-    fun getById(id: Long): Flow<BabyStatusEntity>
+    fun getById(id: Long): BabyStatusEntity?
 
     @Query("DELETE FROM baby_status_table WHERE id = :id")
     suspend fun deleteById(id: Long)

@@ -50,7 +50,8 @@ class BabyStatusViewModel @Inject constructor(
 
     fun getBabyStatus(id: Long) {
         viewModelScope.launch {
-            babyStatusRepository.getById(id).collect {
+            val babyStatus = babyStatusRepository.getById(id = id)
+            babyStatus?.let {
                 title = it.title
                 height = measureWithLocalDecimal(it.height.toString())
                 weight = measureWithLocalDecimal(it.weight.toString())

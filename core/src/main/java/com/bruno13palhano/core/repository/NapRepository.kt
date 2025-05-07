@@ -7,7 +7,7 @@ interface NapRepository {
     suspend fun insert(nap: Nap): Long
     suspend fun update(nap: Nap)
     suspend fun deleteById(id: Long)
-    fun getById(id: Long): Flow<Nap>
+    suspend fun getById(id: Long): Nap?
     fun getAll(): Flow<List<Nap>>
     fun getLast(): Flow<Nap>
 }

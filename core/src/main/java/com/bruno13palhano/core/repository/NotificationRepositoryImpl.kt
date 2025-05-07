@@ -22,10 +22,8 @@ internal class NotificationRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun getById(id: Long): Flow<Notification> {
-        return notificationDao.getById(id)
-            .map { it.asNotification() }
-            .catch { it.printStackTrace() }
+    override suspend fun getById(id: Long): Notification? {
+        return notificationDao.getById(id)?.asNotification()
     }
 
     override suspend fun insert(model: Notification): Long {

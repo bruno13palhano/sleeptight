@@ -69,7 +69,8 @@ class NotificationViewModel @Inject constructor(
 
     fun setNotification(id: Long) {
         viewModelScope.launch {
-            notificationRepository.getById(id).collect {
+            val notification = notificationRepository.getById(id)
+            notification?.let {
                 title = it.title
                 description = it.description
                 repeat = it.repeat

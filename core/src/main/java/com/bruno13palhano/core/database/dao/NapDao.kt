@@ -25,7 +25,7 @@ internal interface NapDao {
     fun getAll(): Flow<List<NapEntity>>
 
     @Query("SELECT * FROM nap_table WHERE id = :id")
-    fun getById(id: Long): Flow<NapEntity>
+    suspend fun getById(id: Long): NapEntity?
 
     @Query("DELETE FROM nap_table WHERE id = :id")
     suspend fun deleteById(id: Long)

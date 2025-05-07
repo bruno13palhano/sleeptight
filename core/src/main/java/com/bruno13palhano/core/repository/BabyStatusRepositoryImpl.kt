@@ -23,10 +23,8 @@ internal class BabyStatusRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun getById(id: Long): Flow<BabyStatus> {
-        return babyStatusDao.getById(id)
-            .map { it.asBabyStatus() }
-            .catch { it.printStackTrace() }
+    override suspend fun getById(id: Long): BabyStatus? {
+        return babyStatusDao.getById(id)?.asBabyStatus()
     }
 
     override suspend fun update(model: BabyStatus) {

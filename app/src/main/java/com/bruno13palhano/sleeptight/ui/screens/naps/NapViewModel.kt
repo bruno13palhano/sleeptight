@@ -76,7 +76,8 @@ class NapViewModel @Inject constructor(
 
     fun getNap(id: Long) {
         viewModelScope.launch {
-            napRepository.getById(id).collect {
+            val nap = napRepository.getById(id = id)
+            nap?.let {
                 updateNapTitle(it.title)
                 updateNapDate(it.date)
                 updateNapStartTime(it.startTime)

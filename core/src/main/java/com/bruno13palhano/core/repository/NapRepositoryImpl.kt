@@ -25,10 +25,8 @@ internal class NapRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun getById(id: Long): Flow<Nap> {
-        return napDao.getById(id)
-            .map { it.asNap() }
-            .catch { it.printStackTrace() }
+    override suspend fun getById(id: Long): Nap? {
+        return napDao.getById(id = id)?.asNap()
     }
 
     override suspend fun deleteById(id: Long) {

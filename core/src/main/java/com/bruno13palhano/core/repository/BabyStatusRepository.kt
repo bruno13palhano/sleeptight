@@ -7,7 +7,7 @@ interface BabyStatusRepository {
     suspend fun insert(babyStatus: BabyStatus): Long
     suspend fun update(babyStatus: BabyStatus)
     suspend fun deleteById(id: Long)
-    fun getById(id: Long): Flow<BabyStatus>
+    suspend fun getById(id: Long): BabyStatus?
     fun getAll(): Flow<List<BabyStatus>>
     fun getLast(): Flow<BabyStatus>
 }
