@@ -187,6 +187,7 @@
     <string name="add_button">Add button</string>
     <string name="delete_label">Delete</string>
     <string name="up_button_label">Up button</string>
+    <string name="its_time_label">It\'s time…</string>
 
     <!--  Home labels  -->
     <string name="home_baby_name_label">Baby status:</string>

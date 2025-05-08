@@ -25,7 +25,8 @@ class NotificationReceiver : BroadcastReceiver() {
     private fun deliverNotification(context: Context, extras: Bundle?) {
         val notificationId = extras?.getInt("id") ?: 0
         val title = extras?.getString("title") ?: context.getString(R.string.app_name)
-        val description = extras?.getString("description") ?: context.getString(R.string.its_time_label)
+        val description = extras?.getString("description")
+            ?: context.getString(R.string.its_time_label)
 
         val baseUrl = "sleeptight://notifications/notification"
         val deepLinkIntent = Intent(Intent.ACTION_VIEW).apply {
