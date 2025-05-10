@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun SleetTightTest() {
+fun SleetTightPreview() {
     val navController = rememberNavController()
     SleepTightTheme {
         Surface(
