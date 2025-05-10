@@ -184,6 +184,7 @@
     <string name="unknown_label">Unknown</string>
     <string name="playback_label">SleepTight playback</string>
     <string name="initializing_service">Initializing playback service…</string>
+    <string name="update_setting_error_label">Something went wrong</string>
 
     <!--  Common labels  -->
     <string name="add_button">Add button</string>

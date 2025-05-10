@@ -133,7 +133,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun updateUserValues() {
+    fun updateUserValues(onFail: () -> Unit) {
         _isEditable.value = false
         val currentUser = authentication.getCurrentUser()
 
@@ -157,7 +157,7 @@ class SettingsViewModel @Inject constructor(
                     onSuccess = { newPhotoUrl, userUid ->
                         updateUserPhotoInDatabase(newPhotoUrl, userUid)
                     },
-                    onFail = {},
+                    onFail = onFail,
                 )
             }
             if (userInDB.babyName != user.babyName) {
@@ -165,7 +165,7 @@ class SettingsViewModel @Inject constructor(
                     babyName = user.babyName,
                     userUid = user.id,
                     onSuccess = { updateUserBabyNameInDataBase(user.babyName, user.id) },
-                    onFail = {},
+                    onFail = onFail,
                 )
             }
             if (userInDB.birthplace != user.birthplace) {
@@ -173,7 +173,7 @@ class SettingsViewModel @Inject constructor(
                     birthplace = user.birthplace,
                     userUid = user.id,
                     onSuccess = { updateUserBirthplaceInDatabase(user.birthplace, user.id) },
-                    onFail = {},
+                    onFail = onFail,
                 )
             }
             if (userInDB.birthdate != user.birthdate) {
@@ -181,7 +181,7 @@ class SettingsViewModel @Inject constructor(
                     birthdate = user.birthdate,
                     userUid = user.id,
                     onSuccess = { updateUserBirthdateInDatabase(user.birthdate, user.id) },
-                    onFail = {},
+                    onFail = onFail,
                 )
             }
             if (userInDB.birthtime != user.birthtime) {
@@ -189,7 +189,7 @@ class SettingsViewModel @Inject constructor(
                     birthtime = user.birthtime,
                     userUid = user.id,
                     onSuccess = { updateUserBirthtimeInDatabase(user.birthtime, user.id) },
-                    onFail = {},
+                    onFail = onFail,
                 )
             }
             if (userInDB.height != user.height) {
@@ -197,7 +197,7 @@ class SettingsViewModel @Inject constructor(
                     height = user.height,
                     userUid = user.id,
                     onSuccess = { updateUserHeight(user.height, user.id) },
-                    onFail = {},
+                    onFail = onFail,
                 )
             }
             if (userInDB.weight != user.weight) {
@@ -205,7 +205,7 @@ class SettingsViewModel @Inject constructor(
                     weight = user.weight,
                     userUid = user.id,
                     onSuccess = { updateUserWeight(user.weight, user.id) },
-                    onFail = {},
+                    onFail = onFail,
                 )
             }
         }

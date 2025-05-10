@@ -37,6 +37,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimeInput
@@ -48,6 +50,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -76,6 +79,7 @@ import com.bruno13palhano.sleeptight.ui.screens.shared.TimePickerDialog
 import com.bruno13palhano.sleeptight.ui.screens.shared.clearFocusOnKeyboardDismiss
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
 import com.bruno13palhano.sleeptight.ui.util.getBytes
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -92,6 +96,9 @@ fun SettingsScreen(
     var datePickerState = rememberDatePickerState()
     var showTimePickerDialog by remember { mutableStateOf(false) }
     var timePickerState = rememberTimePickerState()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+    val updateErrorMessage = stringResource(id = R.string.update_setting_error_label)
 
     val galleryLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
@@ -169,6 +176,7 @@ fun SettingsScreen(
     }
 
     SettingsContent(
+        snackbarHostState = snackbarHostState,
         orientation = configuration.orientation,
         isEditable = isEditable,
         username = settingsViewModel.username,
@@ -210,7 +218,14 @@ fun SettingsScreen(
         },
         onActionButtonClick = {
             if (isEditable) {
-                settingsViewModel.updateUserValues()
+                settingsViewModel.updateUserValues {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = updateErrorMessage,
+                            withDismissAction = true,
+                        )
+                    }
+                }
             }
         },
     )
@@ -219,6 +234,7 @@ fun SettingsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsContent(
+    snackbarHostState: SnackbarHostState,
     orientation: Int,
     isEditable: Boolean,
     username: String,
@@ -299,6 +315,7 @@ fun SettingsContent(
                 },
             )
         },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         floatingActionButton = {
             if (orientation == Configuration.ORIENTATION_PORTRAIT && isEditable) {
                 FloatingActionButton(onClick = onActionButtonClick) {
@@ -456,6 +473,7 @@ fun SettingsScreenPreview() {
             color = MaterialTheme.colorScheme.background,
         ) {
             SettingsContent(
+                snackbarHostState = SnackbarHostState(),
                 orientation = 1,
                 isEditable = false,
                 username = "",
