@@ -53,8 +53,8 @@ class PlaybackService : Service() {
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val tempNotification = Notification.Builder(this, CHANNEL_ID)
-                .setContentTitle("SleepTight Playback")
-                .setContentText("Initializing playback service...")
+                .setContentTitle(getString(R.string.playback_label))
+                .setContentText(getString(R.string.initializing_service))
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentIntent(tempPendingIntent)
                 .build()

@@ -182,6 +182,8 @@
     <string name="last_notification_label">Last notification</string>
     <string name="last_notification_date_label">Last notification date</string>
     <string name="unknown_label">Unknown</string>
+    <string name="playback_label">SleepTight playback</string>
+    <string name="initializing_service">Initializing playback service…</string>
 
     <!--  Common labels  -->
     <string name="add_button">Add button</string>
