@@ -91,6 +91,7 @@
     <string name="confirm_login_label">Confirm login</string>
     <string name="hide_password_label">Hide password</string>
     <string name="show_password_label">Show password</string>
+    <string name="logging_error_label">Error when logging in</string>
 
     <!--  Chart labels  -->
     <string name="month_chart_label">Nap Month Chart</string>
