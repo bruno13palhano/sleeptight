@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,59 +51,32 @@ fun LoginScreen(
     val loginStatus by loginViewModel.loginStatus.collectAsStateWithLifecycle()
     val showButton by loginViewModel.isEmailAndPasswordNotEmpty.collectAsStateWithLifecycle()
 
-    when (loginStatus) {
-        LoginViewModel.LoginStatus.Default -> {
-            LoginContent(
-                onCreateAccountButtonClick = onCreateAccountButtonClick,
-                showButton = showButton,
-                email = loginViewModel.email,
-                password = loginViewModel.password,
-                showPassword = showPassword,
-                onEmailChange = { emailValue -> loginViewModel.updateEmail(emailValue) },
-                onPasswordChange = { passwordValue ->
-                    loginViewModel.updatePassword(
-                        passwordValue,
-                    )
-                },
-                onShowPasswordChange = { showPasswordValue -> showPassword = showPasswordValue },
-                onEmailDone = { focusManager.moveFocus(FocusDirection.Next) },
-                onPasswordDone = { focusManager.clearFocus(force = true) },
-                onOutsideClick = {
-                    keyboardController?.hide()
-                    focusManager.clearFocus()
-                },
-                login = { loginViewModel.login() },
-            )
-        }
-        LoginViewModel.LoginStatus.Success -> {
-            onLoginSuccess()
-        }
-        LoginViewModel.LoginStatus.Loading -> {
-            CircularProgress()
-        }
-        LoginViewModel.LoginStatus.Error -> {
-            LoginContent(
-                onCreateAccountButtonClick = onCreateAccountButtonClick,
-                showButton = showButton,
-                email = loginViewModel.email,
-                password = loginViewModel.password,
-                showPassword = showPassword,
-                onEmailChange = { emailValue -> loginViewModel.updateEmail(emailValue) },
-                onPasswordChange = { passwordValue ->
-                    loginViewModel.updatePassword(
-                        passwordValue,
-                    )
-                },
-                onShowPasswordChange = { showPasswordValue -> showPassword = showPasswordValue },
-                onEmailDone = { focusManager.moveFocus(FocusDirection.Next) },
-                onPasswordDone = { focusManager.clearFocus(force = true) },
-                onOutsideClick = {
-                    keyboardController?.hide()
-                    focusManager.clearFocus()
-                },
-                login = { loginViewModel.login() },
-            )
-        }
+    LaunchedEffect(loginStatus.isSuccess) { if (loginStatus.isSuccess) onLoginSuccess() }
+
+    if (loginStatus.isLoading) {
+        CircularProgress()
+    } else {
+        LoginContent(
+            onCreateAccountButtonClick = onCreateAccountButtonClick,
+            showButton = showButton,
+            email = loginViewModel.email,
+            password = loginViewModel.password,
+            showPassword = showPassword,
+            onEmailChange = { emailValue -> loginViewModel.updateEmail(emailValue) },
+            onPasswordChange = { passwordValue ->
+                loginViewModel.updatePassword(
+                    passwordValue,
+                )
+            },
+            onShowPasswordChange = { showPasswordValue -> showPassword = showPasswordValue },
+            onEmailDone = { focusManager.moveFocus(FocusDirection.Next) },
+            onPasswordDone = { focusManager.clearFocus(force = true) },
+            onOutsideClick = {
+                keyboardController?.hide()
+                focusManager.clearFocus()
+            },
+            login = { loginViewModel.login() },
+        )
     }
 }
 

@@ -25,7 +25,7 @@ class LoginViewModel @Inject constructor(
     @DefaultUserFirebase private val authentication: UserAuthentication,
     @UserRep private val userRepository: UserRepository,
 ) : ViewModel() {
-    private val _loginStatus = MutableStateFlow<LoginStatus>(LoginStatus.Default)
+    private val _loginStatus = MutableStateFlow<LoginStatus>(LoginStatus())
     val loginStatus = _loginStatus.asStateFlow()
 
     var email by mutableStateOf("")
@@ -58,10 +58,14 @@ class LoginViewModel @Inject constructor(
                 password = password,
                 onSuccess = { user ->
                     insertUserInDatabase(user)
-                    _loginStatus.value = LoginStatus.Success
+                    _loginStatus.value = _loginStatus.value.copy(
+                        isLoading = false,
+                        isError = false,
+                        isSuccess = true,
+                    )
                 },
                 onFail = {
-                    _loginStatus.value = LoginStatus.Error
+                    _loginStatus.value = _loginStatus.value.copy(isError = true, isLoading = false)
                 },
             )
         }
@@ -77,13 +81,12 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun loading() {
-        _loginStatus.value = LoginStatus.Loading
+        _loginStatus.value = _loginStatus.value.copy(isLoading = true)
     }
 
-    sealed class LoginStatus {
-        object Loading : LoginStatus()
-        object Error : LoginStatus()
-        object Success : LoginStatus()
-        object Default : LoginStatus()
-    }
+    data class LoginStatus(
+        val isLoading: Boolean = false,
+        val isError: Boolean = false,
+        val isSuccess: Boolean = false,
+    )
 }
