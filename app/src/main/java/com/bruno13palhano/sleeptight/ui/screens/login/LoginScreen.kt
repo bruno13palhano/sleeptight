@@ -65,7 +65,7 @@ fun LoginScreen(
             scope.launch {
                 snackbarHostState.showSnackbar(
                     message = errorMessage,
-                    withDismissAction = true
+                    withDismissAction = true,
                 )
             }
         }
