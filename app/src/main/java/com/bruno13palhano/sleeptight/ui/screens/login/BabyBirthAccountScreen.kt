@@ -133,37 +133,35 @@ fun BabyBirthAccountScreen(
         }
     }
 
-    when (loginStatus) {
-        CreateAccountViewModel.LoginStatus.Default -> {
-            BabyBirthAccountContent(
-                birthdate = createAccountViewModel.birthdate,
-                birthtime = createAccountViewModel.birthtime,
-                height = createAccountViewModel.height,
-                weight = createAccountViewModel.weight,
-                showButton = createAccountViewModel.isHeightAndWeightNotEmpty(),
-                configuration = configuration,
-                onHeightChange = createAccountViewModel::updateHeight,
-                onWeightChange = createAccountViewModel::updateWeight,
-                onBirthdateDone = { showDatePickerDialog = true },
-                onBirthtimeDone = { showBirthtimePickerDialog = true },
-                onHeightDone = { focusManager.clearFocus(force = true) },
-                onWeightDone = { focusManager.clearFocus(force = true) },
-                onOutsideClick = {
-                    keyboardController?.hide()
-                    focusManager.clearFocus()
-                },
-                onNavigationIconClick = onNavigationIconClick,
-                createUser = createAccountViewModel::insertUser,
-            )
+    LaunchedEffect(key1 = loginStatus.isError) {
+        if (loginStatus.isError) {
+            onCreateAccountSuccess()
         }
-        CreateAccountViewModel.LoginStatus.Loading -> {
-            CircularProgress()
-        }
-        CreateAccountViewModel.LoginStatus.Success -> {
-            LaunchedEffect(key1 = Unit) {
-                onCreateAccountSuccess()
-            }
-        }
+    }
+
+    if (loginStatus.isLoading) {
+        CircularProgress()
+    } else {
+        BabyBirthAccountContent(
+            birthdate = createAccountViewModel.birthdate,
+            birthtime = createAccountViewModel.birthtime,
+            height = createAccountViewModel.height,
+            weight = createAccountViewModel.weight,
+            showButton = createAccountViewModel.isHeightAndWeightNotEmpty(),
+            configuration = configuration,
+            onHeightChange = createAccountViewModel::updateHeight,
+            onWeightChange = createAccountViewModel::updateWeight,
+            onBirthdateDone = { showDatePickerDialog = true },
+            onBirthtimeDone = { showBirthtimePickerDialog = true },
+            onHeightDone = { focusManager.clearFocus(force = true) },
+            onWeightDone = { focusManager.clearFocus(force = true) },
+            onOutsideClick = {
+                keyboardController?.hide()
+                focusManager.clearFocus()
+            },
+            onNavigationIconClick = onNavigationIconClick,
+            createUser = createAccountViewModel::insertUser,
+        )
     }
 }
 

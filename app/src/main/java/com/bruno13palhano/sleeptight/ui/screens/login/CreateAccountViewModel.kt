@@ -35,12 +35,12 @@ class CreateAccountViewModel @Inject constructor(
     @DefaultUserFirebase private val authentication: UserAuthentication,
     @UserRep private val userRepository: UserRepository,
 ) : ViewModel() {
-    private val _loginStatus = MutableStateFlow<LoginStatus>(LoginStatus.Default)
+    private val _loginStatus = MutableStateFlow<LoginStatus>(LoginStatus())
     val loginStatus = _loginStatus.asStateFlow()
         .stateIn(
             scope = viewModelScope,
             started = WhileSubscribed(5_000),
-            initialValue = LoginStatus.Default,
+            initialValue = LoginStatus(),
         )
 
     var username by mutableStateOf("")
@@ -175,16 +175,28 @@ class CreateAccountViewModel @Inject constructor(
                                     ),
                                 )
                             }
-                            _loginStatus.value = LoginStatus.Success
+                            _loginStatus.value = _loginStatus.value.copy(
+                                isLoading = false,
+                                isSuccess = true,
+                                isError = false,
+                            )
                             clearUserValues()
                         },
                         onFail = {
-                            _loginStatus.value = LoginStatus.Default
+                            _loginStatus.value = _loginStatus.value.copy(
+                                isLoading = false,
+                                isSuccess = false,
+                                isError = true,
+                            )
                         },
                     )
                 },
                 onFail = {
-                    _loginStatus.value = LoginStatus.Default
+                    _loginStatus.value = _loginStatus.value.copy(
+                        isLoading = false,
+                        isSuccess = false,
+                        isError = true,
+                    )
                 },
             )
         }
@@ -223,12 +235,16 @@ class CreateAccountViewModel @Inject constructor(
         username.trim() != "" && email.trim() != "" && password.trim() != ""
 
     private fun loading() {
-        _loginStatus.value = LoginStatus.Loading
+        _loginStatus.value = _loginStatus.value.copy(
+            isLoading = true,
+            isSuccess = false,
+            isError = false,
+        )
     }
 
-    sealed class LoginStatus {
-        object Loading : LoginStatus()
-        object Success : LoginStatus()
-        object Default : LoginStatus()
-    }
+    data class LoginStatus(
+        val isLoading: Boolean = false,
+        val isSuccess: Boolean = false,
+        val isError: Boolean = false,
+    )
 }
