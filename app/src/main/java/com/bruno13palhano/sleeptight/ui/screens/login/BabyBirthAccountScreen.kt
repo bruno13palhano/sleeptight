@@ -22,6 +22,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimeInput
@@ -34,6 +36,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,6 +53,7 @@ import com.bruno13palhano.sleeptight.ui.screens.shared.CircularProgress
 import com.bruno13palhano.sleeptight.ui.screens.shared.TimePickerDialog
 import com.bruno13palhano.sleeptight.ui.screens.shared.clearFocusOnKeyboardDismiss
 import com.bruno13palhano.sleeptight.ui.theme.SleepTightTheme
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,6 +72,9 @@ fun BabyBirthAccountScreen(
 
     var showBirthtimePickerDialog by remember { mutableStateOf(false) }
     var birthtimePickerState = rememberTimePickerState()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+    val errorMessage = stringResource(id = R.string.create_account_error_label)
 
     if (showDatePickerDialog) {
         DatePickerDialog(
@@ -135,6 +142,17 @@ fun BabyBirthAccountScreen(
 
     LaunchedEffect(key1 = loginStatus.isError) {
         if (loginStatus.isError) {
+            scope.launch {
+                snackbarHostState.showSnackbar(
+                    message = errorMessage,
+                    withDismissAction = true,
+                )
+            }
+        }
+    }
+
+    LaunchedEffect(key1 = loginStatus.isSuccess) {
+        if (loginStatus.isSuccess) {
             onCreateAccountSuccess()
         }
     }
@@ -143,6 +161,7 @@ fun BabyBirthAccountScreen(
         CircularProgress()
     } else {
         BabyBirthAccountContent(
+            snackbarHostState = snackbarHostState,
             birthdate = createAccountViewModel.birthdate,
             birthtime = createAccountViewModel.birthtime,
             height = createAccountViewModel.height,
@@ -168,6 +187,7 @@ fun BabyBirthAccountScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun BabyBirthAccountContent(
+    snackbarHostState: SnackbarHostState,
     birthdate: String,
     birthtime: String,
     height: String,
@@ -203,6 +223,7 @@ private fun BabyBirthAccountContent(
                 },
             )
         },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         floatingActionButton = {
             if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 if (showButton) {
@@ -293,6 +314,7 @@ fun BabyBirthAccountScreenPreview() {
             color = MaterialTheme.colorScheme.background,
         ) {
             BabyBirthAccountContent(
+                snackbarHostState = SnackbarHostState(),
                 birthdate = "",
                 birthtime = "",
                 height = "",
